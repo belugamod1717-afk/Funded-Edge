@@ -1,1 +1,333 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="FundedEdge — compare proprietary trading firms, rules and funding programs."><title>FundedEdge — Compare Prop Firms</title><link rel="stylesheet" href="style.css"></head><body><header class="nav container"><a class="brand" href="index.html">Funded<span>Edge</span></a><nav class="navlinks"><a href="directory.html">Prop Firms</a><a href="compare.html">Compare</a><a href="admin.html">Admin</a></nav></header><main><section class="hero container"><div class="eyebrow">Prop firm discovery platform</div><h1>Find your funding edge.</h1><p>Compare prop firms, trading rules, account sizes, drawdowns, payouts and platforms in one place.</p><form class="searchbar" id="search"><input name="q" placeholder="Search prop firms…"><button class="btn btn-primary">Search</button></form></section><section class="section container"><div class="sectionhead"><div><h2>Featured prop firms</h2><div class="muted">Starter data for the MVP — verify before publishing.</div></div><a class="btn" href="directory.html">View all</a></div><div class="grid" id="featured"></div></section><section class="section container"><div class="card"><div class="eyebrow">Built for traders</div><h2>One place to research before you buy.</h2><p class="muted">FundedEdge is designed to make prop-firm research faster and more transparent.</p><div class="actions"><a class="btn btn-primary" href="directory.html">Explore firms</a><a class="btn" href="compare.html">Open comparison</a></div></div></section></main><footer class="footer"><div class="container">© 2026 FundedEdge. Verify current rules with each firm.</div></footer><script src="app.js"></script><script>document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();location.href='directory.html?q='+encodeURIComponent(e.target.q.value)});function renderFeatured(){document.getElementById('featured').innerHTML=firms().filter(f=>f.status!=='inactive').slice(0,4).map(card).join('')} renderFeatured();document.addEventListener('fundededge-firms-updated',renderFeatured);</script><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FundedEdge — Prop Firm Comparison</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #06100d;
+      color: #f2f7f5;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 22px 7%;
+      border-bottom: 1px solid #19332b;
+      background: #07130f;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: #27d17f;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      margin: 0 0 18px;
+      line-height: 1;
+    }
+
+    .hero p {
+      color: #9eb2aa;
+      font-size: 19px;
+      line-height: 1.6;
+      max-width: 650px;
+    }
+
+    .search-box {
+      margin-top: 35px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid #24473b;
+      background: #0b1b16;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box button {
+      padding: 18px 25px;
+      border: 0;
+      border-radius: 14px;
+      background: #27d17f;
+      color: #04100b;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px 80px;
+    }
+
+    .section-header {
+      margin-bottom: 30px;
+    }
+
+    .section-header h2 {
+      font-size: 38px;
+      margin: 0 0 8px;
+    }
+
+    .section-header p {
+      color: #91a69e;
+      margin: 0;
+    }
+
+    .firm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .firm-card {
+      background: #0b1b16;
+      border: 1px solid #1c3b31;
+      border-radius: 20px;
+      padding: 24px;
+      transition: 0.2s;
+    }
+
+    .firm-card:hover {
+      transform: translateY(-3px);
+      border-color: #27d17f;
+    }
+
+    .firm-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .firm-card h3 {
+      font-size: 25px;
+      margin: 12px 0;
+    }
+
+    .firm-tag {
+      display: inline-block;
+      color: #27d17f;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .firm-rating {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .firm-description {
+      color: #9eb2aa;
+      line-height: 1.5;
+      min-height: 48px;
+    }
+
+    .firm-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .firm-stats div {
+      background: #07130f;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .firm-stats small {
+      display: block;
+      color: #728981;
+      margin-bottom: 6px;
+    }
+
+    .firm-stats strong {
+      font-size: 14px;
+    }
+
+    .firm-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid #19332b;
+      padding-top: 18px;
+    }
+
+    .firm-price {
+      font-weight: 800;
+    }
+
+    .firm-button {
+      display: inline-block;
+      padding: 12px 17px;
+      border-radius: 10px;
+      background: #27d17f;
+      color: #04100b;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .no-firms {
+      border: 1px solid #713737;
+      background: #241313;
+      padding: 25px;
+      border-radius: 16px;
+      color: #ffb3b3;
+    }
+
+    .loading {
+      color: #9eb2aa;
+      padding: 30px 0;
+      font-size: 18px;
+    }
+
+    footer {
+      border-top: 1px solid #19332b;
+      padding: 30px 20px;
+      text-align: center;
+      color: #728981;
+    }
+
+    @media (max-width: 600px) {
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-box button {
+        width: 100%;
+      }
+
+      .hero {
+        padding-top: 45px;
+      }
+
+      .section-header h2 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">FundedEdge</div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+
+      <h1>
+        Find the right<br>
+        <span style="color:#27d17f;">prop firm.</span>
+      </h1>
+
+      <p>
+        Compare prop firms, trading rules, account sizes,
+        drawdown limits, profit targets and more — all in one place.
+      </p>
+
+      <div class="search-box">
+        <input
+          id="firmSearch"
+          type="text"
+          placeholder="Search prop firms..."
+        >
+
+        <button onclick="searchFirms()">
+          Search
+        </button>
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-header">
+        <h2>Featured Prop Firms</h2>
+        <p>
+          Compare verified prop-firm information before you buy.
+        </p>
+      </div>
+
+      <!-- IMPORTANT: app.js loads Supabase firms here -->
+      <div id="firmsGrid" class="firm-grid">
+        <div class="loading">
+          Loading prop firms...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 FundedEdge — Built for traders.
+  </footer>
+
+
+  <!-- Supabase-connected FundedEdge application -->
+  <script src="app.js"></script>
+
+
+  <script>
+    function searchFirms() {
+
+      const input =
+        document.getElementById("firmSearch").value
+        .toLowerCase()
+        .trim();
+
+      const cards =
+        document.querySelectorAll(".firm-card");
+
+      cards.forEach(card => {
+
+        const text =
+          card.innerText.toLowerCase();
+
+        if (!input || text.includes(input)) {
+          card.style.display = "";
+        } else {
+          card.style.display = "none";
+        }
+
+      });
+
+    }
+
+    document
+      .getElementById("firmSearch")
+      .addEventListener("input", searchFirms);
+  </script>
+
+</body>
+</html>
