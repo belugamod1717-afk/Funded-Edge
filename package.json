@@ -1,0 +1,25 @@
+{
+  "name": "funded-edge",
+  "version": "1.0.0",
+  "description": "This is a working static MVP of FundedEdge with a shared JavaScript layer, public directory, firm pages, comparison, and a browser-based admin prototype.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx http-server -p 3000",
+    "start": "npx http-server -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belugamod1717-afk/Funded-Edge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/belugamod1717-afk/Funded-Edge/issues"
+  },
+  "homepage": "https://github.com/belugamod1717-afk/Funded-Edge#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
