@@ -1,4 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FundedEdge — Compare Prop Trading Firms, Rules & Payouts</title>
+<meta name="description" content="Compare prop firms side by side. Browse account sizes, profit targets, drawdown rules, profit splits and payout policies. Find the right prop firm for your strategy.">
+<meta name="theme-color" content="#07110e">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FundedEdge">
+<meta property="og:title" content="FundedEdge — Compare Prop Trading Firms">
+<meta property="og:description" content="Compare rules, pricing, and payouts across prop firms in one place.">
+<meta property="og:url" content="https://e-two.vercel.app/">
+<meta property="og:image" content="https://e-two.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FundedEdge — Compare Prop Trading Firms">
+<meta name="twitter:description" content="Compare rules, pricing, and payouts across prop firms.">
+<meta name="twitter:image" content="https://e-two.vercel.app/og-image.png">
+<link rel="preconnect" href="https://esm.sh">
+<link rel="preconnect" href="https://mvltzznwdglwaedfzxze.supabase.co">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+<style>
+:root{
+  --bg:#07110d;
+  --panel:#0d1a13;
+  --panel2:#102219;
+  --border:rgba(160,210,180,.15);
+  --green:#72f0a8;
+  --green2:#35c878;
+  --text:#f0f8f2;
+  --muted:#9aafa0;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:95px}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"DM Sans",sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+  position:relative;
+}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
+@keyframes gridMove{from{background-position:0 0}to{background-position:60px 60px}}
+@keyframes glowPulse{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes typewriter{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes orbit{from{transform:rotate(0deg) translateX(60px) rotate(0deg)}to{transform:rotate(360deg) translateX(60px) rotate(-360deg)}}
+
+/* ============ AMBIENT BACKGROUND ============ */
+.ambient{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.ambient::before{
+  content:"";
+  position:absolute;
+  top:-300px;left:-200px;
+  width:900px;height:900px;
+  background:radial-gradient(circle,rgba(114,240,168,.10),transparent 60%);
+  animation:glowPulse 8s ease-in-out infinite;
+}
+.ambient::after{
+  content:"";
+  position:absolute;
+  bottom:-400px;right:-200px;
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(53,200,120,.07),transparent 65%);
+  animation:glowPulse 10s ease-in-out infinite reverse;
+}
+.grid-bg{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(114,240,168,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(114,240,168,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridMove 30s linear infinite;
+  mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);
+}
+.container{width:min(1160px,91%);margin:auto;position:relative;z-index:1}
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(7,17,13,.75);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  animation:fadeIn .5s ease;
+}
+.nav-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:Manrope,sans-serif;font-weight:800;font-size:22px;
+  letter-spacing:-1px;flex-shrink:0;
+  transition:.3s;
+}
+.logo:hover{transform:translateY(-1px);text-shadow:0 0 24px rgba(114,240,168,.5)}
+.logo span{color:var(--green)}
+.logo-mark{
+  display:grid;place-items:center;
+  width:37px;height:37px;border-radius:11px;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#07110d;font-size:20px;font-weight:900;
+  box-shadow:0 0 20px rgba(114,240,168,.35);
+  transition:.4s cubic-bezier(.4,0,.2,1);
+}
+.logo:hover .logo-mark{transform:rotate(-8deg) scale(1.05)}
+.nav-links{display:flex;align-items:center;gap:24px;color:#bdcbbf;font-size:14px}
+.nav-links a{position:relative;transition:color .25s}
+.nav-links a::after{
+  content:"";
+  position:absolute;bottom:-5px;left:0;
+  width:0;height:2px;
+  background:var(--green);
+  transition:width .3s cubic-bezier(.4,0,.2,1);
+  border-radius:2px;
+}
+.nav-links a:hover{color:var(--green)}
+.nav-links a:hover::after{width:100%}
+
+.nav-cta{
+  background:var(--green);color:#07110d;
+  font-weight:700;border-radius:10px;
+  padding:12px 18px;display:inline-flex;
+  align-items:center;justify-content:center;gap:8px;
+  transition:.25s cubic-bezier(.4,0,.2,1);
+  border:1px solid transparent;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.nav-cta::before{
+  content:"";
+  position:absolute;top:0;left:0;
+  width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:translateX(-100%);
+}
+.nav-cta:hover::before{animation:shine .8s}
+.nav-cta:hover{
+  background:#a0ffc4;
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(114,240,168,.3);
+}
+
+/* AUTH AREA */
+.fe-auth-area{display:flex;align-items:center;gap:10px}
+.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
+  text-decoration:none;transition:.25s;
+}
+.fe-auth-area .fe-auth-signin{background:transparent;color:#e0ece3;border:1px solid #2a4534}
+.fe-auth-area .fe-auth-signin:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
+.fe-auth-area .fe-auth-signup{background:var(--green);color:#07110d;border:1px solid var(--green)}
+.fe-auth-area .fe-auth-signup:hover{background:#a0ffc4;transform:translateY(-1px);box-shadow:0 8px 20px rgba(114,240,168,.3)}
+.fe-auth-area .fe-user-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border:1px solid #2a4534;border-radius:10px;
+  color:#e0ece3;font-weight:600;font-size:13px;
+  background:rgba(114,240,168,.08);transition:.25s;
+}
+.fe-auth-area .fe-user-chip:hover{border-color:var(--green);color:var(--green);transform:translateY(-1px)}
+.fe-auth-area .fe-user-initial{
+  width:22px;height:22px;display:grid;place-items:center;
+  border-radius:50%;background:var(--green);color:#07110d;
+  font-weight:800;font-size:11px;
+}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:110px 0 90px;
+  background:
+    radial-gradient(ellipse at 78% 30%, rgba(41,133,78,.19), transparent 40%),
+    radial-gradient(ellipse at 12% 5%, rgba(42,100,65,.12), transparent 42%);
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:60px;
+  align-items:center;
+}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:40px}}
+
+.hero-copy>*{animation:fadeUp .7s ease both}
+.hero-copy>*:nth-child(1){animation-delay:.05s}
+.hero-copy>*:nth-child(2){animation-delay:.15s}
+.hero-copy>*:nth-child(3){animation-delay:.25s}
+.hero-copy>*:nth-child(4){animation-delay:.35s}
+.hero-copy>*:nth-child(5){animation-delay:.45s}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  color:var(--green);font-size:12px;font-weight:700;
+  letter-spacing:1.7px;text-transform:uppercase;
+  border:1px solid #254832;border-radius:50px;
+  padding:7px 14px;background:rgba(15,41,25,.6);
+  position:relative;
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+h1,h2,h3{font-family:Manrope,sans-serif;letter-spacing:-1.3px}
+h1{
+  font-size:clamp(40px,6.2vw,72px);
+  line-height:1.05;
+  max-width:760px;
+  margin:25px 0 22px;
+  font-weight:800;
+  background:linear-gradient(180deg,#fff 0%,#c9ded2 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.gradient{
+  background:linear-gradient(135deg,#72f0a8 0%,#35c878 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  position:relative;
+}
+.gradient::after{
+  content:"";
+  position:absolute;bottom:-4px;left:0;
+  width:100%;height:3px;
+  background:linear-gradient(90deg,var(--green),transparent);
+  border-radius:2px;
+}
+.hero p{
+  color:#a9bbae;
+  max-width:600px;
+  font-size:17px;
+  line-height:1.8;
+  margin:0;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.primary-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 26px;border-radius:12px;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#07110d;font-weight:800;font-size:15px;
+  transition:.3s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  border:1px solid transparent;
+  cursor:pointer;
+}
+.primary-btn::before{
+  content:"";
+  position:absolute;top:0;left:0;
+  width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:translateX(-100%);
+}
+.primary-btn:hover::before{animation:shine .8s}
+.primary-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 15px 40px rgba(114,240,168,.4);
+}
+.primary-btn .arrow{transition:transform .3s}
+.primary-btn:hover .arrow{transform:translateX(4px)}
+.secondary-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:14px 24px;border:1px solid #2a4534;
+  border-radius:12px;color:#e0ece3;
+  font-weight:600;font-size:15px;
+  transition:.25s;
+}
+.secondary-btn:hover{
+  border-color:var(--green);
+  color:var(--green);
+  transform:translateY(-2px);
+  background:rgba(114,240,168,.05);
+}
+.trust-line{
+  display:flex;flex-wrap:wrap;gap:22px;
+  margin-top:34px;color:#9eb2a2;font-size:12px;
+}
+.trust-line span{display:inline-flex;align-items:center;gap:7px}
+.trust-line span::before{
+  content:"✓";color:var(--green);font-weight:bold;
+}
+
+/* Hero visual */
+.hero-visual{
+  position:relative;
+  height:420px;
+  animation:fadeIn 1s ease .3s both;
+}
+@media(max-width:900px){.hero-visual{height:340px}}
+
+.orbit{
+  position:absolute;
+  top:50%;left:50%;
+  width:0;height:0;
+  animation:orbit 22s linear infinite;
+}
+.orbit-dot{
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 20px var(--green),0 0 40px rgba(114,240,168,.4);
+}
+.orbit-2{animation-duration:16s;animation-direction:reverse}
+.orbit-2 .orbit-dot{background:#7cc9f0;box-shadow:0 0 20px #7cc9f0}
+.orbit-3{animation-duration:28s}
+.orbit-3 .orbit-dot{background:#f5d77b;box-shadow:0 0 20px #f5d77b}
+
+.hero-card{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:280px;
+  padding:22px;
+  background:linear-gradient(145deg,#112219,#0b1510);
+  border:1px solid #2a4534;
+  border-radius:20px;
+  box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(114,240,168,.05);
+  animation:float 6s ease-in-out infinite;
+}
+.hero-card::before{
+  content:"";
+  position:absolute;inset:0;
+  border-radius:20px;
+  padding:1px;
+  background:linear-gradient(135deg,rgba(114,240,168,.6),transparent 50%,rgba(114,240,168,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+.hero-card .tag-pill{
+  display:inline-block;
+  font-size:10px;font-weight:800;letter-spacing:1px;
+  padding:5px 10px;border-radius:6px;
+  background:rgba(114,240,168,.12);
+  color:var(--green);
+  border:1px solid #28583a;
+  text-transform:uppercase;
+}
+.hero-card h3{font-size:22px;margin:12px 0 6px;letter-spacing:-.5px}
+.hero-card .rating{
+  display:inline-flex;align-items:center;gap:4px;
+  color:#f5d77b;font-weight:800;font-size:13px;
+  margin-bottom:16px;
+}
+.hero-card .mini-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;
+}
+.hero-card .mini-stat{
+  padding:10px;background:rgba(5,16,10,.7);
+  border:1px solid #1f3227;border-radius:8px;
+}
+.hero-card .mini-stat small{
+  display:block;color:#8a9a90;font-size:10px;
+  margin-bottom:4px;font-weight:600;
+}
+.hero-card .mini-stat strong{
+  display:block;color:#eaf5ed;font-size:13px;
+  font-weight:800;
+}
+.hero-card .btn-row{display:flex;gap:6px}
+.hero-card .mini-btn{
+  flex:1;padding:9px;border-radius:8px;
+  background:var(--green);color:#07110d;
+  font-weight:800;font-size:11px;
+  text-align:center;
+  transition:.2s;
+}
+.hero-card .mini-btn:hover{background:#a0ffc4}
+
+/* ============ STATS BAND ============ */
+.stats-band{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  padding:0 0 60px;
+}
+.stat{
+  padding:24px 26px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:linear-gradient(140deg,#0e1d14,#0a1510);
+  transition:.35s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp .6s ease both;
+}
+.stat:nth-child(1){animation-delay:.1s}
+.stat:nth-child(2){animation-delay:.2s}
+.stat:nth-child(3){animation-delay:.3s}
+.stat::before{
+  content:"";
+  position:absolute;
+  top:-50%;right:-50%;
+  width:150px;height:150px;
+  background:radial-gradient(circle,rgba(114,240,168,.15),transparent 70%);
+  opacity:0;
+  transition:opacity .4s;
+  pointer-events:none;
+}
+.stat:hover{
+  transform:translateY(-6px);
+  border-color:rgba(114,240,168,.5);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.stat:hover::before{opacity:1}
+.stat .icon{
+  width:38px;height:38px;
+  display:grid;place-items:center;
+  border-radius:10px;
+  background:rgba(114,240,168,.1);
+  color:var(--green);
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:14px;
+  transition:.3s;
+}
+.stat:hover .icon{
+  transform:rotate(-8deg) scale(1.1);
+  background:rgba(114,240,168,.2);
+}
+.stat strong{
+  display:block;
+  font:800 22px Manrope,sans-serif;
+  color:var(--text);
+  margin-bottom:6px;
+  letter-spacing:-.4px;
+}
+.stat span{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* ============ SECTION ============ */
+.section{padding:50px 0 70px;scroll-margin-top:95px;position:relative}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:end;gap:20px;
+  margin-bottom:32px;
+  animation:fadeUp .6s ease both;
+}
+.section-kicker{
+  font-size:11px;color:var(--green);font-weight:700;
+  letter-spacing:1.8px;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.section-kicker::before{
+  content:"";width:24px;height:1px;background:var(--green);
+}
+h2{
+  font-size:clamp(28px,4vw,42px);
+  margin:10px 0 8px;line-height:1.15;
+  background:linear-gradient(180deg,#fff 0%,#b8cec0 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.section-head p{margin:0;color:var(--muted);font-size:14px}
+.section-note{
+  font-size:12px;color:#91a797;
+  display:inline-flex;align-items:center;gap:6px;
+}
+
+#firmsGrid{min-height:120px}
+#firmsGrid:empty:before{
+  content:"Loading prop firms...";
+  display:block;padding:40px;
+  text-align:center;color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:14px;
+  background:
+    linear-gradient(90deg,transparent 0%,rgba(114,240,168,.06) 50%,transparent 100%),
+    #0a1510;
+  background-size:500px 100%;
+  animation:shimmer 1.6s infinite linear;
+}
+
+/* Filter toggle (matches app.js) */
+.fe-filters-toggle{display:none;align-items:center;justify-content:center;gap:8px;width:100%;margin:18px 0 0;padding:14px;border:1px solid #315343;border-radius:12px;background:linear-gradient(145deg,#102219,#0a1510);color:#8ff4b5;font-weight:800;font-size:14px;cursor:pointer;transition:.2s}
+.fe-filters-toggle:hover{border-color:var(--green);background:#183b27}
+.fe-filters-toggle .fe-caret{display:inline-block;transition:transform .2s;font-size:11px}
+.fe-filters-toggle.is-open .fe-caret{transform:rotate(180deg)}
+.fe-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin:14px 0 24px;padding:20px;border:1px solid #254634;border-radius:16px;background:linear-gradient(145deg,#102219,#0a1510);box-shadow:0 12px 35px rgba(0,0,0,.12)}
+.fe-filters input,.fe-filters select{box-sizing:border-box;width:100%;min-width:0;padding:12px;border:1px solid #315343;border-radius:9px;background:#0a1710;color:#f1f7f3;font:inherit;outline:none;transition:.2s}
+.fe-filters input:focus,.fe-filters select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(114,240,168,.1)}
+.fe-filters input::placeholder{color:#91a99a}
+.fe-filter-label{display:block;margin-bottom:7px;color:#b6cabb;font-size:12px;font-weight:600}
+.fe-filter-actions{display:flex;align-items:end}
+.fe-reset{width:100%;padding:12px;border:1px solid #315343;border-radius:9px;background:#183b27;color:#8ff4b5;font-weight:700;cursor:pointer;transition:.2s}
+.fe-reset:hover{background:#214b32;border-color:var(--green)}
+.fe-results-count{margin:14px 0;color:#9eb4a4;font-size:13px}
+
+#firmsGrid .firm-card{
+  box-sizing:border-box;position:relative;
+  display:flex;flex-direction:column;min-width:0;
+  padding:24px;overflow:hidden;
+  border:1px solid #274735;border-radius:18px;
+  background:
+    radial-gradient(ellipse at top right,rgba(57,133,82,.12),transparent 48%),
+    linear-gradient(145deg,#112219,#0b1510 80%);
+  box-shadow:0 8px 26px rgba(0,0,0,.13);
+  transition:transform .35s cubic-bezier(.4,0,.2,1),border-color .35s,box-shadow .35s;
+  animation:fadeUp .5s ease both;
+}
+#firmsGrid .firm-card:hover{
+  transform:translateY(-6px);
+  border-color:#4e9166;
+  box-shadow:0 20px 45px rgba(0,0,0,.3),0 0 0 1px rgba(114,240,168,.15);
+}
+
+/* ============ FEATURES ============ */
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.feature{
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:linear-gradient(145deg,var(--panel),#0a1510);
+  padding:26px;
+  transition:.35s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp .5s ease both;
+}
+.feature:nth-child(1){animation-delay:.05s}
+.feature:nth-child(2){animation-delay:.15s}
+.feature:nth-child(3){animation-delay:.25s}
+.feature::before{
+  content:"";
+  position:absolute;top:-40%;right:-40%;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(114,240,168,.12),transparent 70%);
+  opacity:0;
+  transition:opacity .4s;
+}
+.feature:hover{
+  border-color:rgba(114,240,168,.4);
+  transform:translateY(-5px);
+  box-shadow:0 20px 45px rgba(0,0,0,.3);
+}
+.feature:hover::before{opacity:1}
+.feature-icon{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  border-radius:13px;
+  background:linear-gradient(135deg,rgba(114,240,168,.15),rgba(114,240,168,.05));
+  color:var(--green);
+  font-size:22px;
+  margin-bottom:20px;
+  border:1px solid rgba(114,240,168,.2);
+  transition:.4s cubic-bezier(.4,0,.2,1);
+}
+.feature:hover .feature-icon{
+  transform:rotate(-10deg) scale(1.1);
+  box-shadow:0 0 25px rgba(114,240,168,.3);
+}
+.feature h3{font-size:17px;letter-spacing:-.4px;margin:0 0 10px;font-weight:800}
+.feature p{font-size:13.5px;line-height:1.75;color:var(--muted);margin:0}
+
+/* ============ BOTTOM CTA ============ */
+.bottom-cta{
+  position:relative;
+  padding:44px 40px;
+  border:1px solid #2b4a35;
+  border-radius:22px;
+  background:
+    radial-gradient(ellipse at 90% 0%,#173e28,transparent 55%),
+    radial-gradient(ellipse at 10% 100%,#123020,transparent 50%),
+    #0d1b13;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  overflow:hidden;
+  animation:fadeUp .6s ease both;
+}
+.bottom-cta::before{
+  content:"";
+  position:absolute;
+  inset:0;padding:1px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(114,240,168,.5),transparent 40%,transparent 60%,rgba(114,240,168,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+.bottom-cta h2{font-size:32px;margin:0 0 10px;letter-spacing:-.8px}
+.bottom-cta p{color:var(--muted);font-size:14.5px;margin:0;max-width:520px;line-height:1.7}
+
+/* ============ FAQ ============ */
+.faq-list{display:grid;gap:13px;max-width:900px;margin:36px auto 0}
+.faq-item{
+  background:linear-gradient(145deg,#102219,#0b1710);
+  border:1px solid #24402e;
+  border-radius:15px;
+  overflow:hidden;
+  transition:border-color .3s,box-shadow .3s,transform .3s;
+  animation:fadeUp .5s ease both;
+}
+.faq-item:nth-child(1){animation-delay:.05s}
+.faq-item:nth-child(2){animation-delay:.1s}
+.faq-item:nth-child(3){animation-delay:.15s}
+.faq-item:nth-child(4){animation-delay:.2s}
+.faq-item:nth-child(5){animation-delay:.25s}
+.faq-item:hover,.faq-item[open]{
+  border-color:rgba(114,240,168,.5);
+  box-shadow:0 12px 32px rgba(0,0,0,.2);
+}
+.faq-item:hover{transform:translateX(4px)}
+.faq-item summary{
+  position:relative;
+  padding:22px 60px 22px 24px;
+  cursor:pointer;list-style:none;
+  color:#f0f8f2;font-family:Manrope,sans-serif;
+  font-size:15px;font-weight:700;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{
+  content:"+";
+  position:absolute;right:22px;top:50%;
+  transform:translateY(-50%);
+  color:var(--green);font-size:26px;font-weight:300;
+  transition:transform .3s;
+}
+.faq-item[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg)}
+.faq-answer{
+  padding:0 24px 24px;
+  color:#a5b9ab;font-size:14px;line-height:1.85;max-width:800px;
+}
+
+/* ============ FOOTER ============ */
+footer{
+  border-top:1px solid var(--border);
+  padding:32px 0;margin-top:70px;
+  position:relative;
+  z-index:1;
+}
+.footer-inner{
+  display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:15px;
+  color:#8da393;font-size:12px;
+}
+.footer-links{display:flex;gap:18px}
+.footer-links a{transition:color .2s}
+.footer-links a:hover{color:var(--green)}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:850px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-visual{height:320px;margin-top:20px}
+  .features{grid-template-columns:1fr}
+  .bottom-cta{flex-direction:column;align-items:flex-start;padding:32px 26px}
+  .stats-band{grid-template-columns:1fr;gap:12px}
+  .fe-filters-toggle{display:flex}
+  .fe-filters{grid-template-columns:1fr;max-height:0;overflow:hidden;padding:0 20px;margin:0;border-width:0;opacity:0;transition:max-height .35s ease,padding .35s ease,opacity .25s ease,margin .35s ease,border-width .2s ease}
+  .fe-filters.is-open{max-height:900px;padding:20px;margin:12px 0 24px;border-width:1px;opacity:1}
+}
+@media(max-width:700px){
+  .nav-inner{min-height:66px}
+  .nav-links{gap:12px;font-size:12px}
+  .nav-links .hide-mobile{display:none}
+  .nav-cta{padding:9px 11px;font-size:12px}
+  .fe-auth-area{gap:6px}
+  .fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup,.fe-auth-area .fe-user-chip{padding:8px 10px;font-size:12px}
+  .logo{font-size:19px}
+  .logo-mark{width:33px;height:33px}
+  .hero{padding:70px 0 50px}
+  .hero p{font-size:15px}
+  .stat{padding:18px 20px}
+  .section{padding:36px 0 50px}
+  .section-head{flex-direction:column;align-items:flex-start}
+  .faq-item summary{padding:18px 50px 18px 18px;font-size:14px}
+  .faq-answer{padding:0 18px 18px;font-size:13px}
+  .hero-card{width:250px;padding:18px}
+}
+@media(max-width:480px){
+  .hero h1{letter-spacing:-.7px}
+  .bottom-cta h2{font-size:24px}
+  .footer-inner{align-items:flex-start;flex-direction:column}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+
+<body>
+<div class="ambient"><div class="grid-bg"></div></div>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="/" aria-label="FundedEdge homepage">
+      <div class="logo-mark">F</div>
+      Funded<span>Edge</span>
+    </a>
+    <nav class="nav-links">
+      <a href="directory.html">Directory</a>
+      <a class="hide-mobile" href="compare.html">Compare</a>
+      <a class="hide-mobile" href="#why-us">Why FundedEdge</a>
+      <a class="hide-mobile" href="#faq">FAQ</a>
+      <div id="feAuthArea" class="fe-auth-area">
+        <a class="nav-cta fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
+        <a class="nav-cta fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span>YOUR EDGE STARTS HERE</div>
+        <h1>Find the right prop firm.<br><span class="gradient">Trade with confidence.</span></h1>
+        <p>Compare proprietary trading firms in one place. Explore account sizes, trading rules, profit splits, and payout options to find a firm that fits your strategy.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#directory">Explore Prop Firms <span class="arrow">→</span></a>
+          <a class="secondary-btn" href="#why-us">How it works</a>
+        </div>
+        <div class="trust-line">
+          <span>Compare trading rules</span>
+          <span>Explore account options</span>
+          <span>Research before you buy</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+
+        <div class="hero-card">
+          <span class="tag-pill">Top Rated</span>
+          <h3>FTMO</h3>
+          <div class="rating">★ 4.9</div>
+          <div class="mini-stats">
+            <div class="mini-stat"><small>Account</small><strong>$10K–$200K</strong></div>
+            <div class="mini-stat"><small>Profit split</small><strong>80–90%</strong></div>
+            <div class="mini-stat"><small>Target</small><strong>10%</strong></div>
+            <div class="mini-stat"><small>Drawdown</small><strong>10%</strong></div>
+          </div>
+          <div class="btn-row">
+            <div class="mini-btn">View →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="stats-band" aria-label="Platform highlights">
+      <div class="stat">
+        <div class="icon">⌕</div>
+        <strong>Compare</strong>
+        <span>Key firm rules side by side in one clean table</span>
+      </div>
+      <div class="stat">
+        <div class="icon">◇</div>
+        <strong>Discover</strong>
+        <span>Firms matched to your strategy and account size</span>
+      </div>
+      <div class="stat">
+        <div class="icon">↗</div>
+        <strong>Decide</strong>
+        <span>Research before you buy with verified data</span>
+      </div>
+    </section>
+
+    <section class="section" id="directory">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">The directory</div>
+          <h2>Find your trading edge</h2>
+          <p>Search and compare firms based on the details that matter to you.</p>
+        </div>
+        <div class="section-note">Explore available firms ↓</div>
+      </div>
+      <div id="firmsGrid" class="firm-grid"></div>
+    </section>
+
+    <section class="section" id="why-us">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Built for traders</div>
+          <h2>Research smarter. Choose carefully.</h2>
+          <p>The essential information, organized to make comparisons easier.</p>
+        </div>
+      </div>
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon">⌕</div>
+          <h3>Easy comparison</h3>
+          <p>Find firms and narrow your choices with search and filtering tools designed for speed.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">◇</div>
+          <h3>Rules at a glance</h3>
+          <p>Review drawdown limits, profit targets, account sizes, and payout details in one view.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">↗</div>
+          <h3>Direct firm links</h3>
+          <p>Visit a firm's website to confirm its latest terms before purchasing anything.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bottom-cta">
+      <div>
+        <h2>Your next step starts with research.</h2>
+        <p>Explore the directory and compare your options — no sign-up required to browse.</p>
+      </div>
+      <a class="primary-btn" href="#directory">Browse Directory <span class="arrow">→</span></a>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Got questions?</div>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about FundedEdge and prop firms.</p>
+        </div>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item"><summary>What is FundedEdge?</summary><div class="faq-answer">FundedEdge is an independent directory that helps traders research and compare proprietary trading firms, their account options, trading rules, profit splits, and payout policies.</div></details>
+        <details class="faq-item"><summary>What is a prop trading firm?</summary><div class="faq-answer">A proprietary trading firm provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, traders may need to complete an evaluation or qualify for a particular account type.</div></details>
+        <details class="faq-item"><summary>How do I choose the right prop firm?</summary><div class="faq-answer">Compare account prices, drawdown limits, profit targets, payout conditions, trading restrictions, and the firm's reputation. Choose rules that suit your trading strategy and risk management.</div></details>
+        <details class="faq-item"><summary>Does FundedEdge sell funded accounts?</summary><div class="faq-answer">FundedEdge is a research and comparison directory. Visit the relevant firm's official website to review its current account options and purchase conditions.</div></details>
+        <details class="faq-item"><summary>Are prop firm rules and prices always up to date?</summary><div class="faq-answer">Prop firms can change their prices, rules, and payout policies. Always verify the latest terms on the firm's official website before making a purchase.</div></details>
+        <details class="faq-item"><summary>Does FundedEdge guarantee payouts or profits?</summary><div class="faq-answer">No. FundedEdge does not guarantee trading profits, account approval, or payouts. Trading involves risk, and each firm's terms and eligibility requirements apply.</div></details>
+        <details class="faq-item"><summary>How can I visit a prop firm's website?</summary><div class="faq-answer">Browse the directory, select a firm, and use its official website link where available. Check the firm's own website to confirm its rules, pricing, and eligibility requirements.</div></details>
+        <details class="faq-item"><summary>Is FundedEdge affiliated with every listed firm?</summary><div class="faq-answer">FundedEdge is intended as an independent research directory. A listing alone does not mean that a firm endorses or is affiliated with FundedEdge.</div></details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <a class="logo" href="/" style="font-size:17px">
+      <div class="logo-mark" style="width:29px;height:29px;font-size:16px">F</div>
+      Funded<span>Edge</span>
+    </a>
+    <span>Independent research tool. Trading involves risk.</span>
+    <div class="footer-links">
+      <a href="directory.html">Directory</a>
+      <a href="#why-us">About</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
