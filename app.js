@@ -733,4 +733,8 @@ async function loadFirms() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadFirms);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadFirms);
+} else {
+  loadFirms();
+}
