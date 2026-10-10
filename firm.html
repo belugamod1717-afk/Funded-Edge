@@ -772,4 +772,80 @@ async function loadReviews() {
     }).join("");
   } catch (error) {
     console.error("Review loading failed:", error);
-    reviewsList.innerHTML = '<p class="
+    reviewsList.innerHTML = '<p class="muted">Reviews could not be loaded. Please refresh the page.</p>';
+  }
+}
+
+/* SUBMIT REVIEW */
+function showReviewMessage(text, type = "success") {
+  reviewMessage.textContent = text;
+  reviewMessage.className = "show " + type;
+}
+function clearReviewMessage() {
+  reviewMessage.className = "";
+  reviewMessage.textContent = "";
+}
+
+reviewForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!currentFirmId) return;
+
+  reviewSubmit.disabled = true;
+  showReviewMessage("Checking your account...", "success");
+
+  try {
+    const { data: { user }, error: userError } = await db.auth.getUser();
+    if (userError || !user || !user.email_confirmed_at) {
+      currentUser = null;
+      updateReviewAccess();
+      throw new Error("Please sign in with a verified email before submitting.");
+    }
+    currentUser = user;
+
+    const reviewerName = reviewerNameInput.value.trim();
+    const rating = Number(reviewRatingSelect.value) || selectedStars;
+    const text = reviewText.value.trim();
+
+    if (reviewerName.length < 2) throw new Error("Please enter your name (2+ characters).");
+    if (rating < 1 || rating > 5) throw new Error("Please select a star rating.");
+    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10–1000 characters.");
+
+    showReviewMessage("Submitting your review...", "success");
+
+    const { error } = await db.from("firm_reviews").insert({
+      firm_id: currentFirmId,
+      user_id: user.id,
+      reviewer_name: reviewerName,
+      rating,
+      review_text: text,
+      status: "pending"
+    });
+    if (error) throw error;
+
+    reviewForm.reset();
+    setStars(0);
+    reviewCharCount.textContent = "0";
+    updateReviewAccess();
+    showReviewMessage("Thank you! Your review is awaiting admin approval.", "success");
+  } catch (error) {
+    console.error("Review submission failed:", error);
+    showReviewMessage(error.message || "Sorry, your review could not be submitted.", "error");
+  } finally {
+    reviewSubmit.disabled = false;
+  }
+});
+
+/* SESSION */
+db.auth.onAuthStateChange(async (_event, session) => {
+  const user = session?.user;
+  currentUser = user?.email_confirmed_at ? user : null;
+  updateReviewAccess();
+  isFavorited = await checkIfFavorited();
+  updateSaveButton();
+});
+
+renderAuthArea();
+await loadFirm();
+</script>
+</body>
+</html>
