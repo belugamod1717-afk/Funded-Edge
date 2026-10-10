@@ -4,11 +4,323 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ - Funded Edge</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ============================
+       GLOBAL / RESET
+       ============================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0f0d;
+      --bg-card: #111a16;
+      --border: #1e2e26;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-green: #34d399;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* ============================
+       NAVBAR
+       ============================ */
+    .navbar {
+      background-color: var(--bg-dark);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .logo-icon {
+      background-color: var(--accent-green);
+      color: var(--bg-dark);
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-green);
+    }
+
+    .btn-nav {
+      background-color: var(--accent-green);
+      color: var(--bg-dark) !important;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .btn-nav:hover {
+      opacity: 0.9;
+    }
+
+    /* ============================
+       FAQ PAGE
+       ============================ */
+    .faq-section {
+      padding: 80px 20px;
+      flex: 1;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      color: var(--accent-green);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+
+    .faq-section h1 {
+      font-size: 2.25rem;
+      margin: 12px 0 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1rem;
+    }
+
+    .faq-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent-green);
+    }
+
+    .faq-item summary {
+      font-weight: 600;
+      padding: 18px 0;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: var(--accent-green);
+      font-weight: 400;
+      transition: transform 0.2s;
+      line-height: 1;
+    }
+
+    .faq-item[open] summary::after {
+      content: '−';
+    }
+
+    .faq-item p {
+      color: var(--text-muted);
+      padding-bottom: 18px;
+      line-height: 1.6;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    /* ============================
+       CTA SECTION
+       ============================ */
+    .cta-box {
+      background: linear-gradient(135deg, #111a16 0%, #0f1a14 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .cta-box h3 {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .cta-box p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-green);
+      color: var(--bg-dark);
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* ============================
+       FOOTER
+       ============================ */
+    .footer {
+      background-color: var(--bg-dark);
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      color: var(--text-main);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      margin-left: 20px;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-green);
+    }
+
+    .disclaimer {
+      font-size: 0.8rem;
+      margin: 0;
+    }
+
+    /* ============================
+       MOBILE
+       ============================ */
+    @media (max-width: 768px) {
+      .nav-links a:not(.btn-nav) {
+        display: none;
+      }
+
+      .faq-section {
+        padding: 50px 20px;
+      }
+
+      .faq-section h1 {
+        font-size: 1.75rem;
+      }
+
+      .cta-box {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .btn-primary {
+        width: 100%;
+        text-align: center;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links a {
+        margin: 0 10px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ==================== NAVBAR ==================== -->
   <nav class="navbar">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
@@ -23,7 +335,7 @@
     </div>
   </nav>
 
-  <!-- FAQ SECTION -->
+  <!-- ==================== FAQ ==================== -->
   <section class="faq-section">
     <div class="container">
       <span class="badge">SUPPORT</span>
@@ -60,11 +372,30 @@
           <summary>How do I choose the right prop firm?</summary>
           <p>Consider your account size, budget, profit target, and the firm's drawdown rules. Use our directory filters to narrow down your options based on these criteria.</p>
         </details>
+
+        <details class="faq-item">
+          <summary>What is a profit split?</summary>
+          <p>The profit split is the percentage of profits you keep after passing the challenge. Most firms offer between 70% and 90%, with some going up to 100% on certain plans.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do I need trading experience?</summary>
+          <p>Yes. Prop firm challenges are designed for traders who already understand risk management, technical analysis, and market structure. They are not beginner courses.</p>
+        </details>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-box">
+        <div>
+          <h3>Still have questions?</h3>
+          <p>Browse our full directory to compare firms side by side.</p>
+        </div>
+        <a href="directory.html" class="btn-primary">Browse Directory →</a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
