@@ -1,618 +1,910 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FundedEdge Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a09">
+<title>Admin | FundedEdge</title>
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #07110e;
-      --panel: #101c17;
-      --border: #263a30;
-      --green: #35d399;
-      --muted: #a4b5ab;
-      --red: #ff7777;
-    }
+<style>
+:root{
+  --bg:#080a09;
+  --side:#111312;
+  --panel:#151716;
+  --panel2:#0e100f;
+  --line:#2b302c;
+  --line2:#3a413b;
+  --green:#35d875;
+  --green-dim:#1a3d29;
+  --green-deep:#123020;
+  --text:#f5f7f5;
+  --muted:#a0a8a2;
+  --muted2:#7a827b;
+  --red:#f16d75;
+  --amber:#f5d77b;
+  --radius:14px;
+  --radius-sm:9px;
+  --shadow:0 12px 40px rgba(0,0,0,.35);
+}
 
-    * { box-sizing: border-box; }
+*{box-sizing:border-box;}
 
-    body {
-      margin: 0;
-      padding: 20px;
-      background: var(--bg);
-      color: #f2f8f4;
-      font-family: Arial, sans-serif;
-    }
+html,body{height:100%;}
 
-    main { max-width: 1050px; margin: auto; }
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at top, rgba(53,216,117,.05), transparent 50%),
+    var(--bg);
+  color:var(--text);
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:14px;
+  line-height:1.5;
+  min-height:100vh;
+}
 
-    h1 { color: var(--green); }
-    h2 { margin-top: 0; }
-    p, small { color: var(--muted); }
+button,input,textarea,select{font:inherit;color:inherit;}
+button{cursor:pointer;}
+a{color:inherit;text-decoration:none;}
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin: 18px 0;
-    }
+/* ---------- TOP BAR ---------- */
+.admin-top{
+  position:sticky;top:0;z-index:20;
+  height:72px;
+  display:flex;align-items:center;gap:16px;
+  padding:0 24px;
+  background:rgba(8,10,9,.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.admin-top .brand{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:1px;
+  display:flex;align-items:center;gap:8px;
+}
+.admin-top .brand .mark{
+  display:grid;place-items:center;
+  width:34px;height:34px;border-radius:10px;
+  background:var(--green);color:#07150b;
+  font-weight:900;font-size:16px;
+}
+.admin-top .brand span{color:var(--green);}
+.admin-top .pill{
+  font-size:10px;font-weight:800;letter-spacing:1.4px;
+  padding:5px 9px;border-radius:20px;
+  background:var(--green-deep);color:#8ff0b5;
+  border:1px solid #235c3b;text-transform:uppercase;
+}
+.admin-top .spacer{margin-left:auto;}
+.admin-top .email{
+  color:var(--muted);font-size:12.5px;
+  max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.admin-top .logout{
+  background:transparent;border:1px solid var(--line2);
+  color:#ffb0b4;padding:9px 14px;border-radius:var(--radius-sm);
+  font-weight:700;font-size:12.5px;transition:.18s;
+}
+.admin-top .logout:hover{background:#2a1215;border-color:#5a2a2f;}
 
-    .hidden { display: none !important; }
+/* ---------- LAYOUT ---------- */
+.admin-wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:28px 20px 60px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-    }
+.admin-hero{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  gap:20px;flex-wrap:wrap;margin-bottom:22px;
+}
+.admin-hero h1{
+  margin:6px 0 4px;
+  font-size:clamp(26px,3.6vw,36px);
+  letter-spacing:-.6px;
+  font-weight:850;
+}
+.admin-hero .eyebrow{
+  font-size:11px;font-weight:850;letter-spacing:1.7px;
+  color:var(--green);text-transform:uppercase;
+}
+.admin-hero p{color:var(--muted);margin:0;font-size:13.5px;}
 
-    .field { margin-bottom: 12px; }
-    label { display: block; margin-bottom: 7px; color: #d7e6dc; }
+/* ---------- MESSAGE BANNER ---------- */
+.message{
+  display:none;
+  padding:12px 16px;border-radius:var(--radius-sm);
+  font-size:13.5px;margin-bottom:18px;
+  border:1px solid transparent;
+}
+.message.show{display:block;}
+.message.success{background:var(--green-deep);color:#a9f2c4;border-color:#235c3b;}
+.message.error{background:#3a1a1d;color:#ffb7bb;border-color:#5a2a2f;}
+.message.info{background:#102219;color:#b6cabb;border-color:#263a30;}
 
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      background: #09140f;
-      color: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font: inherit;
-    }
+/* ---------- PANELS ---------- */
+.panel{
+  background:linear-gradient(145deg,var(--panel),var(--panel2));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  min-width:0;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:14px;flex-wrap:wrap;margin-bottom:16px;
+}
+.panel-head h2{
+  margin:0 0 4px;font-size:19px;letter-spacing:-.3px;
+}
+.panel-head p{margin:0;color:var(--muted);font-size:13px;}
 
-    textarea { min-height: 90px; resize: vertical; }
+/* ---------- LOGIN PANEL ---------- */
+.login-shell{
+  max-width:440px;margin:6vh auto 0;
+}
+.login-shell .panel{
+  padding:30px;
+}
+.login-shell h1{
+  margin:0 0 6px;font-size:26px;
+}
+.login-shell p{margin:0 0 22px;color:var(--muted);}
+.login-brand{
+  text-align:center;margin-bottom:24px;
+  font-size:26px;font-weight:900;letter-spacing:1px;
+}
+.login-brand span{color:var(--green);}
 
-    button {
-      border: 0;
-      border-radius: 8px;
-      padding: 11px 15px;
-      margin: 5px 5px 5px 0;
-      cursor: pointer;
-      background: var(--green);
-      color: #06130d;
-      font-weight: bold;
-    }
+/* ---------- FORM ---------- */
+.field-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px 16px;
+  margin-bottom:6px;
+}
+.field{display:grid;gap:7px;min-width:0;}
+.field.full{grid-column:1/-1;}
+.field label{
+  font-size:12.5px;font-weight:750;
+  color:#dbe9e0;letter-spacing:.2px;
+}
+.field label .req{color:var(--green);}
+.field small{color:var(--muted2);font-size:11.5px;}
 
-    button.secondary { background: #273b31; color: white; }
-    button.danger { background: #762e32; color: white; }
-    button:disabled { opacity: .5; cursor: wait; }
+.field input,
+.field select,
+.field textarea{
+  width:100%;min-width:0;
+  padding:11px 13px;
+  background:#0a0d0b;
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  color:var(--text);
+  font-size:13.5px;
+  outline:none;
+  transition:.15s;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(53,216,117,.12);
+  background:#0b1210;
+}
+.field textarea{min-height:92px;resize:vertical;line-height:1.55;}
 
-    .item {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 15px;
-      margin: 12px 0;
-      overflow-wrap: anywhere;
-    }
+/* ---------- SECTION DIVIDER ---------- */
+.form-section{
+  margin:22px 0 10px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+.form-section h3{
+  margin:0 0 4px;font-size:13px;font-weight:850;
+  letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--green);
+}
+.form-section p{margin:0 0 14px;color:var(--muted2);font-size:12px;}
 
-    .item h3 { margin: 0 0 8px; }
-    .meta { color: var(--muted); font-size: 13px; line-height: 1.7; }
-    .review-text { white-space: pre-wrap; line-height: 1.6; }
-    .status { color: var(--green); font-weight: bold; }
-    .message { margin-top: 12px; overflow-wrap: anywhere; }
-    .error { color: var(--red); }
-    .success { color: var(--green); }
+/* ---------- CHECKBOX ---------- */
+.check-field{
+  display:flex;align-items:center;gap:10px;
+  margin:16px 0 4px;
+  padding:12px 14px;
+  background:#0a0d0b;
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+}
+.check-field input{
+  width:18px;height:18px;accent-color:var(--green);
+  cursor:pointer;
+}
+.check-field label{
+  font-size:13px;color:#dbe9e0;cursor:pointer;
+  margin:0;
+}
 
-    .check-field {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 12px 0;
-    }
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 18px;
+  border-radius:var(--radius-sm);
+  border:1px solid transparent;
+  font-weight:700;font-size:13px;
+  cursor:pointer;transition:.15s;
+  white-space:nowrap;
+}
+.btn.primary{
+  background:var(--green);color:#07150b;border-color:var(--green);
+}
+.btn.primary:hover{background:#5cf09a;box-shadow:0 6px 20px rgba(53,216,117,.25);}
+.btn.secondary{
+  background:#1a1e1b;color:var(--text);border-color:var(--line2);
+}
+.btn.secondary:hover{background:#22261f;border-color:#4a534c;}
+.btn.danger{
+  background:#3a1a1d;color:#ffb7bb;border-color:#5a2a2f;
+}
+.btn.danger:hover{background:#4d2226;border-color:#8a3a41;}
+.btn:disabled{opacity:.55;cursor:not-allowed;}
 
-    .check-field input { width: auto; }
+.form-actions{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:20px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
 
-    @media (max-width: 500px) {
-      body { padding: 12px; }
-      .panel { padding: 14px; }
-    }
-  </style>
+/* ---------- LIST ITEMS ---------- */
+.list{display:grid;gap:10px;}
+.item{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:14px;flex-wrap:wrap;
+  padding:16px;
+  background:#0d0f0e;
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  min-width:0;
+  transition:.15s;
+}
+.item:hover{border-color:#3d9460;background:#0f1211;}
+.item-main{min-width:0;flex:1 1 260px;}
+.item-title{
+  font-size:15px;font-weight:800;margin:0 0 6px;
+  overflow-wrap:anywhere;
+}
+.item-meta{
+  color:var(--muted);font-size:12.5px;line-height:1.6;
+  margin:0 0 4px;overflow-wrap:anywhere;
+}
+.item-meta .sep{color:var(--muted2);margin:0 6px;}
+.item-actions{
+  display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;
+}
+.item-actions .btn{padding:9px 13px;font-size:12.5px;}
+
+.item-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.tag-chip{
+  font-size:10.5px;font-weight:800;letter-spacing:.6px;
+  padding:4px 9px;border-radius:6px;
+  background:rgba(53,216,117,.12);color:#8ff0b5;
+  border:1px solid #235c3b;
+  text-transform:uppercase;
+}
+.tag-chip.muted{
+  background:#232823;color:#a4b5ab;border-color:#3a413b;
+}
+
+.status-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--muted2);margin-right:6px;
+  vertical-align:middle;
+}
+.status-dot.active{background:var(--green);box-shadow:0 0 8px rgba(53,216,117,.7);}
+.status-dot.inactive{background:#7a827b;}
+
+/* ---------- REVIEW CARD ---------- */
+.review-text{
+  margin:10px 0;
+  padding:12px 14px;
+  background:#0a0d0b;
+  border:1px solid var(--line2);
+  border-left:3px solid var(--green);
+  border-radius:var(--radius-sm);
+  color:#d5e0d8;
+  font-size:13px;line-height:1.65;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.stars{color:var(--amber);letter-spacing:2px;font-size:14px;}
+
+/* ---------- STATES ---------- */
+.empty{
+  padding:26px;text-align:center;
+  border:1px dashed var(--line2);
+  border-radius:var(--radius-sm);
+  color:var(--muted);font-size:13px;
+}
+.loading{
+  padding:22px;text-align:center;
+  color:var(--muted);font-size:13px;
+  animation:pulse 1.4s infinite;
+}
+@keyframes pulse{50%{opacity:.5;}}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:700px){
+  .admin-top{padding:0 14px;height:64px;gap:10px;}
+  .admin-top .email{display:none;}
+  .admin-top .brand{font-size:17px;}
+  .admin-top .brand .mark{width:30px;height:30px;font-size:14px;}
+  .admin-wrap{padding:20px 12px 40px;}
+  .panel{padding:16px;}
+  .login-shell{margin-top:3vh;}
+  .item{flex-direction:column;align-items:stretch;}
+  .item-actions{justify-content:flex-start;}
+}
+</style>
 </head>
 
 <body>
-<main>
-  <h1>FundedEdge Admin</h1>
-  <p>Manage prop firms, custom logos, and customer reviews.</p>
 
-  <div id="message" class="message" role="status"></div>
+<!-- ============ TOP BAR ============ -->
+<header class="admin-top">
+  <div class="brand">
+    <span class="mark">F</span>
+    FUNDED<span>EDGE</span>
+  </div>
+  <span class="pill">Admin</span>
+  <div class="spacer"></div>
+  <div class="email" id="topEmail"></div>
+  <button class="logout hidden" id="logoutTop" type="button">Log out</button>
+</header>
 
-  <section id="loginPanel" class="panel">
-    <h2>Admin Login</h2>
-    <form id="loginForm">
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" type="email" autocomplete="username" required>
-      </div>
-      <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password"
-               autocomplete="current-password" required>
-      </div>
-      <button id="loginButton" type="submit">Log in</button>
-    </form>
+<div class="admin-wrap">
+
+  <div id="message" class="message" role="status" aria-live="polite"></div>
+
+  <!-- ============ LOGIN ============ -->
+  <section id="loginPanel" class="login-shell">
+    <div class="login-brand">Funded<span>Edge</span></div>
+    <div class="panel">
+      <h1>Admin access</h1>
+      <p>Sign in with your admin account to manage firms and reviews.</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" autocomplete="username" required placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+        </div>
+        <div class="form-actions" style="border:0;padding:0;margin-top:18px;">
+          <button id="loginButton" class="btn primary" type="submit">Log in</button>
+        </div>
+      </form>
+    </div>
   </section>
 
+  <!-- ============ DASHBOARD ============ -->
   <section id="dashboard" class="hidden">
-    <div class="panel">
-      <span id="account"></span>
-      <button id="logout" class="secondary" type="button">Log out</button>
+
+    <div class="admin-hero">
+      <div>
+        <div class="eyebrow">Control panel</div>
+        <h1>Admin dashboard</h1>
+        <p>Manage prop firms, custom logos, and customer reviews.</p>
+      </div>
+      <div id="account" class="item-meta"></div>
     </div>
 
+    <!-- ADD / EDIT FIRM -->
     <section class="panel">
-      <h2 id="formHeading">Add a Prop Firm</h2>
+      <div class="panel-head">
+        <div>
+          <h2 id="formHeading">Add a prop firm</h2>
+          <p id="formSubtitle">Fill in the firm details and save. Fields marked <span style="color:var(--green)">*</span> are required.</p>
+        </div>
+      </div>
+
       <form id="firmForm">
         <input id="firmId" type="hidden">
-        <div id="fieldGrid" class="grid"></div>
-        <div class="check-field">
-          <input id="verified" type="checkbox">
-          <label for="verified">Verified firm</label>
+
+        <div class="form-section" style="border:0;padding:0;margin:0 0 6px;">
+          <h3>Basic details</h3>
         </div>
-        <button id="saveButton" type="submit">Save Firm</button>
-        <button id="cancelEdit" class="secondary" type="button">
-          Cancel / Clear
-        </button>
+        <div id="fieldGridBasic" class="field-grid"></div>
+
+        <div class="form-section">
+          <h3>Trading conditions</h3>
+          <p>Account rules, pricing, and payouts.</p>
+        </div>
+        <div id="fieldGridTrading" class="field-grid"></div>
+
+        <div class="form-section">
+          <h3>Links &amp; metadata</h3>
+          <p>Official website, logo, affiliate link, and status.</p>
+        </div>
+        <div id="fieldGridMeta" class="field-grid"></div>
+
+        <label class="check-field" for="verified">
+          <input id="verified" type="checkbox">
+          <label for="verified">Verified firm (shows verification badge on the directory)</label>
+        </label>
+
+        <div class="form-actions">
+          <button id="saveButton" class="btn primary" type="submit">Save Firm</button>
+          <button id="cancelEdit" class="btn secondary" type="button">Cancel / Clear</button>
+        </div>
       </form>
     </section>
 
+    <!-- FIRM LIST -->
     <section class="panel">
-      <h2>Prop Firm Management</h2>
-      <button id="refresh" class="secondary" type="button">Refresh firms</button>
-      <div id="firmList">Loading firms...</div>
+      <div class="panel-head">
+        <div>
+          <h2>Prop firm management</h2>
+          <p>Edit or delete firms. Changes appear immediately on the public directory.</p>
+        </div>
+        <button id="refresh" class="btn secondary" type="button">Refresh</button>
+      </div>
+      <div id="firmList" class="list">
+        <div class="loading">Loading firms…</div>
+      </div>
     </section>
 
+    <!-- REVIEWS -->
     <section class="panel">
-      <h2>Review Management</h2>
-      <p>New reviews appear as pending. Approve a review to publish it on the website, or reject it to keep it unpublished.</p>
-      <button id="refreshReviews" class="secondary" type="button">
-        Refresh reviews
-      </button>
-      <div id="reviewList">Loading reviews...</div>
+      <div class="panel-head">
+        <div>
+          <h2>Review management</h2>
+          <p>New reviews arrive as pending. Approve to publish, reject to hide.</p>
+        </div>
+        <button id="refreshReviews" class="btn secondary" type="button">Refresh</button>
+      </div>
+      <div id="reviewList" class="list">
+        <div class="loading">Loading reviews…</div>
+      </div>
     </section>
+
   </section>
-</main>
+</div>
 
 <script type="module">
-  import { createClient } from
-    "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = id => document.getElementById(id);
 
-  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentUser = null;
+let busy = false;
 
-  const $ = id => document.getElementById(id);
+/* ---------- FIELD DEFINITIONS (grouped) ---------- */
+const fieldsBasic = [
+  { id: "name", label: "Firm name", required: true },
+  { id: "category", label: "Category" },
+  { id: "tag", label: "Tag" },
+  { id: "description", label: "Description", type: "textarea", full: true }
+];
 
-  let currentUser = null;
-  let busy = false;
+const fieldsTrading = [
+  { id: "account_sizes", label: "Account sizes" },
+  { id: "price", label: "Starting price" },
+  { id: "profit_target", label: "Profit target" },
+  { id: "daily_drawdown", label: "Daily drawdown" },
+  { id: "max_drawdown", label: "Maximum drawdown" },
+  { id: "profit_split", label: "Profit split" },
+  { id: "payout", label: "Payout information" },
+  { id: "platforms", label: "Trading platforms" },
+  { id: "rating", label: "Rating", type: "number", step: "0.1" }
+];
 
-  const fieldDefinitions = [
-    { id: "name", label: "Firm Name", required: true },
-    { id: "category", label: "Category" },
-    { id: "description", label: "Description", type: "textarea" },
-    { id: "account_sizes", label: "Account Sizes" },
-    { id: "price", label: "Price" },
-    { id: "profit_target", label: "Profit Target" },
-    { id: "daily_drawdown", label: "Daily Drawdown" },
-    { id: "max_drawdown", label: "Maximum Drawdown" },
-    { id: "profit_split", label: "Profit Split" },
-    { id: "payout", label: "Payout Information" },
-    { id: "platforms", label: "Trading Platforms" },
-    { id: "rating", label: "Rating", type: "number", step: "0.1" },
-    { id: "tag", label: "Tag" },
-    { id: "official_website", label: "Official Website URL", type: "url" },
-    { id: "logo_url", label: "Custom Logo URL", type: "url" },
-    { id: "affiliate_link", label: "Affiliate Link", type: "url" },
-    { id: "verified_date", label: "Verification Date", type: "date" },
-    { id: "status", label: "Status", type: "select",
-      options: ["active", "inactive"] }
+const fieldsMeta = [
+  { id: "official_website", label: "Official website URL", type: "url" },
+  { id: "logo_url", label: "Custom logo URL", type: "url",
+    hint: "Optional: paste a direct link to a logo image." },
+  { id: "affiliate_link", label: "Affiliate link", type: "url" },
+  { id: "verified_date", label: "Verification date", type: "date" },
+  { id: "status", label: "Status", type: "select", options: ["active", "inactive"] }
+];
+
+const allFields = [...fieldsBasic, ...fieldsTrading, ...fieldsMeta];
+
+/* ---------- HELPERS ---------- */
+function showMessage(message, type = "info") {
+  const el = $("message");
+  el.textContent = message;
+  el.className = "message show " + type;
+  clearTimeout(showMessage._t);
+  showMessage._t = setTimeout(() => {
+    el.className = "message";
+  }, 5000);
+}
+
+function el(tag, className, text) {
+  const e = document.createElement(tag);
+  if (className) e.className = className;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function buildField(field) {
+  const wrap = el("div", "field" + (field.full ? " full" : ""));
+  const label = el("label");
+  label.htmlFor = field.id;
+  label.textContent = field.label;
+  if (field.required) {
+    const star = el("span", "req", " *");
+    label.append(star);
+  }
+
+  let input;
+  if (field.type === "textarea") {
+    input = document.createElement("textarea");
+  } else if (field.type === "select") {
+    input = document.createElement("select");
+    for (const value of field.options) {
+      const opt = el("option", "", value);
+      opt.value = value;
+      input.append(opt);
+    }
+  } else {
+    input = document.createElement("input");
+    input.type = field.type || "text";
+    if (field.step) input.step = field.step;
+  }
+  input.id = field.id;
+  if (field.required) input.required = true;
+
+  wrap.append(label, input);
+
+  if (field.hint) wrap.append(el("small", "", field.hint));
+
+  return wrap;
+}
+
+function buildFields() {
+  const groups = [
+    ["fieldGridBasic", fieldsBasic],
+    ["fieldGridTrading", fieldsTrading],
+    ["fieldGridMeta", fieldsMeta]
   ];
+  for (const [targetId, list] of groups) {
+    const target = $(targetId);
+    target.replaceChildren();
+    for (const field of list) target.append(buildField(field));
+  }
+}
 
-  function showMessage(message, type = "") {
-    $("message").textContent = message;
-    $("message").className = "message " + type;
+/* ---------- ADMIN CHECK ---------- */
+async function isAdmin(user) {
+  if (!user) return false;
+  const { data, error } = await db
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error) { console.error("Admin check:", error); return false; }
+  return !!data;
+}
+
+/* ---------- SESSION ---------- */
+async function showSession() {
+  const { data, error } = await db.auth.getSession();
+  if (error) { showMessage(error.message, "error"); return; }
+
+  const user = data.session?.user || null;
+  currentUser = user;
+
+  if (!user) {
+    $("loginPanel").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+    $("logoutTop").classList.add("hidden");
+    $("topEmail").textContent = "";
+    return;
   }
 
-  function makeElement(tag, className, text) {
-    const el = document.createElement(tag);
-    if (className) el.className = className;
-    if (text !== undefined) el.textContent = text;
-    return el;
-  }
-
-  function addButton(parent, text, className, callback) {
-    const button = makeElement("button", className, text);
-    button.type = "button";
-    button.addEventListener("click", callback);
-    parent.append(button);
-    return button;
-  }
-
-  function buildFields() {
-    const grid = $("fieldGrid");
-
-    for (const field of fieldDefinitions) {
-      const wrapper = makeElement("div", "field");
-      const label = makeElement("label", "", field.label);
-      label.htmlFor = field.id;
-
-      let input;
-
-      if (field.type === "textarea") {
-        input = document.createElement("textarea");
-      } else if (field.type === "select") {
-        input = document.createElement("select");
-        for (const value of field.options) {
-          const option = makeElement("option", "", value);
-          option.value = value;
-          input.append(option);
-        }
-      } else {
-        input = document.createElement("input");
-        input.type = field.type || "text";
-        if (field.step) input.step = field.step;
-      }
-
-      input.id = field.id;
-      if (field.required) input.required = true;
-
-      wrapper.append(label, input);
-
-      if (field.id === "logo_url") {
-        wrapper.append(makeElement(
-          "small", "", "Optional: paste a direct link to a logo image."
-        ));
-      }
-
-      grid.append(wrapper);
-    }
-  }
-
-  async function isAdmin(user) {
-    if (!user) return false;
-
-    const { data, error } = await db
-      .from("admin_users")
-      .select("user_id")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Admin check:", error);
-      return false;
-    }
-
-    return !!data;
-  }
-
-  async function showSession() {
-    const { data, error } = await db.auth.getSession();
-
-    if (error) {
-      showMessage(error.message, "error");
-      return;
-    }
-
-    const user = data.session?.user || null;
-    currentUser = user;
-
-    if (!user) {
-      $("loginPanel").classList.remove("hidden");
-      $("dashboard").classList.add("hidden");
-      $("account").textContent = "";
-      return;
-    }
-
-    if (!(await isAdmin(user))) {
-      await db.auth.signOut();
-      currentUser = null;
-      $("loginPanel").classList.remove("hidden");
-      $("dashboard").classList.add("hidden");
-      showMessage("This account is not an authorized admin.", "error");
-      return;
-    }
-
-    $("loginPanel").classList.add("hidden");
-    $("dashboard").classList.remove("hidden");
-    $("account").textContent = "Logged in: " + user.email;
-    showMessage("Admin access confirmed.", "success");
-
-    await Promise.all([loadFirms(), loadReviews()]);
-  }
-
-  $("loginForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    const button = $("loginButton");
-    button.disabled = true;
-    showMessage("Logging in...");
-
-    try {
-      const { error } = await db.auth.signInWithPassword({
-        email: $("email").value.trim(),
-        password: $("password").value
-      });
-
-      if (error) throw error;
-
-      await showSession();
-    } catch (error) {
-      showMessage(error.message || "Login failed.", "error");
-    } finally {
-      button.disabled = false;
-    }
-  });
-
-  $("logout").addEventListener("click", async () => {
+  if (!(await isAdmin(user))) {
     await db.auth.signOut();
     currentUser = null;
-    $("dashboard").classList.add("hidden");
     $("loginPanel").classList.remove("hidden");
-    showMessage("You have logged out.", "success");
+    $("dashboard").classList.add("hidden");
+    $("logoutTop").classList.add("hidden");
+    $("topEmail").textContent = "";
+    showMessage("This account is not an authorized admin.", "error");
+    return;
+  }
+
+  $("loginPanel").classList.add("hidden");
+  $("dashboard").classList.remove("hidden");
+  $("logoutTop").classList.remove("hidden");
+  $("topEmail").textContent = user.email || "";
+  $("account").textContent = "Signed in as " + (user.email || "admin");
+  showMessage("Admin access confirmed.", "success");
+
+  await Promise.all([loadFirms(), loadReviews()]);
+}
+
+/* ---------- LOGIN / LOGOUT ---------- */
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = $("loginButton");
+  button.disabled = true;
+  showMessage("Logging in…", "info");
+  try {
+    const { error } = await db.auth.signInWithPassword({
+      email: $("email").value.trim(),
+      password: $("password").value
+    });
+    if (error) throw error;
+    await showSession();
+  } catch (error) {
+    showMessage(error.message || "Login failed.", "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+async function doLogout() {
+  await db.auth.signOut();
+  currentUser = null;
+  $("dashboard").classList.add("hidden");
+  $("loginPanel").classList.remove("hidden");
+  $("logoutTop").classList.add("hidden");
+  $("topEmail").textContent = "";
+  showMessage("You have logged out.", "success");
+}
+$("logoutTop").addEventListener("click", doLogout);
+
+/* ---------- FORM RESET ---------- */
+function clearForm() {
+  $("firmForm").reset();
+  $("firmId").value = "";
+  $("formHeading").textContent = "Add a prop firm";
+  $("saveButton").textContent = "Save Firm";
+  $("status").value = "active";
+  $("verified").checked = false;
+}
+$("cancelEdit").addEventListener("click", clearForm);
+
+/* ---------- LOAD FIRMS ---------- */
+function firmItem(firm) {
+  const card = el("article", "item");
+  const main = el("div", "item-main");
+
+  const title = el("h3", "item-title", firm.name || "Unnamed firm");
+  main.append(title);
+
+  const meta = el("p", "item-meta");
+  const dot = el("span", "status-dot " + (firm.status === "active" ? "active" : "inactive"));
+  meta.append(dot);
+  meta.append(firm.status || "not set");
+  meta.append(el("span", "sep", "·"));
+  meta.append(firm.category || "No category");
+  if (firm.rating) {
+    meta.append(el("span", "sep", "·"));
+    meta.append("★ " + firm.rating);
+  }
+  main.append(meta);
+
+  const tags = el("div", "item-tags");
+  if (firm.verified) {
+    const t = el("span", "tag-chip", "✓ Verified");
+    tags.append(t);
+  }
+  if (firm.logo_url) {
+    tags.append(el("span", "tag-chip muted", "Custom logo"));
+  }
+  if (tags.children.length) main.append(tags);
+
+  const actions = el("div", "item-actions");
+
+  const editBtn = el("button", "btn secondary", "Edit");
+  editBtn.type = "button";
+  editBtn.addEventListener("click", () => {
+    $("firmId").value = firm.id;
+    for (const field of allFields) {
+      const input = $(field.id);
+      const value = firm[field.id];
+      if (field.type === "select") input.value = value || "active";
+      else input.value = value ?? "";
+    }
+    $("verified").checked = Boolean(firm.verified);
+    $("formHeading").textContent = "Edit prop firm";
+    $("saveButton").textContent = "Update Firm";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    showMessage("Editing: " + firm.name, "info");
   });
 
-  function clearForm() {
-    $("firmForm").reset();
-    $("firmId").value = "";
-    $("formHeading").textContent = "Add a Prop Firm";
-    $("saveButton").textContent = "Save Firm";
-    $("status").value = "active";
-    $("verified").checked = false;
-  }
-
-  $("cancelEdit").addEventListener("click", clearForm);
-
-  async function loadFirms() {
-    const list = $("firmList");
-    list.replaceChildren(makeElement("p", "", "Loading firms..."));
-
-    const { data, error } = await db
-      .from("firms")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      list.replaceChildren(makeElement("p", "error", error.message));
-      return;
-    }
-
-    list.replaceChildren();
-
-    if (!data || data.length === 0) {
-      list.append(makeElement("p", "", "No firms found."));
-      return;
-    }
-
-    for (const firm of data) {
-      const card = makeElement("article", "item");
-      card.append(makeElement("h3", "", firm.name || "Unnamed firm"));
-      card.append(makeElement(
-        "p", "meta",
-        (firm.category || "No category") + " · Status: " +
-        (firm.status || "not set")
-      ));
-
-      if (firm.logo_url) {
-        card.append(makeElement("p", "meta", "Custom logo URL is set."));
-      }
-
-      addButton(card, "Edit", "", () => {
-        $("firmId").value = firm.id;
-
-        for (const field of fieldDefinitions) {
-          const input = $(field.id);
-          const value = firm[field.id];
-
-          if (field.type === "select") {
-            input.value = value || "active";
-          } else {
-            input.value = value ?? "";
-          }
-        }
-
-        $("verified").checked = Boolean(firm.verified);
-        $("formHeading").textContent = "Edit Prop Firm";
-        $("saveButton").textContent = "Update Firm";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      addButton(card, "Delete", "danger", async () => {
-        if (!confirm("Delete " + firm.name + "? This cannot be undone.")) return;
-
-        const { error } = await db
-          .from("firms")
-          .delete()
-          .eq("id", firm.id);
-
-        if (error) {
-          showMessage("Delete failed: " + error.message, "error");
-          return;
-        }
-
-        showMessage("Firm deleted.", "success");
-        await loadFirms();
-      });
-
-      list.append(card);
-    }
-  }
-
-  $("firmForm").addEventListener("submit", async event => {
-    event.preventDefault();
-
-    if (!currentUser || !(await isAdmin(currentUser))) {
-      showMessage("Admin authorization required.", "error");
-      return;
-    }
-
-    const button = $("saveButton");
-    button.disabled = true;
-
-    try {
-      const payload = {};
-
-      for (const field of fieldDefinitions) {
-        const input = $(field.id);
-        let value = input.value.trim();
-
-        if (field.id === "rating") {
-          value = value === "" ? null : Number(value);
-        } else if (field.id === "verified_date" && value === "") {
-          value = null;
-        } else if (field.id === "logo_url" && value === "") {
-          value = null;
-        } else if (
-          ["official_website", "affiliate_link"].includes(field.id) &&
-          value === ""
-        ) {
-          value = null;
-        }
-
-        payload[field.id] = value;
-      }
-
-      payload.verified = $("verified").checked;
-      payload.updated_at = new Date().toISOString();
-
-      const id = $("firmId").value;
-      let result;
-
-      if (id) {
-        result = await db.from("firms").update(payload).eq("id", id);
-      } else {
-        result = await db.from("firms").insert(payload);
-      }
-
-      if (result.error) throw result.error;
-
-      showMessage(id ? "Firm updated successfully." : "Firm added successfully.", "success");
-      clearForm();
-      await loadFirms();
-    } catch (error) {
-      showMessage("Could not save firm: " + error.message, "error");
-    } finally {
-      button.disabled = false;
-    }
+  const delBtn = el("button", "btn danger", "Delete");
+  delBtn.type = "button";
+  delBtn.addEventListener("click", async () => {
+    if (!confirm("Delete \"" + firm.name + "\"? This cannot be undone.")) return;
+    const { error } = await db.from("firms").delete().eq("id", firm.id);
+    if (error) { showMessage("Delete failed: " + error.message, "error"); return; }
+    showMessage("Firm deleted.", "success");
+    await loadFirms();
   });
 
-  async function moderateReview(reviewId, status, button) {
-    if (busy) return;
+  actions.append(editBtn, delBtn);
+  card.append(main, actions);
+  return card;
+}
 
-    if (!currentUser || !(await isAdmin(currentUser))) {
-      showMessage("Admin authorization required.", "error");
-      return;
-    }
+async function loadFirms() {
+  const list = $("firmList");
+  list.replaceChildren(el("div", "loading", "Loading firms…"));
 
-    busy = true;
-    button.disabled = true;
+  const { data, error } = await db
+    .from("firms")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-    try {
-      const { error } = await db
-        .from("firm_reviews")
-        .update({ status })
-        .eq("id", reviewId);
-
-      if (error) throw error;
-
-      showMessage("Review marked " + status + ".", "success");
-      await loadReviews();
-    } catch (error) {
-      showMessage("Could not update review: " + error.message, "error");
-      button.disabled = false;
-    } finally {
-      busy = false;
-    }
+  if (error) {
+    list.replaceChildren(el("div", "empty", "Could not load firms: " + error.message));
+    return;
   }
 
-  async function loadReviews() {
-    const list = $("reviewList");
-    list.replaceChildren(makeElement("p", "", "Loading reviews..."));
+  list.replaceChildren();
+  if (!data || data.length === 0) {
+    list.append(el("div", "empty", "No firms yet. Add one above to get started."));
+    return;
+  }
 
-    const [reviewsResult, firmsResult] = await Promise.all([
-      db.from("firm_reviews")
-  .select("id, firm_id, reviewer_name, rating, review_text, status, created_at")
-  .eq("status", "pending")
-  .order("created_at", { ascending: false }),
-      db.from("firms").select("id, name")
-    ]);
+  for (const firm of data) list.append(firmItem(firm));
+}
 
-    if (reviewsResult.error) {
-      list.replaceChildren(makeElement(
-        "p", "error",
-        "Could not load reviews: " + reviewsResult.error.message
-      ));
-      return;
+/* ---------- SAVE FIRM ---------- */
+$("firmForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentUser || !(await isAdmin(currentUser))) {
+    showMessage("Admin authorization required.", "error");
+    return;
+  }
+
+  const button = $("saveButton");
+  button.disabled = true;
+
+  try {
+    const payload = {};
+    for (const field of allFields) {
+      const input = $(field.id);
+      let value = input.value.trim();
+
+      if (field.id === "rating") value = value === "" ? null : Number(value);
+      else if (field.id === "verified_date" && value === "") value = null;
+      else if (field.id === "logo_url" && value === "") value = null;
+      else if (["official_website", "affiliate_link"].includes(field.id) && value === "") {
+        value = null;
+      }
+
+      payload[field.id] = value;
     }
+    payload.verified = $("verified").checked;
+    payload.updated_at = new Date().toISOString();
 
-    if (firmsResult.error) {
-      list.replaceChildren(makeElement(
-        "p", "error",
-        "Could not load firm names: " + firmsResult.error.message
-      ));
-      return;
-    }
+    const id = $("firmId").value;
+    const result = id
+      ? await db.from("firms").update(payload).eq("id", id)
+      : await db.from("firms").insert(payload);
 
-    const firmNames = new Map(
-      (firmsResult.data || []).map(firm => [firm.id, firm.name])
-    );
+    if (result.error) throw result.error;
 
-    const reviews = reviewsResult.data || [];
-    list.replaceChildren();
+    showMessage(id ? "Firm updated successfully." : "Firm added successfully.", "success");
+    clearForm();
+    await loadFirms();
+  } catch (error) {
+    showMessage("Could not save firm: " + error.message, "error");
+  } finally {
+    button.disabled = false;
+  }
+});
 
-    if (reviews.length === 0) {
-      list.append(makeElement("p", "", "No reviews submitted yet."));
-      return;
-    }
+/* ---------- REVIEWS ---------- */
+async function moderateReview(reviewId, status, button) {
+  if (busy) return;
+  if (!currentUser || !(await isAdmin(currentUser))) {
+    showMessage("Admin authorization required.", "error");
+    return;
+  }
+  busy = true;
+  button.disabled = true;
+  try {
+    const { error } = await db.from("firm_reviews").update({ status }).eq("id", reviewId);
+    if (error) throw error;
+    showMessage("Review marked " + status + ".", "success");
+    await loadReviews();
+  } catch (error) {
+    showMessage("Could not update review: " + error.message, "error");
+    button.disabled = false;
+  } finally {
+    busy = false;
+  }
+}
 
-    for (const review of reviews) {
-      const card = makeElement("article", "item");
+function stars(n) {
+  const r = Math.max(0, Math.min(5, Number(n) || 0));
+  return "★".repeat(r) + "☆".repeat(5 - r);
+}
 
-      card.append(makeElement(
-        "h3", "",
-        firmNames.get(review.firm_id) || "Unknown firm"
-      ));
+async function loadReviews() {
+  const list = $("reviewList");
+  list.replaceChildren(el("div", "loading", "Loading reviews…"));
 
-      card.append(makeElement(
-        "p", "meta",
-        "Reviewer: " + (review.reviewer_name || "Anonymous") +
-        " · Rating: " + Number(review.rating || 0) + "/5"
-      ));
+  const [reviewsResult, firmsResult] = await Promise.all([
+    db.from("firm_reviews")
+      .select("id, firm_id, reviewer_name, rating, review_text, status, created_at")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false }),
+    db.from("firms").select("id, name")
+  ]);
 
-      card.append(makeElement(
-        "p", "review-text", review.review_text || ""
-      ));
+  if (reviewsResult.error) {
+    list.replaceChildren(el("div", "empty",
+      "Could not load reviews: " + reviewsResult.error.message));
+    return;
+  }
+  if (firmsResult.error) {
+    list.replaceChildren(el("div", "empty",
+      "Could not load firm names: " + firmsResult.error.message));
+    return;
+  }
 
-      const date = review.created_at
+  const firmNames = new Map((firmsResult.data || []).map(f => [f.id, f.name]));
+  const reviews = reviewsResult.data || [];
+  list.replaceChildren();
+
+  if (reviews.length === 0) {
+    list.append(el("div", "empty", "No reviews awaiting moderation."));
+    return;
+  }
+
+  for (const review of reviews) {
+    const card = el("article", "item");
+    const main = el("div", "item-main");
+
+    main.append(el("h3", "item-title", firmNames.get(review.firm_id) || "Unknown firm"));
+    main.append(el("p", "item-meta",
+      "Reviewer: " + (review.reviewer_name || "Anonymous")));
+    main.append(el("p", "item-meta stars", stars(review.rating)));
+    main.append(el("p", "review-text", review.review_text || ""));
+    main.append(el("p", "item-meta",
+      "Submitted: " + (review.created_at
         ? new Date(review.created_at).toLocaleString()
-        : "Date unavailable";
+        : "unknown")));
 
-      card.append(makeElement("p", "meta", "Submitted: " + date));
-      card.append(makeElement(
-        "p", "status", "Status: " + (review.status || "unknown")
-      ));
+    const actions = el("div", "item-actions");
 
-      addButton(card, "Approve", "", () =>
-        moderateReview(review.id, "approved", card.lastElementChild)
-      );
+    const approveBtn = el("button", "btn primary", "Approve");
+    approveBtn.type = "button";
+    approveBtn.addEventListener("click", () => moderateReview(review.id, "approved", approveBtn));
 
-      addButton(card, "Reject", "danger", () =>
-        moderateReview(review.id, "rejected", card.lastElementChild)
-      );
+    const rejectBtn = el("button", "btn danger", "Reject");
+    rejectBtn.type = "button";
+    rejectBtn.addEventListener("click", () => moderateReview(review.id, "rejected", rejectBtn));
 
-      list.append(card);
-    }
+    actions.append(approveBtn, rejectBtn);
+    card.append(main, actions);
+    list.append(card);
   }
+}
 
-  $("refresh").addEventListener("click", loadFirms);
-  $("refreshReviews").addEventListener("click", loadReviews);
+/* ---------- WIRE ---------- */
+$("refresh").addEventListener("click", loadFirms);
+$("refreshReviews").addEventListener("click", loadReviews);
 
-  buildFields();
-
-  db.auth.onAuthStateChange(() => {
-    setTimeout(() => showSession(), 0);
-  });
-
-  showSession();
+buildFields();
+db.auth.onAuthStateChange(() => setTimeout(() => showSession(), 0));
+showSession();
 </script>
 </body>
 </html>
