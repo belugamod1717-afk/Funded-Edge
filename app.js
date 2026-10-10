@@ -1,11 +1,9 @@
-
 const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
 
 let allFirms = [];
 let feSupabase = null;
 let feCurrentUser = null;
-let feFavoriteIds = new Set();
 let feMemberInitPromise = null;
 
 function escapeHTML(value) {
@@ -30,7 +28,7 @@ function getNumbers(value) {
   }).filter(Number.isFinite);
 }
 
-/* MEMBER SESSION AND FAVORITES */
+/* MEMBER SESSION */
 
 async function initMemberFeatures() {
   if (feMemberInitPromise) return feMemberInitPromise;
@@ -47,80 +45,50 @@ async function initMemberFeatures() {
 
     feCurrentUser = data.session?.user || null;
 
-    if (feCurrentUser) {
-      const { data: favorites, error: favError } = await feSupabase
-        .from("favorites")
-        .select("firm_id")
-        .eq("user_id", feCurrentUser.id);
-
-      if (favError) {
-        console.error("Could not load favorites:", favError);
-      } else {
-        feFavoriteIds = new Set(
-          (favorites || []).map(item => String(item.firm_id))
-        );
-      }
-    }
+    renderAuthArea();
   })().catch(error => {
     console.error("Member features initialization failed:", error);
+    renderAuthArea();
   });
 
   return feMemberInitPromise;
 }
 
-async function toggleFavorite(firmId, button) {
-  await initMemberFeatures();
+/* AUTH NAV */
 
-  if (!feSupabase) {
-    alert("Could not connect to favorites. Please refresh and try again.");
-    return;
-  }
+function getDashboardUrl() {
+  return "dashboard.html";
+}
 
-  if (!feCurrentUser) {
-    const page = window.location.pathname.split("/").pop() || "directory.html";
-    window.location.href = "auth.html?next=" +
-      encodeURIComponent(page + window.location.search);
-    return;
-  }
+function getAuthUrl(mode) {
+  const page = window.location.pathname.split("/").pop() || "index.html";
+  const next = encodeURIComponent(page + window.location.search);
+  return `auth.html?mode=${mode}&next=${next}`;
+}
 
-  button.disabled = true;
+function renderAuthArea() {
+  const area = document.getElementById("feAuthArea");
+  if (!area) return;
 
-  try {
-    const id = String(firmId);
+  if (feCurrentUser) {
+    const name =
+      feCurrentUser.user_metadata?.full_name ||
+      feCurrentUser.user_metadata?.name ||
+      feCurrentUser.email ||
+      "Account";
+    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
 
-    if (feFavoriteIds.has(id)) {
-      const { error } = await feSupabase
-        .from("favorites")
-        .delete()
-        .eq("user_id", feCurrentUser.id)
-        .eq("firm_id", firmId);
-
-      if (error) throw error;
-
-      feFavoriteIds.delete(id);
-      button.textContent = "♡ Save";
-      button.classList.remove("is-saved");
-      button.setAttribute("aria-pressed", "false");
-    } else {
-      const { error } = await feSupabase
-        .from("favorites")
-        .insert({
-          user_id: feCurrentUser.id,
-          firm_id: firmId
-        });
-
-      if (error) throw error;
-
-      feFavoriteIds.add(id);
-      button.textContent = "♥ Saved";
-      button.classList.add("is-saved");
-      button.setAttribute("aria-pressed", "true");
-    }
-  } catch (error) {
-    console.error("Favorite update failed:", error);
-    alert("Couldn't update favorites. Please check your connection and try again.");
-  } finally {
-    button.disabled = false;
+    area.innerHTML = `
+      <a class="fe-user-chip" href="${getDashboardUrl()}">
+        <span class="fe-user-initial">${escapeHTML(initial)}</span>
+        <span>Dashboard</span>
+      </a>
+    `;
+  } else {
+    area.innerHTML = `
+      <a class="nav-cta fe-auth-signin" href="${getAuthUrl("signin")}">Sign In</a>
+      <a class="nav-cta fe-auth-signup" href="${getAuthUrl("signup")}">Sign Up</a>
+    `;
   }
 }
 
@@ -414,33 +382,6 @@ function injectDirectoryStyles() {
       transform: translateY(-1px);
     }
 
-    #firmsGrid .fe-favorite-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 12px;
-      border: 1px solid #315343;
-      border-radius: 9px;
-      background: #102219;
-      color: #d8e9dd;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    #firmsGrid .fe-favorite-button:hover,
-    #firmsGrid .fe-favorite-button.is-saved {
-      border-color: #72f0a8;
-      background: #183b27;
-      color: #8ff4b5;
-    }
-
-    #firmsGrid .fe-favorite-button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
     #firmsGrid .fe-no-results {
       grid-column: 1 / -1;
       padding: 35px 20px;
@@ -470,7 +411,6 @@ function injectDirectoryStyles() {
       #firmsGrid .firm-stats strong { font-size: 13px; }
       #firmsGrid .firm-price { font-size: 15px; }
       #firmsGrid .firm-button { padding: 10px 11px; }
-      #firmsGrid .fe-favorite-button { padding: 10px; font-size: 11px; }
     }
   `;
 
@@ -633,7 +573,6 @@ function renderFirms() {
   grid.innerHTML = firms.map(firm => {
     const domain = getLogoDomain(firm);
     const initials = getInitials(firm.name);
-    const isSaved = feFavoriteIds.has(String(firm.id));
 
     const logo = domain
       ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128"
@@ -672,24 +611,12 @@ function renderFirms() {
         <div class="firm-card-bottom">
           <span class="firm-price">${escapeHTML(firm.price || "See details")}</span>
           <div class="firm-card-actions">
-            <button class="fe-favorite-button ${isSaved ? "is-saved" : ""}"
-                    data-favorite-id="${escapeHTML(firm.id)}"
-                    type="button"
-                    aria-pressed="${isSaved ? "true" : "false"}">
-              ${isSaved ? "♥ Saved" : "♡ Save"}
-            </button>
             <a class="firm-button" href="firm.html?id=${encodeURIComponent(firm.id)}">View Firm</a>
           </div>
         </div>
       </article>
     `;
   }).join("");
-
-  grid.querySelectorAll("[data-favorite-id]").forEach(button => {
-    button.addEventListener("click", () => {
-      toggleFavorite(button.dataset.favoriteId, button);
-    });
-  });
 }
 
 async function loadFirms() {
@@ -702,13 +629,14 @@ async function loadFirms() {
   injectDirectoryStyles();
   grid.innerHTML = "<p>Loading prop firms...</p>";
 
+  renderAuthArea();
   await initMemberFeatures();
 
   try {
     const response = await fetch(
       `${SUPABASE_URL}/rest/v1/firms?select=*&status=eq.active&order=rating.desc`,
       { headers: { apikey: SUPABASE_KEY } }
-);
+    );
 
     if (!response.ok) {
       throw new Error(`Supabase ${response.status}: ${await response.text()}`);
@@ -727,4 +655,4 @@ async function loadFirms() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadFirms); 
+document.addEventListener("DOMContentLoaded", loadFirms);
