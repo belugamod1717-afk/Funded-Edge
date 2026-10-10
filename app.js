@@ -108,11 +108,45 @@ function injectDirectoryStyles() {
       align-items: stretch;
     }
 
+    /* Mobile filter toggle button (hidden on desktop) */
+    .fe-filters-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin: 18px 0 0;
+      padding: 14px;
+      border: 1px solid #315343;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #102219, #0a1510);
+      color: #8ff4b5;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .fe-filters-toggle:hover {
+      border-color: #72f0a8;
+      background: #183b27;
+    }
+
+    .fe-filters-toggle .fe-caret {
+      display: inline-block;
+      transition: transform .2s;
+      font-size: 11px;
+    }
+
+    .fe-filters-toggle.is-open .fe-caret {
+      transform: rotate(180deg);
+    }
+
     .fe-filters {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
       gap: 12px;
-      margin: 24px 0;
+      margin: 14px 0 24px;
       padding: 20px;
       border: 1px solid #254634;
       border-radius: 16px;
@@ -399,10 +433,37 @@ function injectDirectoryStyles() {
       #firmsGrid { grid-template-columns: 1fr; gap: 15px; }
       #firmsGrid .firm-card { padding: 20px; }
       #firmsGrid .firm-description { min-height: 0; }
+
+      /* Show the toggle button on mobile */
+      .fe-filters-toggle { display: flex; }
+
+      /* Collapse filters by default on mobile */
+      .fe-filters {
+        grid-template-columns: 1fr;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        margin: 0;
+        border-width: 0;
+        opacity: 0;
+        transition:
+          max-height .35s ease,
+          padding .3s ease,
+          opacity .25s ease,
+          margin .3s ease,
+          border-width .2s ease;
+      }
+
+      .fe-filters.is-open {
+        max-height: 1200px;
+        padding: 20px;
+        margin: 12px 0 24px;
+        border-width: 1px;
+        opacity: 1;
+      }
     }
 
     @media (max-width:480px) {
-      .fe-filters { grid-template-columns: 1fr; padding: 14px; }
       #firmsGrid .firm-card { padding: 17px; border-radius: 14px; }
       #firmsGrid .firm-card h3 { font-size: 19px; }
       #firmsGrid .firm-logo { width: 46px; height: 46px; border-radius: 11px; }
@@ -422,6 +483,10 @@ function createFilters(grid) {
 
   const wrapper = document.createElement("section");
   wrapper.innerHTML = `
+    <button class="fe-filters-toggle" id="feFiltersToggle" type="button" aria-expanded="false" aria-controls="feFilters">
+      <span>🔍 Filters</span>
+      <span class="fe-caret">▼</span>
+    </button>
     <div class="fe-filters" id="feFilters">
       <div>
         <label class="fe-filter-label" for="feSearch">Search firms</label>
@@ -489,6 +554,19 @@ function createFilters(grid) {
     wrapper.querySelector("#fePrice").value = "999999";
     wrapper.querySelector("#feSort").value = "rating";
     renderFirms();
+  });
+
+  /* Collapsible filter toggle (mobile only) */
+  const toggleBtn = wrapper.querySelector("#feFiltersToggle");
+  const filtersPanel = wrapper.querySelector("#feFilters");
+
+  toggleBtn.addEventListener("click", () => {
+    const isOpen = filtersPanel.classList.toggle("is-open");
+    toggleBtn.classList.toggle("is-open", isOpen);
+    toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+
+    const label = toggleBtn.querySelector("span");
+    if (label) label.textContent = isOpen ? "✕ Hide filters" : "🔍 Filters";
   });
 }
 
