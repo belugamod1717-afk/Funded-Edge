@@ -1,1 +1,280 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Compare — FundedEdge</title><link rel="stylesheet" href="style.css"></head><body><header class="nav container"><a class="brand" href="index.html">Funded<span>Edge</span></a><nav class="navlinks"><a href="directory.html">Prop Firms</a><a href="compare.html">Compare</a><a href="admin.html">Admin</a></nav></header><main class="section container"><div class="sectionhead"><div><div class="eyebrow">Side-by-side</div><h2>Prop firm comparison</h2></div><a class="btn" href="directory.html">Add firms</a></div><div id="wrap"></div></main><script src="app.js"></script><script>function renderCompare(){let a=firms().filter(f=>compareIds().includes(f.id));if(!a.length){wrap.innerHTML='<div class="empty">No firms selected. Go to the directory and click Compare.</div>';return}let rows=[['Account sizes','sizes'],['Price','price'],['Profit target','target'],['Daily drawdown','dailyDD'],['Maximum drawdown','maxDD'],['Profit split','split'],['Payout','payout'],['Platforms','platforms'],['Rating','rating']];wrap.innerHTML='<div class="tablewrap"><table class="compare"><thead><tr><th>Feature</th>'+a.map(f=>'<th>'+esc(f.name)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr><td>'+r[0]+'</td>'+a.map(f=>'<td>'+esc(f[r[1]])+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><br><button class="btn btn-danger" id="clear">Clear comparison</button>';document.getElementById('clear').onclick=()=>{localStorage.removeItem(COMPARE_KEY);renderCompare()}}renderCompare();document.addEventListener('fundededge-firms-updated',renderCompare);</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Compare — FundedEdge</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .compare-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .compare-picker select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #315343;
+      background: #0d1b15;
+      color: #f1f7f3;
+    }
+    .compare-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .compare-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #274735;
+      border-radius: 14px;
+      margin-top: 20px;
+    }
+    .compare-table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      background: #0d1b15;
+      color: #eaf5ed;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #274735;
+    }
+    .compare-table th {
+      background: #14291d;
+      color: #82edaa;
+    }
+    .compare-table td:first-child {
+      font-weight: 700;
+      color: #b6cabb;
+    }
+    .compare-table tr:last-child td { border-bottom: 0; }
+    .compare-status {
+      padding: 18px;
+      margin: 16px 0;
+      border-radius: 10px;
+      background: #102219;
+      color: #b6cabb;
+      overflow-wrap: anywhere;
+    }
+    .compare-status.error { color: #ffb7b7; }
+    .compare-status.success { color: #82edaa; }
+    .compare-remove {
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<header class="nav container">
+  <a class="brand" href="index.html">Funded<span>Edge</span></a>
+  <nav class="navlinks">
+    <a href="directory.html">Prop Firms</a>
+    <a href="compare.html">Compare</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<main class="section container">
+  <div class="sectionhead">
+    <div>
+      <div class="eyebrow">Side-by-side</div>
+      <h2>Prop firm comparison</h2>
+      <p>Select up to three firms to compare their trading conditions.</p>
+    </div>
+    <a class="btn" href="directory.html">Browse firms</a>
+  </div>
+
+  <div id="status" class="compare-status">Loading prop firms...</div>
+
+  <div class="compare-picker">
+    <select id="firm1" aria-label="First prop firm">
+      <option value="">Choose first firm</option>
+    </select>
+    <select id="firm2" aria-label="Second prop firm">
+      <option value="">Choose second firm</option>
+    </select>
+    <select id="firm3" aria-label="Third prop firm">
+      <option value="">Choose third firm (optional)</option>
+    </select>
+  </div>
+
+  <div class="compare-actions">
+    <button class="btn" id="compareBtn" type="button">Compare firms</button>
+    <button class="btn" id="clearBtn" type="button">Clear selection</button>
+  </div>
+
+  <div id="wrap"></div>
+</main>
+
+<script>
+const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+const STORAGE_KEY = "fundededge_compare_ids";
+
+let availableFirms = [];
+
+function safe(value) {
+  return String(value ?? "—").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[c]);
+}
+
+function status(message, type = "") {
+  const el = document.getElementById("status");
+  el.className = "compare-status " + type;
+  el.textContent = message;
+}
+
+async function loadComparisonFirms() {
+  try {
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/firms?select=*&status=eq.active&order=rating.desc",
+      { headers: { apikey: SUPABASE_KEY } }
+    );
+
+    if (!response.ok) {
+      throw new Error("Database returned HTTP " + response.status +
+        ". Check the Supabase table and read permissions.");
+    }
+
+    availableFirms = await response.json();
+
+    if (!Array.isArray(availableFirms)) {
+      throw new Error("Unexpected response from the database.");
+    }
+
+    ["firm1", "firm2", "firm3"].forEach(id => {
+      const select = document.getElementById(id);
+      availableFirms.forEach(firm => {
+        const option = document.createElement("option");
+        option.value = String(firm.id);
+        option.textContent = firm.name || "Unnamed firm";
+        select.appendChild(option);
+      });
+    });
+
+    let saved = [];
+    try {
+      saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (!Array.isArray(saved)) saved = [];
+    } catch (_) {}
+
+    // Also accept firm IDs passed from the directory URL.
+    const params = new URLSearchParams(location.search);
+    const urlIds = params.getAll("id");
+    const requestedIds = urlIds.length ? urlIds : saved;
+
+    ["firm1", "firm2", "firm3"].forEach((id, index) => {
+      const value = String(requestedIds[index] ?? "");
+      if (value && [...document.getElementById(id).options]
+        .some(option => option.value === value)) {
+        document.getElementById(id).value = value;
+      }
+    });
+
+    status(
+      availableFirms.length
+        ? "Loaded " + availableFirms.length + " active prop firms."
+        : "No active firms were returned. Check that your firms are approved and have status set to active.",
+      availableFirms.length ? "success" : ""
+    );
+
+    renderComparison();
+  } catch (error) {
+    console.error("FundedEdge comparison error:", error);
+    status("Couldn't load firms: " + error.message, "error");
+  }
+}
+
+function renderComparison() {
+  const selectedIds = ["firm1", "firm2", "firm3"]
+    .map(id => document.getElementById(id).value)
+    .filter(Boolean);
+
+  const uniqueIds = [...new Set(selectedIds)];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(uniqueIds));
+
+  const selected = uniqueIds.map(id =>
+    availableFirms.find(firm => String(firm.id) === id)
+  ).filter(Boolean);
+
+  const wrap = document.getElementById("wrap");
+
+  if (!selected.length) {
+    wrap.innerHTML =
+      '<div class="compare-status">Choose firms above, then click Compare firms.</div>';
+    return;
+  }
+
+  const fields = [
+    ["Category", ["category"]],
+    ["Account sizes", ["account_sizes", "sizes"]],
+    ["Starting price", ["price"]],
+    ["Profit target", ["profit_target", "target"]],
+    ["Daily drawdown", ["daily_drawdown", "dailyDD"]],
+    ["Maximum drawdown", ["max_drawdown", "maxDD"]],
+    ["Profit split", ["profit_split", "split"]],
+    ["Payout", ["payout"]],
+    ["Platforms", ["platforms"]],
+    ["Rating", ["rating"]]
+  ];
+
+  function getField(firm, keys) {
+    for (const key of keys) {
+      if (firm[key] !== undefined && firm[key] !== null &&
+          firm[key] !== "") {
+        return String(firm[key]);
+      }
+    }
+    return "—";
+  }
+
+  wrap.innerHTML = `
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            ${selected.map(firm =>
+              `<th>${safe(firm.name)}</th>`
+            ).join("")}
+          </tr>
+        </thead>
+        <tbody>
+          ${fields.map(([label, keys]) => `
+            <tr>
+              <td>${safe(label)}</td>
+              ${selected.map(firm =>
+                `<td>${safe(getField(firm, keys))}</td>`
+              ).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+document.getElementById("compareBtn")
+  .addEventListener("click", renderComparison);
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  ["firm1", "firm2", "firm3"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  localStorage.removeItem(STORAGE_KEY);
+  renderComparison();
+});
+
+loadComparisonFirms();
+</script>
+</body>
+</html>
