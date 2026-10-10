@@ -547,4 +547,402 @@ h2{
   -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
 }
 .bottom-cta::after{
-  content:"";position:absolute;top
+  content:"";position:absolute;top:-50%;left:-20%;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(114,240,168,.15),transparent 70%);
+  animation:glowPulse 6s ease-in-out infinite;
+  pointer-events:none;
+}
+.bottom-cta h2{font-size:32px;margin:0 0 10px;letter-spacing:-.8px}
+.bottom-cta p{color:var(--muted);font-size:14.5px;margin:0;max-width:520px;line-height:1.7}
+
+/* ======================== FAQ ======================== */
+.faq-list{display:grid;gap:13px;max-width:900px;margin:36px auto 0}
+.faq-item{
+  background:linear-gradient(145deg,#102219,#0b1710);
+  border:1px solid #24402e;border-radius:15px;
+  overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1);
+}
+.faq-item:hover,.faq-item[open]{border-color:rgba(114,240,168,.5);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.faq-item:hover{transform:translateX(6px)}
+.faq-item summary{
+  position:relative;padding:22px 60px 22px 24px;
+  cursor:pointer;list-style:none;color:#f0f8f2;
+  font-family:Manrope,sans-serif;font-size:15px;font-weight:700;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{
+  content:"+";position:absolute;right:22px;top:50%;
+  transform:translateY(-50%);color:var(--green);
+  font-size:26px;font-weight:300;transition:transform .3s;
+}
+.faq-item[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg)}
+.faq-answer{padding:0 24px 24px;color:#a5b9ab;font-size:14px;line-height:1.85;max-width:800px}
+
+/* ======================== FOOTER ======================== */
+footer{border-top:1px solid var(--border);padding:32px 0;margin-top:70px;position:relative;z-index:1}
+.footer-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:15px;color:#8da393;font-size:12px}
+.footer-links{display:flex;gap:18px}
+.footer-links a{transition:color .2s}
+.footer-links a:hover{color:var(--green)}
+
+/* ======================== RESPONSIVE ======================== */
+@media(max-width:850px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-visual{height:340px}
+  .features{grid-template-columns:1fr}
+  .bottom-cta{flex-direction:column;align-items:flex-start;padding:32px 26px}
+  .stats-band{grid-template-columns:1fr;gap:12px}
+  .fe-filters-toggle{display:flex}
+  .fe-filters{grid-template-columns:1fr;max-height:0;overflow:hidden;padding:0 20px;margin:0;border-width:0;opacity:0;transition:max-height .35s ease,padding .35s ease,opacity .25s ease,margin .35s ease,border-width .2s ease}
+  .fe-filters.is-open{max-height:900px;padding:20px;margin:12px 0 24px;border-width:1px;opacity:1}
+}
+@media(max-width:700px){
+  .nav-inner{min-height:66px}
+  .nav-links{gap:12px;font-size:12px}
+  .nav-links .hide-mobile{display:none}
+  .nav-cta{padding:9px 11px;font-size:12px}
+  .fe-auth-area{gap:6px}
+  .fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup,.fe-auth-area .fe-user-chip{padding:8px 10px;font-size:12px}
+  .logo{font-size:19px}
+  .logo-mark{width:33px;height:33px}
+  .hero{padding:70px 0 50px}
+  .hero p{font-size:15px}
+  .stat{padding:18px 20px}
+  .section{padding:36px 0 50px}
+  .section-head{flex-direction:column;align-items:flex-start}
+  .faq-item summary{padding:18px 50px 18px 18px;font-size:14px}
+  .faq-answer{padding:0 18px 18px;font-size:13px}
+  .chart-badges{flex-direction:column;gap:8px;bottom:14px;left:14px;right:14px}
+  .chart-badge{padding:9px 12px}
+}
+@media(max-width:480px){
+  .hero h1{letter-spacing:-.7px}
+  .bottom-cta h2{font-size:24px}
+  .footer-inner{align-items:flex-start;flex-direction:column}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .cursor-glow,.particles{display:none}
+}
+</style>
+</head>
+
+<body>
+<div class="ambient"><div class="grid-bg"></div></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="particles" id="particles"></div>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="/" aria-label="FundedEdge homepage">
+      <div class="logo-mark">F</div>
+      Funded<span>Edge</span>
+    </a>
+    <nav class="nav-links">
+      <a href="directory.html">Directory</a>
+      <a class="hide-mobile" href="compare.html">Compare</a>
+      <a class="hide-mobile" href="#why-us">Why FundedEdge</a>
+      <a class="hide-mobile" href="#faq">FAQ</a>
+      <div id="feAuthArea" class="fe-auth-area">
+        <a class="nav-cta fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
+        <a class="nav-cta fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span>YOUR EDGE STARTS HERE</div>
+        <h1>Find the right prop firm.<br><span class="gradient">Trade with confidence.</span></h1>
+        <p>Compare proprietary trading firms in one place. Explore account sizes, trading rules, profit splits, and payout options to find a firm that fits your strategy.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#directory">Explore Prop Firms <span class="arrow">→</span></a>
+          <a class="secondary-btn" href="#why-us">How it works</a>
+        </div>
+        <div class="trust-line">
+          <span>Compare trading rules</span>
+          <span>Explore account options</span>
+          <span>Research before you buy</span>
+        </div>
+      </div>
+
+      <!-- ========== HERO VISUAL: LIVE-STYLE CHART ========== -->
+      <div class="hero-visual">
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+
+        <div class="chart-panel">
+          <div class="chart-header">
+            <div class="title"><span class="live-dot"></span>FTMO · PROGRESS</div>
+            <div class="value" id="chartValue">+94.2%</div>
+          </div>
+
+          <svg class="chart-svg" viewBox="0 0 400 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lineGradient" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stop-color="#35c878"/>
+                <stop offset="50%" stop-color="#72f0a8"/>
+                <stop offset="100%" stop-color="#a4ffc5"/>
+              </linearGradient>
+              <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="rgba(114,240,168,.35)"/>
+                <stop offset="100%" stop-color="rgba(114,240,168,0)"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Grid -->
+            <g class="chart-grid" stroke-width="1">
+              <line x1="0" y1="55" x2="400" y2="55"/>
+              <line x1="0" y1="110" x2="400" y2="110"/>
+              <line x1="0" y1="165" x2="400" y2="165"/>
+              <line x1="100" y1="0" x2="100" y2="220"/>
+              <line x1="200" y1="0" x2="200" y2="220"/>
+              <line x1="300" y1="0" x2="300" y2="220"/>
+            </g>
+
+            <!-- Area fill -->
+            <path class="chart-area"
+                  d="M 20,180 C 80,160 120,140 180,120 S 300,60 380,40 L 380,220 L 20,220 Z"/>
+
+            <!-- Line -->
+            <path class="chart-line"
+                  d="M 20,180 C 80,160 120,140 180,120 S 300,60 380,40"/>
+
+            <!-- Travel dot -->
+            <circle class="travel-dot" r="5" cx="20" cy="180"/>
+          </svg>
+
+          <div class="chart-badges">
+            <div class="chart-badge"><small>Win rate</small><strong class="up">68%</strong></div>
+            <div class="chart-badge"><small>Avg payout</small><strong class="up">$4.2K</strong></div>
+            <div class="chart-badge"><small>Active firms</small><strong id="firmCount">—</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="stats-band reveal-stagger" aria-label="Platform highlights">
+      <div class="stat">
+        <div class="icon">⌕</div>
+        <strong>Compare</strong>
+        <span>Key firm rules side by side in one clean table</span>
+      </div>
+      <div class="stat">
+        <div class="icon">◇</div>
+        <strong>Discover</strong>
+        <span>Firms matched to your strategy and account size</span>
+      </div>
+      <div class="stat">
+        <div class="icon">↗</div>
+        <strong>Decide</strong>
+        <span>Research before you buy with verified data</span>
+      </div>
+    </section>
+
+    <section class="section reveal" id="directory">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">The directory</div>
+          <h2>Find your trading edge</h2>
+          <p>Search and compare firms based on the details that matter to you.</p>
+        </div>
+        <div class="section-note">Explore available firms ↓</div>
+      </div>
+      <div id="firmsGrid" class="firm-grid"></div>
+    </section>
+
+    <section class="section reveal" id="why-us">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Built for traders</div>
+          <h2>Research smarter. Choose carefully.</h2>
+          <p>The essential information, organized to make comparisons easier.</p>
+        </div>
+      </div>
+      <div class="features reveal-stagger">
+        <article class="feature">
+          <div class="feature-icon">⌕</div>
+          <h3>Easy comparison</h3>
+          <p>Find firms and narrow your choices with search and filtering tools designed for speed.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">◇</div>
+          <h3>Rules at a glance</h3>
+          <p>Review drawdown limits, profit targets, account sizes, and payout details in one view.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">↗</div>
+          <h3>Direct firm links</h3>
+          <p>Visit a firm's website to confirm its latest terms before purchasing anything.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bottom-cta reveal">
+      <div>
+        <h2>Your next step starts with research.</h2>
+        <p>Explore the directory and compare your options — no sign-up required to browse.</p>
+      </div>
+      <a class="primary-btn" href="#directory">Browse Directory <span class="arrow">→</span></a>
+    </section>
+
+    <section class="section reveal" id="faq">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Got questions?</div>
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about FundedEdge and prop firms.</p>
+        </div>
+      </div>
+
+      <div class="faq-list reveal-stagger">
+        <details class="faq-item"><summary>What is FundedEdge?</summary><div class="faq-answer">FundedEdge is an independent directory that helps traders research and compare proprietary trading firms, their account options, trading rules, profit splits, and payout policies.</div></details>
+        <details class="faq-item"><summary>What is a prop trading firm?</summary><div class="faq-answer">A proprietary trading firm provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, traders may need to complete an evaluation or qualify for a particular account type.</div></details>
+        <details class="faq-item"><summary>How do I choose the right prop firm?</summary><div class="faq-answer">Compare account prices, drawdown limits, profit targets, payout conditions, trading restrictions, and the firm's reputation. Choose rules that suit your trading strategy and risk management.</div></details>
+        <details class="faq-item"><summary>Does FundedEdge sell funded accounts?</summary><div class="faq-answer">FundedEdge is a research and comparison directory. Visit the relevant firm's official website to review its current account options and purchase conditions.</div></details>
+        <details class="faq-item"><summary>Are prop firm rules and prices always up to date?</summary><div class="faq-answer">Prop firms can change their prices, rules, and payout policies. Always verify the latest terms on the firm's official website before making a purchase.</div></details>
+        <details class="faq-item"><summary>Does FundedEdge guarantee payouts or profits?</summary><div class="faq-answer">No. FundedEdge does not guarantee trading profits, account approval, or payouts. Trading involves risk, and each firm's terms and eligibility requirements apply.</div></details>
+        <details class="faq-item"><summary>How can I visit a prop firm's website?</summary><div class="faq-answer">Browse the directory, select a firm, and use its official website link where available. Check the firm's own website to confirm its rules, pricing, and eligibility requirements.</div></details>
+        <details class="faq-item"><summary>Is FundedEdge affiliated with every listed firm?</summary><div class="faq-answer">FundedEdge is intended as an independent research directory. A listing alone does not mean that a firm endorses or is affiliated with FundedEdge.</div></details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <a class="logo" href="/" style="font-size:17px">
+      <div class="logo-mark" style="width:29px;height:29px;font-size:16px">F</div>
+      Funded<span>Edge</span>
+    </a>
+    <span>Independent research tool. Trading involves risk.</span>
+    <div class="footer-links">
+      <a href="directory.html">Directory</a>
+      <a href="#why-us">About</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =================== CURSOR GLOW =================== */
+(function(){
+  const glow = document.getElementById("cursorGlow");
+  if (!glow || window.matchMedia("(hover: none)").matches) return;
+  let mouseX = 0, mouseY = 0;
+  let glowX = 0, glowY = 0;
+  document.addEventListener("mousemove", e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  function animate(){
+    glowX += (mouseX - glowX) * 0.12;
+    glowY += (mouseY - glowY) * 0.12;
+    glow.style.transform = `translate(${glowX}px, ${glowY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* =================== FLOATING PARTICLES =================== */
+(function(){
+  const host = document.getElementById("particles");
+  if (!host) return;
+  const count = window.innerWidth < 700 ? 12 : 24;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.bottom = "-20px";
+    p.style.animationDelay = (Math.random() * 12) + "s";
+    p.style.animationDuration = (10 + Math.random() * 8) + "s";
+    p.style.opacity = 0.3 + Math.random() * 0.6;
+    const size = 2 + Math.random() * 4;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+    host.appendChild(p);
+  }
+})();
+
+/* =================== SCROLL REVEAL =================== */
+(function(){
+  const els = document.querySelectorAll(".reveal, .reveal-stagger");
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(e => e.classList.add("in"));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add("in");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+  els.forEach(el => io.observe(el));
+})();
+
+/* =================== LIVE CHART VALUE =================== */
+(function(){
+  const el = document.getElementById("chartValue");
+  if (!el) return;
+  let base = 94.2;
+  setInterval(() => {
+    base += (Math.random() - 0.5) * 0.6;
+    if (base < 88) base = 90;
+    if (base > 99) base = 97;
+    el.textContent = (base >= 0 ? "+" : "") + base.toFixed(1) + "%";
+  }, 2200);
+})();
+
+/* =================== LIVE FIRM COUNT (once app.js loads) =================== */
+(function(){
+  const el = document.getElementById("firmCount");
+  if (!el) return;
+  let tries = 0;
+  const t = setInterval(() => {
+    tries++;
+    if (window.allFirms && Array.isArray(window.allFirms) && window.allFirms.length) {
+      el.textContent = window.allFirms.length;
+      clearInterval(t);
+    } else if (tries > 20) {
+      el.textContent = "10+";
+      clearInterval(t);
+    }
+  }, 300);
+})();
+
+/* =================== 3D TILT ON CARDS =================== */
+(function(){
+  if (window.matchMedia("(hover: none)").matches) return;
+  function attachTilt(el){
+    el.addEventListener("mousemove", e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-6px)`;
+    });
+    el.addEventListener("mouseleave", () => {
+      el.style.transform = "";
+    });
+  }
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(".stat, .feature").forEach(el => {
+      if (!el.dataset.tilt) { el.dataset.tilt = "1"; attachTilt(el); }
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+
+<script src="app.js"></script>
+</body>
+</html>
