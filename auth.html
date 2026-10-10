@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07110e">
+  <title>Account | FundedEdge</title>
+  <style>
+    :root {
+      --bg: #07110e;
+      --panel: #101c17;
+      --border: #263a30;
+      --green: #45e0a0;
+      --text: #f2f8f4;
+      --muted: #9aada3;
+      --red: #ff8585;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at top, #153528 0%, var(--bg) 58%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .wrap { width: 100%; max-width: 440px; }
+    .brand {
+      text-align: center;
+      margin-bottom: 26px;
+      font-size: 27px;
+      font-weight: 850;
+      letter-spacing: -1px;
+    }
+    .brand span { color: var(--green); }
+    .card {
+      padding: 30px;
+      background: rgba(16, 28, 23, .96);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px #0005;
+    }
+    h1 { margin: 0 0 8px; font-size: 27px; }
+    .sub { color: var(--muted); line-height: 1.6; margin: 0 0 24px; }
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 12px;
+      background: #08120e;
+      margin-bottom: 22px;
+    }
+    .tabs button {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      background: #1a3528;
+      color: var(--green);
+    }
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #dbe9e0;
+    }
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #09130f;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px #45e0a018;
+    }
+    .primary {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      margin-top: 22px;
+      padding: 14px;
+      background: var(--green);
+      color: #062116;
+      font-weight: 850;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .primary:disabled { opacity: .6; cursor: wait; }
+    .secondary {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .message {
+      display: none;
+      margin-top: 17px;
+      padding: 12px;
+      border-radius: 10px;
+      line-height: 1.5;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+    .message.show { display: block; }
+    .message.success { background: #153729; color: #8df0bd; }
+    .message.error { background: #3a2020; color: var(--red); }
+    .links {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+      font-size: 13px;
+    }
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .small { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 18px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 420px) {
+      .card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand">Funded<span>Edge</span></div>
+
+    <section class="card">
+      <div id="authPanel">
+        <h1 id="heading">Welcome back</h1>
+        <p class="sub" id="subtitle">Log in to access your FundedEdge account.</p>
+
+        <div class="tabs">
+          <button type="button" id="loginTab" class="active">Log in</button>
+          <button type="button" id="signupTab">Create account</button>
+        </div>
+
+        <form id="authForm">
+          <div id="nameField" hidden>
+            <label for="fullName">Your name</label>
+            <input id="fullName" type="text" maxlength="80"
+                   autocomplete="name" placeholder="Your name">
+          </div>
+
+          <label for="email">Email address</label>
+          <input id="email" type="email" required maxlength="254"
+                 autocomplete="email" placeholder="you@example.com">
+
+          <label for="password">Password</label>
+          <input id="password" type="password" required minlength="8"
+                 autocomplete="current-password" placeholder="At least 8 characters">
+
+          <button class="primary" id="submitButton" type="submit">Log in</button>
+        </form>
+
+        <button class="secondary" id="forgotButton" type="button">
+          Forgot password?
+        </button>
+
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+
+        <p class="small">
+          By creating an account, you agree to use FundedEdge responsibly.
+          Never share your password with anyone.
+        </p>
+      </div>
+
+      <div id="accountPanel" hidden>
+        <h1>Your account</h1>
+        <p class="sub">You are signed in to FundedEdge.</p>
+        <p id="accountEmail"></p>
+        <button class="primary" id="continueButton" type="button">
+          Continue
+        </button>
+        <button class="secondary" id="logoutButton" type="button">
+          Log out
+        </button>
+        <div id="accountMessage" class="message" role="status"></div>
+      </div>
+    </section>
+
+    <div class="links">
+      <a href="index.html">← Home</a>
+      <a href="directory.html">Browse firms →</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const $ = (id) => document.getElementById(id);
+    const params = new URLSearchParams(location.search);
+    let mode = "login";
+    let busy = false;
+
+    // Only allow redirects back to this website.
+    function getNextUrl() {
+      const next = params.get("next") || "directory.html";
+      try {
+        const target = new URL(next, location.origin);
+        if (target.origin !== location.origin ||
+            target.pathname.endsWith("/auth.html")) {
+          return "directory.html";
+        }
+        return target.pathname + target.search + target.hash;
+      } catch {
+        return "directory.html";
+      }
+    }
+
+    function showMessage(message, type = "success") {
+      const el = $("message");
+      el.textContent = message;
+      el.className = "message show " + type;
+    }
+
+    function clearMessage() {
+      $("message").className = "message";
+      $("message").textContent = "";
+    }
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      const signup = mode === "signup";
+      $("loginTab").classList.toggle("active", !signup);
+      $("signupTab").classList.toggle("active", signup);
+      $("heading").textContent = signup ? "Create your account" : "Welcome back";
+      $("subtitle").textContent = signup
+        ? "Join FundedEdge to save favorites and share reviews."
+        : "Log in to access your FundedEdge account.";
+      $("nameField").hidden = !signup;
+      $("fullName").required = signup;
+      $("password").autocomplete = signup ? "new-password" : "current-password";
+      $("submitButton").textContent = signup ? "Create account" : "Log in";
+      $("forgotButton").hidden = signup;
+      clearMessage();
+    }
+
+    function showAccount(user) {
+      $("authPanel").hidden = true;
+      $("accountPanel").hidden = false;
+      $("accountEmail").textContent = user.email || "Signed in";
+    }
+
+    function showAuth() {
+      $("authPanel").hidden = false;
+      $("accountPanel").hidden = true;
+    }
+
+    function friendlyError(error) {
+      const msg = error?.message || "Something went wrong. Please try again.";
+      if (/invalid login credentials/i.test(msg)) {
+        return "Email or password is incorrect. If you just registered, confirm your email first.";
+      }
+      if (/email not confirmed/i.test(msg)) {
+        return "Please confirm your email using the link we sent you.";
+      }
+      if (/already registered/i.test(msg)) {
+        return "This email already has an account. Try logging in instead.";
+      }
+      return msg;
+    }
+
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("signupTab").addEventListener("click", () => setMode("signup"));
+
+    $("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (busy) return;
+
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const fullName = $("fullName").value.trim();
+
+      if (password.length < 8) {
+        showMessage("Please use a password with at least 8 characters.", "error");
+        return;
+      }
+
+      if (mode === "signup" && !fullName) {
+        showMessage("Please enter your name.", "error");
+        return;
+      }
+
+      busy = true;
+      $("submitButton").disabled = true;
+      $("submitButton").textContent = "Please wait…";
+      clearMessage();
+
+      try {
+        if (mode === "signup") {
+          const { data, error } = await db.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { full_name: fullName },
+              emailRedirectTo: location.origin + location.pathname
+            }
+          });
+
+          if (error) throw error;
+
+          if (data.session && data.user) {
+            showMessage("Account created successfully!");
+            location.assign(getNextUrl());
+          } else {
+            showMessage(
+              "Account created! Check your inbox and spam folder, then click the verification link before logging in."
+            );
+          }
+        } else {
+          const { data, error } = await db.auth.signInWithPassword({
+            email, password
+          });
+          if (error) throw error;
+
+          if (!data.user?.email_confirmed_at) {
+            await db.auth.signOut();
+            showMessage("Please verify your email before continuing.", "error");
+            return;
+          }
+
+          location.assign(getNextUrl());
+        }
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      } finally {
+        busy = false;
+        $("submitButton").disabled = false;
+        $("submitButton").textContent =
+          mode === "signup" ? "Create account" : "Log in";
+      }
+    });
+
+    $("forgotButton").addEventListener("click", async () => {
+      const email = $("email").value.trim();
+      if (!email) {
+        showMessage("Enter your email address first.", "error");
+        $("email").focus();
+        return;
+      }
+
+      try {
+        const { error } = await db.auth.resetPasswordForEmail(email, {
+          redirectTo: location.origin + location.pathname
+        });
+        if (error) throw error;
+        showMessage("If an account exists for that email, a password-reset link will be sent.");
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      }
+    });
+
+    $("continueButton").addEventListener("click", () => {
+      location.assign(getNextUrl());
+    });
+
+    $("logoutButton").addEventListener("click", async () => {
+      const { error } = await db.auth.signOut();
+      if (error) {
+        $("accountMessage").textContent = error.message;
+        $("accountMessage").className = "message show error";
+        return;
+      }
+      showAuth();
+      setMode("login");
+      showMessage("You have logged out successfully.");
+    });
+
+    // Read the current session and react to future sign-in/sign-out events.
+    const { data: { session } } = await db.auth.getSession();
+
+    if (session?.user?.email_confirmed_at) {
+      showAccount(session.user);
+    } else {
+      showAuth();
+      if (params.get("verified") === "1") {
+        showMessage("Email verification complete. Please log in to continue.");
+      }
+    }
+
+    db.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.email_confirmed_at) {
+        showAccount(session.user);
+      } else {
+        showAuth();
+      }
+    });
+  </script>
+</body>
+</html>
