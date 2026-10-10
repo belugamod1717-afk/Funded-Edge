@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /auth.html
+Disallow: /admin.html
+
+Sitemap: https://e-two.vercel.app/sitemap.xml
