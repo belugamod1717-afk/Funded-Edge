@@ -412,7 +412,30 @@ async function loadFirm() {
       return;
     }
 
-    const f = firms[0];
+    const f = firms[0];// Dynamic SEO — set page title & description from firm data
+(function () {
+  const title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
+  const desc = (f.description || `Full details on ${f.name}: account sizes, profit split, drawdown rules, and trader reviews.`).slice(0, 160);
+
+  document.title = title;
+
+  function setMeta(attr, key, value) {
+    let el = document.querySelector(`meta[${attr}="${key}"]`);
+    if (!el) {
+      el = document.createElement("meta");
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute("content", value);
+  }
+
+  setMeta("name", "description", desc);
+  setMeta("property", "og:title", title);
+  setMeta("property", "og:description", desc);
+  setMeta("property", "og:url", location.href);
+  setMeta("name", "twitter:title", title);
+  setMeta("name", "twitter:description", desc);
+})();
     currentFirmId = f.id;
     const official = safeUrl(f.official_website);
     const affiliate = safeUrl(f.affiliate_link);
