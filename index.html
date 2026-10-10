@@ -418,6 +418,58 @@ button {
     width: 100%;
   }
 }
+/* Premium native select styling */
+select,
+.filters select,
+#sortBy,
+#sortSelect {
+  color: #e8f5ec !important;
+  background-color: #101c16 !important;
+  border: 1px solid #2b4937 !important;
+  border-radius: 12px !important;
+  min-height: 48px;
+  padding: 12px 40px 12px 14px !important;
+  font-size: 14px !important;
+  font-weight: 600;
+  outline: none;
+  box-shadow: none;
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+select:focus,
+.filters select:focus,
+#sortBy:focus,
+#sortSelect:focus {
+  border-color: #72f0a8 !important;
+  box-shadow: 0 0 0 3px rgba(114, 240, 168, .12) !important;
+}
+
+select option,
+.filters select option,
+#sortBy option,
+#sortSelect option {
+  background-color: #101c16;
+  color: #e8f5ec;
+  padding: 12px;
+}
+
+select optgroup {
+  background-color: #101c16;
+  color: #72f0a8;
+}
+
+@media (max-width: 600px) {
+  select,
+  .filters select,
+  #sortBy,
+  #sortSelect {
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px !important;
+  }
+}
+
 
 </style>
 </head>
