@@ -1,13 +1,31 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080a09">
-<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
-<link rel="apple-touch-icon" href="/logo.png"><title>Member Dashboard | FundedEdge</title>
-<meta name="robots" content="noindex, nofollow"><style>
+<title>Member Dashboard | FundedEdge</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
 :root{--bg:#080a09;--side:#111312;--panel:#151716;--line:#303531;--green:#35d875;--text:#f5f7f5;--muted:#a0a8a2;--red:#f16d75}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button,a,select{cursor:pointer}.top{height:78px;display:flex;align-items:center;gap:16px;padding:0 24px;border-bottom:1px solid #292d2a;background:#080a09;position:sticky;top:0;z-index:5}.toggle{width:46px;height:46px;border:1px solid #277d49;border-radius:10px;background:#101411;color:var(--green);font-size:22px}.brand{font-size:21px;font-weight:900;letter-spacing:1px}.brand span{color:var(--green)}.email{margin-left:auto;color:var(--muted);font-size:12px}.layout{display:flex;min-height:calc(100vh - 78px)}aside{width:255px;flex-shrink:0;background:var(--side);border-right:1px solid #262a27;padding:17px 13px;position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto;transition:margin .2s}aside.closed{margin-left:-255px}.navlabel{padding:14px 13px 7px;color:#747d76;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.nav{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#f1f3f1;text-align:left;padding:13px;border-radius:10px;margin:3px 0;font-size:14px}.nav:hover{background:#202521}.nav.active{background:var(--green);color:#07150b}.nav .ico{width:20px;font-size:17px}.nav.logout{margin-top:15px;color:#ffb0b4}main{padding:30px clamp(14px,3vw,36px) 55px;flex:1;min-width:0;max-width:1500px}.page{display:none}.page.active{display:block}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.7px;color:var(--green);text-transform:uppercase}h1{font-size:clamp(27px,4vw,38px);margin:7px 0}h2{font-size:19px;margin:0}.muted{font-size:13px;color:var(--muted);line-height:1.65;margin:0}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:#1a1e1b;color:var(--text);font-size:13px;font-weight:700}.btn.primary{background:var(--green);border-color:var(--green);color:#07150b}.btn.danger{color:#ffb0b4}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{background:linear-gradient(145deg,#171a18,#111312);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}.statlabel{font-size:13px;color:var(--muted)}.stat{font-size:31px;font-weight:850;margin:9px 0}.section{margin-top:22px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.list{display:grid;gap:9px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid #2b302c;background:#0d0f0e;border-radius:10px;min-width:0}.info{min-width:0;overflow-wrap:anywhere}.itemtitle{font-size:14px;font-weight:750}.item small{display:block;color:var(--muted);font-size:12px;line-height:1.6;margin-top:4px}.empty{padding:23px;text-align:center;border:1px dashed #414841;border-radius:11px;color:var(--muted);font-size:13px;line-height:1.7}.status{font-size:11px;font-weight:800;border-radius:20px;padding:5px 8px;background:#303630}.approved{background:#173c27;color:#9df0ba}.pending{background:#44371c;color:#ffe099}.rejected{background:#452326;color:#ffb4b7}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750}.field input,.field select,.field textarea{width:100%;min-width:0;padding:11px;border-radius:9px;border:1px solid #3b423c;background:#0b0d0c;color:var(--text)}.field textarea{min-height:85px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.notice{padding:12px;border-radius:9px;background:#16271d;color:#b5f5ca;font-size:13px;margin:12px 0}.error{padding:12px;border-radius:9px;background:#452326;color:#ffb4b7;margin-bottom:14px}.pos{color:#8ff0ad}.neg{color:#ff9ea4}footer{text-align:center;padding:20px;color:#727b75;border-top:1px solid #242825;font-size:11px}#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1b2b20;border:1px solid #39784d;padding:12px 16px;border-radius:10px;z-index:20;font-size:13px;max-width:90vw}[hidden]{display:none!important}
-@media(max-width:800px){aside{position:fixed;top:78px;bottom:0;height:auto;z-index:10;box-shadow:12px 0 35px #0008}aside.closed{margin-left:-270px}.cards{grid-template-columns:1fr}main{padding:23px 13px 40px}.top{padding:0 13px}.email{font-size:10px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button,a,select{cursor:pointer}.top{height:78px;display:flex;align-items:center;gap:16px;padding:0 24px;border-bottom:1px solid #292d2a;background:#080a09;position:sticky;top:0;z-index:5}.toggle{width:46px;height:46px;border:1px solid #277d49;border-radius:10px;background:#101411;color:var(--green);font-size:22px}.brand{font-size:21px;font-weight:900;letter-spacing:1px}.brand span{color:var(--green)}.email{margin-left:auto;color:var(--muted);font-size:12px}.layout{display:flex;min-height:calc(100vh - 78px)}aside{width:255px;flex-shrink:0;background:var(--side);border-right:1px solid #262a27;padding:17px 13px;position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto;transition:margin .2s}aside.closed{margin-left:-255px}.navlabel{padding:14px 13px 7px;color:#747d76;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.nav{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#f1f3f1;text-align:left;padding:13px;border-radius:10px;margin:3px 0;font-size:14px}.nav:hover{background:#202521}.nav.active{background:var(--green);color:#07150b}.nav .ico{width:20px;font-size:17px}.nav.logout{margin-top:15px;color:#ffb0b4}main{padding:30px clamp(14px,3vw,36px) 55px;flex:1;min-width:0;max-width:1500px}.page{display:none}.page.active{display:block}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.7px;color:var(--green);text-transform:uppercase}h1{font-size:clamp(27px,4vw,38px);margin:7px 0}h2{font-size:19px;margin:0}.muted{font-size:13px;color:var(--muted);line-height:1.65;margin:0}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:#1a1e1b;color:var(--text);font-size:13px;font-weight:700;text-decoration:none}.btn.primary{background:var(--green);border-color:var(--green);color:#07150b}.btn.danger{color:#ffb0b4}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{background:linear-gradient(145deg,#171a18,#111312);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}.statlabel{font-size:13px;color:var(--muted)}.stat{font-size:31px;font-weight:850;margin:9px 0}.section{margin-top:22px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.list{display:grid;gap:9px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid #2b302c;background:#0d0f0e;border-radius:10px;min-width:0}.info{min-width:0;overflow-wrap:anywhere}.itemtitle{font-size:14px;font-weight:750}.item small{display:block;color:var(--muted);font-size:12px;line-height:1.6;margin-top:4px}.empty{padding:23px;text-align:center;border:1px dashed #414841;border-radius:11px;color:var(--muted);font-size:13px;line-height:1.7}.status{font-size:11px;font-weight:800;border-radius:20px;padding:5px 8px;background:#303630}.approved{background:#173c27;color:#9df0ba}.pending{background:#44371c;color:#ffe099}.rejected{background:#452326;color:#ffb4b7}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750}.field input,.field select,.field textarea{width:100%;min-width:0;padding:11px;border-radius:9px;border:1px solid #3b423c;background:#0b0d0c;color:var(--text)}.field textarea{min-height:85px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.notice{padding:12px;border-radius:9px;background:#16271d;color:#b5f5ca;font-size:13px;margin:12px 0}.error{padding:12px;border-radius:9px;background:#452326;color:#ffb4b7;margin-bottom:14px}.pos{color:#8ff0ad}.neg{color:#ff9ea4}footer{text-align:center;padding:20px;color:#727b75;border-top:1px solid #242825;font-size:11px}#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1b2b20;border:1px solid #39784d;padding:12px 16px;border-radius:10px;z-index:20;font-size:13px;max-width:90vw}[hidden]{display:none!important}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fav-card{display:flex;flex-direction:column;border:1px solid #2b302c;background:linear-gradient(145deg,#161a17,#0e100f);border-radius:14px;padding:18px;min-width:0;transition:transform .18s ease,border-color .18s ease}
+.fav-card:hover{transform:translateY(-3px);border-color:#3d9460}
+.fav-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.fav-name{font-size:17px;font-weight:800;margin:0;overflow-wrap:anywhere}
+.fav-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.8px;padding:4px 8px;border-radius:6px;background:rgba(53,216,117,.14);color:#8df0b5;border:1px solid #235c3b;margin-bottom:8px;text-transform:uppercase}
+.fav-rating{flex-shrink:0;padding:5px 9px;border-radius:8px;background:#2a240e;color:#f5d77b;font-size:12px;font-weight:800;border:1px solid #4a4127}
+.fav-desc{color:var(--muted);font-size:12.5px;line-height:1.6;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.fav-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.fav-stat{padding:9px 10px;border:1px solid #262a27;background:#0a0c0b;border-radius:8px;min-width:0}
+.fav-stat small{display:block;color:#8a938c;font-size:10px;margin-bottom:3px;letter-spacing:.3px}
+.fav-stat strong{display:block;color:#e8f1ea;font-size:12.5px;font-weight:700;overflow-wrap:anywhere;word-break:break-word}
+.fav-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:14px;border-top:1px solid #262a27}
+.fav-actions .btn{flex:1;min-width:0;justify-content:center}
+.fav-actions .btn.remove{color:#ffb0b4;border-color:#5a2a2f}
+.fav-actions .btn.remove:hover{background:#3a1a1e;border-color:#a54a55}
+.fav-actions .btn.is-saved{background:rgba(53,216,117,.12);border-color:var(--green);color:#8ff0ad}
+.fav-actions .btn:disabled{opacity:.6;cursor:wait}
+.loading-skeleton{padding:20px;border:1px solid #262a27;background:#0e100f;border-radius:12px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:800px){aside{position:fixed;top:78px;bottom:0;height:auto;z-index:10;box-shadow:12px 0 35px #0008}aside.closed{margin-left:-270px}.cards{grid-template-columns:1fr}main{padding:23px 13px 40px}.top{padding:0 13px}.email{font-size:10px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.fav-grid{grid-template-columns:1fr}}
 </style></head><body>
 <header class="top"><button class="toggle" id="toggle" aria-label="Toggle menu">☰</button><div class="brand">↗ FUNDED<span>EDGE</span></div><div class="email" id="topEmail"></div></header>
 <div class="layout"><aside id="sidebar">
@@ -20,12 +38,31 @@
 <div class="navlabel">Account</div><button class="nav" data-page="reviews"><span class="ico">☆</span>My Reviews</button><button class="nav" data-page="settings"><span class="ico">⚙</span>Account Settings</button><button class="nav logout" id="logout"><span class="ico">⇥</span>Logout</button>
 </aside><main>
 <div id="loading" class="panel">Loading your dashboard…</div><div id="error" class="error" hidden></div><div id="app" hidden>
+
 <section class="page active" id="page-home"><div class="head"><div><div class="eyebrow">Member area</div><h1>Welcome back, <span id="memberName">Trader</span></h1><p class="muted">Your prop firm research and trading workspace.</p></div></div>
 <div class="cards"><div class="panel"><div class="statlabel">Favorite firms</div><div class="stat" id="favoriteCount">0</div><p class="muted">Your saved firms</p></div><div class="panel"><div class="statlabel">Saved comparisons</div><div class="stat" id="comparisonCount">0</div><p class="muted">Comparisons to revisit</p></div><div class="panel"><div class="statlabel">Journal trades</div><div class="stat" id="tradeCount">0</div><p class="muted">Recorded trades</p></div></div>
-<div class="section panel"><div class="sectionhead"><h2>Recent Journal Entries</h2><button class="btn" data-go="journal">Open Journal</button></div><div id="recentTrades" class="list"></div></div><div class="section panel"><div class="sectionhead"><h2>Favorite Firms</h2><button class="btn" data-go="favorites">View all</button></div><div id="homeFavorites" class="list"></div></div></section>
-<section class="page" id="page-firms"><div class="head"><div><div class="eyebrow">Research</div><h1>Prop Firms</h1><p class="muted">Browse and research firms in the public directory.</p></div><a class="btn primary" href="directory.html">Browse Prop Firms ↗</a></div><div class="panel"><p class="muted">Use the directory to view firms and save favorites. Your saved firms appear in this member dashboard.</p></div></section>
+<div class="section panel"><div class="sectionhead"><h2>Recent Journal Entries</h2><button class="btn" data-go="journal">Open Journal</button></div><div id="recentTrades" class="list"></div></div>
+<div class="section panel"><div class="sectionhead"><h2>Favorite Firms</h2><button class="btn" data-go="favorites">View all</button></div><div id="homeFavorites" class="fav-grid"></div></div>
+</section>
+
+<section class="page" id="page-firms">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Research</div>
+      <h1>Prop Firms</h1>
+      <p class="muted">All active firms with key details. Save favorites or open the full profile.</p>
+    </div>
+    <a class="btn" href="directory.html">Open public directory ↗</a>
+  </div>
+  <div id="firmsNotice" class="notice" hidden></div>
+  <div id="allFirms" class="fav-grid">
+    <div class="loading-skeleton">Loading firms…</div>
+  </div>
+</section>
+
 <section class="page" id="page-compare"><div class="head"><div><div class="eyebrow">Research tools</div><h1>Comparison</h1><p class="muted">Open saved comparisons or start a new one.</p></div><a class="btn primary" href="compare.html">Compare Firms ↗</a></div><div class="panel"><div id="comparisons" class="list"></div></div></section>
-<section class="page" id="page-favorites"><div class="head"><div><div class="eyebrow">Your shortlist</div><h1>Favorites</h1><p class="muted">Prop firms you've saved.</p></div><a class="btn primary" href="directory.html">Find Firms</a></div><div class="panel"><div id="favorites" class="list"></div></div></section>
+<section class="page" id="page-favorites"><div class="head"><div><div class="eyebrow">Your shortlist</div><h1>Favorites</h1><p class="muted">Prop firms you've saved, with key details at a glance.</p></div><a class="btn primary" href="directory.html">Find Firms</a></div><div class="panel"><div id="favorites" class="fav-grid"></div></div></section>
+
 <section class="page" id="page-journal"><div class="head"><div><div class="eyebrow">Trading tools</div><h1>Trading Journal</h1><p class="muted">Record trades and track your execution. Entries are private to your account.</p></div></div><div class="notice" id="journalNotice" hidden></div>
 <div class="panel"><div class="sectionhead"><h2 id="formTitle">Add a trade</h2><span class="muted">Required fields marked *</span></div><form id="tradeForm"><input id="tradeId" type="hidden"><div class="fieldgrid">
 <div class="field"><label for="tradeDate">Trade date *</label><input id="tradeDate" type="date" required></div><div class="field"><label for="symbol">Symbol / Pair *</label><input id="symbol" placeholder="GBPJPY, XAUUSD…" maxlength="30" required></div>
@@ -34,43 +71,143 @@
 <div class="field"><label for="strategy">Strategy</label><input id="strategy" maxlength="120" placeholder="Breakout, liquidity sweep…"></div><div class="field"><label for="emotion">Mindset</label><select id="emotion"><option value="">Choose mindset</option><option>Focused</option><option>Confident</option><option>Patient</option><option>Fearful</option><option>Greedy</option><option>Revenge trading</option><option>Distracted</option></select></div>
 <div class="field full"><label for="notes">Notes / lessons learned</label><textarea id="notes" maxlength="5000" placeholder="Why did you take the trade? Did you follow your plan? What can you improve?"></textarea></div></div><div class="actions"><button class="btn primary" id="saveTrade">Save Trade</button><button class="btn" type="button" id="cancelEdit" hidden>Cancel Edit</button></div></form></div>
 <div class="section panel"><div class="sectionhead"><h2>Trade History</h2><button class="btn" id="refreshTrades">Refresh</button></div><div id="tradeList" class="list"></div></div></section>
+
 <section class="page" id="page-stats"><div class="head"><div><div class="eyebrow">Performance</div><h1>Journal Statistics</h1><p class="muted">A summary of trades recorded in your journal.</p></div></div><div class="cards"><div class="panel"><div class="statlabel">Win rate</div><div class="stat" id="winRate">0%</div></div><div class="panel"><div class="statlabel">Net P/L</div><div class="stat" id="netPnl">$0.00</div></div><div class="panel"><div class="statlabel">Average trade</div><div class="stat" id="avgPnl">$0.00</div></div></div><div class="section panel"><div class="list"><div class="item">Winning trades <b id="wins">0</b></div><div class="item">Losing trades <b id="losses">0</b></div><div class="item">Breakeven trades <b id="breakevens">0</b></div><div class="item">Total trades <b id="totalTrades">0</b></div></div></div></section>
+
 <section class="page" id="page-reviews"><div class="head"><div><div class="eyebrow">Community</div><h1>My Reviews</h1><p class="muted">Review moderation status.</p></div><a class="btn primary" href="directory.html">Find a Firm</a></div><div class="panel"><div id="reviews" class="list"></div></div></section>
 <section class="page" id="page-settings"><div class="head"><div><div class="eyebrow">Your account</div><h1>Account Settings</h1><p class="muted">Signed-in account details.</p></div></div><div class="panel"><div class="list"><div class="item"><div><b>Email address</b><small id="settingEmail"></small></div><span class="status approved">Confirmed</span></div><div class="item"><div><b>Display name</b><small id="settingName"></small></div></div></div><div class="actions"><button class="btn" id="refresh">Refresh dashboard</button><button class="btn danger" id="logout2">Logout</button></div></div></section>
 </div></main></div><footer>FundedEdge · Independent prop firm research · Trading involves risk.</footer><div id="toast" hidden></div>
 <script type="module">
 import{createClient}from"https://esm.sh/@supabase/supabase-js@2";
 const db=createClient("https://mvltzznwdglwaedfzxze.supabase.co","sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid"),$=id=>document.getElementById(id);
-let user=null,trades=[],toastTimer;
+let user=null,trades=[],toastTimer,firmsLoaded=false;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(s){$("toast").textContent=s;$("toast").hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").hidden=true,3500)}
 function empty(id,s){$(id).innerHTML=`<div class="empty">${esc(s)}</div>`}
 function go(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+p));document.querySelectorAll(".nav[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));if(innerWidth<=800)$("sidebar").classList.add("closed");if(p==="stats")stats()}
-document.querySelectorAll(".nav[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));$("toggle").onclick=()=>$("sidebar").classList.toggle("closed");if(innerWidth<=800)$("sidebar").classList.add("closed");
+document.querySelectorAll(".nav[data-page]").forEach(b=>{b.onclick=()=>{go(b.dataset.page);if(b.dataset.page==="firms"&&!firmsLoaded){firmsLoaded=true;loadAllFirms()}}});
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));$("toggle").onclick=()=>$("sidebar").classList.toggle("closed");if(innerWidth<=800)$("sidebar").classList.add("closed");
 async function logout(){const{error}=await db.auth.signOut();if(error)toast(error.message);else location.replace("auth.html")}
 $("logout").onclick=logout;$("logout2").onclick=logout;$("refresh").onclick=load;$("refreshTrades").onclick=loadTrades;
-function firmHref(f){return f?.slug?"firm.html?slug="+encodeURIComponent(f.slug):"directory.html"}
-async function load(){const{data:{user:u},error}=await db.auth.getUser();if(error||!u||!u.email_confirmed_at){location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));return}user=u;const name=u.user_metadata?.full_name||u.email?.split("@")[0]||"Trader";$("memberName").textContent=name;$("topEmail").textContent=u.email||"";$("settingEmail").textContent=u.email||"";$("settingName").textContent=name;$("app").hidden=false;
-const [fr,cr,rr]=await Promise.all([db.from("favorites").select("id,firm_id,created_at").eq("user_id",u.id).order("created_at",{ascending:false}),db.from("saved_comparisons").select("id,name,firm_ids,created_at").eq("user_id",u.id).order("created_at",{ascending:false}),db.from("firm_reviews").select("id,firm_id,rating,review_text,status,created_at").eq("user_id",u.id).order("created_at",{ascending:false})]);
-const fav=fr.data||[],comps=cr.data||[],reviews=rr.data||[];$("favoriteCount").textContent=fav.length;$("comparisonCount").textContent=comps.length;
-const ids=[...new Set([...fav.map(x=>x.firm_id),...reviews.map(x=>x.firm_id),...comps.flatMap(x=>Array.isArray(x.firm_ids)?x.firm_ids:[])].filter(Boolean))];let firms={};if(ids.length){const{data}=await db.from("firms").select("id,name,slug,website").in("id",ids);for(const f of data||[])firms[f.id]=f}
-function renderFav(target,items){if(!items.length){empty(target,"No favorites yet. Save firms from the public directory.");return}$(target).innerHTML=items.map(x=>`<div class="item"><div class="info"><div class="itemtitle">${esc(firms[x.firm_id]?.name||"Prop firm")}</div><small>Saved ${x.created_at?new Date(x.created_at).toLocaleDateString():""}</small></div><a class="btn" href="${firmHref(firms[x.firm_id])}">View</a></div>`).join("")}
-renderFav("favorites",fav);renderFav("homeFavorites",fav.slice(0,4));
-if(!comps.length)empty("comparisons","No saved comparisons yet. Open the comparison tool to get started.");else $("comparisons").innerHTML=comps.map(c=>{const fi=Array.isArray(c.firm_ids)?c.firm_ids:[];return `<div class="item"><div class="info"><div class="itemtitle">${esc(c.name||"Saved comparison")}</div><small>${esc(fi.map(id=>firms[id]?.name||"Prop firm").join(" vs "))}</small></div><a class="btn" href="compare.html?ids=${fi.map(encodeURIComponent).join(",")}">Open</a></div>`}).join("");
-if(!reviews.length)empty("reviews","You haven't submitted a review yet.");else $("reviews").innerHTML=reviews.map(r=>{const s=String(r.status||"pending").toLowerCase(),sc=["approved","pending","rejected"].includes(s)?s:"pending";return `<div class="item"><div class="info"><div class="itemtitle">${esc(firms[r.firm_id]?.name||"Prop firm")} · ${"★".repeat(Math.min(5,Number(r.rating)||0))}</div><small>${esc(r.review_text||"")}</small></div><span class="status ${sc}">${esc(s)}</span></div>`}).join("");
-$("loading").hidden=true;await loadTrades()}
+function firmHref(f){return f?.id?"firm.html?id="+encodeURIComponent(f.id):"directory.html"}
+
+/* FAVORITE FIRM CARD */
+function favCard(favItem,firm){
+  const f=firm||{};const name=f.name||"Prop firm";const rating=f.rating?`★ ${f.rating}`:"—";const tag=f.tag||f.category||"PROP FIRM";
+  return `<article class="fav-card"><div class="fav-head"><div style="min-width:0"><span class="fav-tag">${esc(tag)}</span><h3 class="fav-name">${esc(name)}</h3></div><div class="fav-rating">${esc(rating)}</div></div>
+  ${f.description?`<p class="fav-desc">${esc(f.description)}</p>`:""}
+  <div class="fav-stats">
+    <div class="fav-stat"><small>Account sizes</small><strong>${esc(f.account_sizes||"—")}</strong></div>
+    <div class="fav-stat"><small>Starting price</small><strong>${esc(f.price||"—")}</strong></div>
+    <div class="fav-stat"><small>Profit target</small><strong>${esc(f.profit_target||"—")}</strong></div>
+    <div class="fav-stat"><small>Profit split</small><strong>${esc(f.profit_split||"—")}</strong></div>
+    <div class="fav-stat"><small>Max drawdown</small><strong>${esc(f.max_drawdown||"—")}</strong></div>
+    <div class="fav-stat"><small>Payout</small><strong>${esc(f.payout||"—")}</strong></div>
+  </div>
+  <div class="fav-actions"><a class="btn primary" href="${firmHref(f)}">View full details ↗</a><button class="btn remove" data-remove-fav="${esc(favItem.id)}" type="button">Remove</button></div></article>`;
+}
+
+/* FIRM CARD FOR ALL FIRMS TAB */
+function firmCardAll(firm,savedIds){
+  const isSaved=savedIds.has(String(firm.id));const name=firm.name||"Prop firm";const rating=firm.rating?`★ ${firm.rating}`:"—";const tag=firm.tag||firm.category||"PROP FIRM";
+  return `<article class="fav-card"><div class="fav-head"><div style="min-width:0"><span class="fav-tag">${esc(tag)}</span><h3 class="fav-name">${esc(name)}</h3></div><div class="fav-rating">${esc(rating)}</div></div>
+  ${firm.description?`<p class="fav-desc">${esc(firm.description)}</p>`:""}
+  <div class="fav-stats">
+    <div class="fav-stat"><small>Account sizes</small><strong>${esc(firm.account_sizes||"—")}</strong></div>
+    <div class="fav-stat"><small>Starting price</small><strong>${esc(firm.price||"—")}</strong></div>
+    <div class="fav-stat"><small>Profit target</small><strong>${esc(firm.profit_target||"—")}</strong></div>
+    <div class="fav-stat"><small>Profit split</small><strong>${esc(firm.profit_split||"—")}</strong></div>
+    <div class="fav-stat"><small>Max drawdown</small><strong>${esc(firm.max_drawdown||"—")}</strong></div>
+    <div class="fav-stat"><small>Payout</small><strong>${esc(firm.payout||"—")}</strong></div>
+  </div>
+  <div class="fav-actions"><a class="btn primary" href="firm.html?id=${encodeURIComponent(firm.id)}">View details ↗</a><button class="btn ${isSaved?"is-saved":""}" data-save-firm="${esc(firm.id)}" data-saved="${isSaved?"1":"0"}" type="button">${isSaved?"♥ Saved":"♡ Save"}</button></div></article>`;
+}
+
+async function toggleSaveFirm(firmId,btn){
+  if(!user)return;btn.disabled=true;const alreadySaved=btn.dataset.saved==="1";
+  try{
+    if(alreadySaved){
+      const{error}=await db.from("favorites").delete().eq("user_id",user.id).eq("firm_id",firmId);if(error)throw error;
+      btn.dataset.saved="0";btn.classList.remove("is-saved");btn.textContent="♡ Save";toast("Removed from favorites");
+    }else{
+      const{error}=await db.from("favorites").insert({user_id:user.id,firm_id:firmId});if(error)throw error;
+      btn.dataset.saved="1";btn.classList.add("is-saved");btn.textContent="♥ Saved";toast("Saved to favorites");
+    }
+    const{count}=await db.from("favorites").select("id",{count:"exact",head:true}).eq("user_id",user.id);
+    if(typeof count==="number")$("favoriteCount").textContent=count;
+  }catch(err){console.error("Save toggle failed:",err);toast("Could not update favorites")}
+  finally{btn.disabled=false}
+}
+
+async function loadAllFirms(){
+  const wrap=$("allFirms");if(!wrap)return;
+  wrap.innerHTML=`<div class="loading-skeleton">Loading firms…</div>`;
+  try{
+    const{data,error}=await db.from("firms").select("*").eq("status","active").order("rating",{ascending:false});
+    if(error)throw error;
+    if(!data||!data.length){wrap.innerHTML=`<div class="empty">No active firms available yet.</div>`;return}
+    const{data:favRows}=await db.from("favorites").select("firm_id").eq("user_id",user.id);
+    const savedIds=new Set((favRows||[]).map(r=>String(r.firm_id)));
+    wrap.innerHTML=data.map(f=>firmCardAll(f,savedIds)).join("");
+    wrap.querySelectorAll("[data-save-firm]").forEach(btn=>{btn.onclick=()=>toggleSaveFirm(btn.dataset.saveFirm,btn)});
+  }catch(err){
+    console.error("Firms load failed:",err);$("firmsNotice").hidden=false;$("firmsNotice").textContent="Could not load firms: "+err.message;
+    wrap.innerHTML=`<div class="empty">Firms could not be loaded. Refresh the page.</div>`;
+  }
+}
+
+async function removeFavorite(favId){
+  if(!user)return;const{error}=await db.from("favorites").delete().eq("id",favId).eq("user_id",user.id);
+  if(error){toast(error.message);return}toast("Removed from favorites");await load();
+}
+
+async function load(){
+  const{data:{user:u},error}=await db.auth.getUser();
+  if(error||!u||!u.email_confirmed_at){location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));return}
+  user=u;
+  const name=u.user_metadata?.full_name||u.email?.split("@")[0]||"Trader";
+  $("memberName").textContent=name;$("topEmail").textContent=u.email||"";$("settingEmail").textContent=u.email||"";$("settingName").textContent=name;$("app").hidden=false;
+  const[fr,cr,rr]=await Promise.all([
+    db.from("favorites").select("id,firm_id,created_at").eq("user_id",u.id).order("created_at",{ascending:false}),
+    db.from("saved_comparisons").select("id,name,firm_ids,created_at").eq("user_id",u.id).order("created_at",{ascending:false}),
+    db.from("firm_reviews").select("id,firm_id,rating,review_text,status,created_at").eq("user_id",u.id).order("created_at",{ascending:false})
+  ]);
+  const fav=fr.data||[],comps=cr.data||[],reviews=rr.data||[];
+  $("favoriteCount").textContent=fav.length;$("comparisonCount").textContent=comps.length;
+  const ids=[...new Set([...fav.map(x=>x.firm_id),...reviews.map(x=>x.firm_id),...comps.flatMap(x=>Array.isArray(x.firm_ids)?x.firm_ids:[])].filter(Boolean))];
+  let firms={};if(ids.length){const{data}=await db.from("firms").select("*").in("id",ids);for(const f of data||[])firms[f.id]=f}
+  function renderFavorites(targetId,items){
+    const el=$(targetId);if(!items.length){el.innerHTML=`<div class="empty">No favorites yet. Save firms from the directory or firm pages.</div>`;return}
+    el.innerHTML=items.map(f=>favCard(f,firms[f.firm_id])).join("");
+    el.querySelectorAll("[data-remove-fav]").forEach(b=>{b.onclick=()=>removeFavorite(b.dataset.removeFav)});
+  }
+  renderFavorites("favorites",fav);renderFavorites("homeFavorites",fav.slice(0,4));
+  if(!comps.length)empty("comparisons","No saved comparisons yet.");else $("comparisons").innerHTML=comps.map(c=>{const fi=Array.isArray(c.firm_ids)?c.firm_ids:[];return `<div class="item"><div class="info"><div class="itemtitle">${esc(c.name||"Saved comparison")}</div><small>${esc(fi.map(id=>firms[id]?.name||"Prop firm").join(" vs "))}</small></div><a class="btn" href="compare.html?ids=${fi.map(encodeURIComponent).join(",")}">Open</a></div>`}).join("");
+  if(!reviews.length)empty("reviews","You haven't submitted a review yet.");else $("reviews").innerHTML=reviews.map(r=>{const s=String(r.status||"pending").toLowerCase(),sc=["approved","pending","rejected"].includes(s)?s:"pending";return `<div class="item"><div class="info"><div class="itemtitle">${esc(firms[r.firm_id]?.name||"Prop firm")} · ${"★".repeat(Math.min(5,Number(r.rating)||0))}</div><small>${esc(r.review_text||"")}</small></div><span class="status ${sc}">${esc(s)}</span></div>`}).join("");
+  $("loading").hidden=true;await loadTrades();
+}
+
 function val(id){return $(id).value===""?null:$(id).value}
 function resetForm(){$("tradeForm").reset();$("tradeId").value="";$("tradeDate").value=new Date().toISOString().slice(0,10);$("formTitle").textContent="Add a trade";$("saveTrade").textContent="Save Trade";$("cancelEdit").hidden=true}
 $("cancelEdit").onclick=resetForm;$("tradeDate").value=new Date().toISOString().slice(0,10);
 $("tradeForm").onsubmit=async e=>{e.preventDefault();if(!user)return;const id=$("tradeId").value,row={user_id:user.id,trade_date:$("tradeDate").value,symbol:$("symbol").value.trim().toUpperCase(),direction:$("direction").value,result:$("result").value,entry_price:val("entry"),exit_price:val("exit"),stop_loss:val("sl"),take_profit:val("tp"),risk_amount:val("risk"),pnl:val("pnl"),strategy:$("strategy").value.trim()||null,emotion:$("emotion").value||null,notes:$("notes").value.trim()||null};$("saveTrade").disabled=true;const res=id?await db.from("trading_journal").update(row).eq("id",id).eq("user_id",user.id):await db.from("trading_journal").insert(row);$("saveTrade").disabled=false;if(res.error){toast("Journal error: "+res.error.message);return}toast(id?"Trade updated":"Trade saved");resetForm();await loadTrades()};
+
 async function loadTrades(){if(!user)return;const{data,error}=await db.from("trading_journal").select("id,trade_date,symbol,direction,result,entry_price,exit_price,stop_loss,take_profit,risk_amount,pnl,strategy,emotion,notes,created_at").eq("user_id",user.id).order("trade_date",{ascending:false}).order("created_at",{ascending:false});
-if(error){console.error(error);$("journalNotice").hidden=false;$("journalNotice").textContent="Journal setup required: create the trading_journal table in Supabase using the SQL provided with this file. "+error.message;trades=[];$("tradeCount").textContent="0";empty("tradeList","The journal table is not connected yet.");empty("recentTrades","Set up the journal table in Supabase to start recording trades.");stats();return}
+if(error){console.error(error);$("journalNotice").hidden=false;$("journalNotice").textContent="Journal setup required: "+error.message;trades=[];$("tradeCount").textContent="0";empty("tradeList","The journal table is not connected yet.");empty("recentTrades","Set up the journal table to start recording trades.");stats();return}
 $("journalNotice").hidden=true;trades=data||[];$("tradeCount").textContent=trades.length;stats();if(!trades.length){empty("tradeList","No trades yet. Add your first trade above.");empty("recentTrades","Your latest trades will appear here.");return}
 const card=t=>{const p=Number(t.pnl)||0;return `<div class="item"><div class="info"><div class="itemtitle">${esc(t.symbol)} · ${esc(t.direction)} <span class="status ${t.result==="Win"?"approved":t.result==="Loss"?"rejected":"pending"}">${esc(t.result)}</span></div><small>${esc(t.trade_date)} · ${esc(t.strategy||"No strategy")} · ${esc(t.emotion||"No mindset")}</small><small>${esc(t.notes||"No notes")}</small></div><div style="text-align:right;flex-shrink:0"><b class="${p>0?"pos":p<0?"neg":""}">${p<0?"−":"+"}$${Math.abs(p).toFixed(2)}</b><div class="actions"><button class="btn" data-edit="${esc(t.id)}">Edit</button><button class="btn danger" data-del="${esc(t.id)}">Delete</button></div></div></div>`};
 $("tradeList").innerHTML=trades.map(card).join("");$("recentTrades").innerHTML=trades.slice(0,3).map(t=>`<div class="item"><div class="info"><div class="itemtitle">${esc(t.symbol)} · ${esc(t.result)}</div><small>${esc(t.trade_date)} · ${esc(t.strategy||"No strategy")}</small></div><b class="${Number(t.pnl)>0?"pos":Number(t.pnl)<0?"neg":""}">$${Number(t.pnl||0).toFixed(2)}</b></div>`).join("");
 document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editTrade(b.dataset.edit));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteTrade(b.dataset.del))}
-function editTrade(id){const t=trades.find(x=>x.id===id);if(!t)return;const map={tradeDate:"trade_date",symbol:"symbol",direction:"direction",result:"result",entry:"entry_price",exit:"exit_price",sl:"stop_loss",tp:"take_profit",risk:"risk_amount",pnl:"pnl",strategy:"strategy",emotion:"emotion",notes:"notes"};for(const [el,key]of Object.entries(map))$(el).value=t[key]??"";$("tradeId").value=t.id;$("formTitle").textContent="Edit trade";$("saveTrade").textContent="Update Trade";$("cancelEdit").hidden=false;go("journal");$("tradeForm").scrollIntoView({behavior:"smooth"})}
+
+function editTrade(id){const t=trades.find(x=>x.id===id);if(!t)return;const map={tradeDate:"trade_date",symbol:"symbol",direction:"direction",result:"result",entry:"entry_price",exit:"exit_price",sl:"stop_loss",tp:"take_profit",risk:"risk_amount",pnl:"pnl",strategy:"strategy",emotion:"emotion",notes:"notes"};for(const[el,key]of Object.entries(map))$(el).value=t[key]??"";$("tradeId").value=t.id;$("formTitle").textContent="Edit trade";$("saveTrade").textContent="Update Trade";$("cancelEdit").hidden=false;go("journal");$("tradeForm").scrollIntoView({behavior:"smooth"})}
+
 async function deleteTrade(id){if(!confirm("Delete this journal entry?"))return;const{error}=await db.from("trading_journal").delete().eq("id",id).eq("user_id",user.id);if(error){toast(error.message);return}toast("Trade deleted");await loadTrades()}
+
 function stats(){const n=trades.length,w=trades.filter(t=>t.result==="Win").length,l=trades.filter(t=>t.result==="Loss").length,b=trades.filter(t=>t.result==="Breakeven").length,net=trades.reduce((s,t)=>s+(Number(t.pnl)||0),0),dec=w+l,avg=n?net/n:0;$("winRate").textContent=(dec?w/dec*100:0).toFixed(1)+"%";$("netPnl").textContent=(net<0?"−":"+")+"$"+Math.abs(net).toFixed(2);$("netPnl").className="stat "+(net>0?"pos":net<0?"neg":"");$("avgPnl").textContent=(avg<0?"−":"+")+"$"+Math.abs(avg).toFixed(2);$("wins").textContent=w;$("losses").textContent=l;$("breakevens").textContent=b;$("totalTrades").textContent=n}
-const{data:{session}}=await db.auth.getSession();if(!session?.user?.email_confirmed_at)location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));else await load();db.auth.onAuthStateChange((event,s)=>{if(event==="SIGNED_OUT"||!s)location.replace("auth.html")});
+
+const{data:{session}}=await db.auth.getSession();
+if(!session?.user?.email_confirmed_at)location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));
+else await load();
+
+db.auth.onAuthStateChange((event,s)=>{if(event==="SIGNED_OUT"||!s)location.replace("auth.html")});
 </script></body></html>
