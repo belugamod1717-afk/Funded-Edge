@@ -593,3 +593,17 @@ db.auth.onAuthStateChange((_event, session) => {
       currentUser = user?.email_confirmed_at ? user : null;
       updateReviewAccess();
       if (currentFirmId) {
+        isFavorited = await checkIfFavorited();
+        updateSaveButton();
+      }
+    } catch (err) {
+      console.error("Auth sync failed:", err);
+    }
+  });
+});
+
+renderAuthArea();
+await loadFirm();
+</script>
+</body>
+</html>
