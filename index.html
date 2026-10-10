@@ -694,14 +694,18 @@ footer {
       Funded<span>Edge</span>
     </a>
 
-    <nav class="nav-links">
-      <a href="directory.html">Directory</a>
-      <a class="hide-mobile" href="compare.html">Compare</a>
-      <a class="hide-mobile" href="#why-us">Why FundedEdge</a>
-      <a class="hide-mobile" href="#faq">FAQ</a>
-      <a class="nav-cta" href="directory.html">Explore Firms ↗</a>
-    </nav>
+<nav class="nav-links">
+  <a href="directory.html">Directory</a>
+  <a class="hide-mobile" href="compare.html">Compare</a>
+  <a class="hide-mobile" href="#why-us">Why FundedEdge</a>
+  <a class="hide-mobile" href="#faq">FAQ</a>
+
+  <!-- Auth area: app.js swaps this based on session -->
+  <div id="feAuthArea" class="fe-auth-area">
+    <a class="nav-cta fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
+    <a class="nav-cta fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
   </div>
+</nav>  </div>
 </header>
 
 <main>
