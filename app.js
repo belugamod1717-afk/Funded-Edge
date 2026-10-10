@@ -3,6 +3,10 @@ const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
 
 let allFirms = [];
+let feSupabase = null;
+let feCurrentUser = null;
+let feFavoriteIds = new Set();
+let feMemberInitPromise = null;
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -26,6 +30,101 @@ function getNumbers(value) {
   }).filter(Number.isFinite);
 }
 
+/* MEMBER SESSION AND FAVORITES */
+
+async function initMemberFeatures() {
+  if (feMemberInitPromise) return feMemberInitPromise;
+
+  feMemberInitPromise = (async () => {
+    const { createClient } = await import(
+      "https://esm.sh/@supabase/supabase-js@2"
+    );
+
+    feSupabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const { data, error } = await feSupabase.auth.getSession();
+    if (error) throw error;
+
+    feCurrentUser = data.session?.user || null;
+
+    if (feCurrentUser) {
+      const { data: favorites, error: favError } = await feSupabase
+        .from("favorites")
+        .select("firm_id")
+        .eq("user_id", feCurrentUser.id);
+
+      if (favError) {
+        console.error("Could not load favorites:", favError);
+      } else {
+        feFavoriteIds = new Set(
+          (favorites || []).map(item => String(item.firm_id))
+        );
+      }
+    }
+  })().catch(error => {
+    console.error("Member features initialization failed:", error);
+  });
+
+  return feMemberInitPromise;
+}
+
+async function toggleFavorite(firmId, button) {
+  await initMemberFeatures();
+
+  if (!feSupabase) {
+    alert("Could not connect to favorites. Please refresh and try again.");
+    return;
+  }
+
+  if (!feCurrentUser) {
+    const page = window.location.pathname.split("/").pop() || "directory.html";
+    window.location.href = "auth.html?next=" +
+      encodeURIComponent(page + window.location.search);
+    return;
+  }
+
+  button.disabled = true;
+
+  try {
+    const id = String(firmId);
+
+    if (feFavoriteIds.has(id)) {
+      const { error } = await feSupabase
+        .from("favorites")
+        .delete()
+        .eq("user_id", feCurrentUser.id)
+        .eq("firm_id", firmId);
+
+      if (error) throw error;
+
+      feFavoriteIds.delete(id);
+      button.textContent = "♡ Save";
+      button.classList.remove("is-saved");
+      button.setAttribute("aria-pressed", "false");
+    } else {
+      const { error } = await feSupabase
+        .from("favorites")
+        .insert({
+          user_id: feCurrentUser.id,
+          firm_id: firmId
+        });
+
+      if (error) throw error;
+
+      feFavoriteIds.add(id);
+      button.textContent = "♥ Saved";
+      button.classList.add("is-saved");
+      button.setAttribute("aria-pressed", "true");
+    }
+  } catch (error) {
+    console.error("Favorite update failed:", error);
+    alert("Couldn't update favorites. Please check your connection and try again.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+/* PREMIUM DIRECTORY STYLES */
 
 function injectDirectoryStyles() {
   if (document.getElementById("fe-directory-styles")) return;
@@ -34,7 +133,6 @@ function injectDirectoryStyles() {
   style.id = "fe-directory-styles";
 
   style.textContent = `
-    /* Premium directory layout */
     #firmsGrid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -42,7 +140,6 @@ function injectDirectoryStyles() {
       align-items: stretch;
     }
 
-    /* Premium filter panel */
     .fe-filters {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
@@ -52,7 +149,7 @@ function injectDirectoryStyles() {
       border: 1px solid #254634;
       border-radius: 16px;
       background: linear-gradient(145deg, #102219, #0a1510);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, .12);
+      box-shadow: 0 12px 35px rgba(0,0,0,.12);
     }
 
     .fe-filters input,
@@ -72,7 +169,7 @@ function injectDirectoryStyles() {
     .fe-filters input:focus,
     .fe-filters select:focus {
       border-color: #72f0a8;
-      box-shadow: 0 0 0 3px rgba(114, 240, 168, .1);
+      box-shadow: 0 0 0 3px rgba(114,240,168,.1);
     }
 
     .fe-filters input::placeholder { color: #91a99a; }
@@ -113,7 +210,6 @@ function injectDirectoryStyles() {
       font-size: 13px;
     }
 
-    /* Main firm card */
     #firmsGrid .firm-card {
       box-sizing: border-box;
       position: relative;
@@ -125,19 +221,16 @@ function injectDirectoryStyles() {
       border: 1px solid #274735;
       border-radius: 17px;
       background:
-        radial-gradient(ellipse at top right,
-          rgba(57, 133, 82, .12), transparent 48%),
+        radial-gradient(ellipse at top right, rgba(57,133,82,.12), transparent 48%),
         linear-gradient(145deg, #112219, #0b1510 80%);
-      box-shadow: 0 8px 26px rgba(0, 0, 0, .13);
-      transition: transform .22s ease,
-                  border-color .22s ease,
-                  box-shadow .22s ease;
+      box-shadow: 0 8px 26px rgba(0,0,0,.13);
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
     }
 
     #firmsGrid .firm-card:hover {
       transform: translateY(-4px);
       border-color: #4e9166;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, .24);
+      box-shadow: 0 16px 36px rgba(0,0,0,.24);
     }
 
     #firmsGrid .firm-card-top {
@@ -146,12 +239,48 @@ function injectDirectoryStyles() {
       justify-content: space-between;
       gap: 12px;
       padding-bottom: 17px;
-      border-bottom: 1px solid rgba(126, 166, 137, .16);
+      border-bottom: 1px solid rgba(126,166,137,.16);
     }
 
-    #firmsGrid .firm-card-top > div:first-child {
+    #firmsGrid .firm-card-top > div:first-child { min-width: 0; }
+
+    #firmsGrid .firm-brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
       min-width: 0;
     }
+
+    #firmsGrid .firm-logo {
+      position: relative;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      overflow: hidden;
+      border: 1px solid #315440;
+      border-radius: 13px;
+      background: linear-gradient(145deg,#1a3825,#0b1710);
+      color: #82edaa;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    #firmsGrid .firm-logo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 9px;
+      box-sizing: border-box;
+      object-fit: contain;
+      background: #f7faf7;
+    }
+
+    #firmsGrid .firm-brand-info { min-width: 0; }
 
     #firmsGrid .firm-tag {
       display: inline-block;
@@ -160,7 +289,7 @@ function injectDirectoryStyles() {
       padding: 5px 9px;
       border: 1px solid #28583a;
       border-radius: 6px;
-      background: rgba(41, 102, 61, .18);
+      background: rgba(41,102,61,.18);
       color: #82edaa;
       font-size: 10px;
       font-weight: 800;
@@ -171,7 +300,7 @@ function injectDirectoryStyles() {
     #firmsGrid .firm-card h3 {
       margin: 0;
       color: #f0f8f2;
-      font-family: "Manrope", "DM Sans", Arial, sans-serif;
+      font-family: "Manrope","DM Sans",Arial,sans-serif;
       font-size: 21px;
       font-weight: 800;
       line-height: 1.35;
@@ -199,10 +328,9 @@ function injectDirectoryStyles() {
       overflow-wrap: anywhere;
     }
 
-    /* Financial information */
     #firmsGrid .firm-stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2,minmax(0,1fr));
       gap: 10px;
       margin-bottom: 22px;
     }
@@ -210,9 +338,9 @@ function injectDirectoryStyles() {
     #firmsGrid .firm-stats > div {
       min-width: 0;
       padding: 13px;
-      border: 1px solid rgba(100, 145, 112, .16);
+      border: 1px solid rgba(100,145,112,.16);
       border-radius: 10px;
-      background: rgba(5, 16, 10, .55);
+      background: rgba(5,16,10,.55);
     }
 
     #firmsGrid .firm-stats small {
@@ -234,19 +362,17 @@ function injectDirectoryStyles() {
     }
 
     #firmsGrid .firm-stats > div:first-child strong,
-    #firmsGrid .firm-stats > div:last-child strong {
-      color: #80eaaa;
-    }
+    #firmsGrid .firm-stats > div:last-child strong { color: #80eaaa; }
 
-    /* Price and call-to-action */
     #firmsGrid .firm-card-bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 12px;
       margin-top: auto;
       padding-top: 17px;
-      border-top: 1px solid rgba(126, 166, 137, .16);
+      border-top: 1px solid rgba(126,166,137,.16);
     }
 
     #firmsGrid .firm-price {
@@ -254,6 +380,14 @@ function injectDirectoryStyles() {
       font-size: 17px;
       font-weight: 800;
       overflow-wrap: anywhere;
+    }
+
+    #firmsGrid .firm-card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     #firmsGrid .firm-button {
@@ -272,10 +406,7 @@ function injectDirectoryStyles() {
       transition: .2s;
     }
 
-    #firmsGrid .firm-button::after {
-      content: " ↗";
-      margin-left: 4px;
-    }
+    #firmsGrid .firm-button::after { content: " ↗"; margin-left: 4px; }
 
     #firmsGrid .firm-button:hover {
       border-color: #a4ffc5;
@@ -283,7 +414,33 @@ function injectDirectoryStyles() {
       transform: translateY(-1px);
     }
 
-    /* Empty and loading states */
+    #firmsGrid .fe-favorite-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border: 1px solid #315343;
+      border-radius: 9px;
+      background: #102219;
+      color: #d8e9dd;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    #firmsGrid .fe-favorite-button:hover,
+    #firmsGrid .fe-favorite-button.is-saved {
+      border-color: #72f0a8;
+      background: #183b27;
+      color: #8ff4b5;
+    }
+
+    #firmsGrid .fe-favorite-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
     #firmsGrid .fe-no-results {
       grid-column: 1 / -1;
       padding: 35px 20px;
@@ -294,75 +451,31 @@ function injectDirectoryStyles() {
       text-align: center;
     }
 
-    #firmsGrid .fe-no-results h3 {
-      margin-top: 0;
+    #firmsGrid .fe-no-results h3 { margin-top: 0; }
+    #firmsGrid .fe-no-results p { color: #a7bbae; overflow-wrap: anywhere; }
+
+    @media (max-width:760px) {
+      #firmsGrid { grid-template-columns: 1fr; gap: 15px; }
+      #firmsGrid .firm-card { padding: 20px; }
+      #firmsGrid .firm-description { min-height: 0; }
     }
 
-    #firmsGrid .fe-no-results p {
-      color: #a7bbae;
-      overflow-wrap: anywhere;
-    }
-
-    /* Tablet and phone layouts */
-    @media (max-width: 760px) {
-      #firmsGrid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      #firmsGrid .firm-card {
-        padding: 20px;
-      }
-
-      #firmsGrid .firm-description {
-        min-height: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .fe-filters {
-        grid-template-columns: 1fr;
-        padding: 14px;
-      }
-
-      #firmsGrid .firm-card {
-        padding: 17px;
-        border-radius: 14px;
-      }
-
-      #firmsGrid .firm-card h3 {
-        font-size: 19px;
-      }
-
-      #firmsGrid .firm-stats {
-        gap: 8px;
-      }
-
-      #firmsGrid .firm-stats > div {
-        padding: 11px;
-      }
-
-      #firmsGrid .firm-stats strong {
-        font-size: 13px;
-      }
-
-      #firmsGrid .firm-card-bottom {
-        align-items: flex-start;
-      }
-
-      #firmsGrid .firm-price {
-        font-size: 15px;
-      }
-
-      #firmsGrid .firm-button {
-        padding: 10px 11px;
-      }
+    @media (max-width:480px) {
+      .fe-filters { grid-template-columns: 1fr; padding: 14px; }
+      #firmsGrid .firm-card { padding: 17px; border-radius: 14px; }
+      #firmsGrid .firm-card h3 { font-size: 19px; }
+      #firmsGrid .firm-logo { width: 46px; height: 46px; border-radius: 11px; }
+      #firmsGrid .firm-stats { gap: 8px; }
+      #firmsGrid .firm-stats > div { padding: 11px; }
+      #firmsGrid .firm-stats strong { font-size: 13px; }
+      #firmsGrid .firm-price { font-size: 15px; }
+      #firmsGrid .firm-button { padding: 10px 11px; }
+      #firmsGrid .fe-favorite-button { padding: 10px; font-size: 11px; }
     }
   `;
 
   document.head.appendChild(style);
 }
-
 
 function createFilters(grid) {
   if (document.getElementById("feFilters")) return;
@@ -376,9 +489,7 @@ function createFilters(grid) {
       </div>
       <div>
         <label class="fe-filter-label" for="feCategory">Firm category</label>
-        <select id="feCategory">
-          <option value="">All categories</option>
-        </select>
+        <select id="feCategory"><option value="">All categories</option></select>
       </div>
       <div>
         <label class="fe-filter-label" for="feAccount">Minimum account size</label>
@@ -416,11 +527,9 @@ function createFilters(grid) {
 
   grid.parentNode.insertBefore(wrapper, grid);
 
-  const categories = [...new Set(
-    allFirms.map(f => f.category).filter(Boolean)
-  )].sort();
-
+  const categories = [...new Set(allFirms.map(f => f.category).filter(Boolean))].sort();
   const categorySelect = wrapper.querySelector("#feCategory");
+
   categories.forEach(category => {
     const option = document.createElement("option");
     option.value = category;
@@ -443,110 +552,34 @@ function createFilters(grid) {
   });
 }
 
-
 function renderFirms() {
   const grid = document.getElementById("firmsGrid");
   if (!grid) return;
 
-  // Add logo styles once.
-  if (!document.getElementById("fe-logo-styles")) {
-    const style = document.createElement("style");
-    style.id = "fe-logo-styles";
-    style.textContent = `
-      #firmsGrid .firm-brand {
-        display: flex;
-        align-items: center;
-        gap: 13px;
-        min-width: 0;
-      }
-
-      #firmsGrid .firm-logo {
-        position: relative;
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
-        width: 54px;
-        height: 54px;
-        overflow: hidden;
-        border: 1px solid #315440;
-        border-radius: 13px;
-        background: linear-gradient(145deg, #1a3825, #0b1710);
-        color: #82edaa;
-        font-size: 18px;
-        font-weight: 800;
-        letter-spacing: -1px;
-      }
-
-      #firmsGrid .firm-logo img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        padding: 9px;
-        box-sizing: border-box;
-        object-fit: contain;
-        background: #f7faf7;
-      }
-
-      #firmsGrid .firm-brand-info {
-        min-width: 0;
-      }
-
-      #firmsGrid .firm-brand-info h3 {
-        overflow-wrap: anywhere;
-      }
-
-      @media(max-width:480px) {
-        #firmsGrid .firm-logo {
-          width: 46px;
-          height: 46px;
-          border-radius: 11px;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  const search = (document.getElementById("feSearch")?.value || "")
-    .trim().toLowerCase();
+  const search = (document.getElementById("feSearch")?.value || "").trim().toLowerCase();
   const category = document.getElementById("feCategory")?.value || "";
-  const minAccount = Number(
-    document.getElementById("feAccount")?.value || 0
-  );
-  const maxPrice = Number(
-    document.getElementById("fePrice")?.value || 999999
-  );
+  const minAccount = Number(document.getElementById("feAccount")?.value || 0);
+  const maxPrice = Number(document.getElementById("fePrice")?.value || 999999);
   const sort = document.getElementById("feSort")?.value || "rating";
 
   let firms = allFirms.filter(firm => {
     const searchable = [
-      firm.name,
-      firm.category,
-      firm.description,
-      firm.tag,
-      firm.platforms
+      firm.name, firm.category, firm.description, firm.tag, firm.platforms
     ].join(" ").toLowerCase();
 
     const accountNumbers = getNumbers(firm.account_sizes);
-    const maxAccountSize = accountNumbers.length
-      ? Math.max(...accountNumbers) : 0;
-
+    const maxAccountSize = accountNumbers.length ? Math.max(...accountNumbers) : 0;
     const prices = getNumbers(firm.price);
-    const startingPrice = prices.length
-      ? Math.min(...prices) : null;
+    const startingPrice = prices.length ? Math.min(...prices) : null;
 
     return searchable.includes(search) &&
       (!category || firm.category === category) &&
       (!minAccount || maxAccountSize >= minAccount) &&
-      (maxPrice === 999999 ||
-        (startingPrice !== null && startingPrice <= maxPrice));
+      (maxPrice === 999999 || (startingPrice !== null && startingPrice <= maxPrice));
   });
 
   firms.sort((a, b) => {
-    if (sort === "name") {
-      return (a.name || "").localeCompare(b.name || "");
-    }
+    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
 
     if (sort === "price") {
       const pa = getNumbers(a.price);
@@ -559,10 +592,7 @@ function renderFirms() {
   });
 
   const count = document.getElementById("feResultsCount");
-  if (count) {
-    count.textContent =
-      `Showing ${firms.length} of ${allFirms.length} prop firms`;
-  }
+  if (count) count.textContent = `Showing ${firms.length} of ${allFirms.length} prop firms`;
 
   if (!firms.length) {
     grid.innerHTML = `
@@ -573,10 +603,8 @@ function renderFirms() {
     return;
   }
 
-  // Known official domains; other firms use their saved website.
   function getLogoDomain(firm) {
     const name = (firm.name || "").toLowerCase().trim();
-
     const knownDomains = {
       "ftmo": "ftmo.com",
       "the5ers": "the5ers.com",
@@ -589,36 +617,29 @@ function renderFirms() {
 
     try {
       const url = new URL(firm.official_website || "");
-      if (url.protocol === "https:" || url.protocol === "http:") {
-        return url.hostname;
-      }
+      if (url.protocol === "https:" || url.protocol === "http:") return url.hostname;
     } catch (_) {}
 
     return "";
   }
 
   function getInitials(name) {
-    const words = String(name || "PF")
-      .trim().split(/\s+/).filter(Boolean);
-
-    if (words.length > 1) {
-      return (words[0][0] + words[1][0]).toUpperCase();
-    }
-
-    return (words[0] || "PF").slice(0, 2).toUpperCase();
+    const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
+    return words.length > 1
+      ? (words[0][0] + words[1][0]).toUpperCase()
+      : (words[0] || "PF").slice(0, 2).toUpperCase();
   }
 
   grid.innerHTML = firms.map(firm => {
     const domain = getLogoDomain(firm);
     const initials = getInitials(firm.name);
+    const isSaved = feFavoriteIds.has(String(firm.id));
 
     const logo = domain
-      ? `<img
-           src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128"
-           alt="${escapeHTML(firm.name)} website icon"
-           loading="lazy"
-           onerror="this.style.display='none'"
-         >`
+      ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128"
+              alt="${escapeHTML(firm.name)} website icon"
+              loading="lazy"
+              onerror="this.style.display='none'">`
       : "";
 
     return `
@@ -630,90 +651,46 @@ function renderFirms() {
               ${logo}
             </div>
             <div class="firm-brand-info">
-              <span class="firm-tag">
-                ${escapeHTML(firm.tag || firm.category || "PROP FIRM")}
-              </span>
+              <span class="firm-tag">${escapeHTML(firm.tag || firm.category || "PROP FIRM")}</span>
               <h3>${escapeHTML(firm.name)}</h3>
             </div>
           </div>
-
-          <div class="firm-rating">
-            ★ ${escapeHTML(firm.rating ?? "—")}
-          </div>
+          <div class="firm-rating">★ ${escapeHTML(firm.rating ?? "—")}</div>
         </div>
 
         <p class="firm-description">
-          ${escapeHTML(
-            firm.description ||
-            "Explore this firm's trading conditions."
-          )}
+          ${escapeHTML(firm.description || "Explore this firm's trading conditions.")}
         </p>
 
         <div class="firm-stats">
-          <div>
-            <small>Account Sizes</small>
-            <strong>${escapeHTML(firm.account_sizes || "—")}</strong>
-          </div>
-          <div>
-            <small>Profit Target</small>
-            <strong>${escapeHTML(firm.profit_target || "—")}</strong>
-          </div>
-          <div>
-            <small>Max Drawdown</small>
-            <strong>${escapeHTML(firm.max_drawdown || "—")}</strong>
-          </div>
-          <div>
-            <small>Profit Split</small>
-            <strong>${escapeHTML(firm.profit_split || "—")}</strong>
-          </div>
+          <div><small>Account Sizes</small><strong>${escapeHTML(firm.account_sizes || "—")}</strong></div>
+          <div><small>Profit Target</small><strong>${escapeHTML(firm.profit_target || "—")}</strong></div>
+          <div><small>Max Drawdown</small><strong>${escapeHTML(firm.max_drawdown || "—")}</strong></div>
+          <div><small>Profit Split</small><strong>${escapeHTML(firm.profit_split || "—")}</strong></div>
         </div>
 
         <div class="firm-card-bottom">
-          <span class="firm-price">
-            ${escapeHTML(firm.price || "See details")}
-          </span>
-          <a class="firm-button"
-             href="firm.html?id=${encodeURIComponent(firm.id)}">
-            View Firm
-          </a>
+          <span class="firm-price">${escapeHTML(firm.price || "See details")}</span>
+          <div class="firm-card-actions">
+            <button class="fe-favorite-button ${isSaved ? "is-saved" : ""}"
+                    data-favorite-id="${escapeHTML(firm.id)}"
+                    type="button"
+                    aria-pressed="${isSaved ? "true" : "false"}">
+              ${isSaved ? "♥ Saved" : "♡ Save"}
+            </button>
+            <a class="firm-button" href="firm.html?id=${encodeURIComponent(firm.id)}">View Firm</a>
+          </div>
         </div>
       </article>
     `;
   }).join("");
-}
 
+  grid.querySelectorAll("[data-favorite-id]").forEach(button => {
+    button.addEventListener("click", () => {
+      toggleFavorite(button.dataset.favoriteId, button);
+    });
+  });
+}
 
 async function loadFirms() {
-  const grid = document.getElementById("firmsGrid");
-  if (!grid) {
-    console.error("Cannot find #firmsGrid in index.html");
-    return;
-  }
-
-  injectDirectoryStyles();
-  grid.innerHTML = "<p>Loading prop firms...</p>";
-
-  try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/firms?select=*&status=eq.active&order=rating.desc`,
-      { headers: { apikey: SUPABASE_KEY } }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Supabase ${response.status}: ${await response.text()}`);
-    }
-
-    allFirms = await response.json();
-    createFilters(grid);
-    renderFirms();
-  } catch (error) {
-    console.error("FundedEdge error:", error);
-    grid.innerHTML = `
-      <div class="fe-no-results">
-        <h3>Couldn't load prop firms</h3>
-        <p>${escapeHTML(error.message)}</p>
-      </div>`;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", loadFirms);
+  const gr
