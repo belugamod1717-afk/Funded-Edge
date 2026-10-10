@@ -24,12 +24,11 @@ h2{font-size:24px}
 .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
 .btn{display:inline-block;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;background:#54e39a;color:#07110e}
 .btn.secondary{background:#20372c;color:#eaf8ef}
-#error{color:#ffb1a8}
 form{display:grid;gap:12px;margin:20px 0}
 input,select,textarea{width:100%;padding:13px;border:1px solid #345442;border-radius:8px;background:#09150f;color:#edf7f0;font:inherit}
 textarea{min-height:110px;resize:vertical}
 button{padding:13px;border:0;border-radius:8px;background:#54e39a;color:#07110e;font-weight:bold;font-size:15px;cursor:pointer}
-button:disabled{opacity:.6}
+button:disabled{opacity:.6;cursor:not-allowed}
 .review{padding:16px 0;border-bottom:1px solid #294535}
 .review:last-child{border-bottom:0}
 .stars{color:#f6ca62;letter-spacing:2px}
@@ -37,13 +36,17 @@ button:disabled{opacity:.6}
 .review-date{font-size:12px;color:#9cb1a3;margin-top:5px}
 .review-text{line-height:1.6;overflow-wrap:anywhere}
 #reviewMessage{color:#70efa9;line-height:1.5}
+#reviewAuthPrompt{background:#0a1510;border:1px solid #294535;border-radius:12px;padding:18px;margin-top:20px;line-height:1.7}
+a{overflow-wrap:anywhere}
+[hidden]{display:none!important}
 @media(max-width:500px){main{padding:14px}.card,.reviews-card{padding:18px}h1{font-size:27px}}
 </style>
 </head>
 <body>
 <header><a href="/">FundedEdge</a></header>
+
 <main>
-<a class="back" href="/">← Back to directory</a>
+<a class="back" href="/directory.html">← Back to directory</a>
 
 <div class="card" id="content">
 <p class="muted">Loading firm details...</p>
@@ -51,9 +54,11 @@ button:disabled{opacity:.6}
 
 <section class="reviews-card" id="reviewsSection" hidden>
 <h2>Reviews &amp; Ratings</h2>
-<p class="muted">Share your experience with this prop firm. Reviews are checked before publication.</p>
+<p class="muted">Read community experiences or share your own. All submitted reviews require approval.</p>
 
-<form id="reviewForm">
+<div id="reviewAuthPrompt" hidden></div>
+
+<form id="reviewForm" hidden>
 <label for="reviewerName">Your name</label>
 <input id="reviewerName" name="reviewerName" maxlength="40" minlength="2" required placeholder="Enter your name">
 
@@ -71,7 +76,7 @@ button:disabled{opacity:.6}
 <textarea id="reviewText" name="reviewText" minlength="10" maxlength="1000" required placeholder="Share your experience (10–1000 characters)"></textarea>
 
 <button id="reviewSubmit" type="submit">Submit Review</button>
-<p class="muted">Please be honest and respectful. Do not include passwords or private information.</p>
+<p class="muted">Be honest and respectful. Never include passwords or private information.</p>
 <p id="reviewMessage" role="status"></p>
 </form>
 
@@ -81,18 +86,24 @@ button:disabled{opacity:.6}
 </section>
 </main>
 
-<script>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const content = document.getElementById("content");
 const reviewsSection = document.getElementById("reviewsSection");
 const reviewForm = document.getElementById("reviewForm");
+const reviewAuthPrompt = document.getElementById("reviewAuthPrompt");
 const reviewMessage = document.getElementById("reviewMessage");
 const reviewsList = document.getElementById("reviewsList");
 const reviewSubmit = document.getElementById("reviewSubmit");
+const reviewerNameInput = document.getElementById("reviewerName");
 
 let currentFirmId = null;
+let currentUser = null;
 
 function esc(value) {
   return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
@@ -114,6 +125,52 @@ function item(label, value) {
   <div class="value">${esc(value || "Not provided")}</div></div>`;
 }
 
+function authUrl() {
+  const next = location.pathname + location.search;
+  return "/auth.html?next=" + encodeURIComponent(next);
+}
+
+function updateReviewAccess() {
+  if (currentUser) {
+    reviewForm.hidden = false;
+    reviewAuthPrompt.hidden = true;
+
+    const fullName = currentUser.user_metadata?.full_name;
+    const emailName = currentUser.email?.split("@")[0] || "";
+
+    if (!reviewerNameInput.value) {
+      reviewerNameInput.value = fullName || emailName;
+    }
+  } else {
+    reviewForm.hidden = true;
+    reviewAuthPrompt.hidden = false;
+    reviewAuthPrompt.innerHTML = `
+      <strong>Sign in to share your experience</strong>
+      <p class="muted">You need an account with a verified email address to submit a rating or review. You can still read published reviews without signing in.</p>
+      <a class="btn" href="${esc(authUrl())}">Sign In / Create Account</a>
+    `;
+  }
+}
+
+async function checkUser() {
+  try {
+    const { data: { user }, error } = await db.auth.getUser();
+
+    if (error) {
+      currentUser = null;
+    } else if (user && user.email_confirmed_at) {
+      currentUser = user;
+    } else {
+      currentUser = null;
+    }
+  } catch (error) {
+    console.error("Account check failed:", error);
+    currentUser = null;
+  }
+
+  updateReviewAccess();
+}
+
 async function loadFirm() {
   const id = new URLSearchParams(location.search).get("id");
 
@@ -123,21 +180,16 @@ async function loadFirm() {
   }
 
   try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/firms?select=*&id=eq.${encodeURIComponent(id)}&status=eq.active`,
-      {
-        headers: {
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        }
-      }
-    );
+    const { data: firms, error } = await db
+      .from("firms")
+      .select("*")
+      .eq("id", id)
+      .eq("status", "active")
+      .limit(1);
 
-    if (!response.ok) throw new Error("Database request failed (" + response.status + ")");
+    if (error) throw error;
 
-    const firms = await response.json();
-
-    if (!firms.length) {
+    if (!firms || !firms.length) {
       content.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive or unavailable.</p>';
       return;
     }
@@ -171,8 +223,10 @@ async function loadFirm() {
     `;
 
     reviewsSection.hidden = false;
+    await checkUser();
     await loadReviews();
   } catch (error) {
+    console.error(error);
     content.innerHTML = `<h1>Unable to load firm</h1><p id="error">${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
   }
 }
@@ -181,25 +235,21 @@ async function loadReviews() {
   reviewsList.innerHTML = '<p class="muted">Loading reviews...</p>';
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/firm_reviews?select=reviewer_name,rating,review_text,created_at&firm_id=eq.${encodeURIComponent(currentFirmId)}&status=eq.approved&order=created_at.desc`;
+    const { data: reviews, error } = await db
+      .from("firm_reviews")
+      .select("reviewer_name,rating,review_text,created_at")
+      .eq("firm_id", currentFirmId)
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
 
-    const response = await fetch(url, {
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`
-      }
-    });
+    if (error) throw error;
 
-    if (!response.ok) throw new Error("Could not load reviews.");
-
-    const reviews = await response.json();
-
-    if (!reviews.length) {
-      reviewsList.innerHTML = '<p class="muted">No published reviews yet. You can be the first to submit one!</p>';
+    if (!reviews || !reviews.length) {
+      reviewsList.innerHTML = '<p class="muted">No published reviews yet. Be the first to share your experience!</p>';
       return;
     }
 
-    const average = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+    const average = reviews.reduce((sum, review) => sum + Number(review.rating), 0) / reviews.length;
 
     reviewsList.innerHTML = `
       <div class="item">
@@ -210,10 +260,12 @@ async function loadReviews() {
       ${reviews.map(review => {
         const date = new Date(review.created_at);
         const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString();
+        const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
+
         return `
           <article class="review">
             <div class="review-name">${esc(review.reviewer_name)}</div>
-            <div class="stars" aria-label="${review.rating} out of 5 stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
+            <div class="stars" aria-label="${rating} out of 5 stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
             <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
             <div class="review-date">${esc(dateText)}</div>
           </article>
@@ -221,6 +273,7 @@ async function loadReviews() {
       }).join("")}
     `;
   } catch (error) {
+    console.error("Review loading failed:", error);
     reviewsList.innerHTML = '<p class="muted">Reviews could not be loaded. Please refresh the page and try again.</p>';
   }
 }
@@ -230,53 +283,61 @@ reviewForm.addEventListener("submit", async event => {
 
   if (!currentFirmId) return;
 
-  const reviewerName = document.getElementById("reviewerName").value.trim();
-  const rating = Number(document.getElementById("reviewRating").value);
-  const reviewText = document.getElementById("reviewText").value.trim();
-
-  if (reviewerName.length < 2 || rating < 1 || rating > 5 ||
-      reviewText.length < 10 || reviewText.length > 1000) {
-    reviewMessage.textContent = "Please check your name, rating and review length.";
-    return;
-  }
-
   reviewSubmit.disabled = true;
-  reviewMessage.textContent = "Submitting your review...";
+  reviewMessage.textContent = "Checking your account...";
 
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/firm_reviews`, {
-      method: "POST",
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
-      },
-      body: JSON.stringify({
-        firm_id: currentFirmId,
-        reviewer_name: reviewerName,
-        rating: rating,
-        review_text: reviewText,
-        status: "pending"
-      })
-    });
+    // Recheck the authenticated user immediately before submitting.
+    const { data: { user }, error: userError } = await db.auth.getUser();
 
-    if (!response.ok) {
-      const details = await response.text();
-      throw new Error(details || "Submission failed.");
+    if (userError || !user || !user.email_confirmed_at) {
+      currentUser = null;
+      updateReviewAccess();
+      throw new Error("Please sign in with a verified email address before submitting a review.");
     }
 
+    currentUser = user;
+
+    const reviewerName = reviewerNameInput.value.trim();
+    const rating = Number(document.getElementById("reviewRating").value);
+    const reviewText = document.getElementById("reviewText").value.trim();
+
+    if (reviewerName.length < 2 || rating < 1 || rating > 5 ||
+        reviewText.length < 10 || reviewText.length > 1000) {
+      throw new Error("Please check your name, rating, and review length.");
+    }
+
+    reviewMessage.textContent = "Submitting your review...";
+
+    const { error } = await db.from("firm_reviews").insert({
+      firm_id: currentFirmId,
+      user_id: user.id,
+      reviewer_name: reviewerName,
+      rating,
+      review_text: reviewText,
+      status: "pending"
+    });
+
+    if (error) throw error;
+
     reviewForm.reset();
-    reviewMessage.textContent = "Thank you! Your review was submitted and is awaiting approval.";
+    updateReviewAccess();
+    reviewMessage.textContent = "Thank you! Your review is awaiting admin approval.";
   } catch (error) {
-    console.error(error);
-    reviewMessage.textContent = "Sorry, the review could not be submitted. Please try again.";
+    console.error("Review submission failed:", error);
+    reviewMessage.textContent = error.message || "Sorry, your review could not be submitted. Please try again.";
   } finally {
     reviewSubmit.disabled = false;
   }
 });
 
-loadFirm();
+db.auth.onAuthStateChange((_event, session) => {
+  const user = session?.user;
+  currentUser = user?.email_confirmed_at ? user : null;
+  updateReviewAccess();
+});
+
+await loadFirm();
 </script>
 </body>
 </html>
