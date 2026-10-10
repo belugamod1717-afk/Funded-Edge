@@ -8,66 +8,371 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100vh; display: grid;
-      place-items: center; background: #06100d;
-      color: #f2f7f5; font-family: Arial, sans-serif;
-      padding: 20px;
+      margin: 0; padding: 20px; min-height: 100vh;
+      background: #06100d; color: #f2f7f5;
+      font-family: Arial, sans-serif;
     }
+    .wrap { max-width: 900px; margin: 30px auto; }
     .panel {
-      width: 100%; max-width: 400px; padding: 28px;
       background: #0b1b16; border: 1px solid #24473b;
-      border-radius: 18px;
+      border-radius: 16px; padding: 24px; margin-bottom: 20px;
     }
-    h1 { color: #27d17f; }
-    input, button {
-      width: 100%; padding: 14px; margin-top: 12px;
-      border-radius: 9px; font-size: 16px;
+    h1, h2 { color: #27d17f; }
+    input, textarea, button {
+      width: 100%; padding: 13px; margin: 7px 0;
+      border-radius: 8px; font-size: 15px;
     }
-    input {
-      background: #06100d; border: 1px solid #24473b;
-      color: white;
+    input, textarea {
+      background: #06100d; color: white;
+      border: 1px solid #24473b;
     }
     button {
-      border: 0; background: #27d17f;
-      font-weight: bold; cursor: pointer;
+      background: #27d17f; color: #04100b;
+      border: none; font-weight: bold; cursor: pointer;
     }
-    #message { line-height: 1.5; overflow-wrap: anywhere; }
+    .secondary { background: #20372e; color: white; }
+    .firm {
+      padding: 16px; margin: 12px 0;
+      border: 1px solid #24473b; border-radius: 10px;
+    }
+    .hidden { display: none; }
+    #message { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    label { display: block; margin-top: 10px; color: #a8beb3; }
   </style>
 </head>
 <body>
-  <main class="panel">
-    <h1>FundedEdge</h1>
-    <h2>Admin login test</h2>
-    <p>This checks the old demo login only.</p>
+<div class="wrap">
+  <h1>FundedEdge Admin</h1>
+  <p>Manage the prop firms displayed on your website.</p>
+  <p id="message">Connecting...</p>
 
+  <section id="loginPanel" class="panel hidden">
+    <h2>Admin Login</h2>
     <form id="loginForm">
-      <input id="email" type="email" placeholder="Email"
-        autocomplete="username" required>
-      <input id="password" type="password" placeholder="Password"
+      <label>Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label>Password</label>
+      <input id="password" type="password"
         autocomplete="current-password" required>
-      <button type="submit">Test Login</button>
+      <button type="submit">Log in securely</button>
     </form>
+  </section>
 
-    <p id="message" role="status">Ready.</p>
-  </main>
+  <section id="dashboard" class="hidden">
+    <div class="panel">
+      <h2>Dashboard</h2>
+      <p id="account"></p>
+      <button id="logout" class="secondary">Log out</button>
+    </div>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    <div class="panel">
+      <h2 id="formTitle">Add a prop firm</h2>
+      <form id="firmForm">
+        <input id="firmId" type="hidden">
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const message = document.getElementById("message");
+        <label>Firm name *</label>
+        <input id="name" required>
 
-      if (email === "admin@fundededge.com" &&
-          password === "FundedEdge123!") {
-        message.textContent =
-          "Demo credentials accepted. This is only a login test; secure admin authentication is not configured.";
-      } else {
-        message.textContent =
-          "These credentials do not match the demo login.";
-      }
+        <div class="grid">
+          <div>
+            <label>Category</label>
+            <input id="category" placeholder="Forex, Futures">
+          </div>
+          <div>
+            <label>Account sizes</label>
+            <input id="account_sizes" placeholder="$10k, $50k">
+          </div>
+          <div>
+            <label>Price</label>
+            <input id="price" placeholder="$99">
+          </div>
+          <div>
+            <label>Profit target</label>
+            <input id="profit_target">
+          </div>
+          <div>
+            <label>Daily drawdown</label>
+            <input id="daily_drawdown">
+          </div>
+          <div>
+            <label>Maximum drawdown</label>
+            <input id="max_drawdown">
+          </div>
+          <div>
+            <label>Profit split</label>
+            <input id="profit_split">
+          </div>
+          <div>
+            <label>Payout</label>
+            <input id="payout">
+          </div>
+          <div>
+            <label>Platforms</label>
+            <input id="platforms">
+          </div>
+          <div>
+            <label>Rating (0–5)</label>
+            <input id="rating" type="number" min="0" max="5" step="0.1">
+          </div>
+          <div>
+            <label>Tag</label>
+            <input id="tag">
+          </div>
+          <div>
+            <label>Status</label>
+            <input id="status" value="active" placeholder="active or inactive">
+          </div>
+          <div>
+            <label>Official website URL</label>
+            <input id="official_website" type="url">
+          </div>
+          <div>
+            <label>Affiliate URL</label>
+            <input id="affiliate_link" type="url">
+          </div>
+          <div>
+            <label>Verified date</label>
+            <input id="verified_date" type="date">
+          </div>
+        </div>
+
+        <label>Description</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <label>
+          <input id="verified" type="checkbox" style="width:auto">
+          Mark as verified
+        </label>
+
+        <button type="submit">Save firm</button>
+        <button type="button" id="cancelEdit" class="secondary hidden">
+          Cancel edit
+        </button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Existing prop firms</h2>
+      <button id="refresh" class="secondary">Refresh firms</button>
+      <div id="firmList">Loading...</div>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+  import { createClient } from
+    "https://esm.sh/@supabase/supabase-js@2";
+
+  const URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+  const KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+  const db = createClient(URL, KEY);
+
+  const $ = id => document.getElementById(id);
+  const message = text => $("message").textContent = text;
+  const fields = [
+    "name", "category", "description", "account_sizes", "price",
+    "profit_target", "daily_drawdown", "max_drawdown", "profit_split",
+    "payout", "platforms", "rating", "tag", "official_website",
+    "affiliate_link", "verified_date", "status"
+  ];
+
+  let currentUser = null;
+
+  async function isAdmin(user) {
+    const { data, error } = await db
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return !!data;
+  }
+
+  async function showSession() {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
+
+    const session = data.session;
+    currentUser = session?.user || null;
+
+    if (!currentUser) {
+      $("dashboard").classList.add("hidden");
+      $("loginPanel").classList.remove("hidden");
+      message("Please log in with your Supabase account.");
+      return;
+    }
+
+    if (!(await isAdmin(currentUser))) {
+      $("dashboard").classList.add("hidden");
+      $("loginPanel").classList.add("hidden");
+      message("This account is not authorized as a FundedEdge admin.");
+      return;
+    }
+
+    $("loginPanel").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    $("account").textContent = "Signed in as " + currentUser.email;
+    message("Admin access confirmed.");
+    await loadFirms();
+  }
+
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    message("Signing in...");
+
+    const { error } = await db.auth.signInWithPassword({
+      email: $("email").value.trim(),
+      password: $("password").value
     });
-  </script>
+
+    if (error) {
+      message("Login failed: " + error.message);
+      return;
+    }
+
+    try {
+      await showSession();
+    } catch (error) {
+      message("Access check failed: " + error.message);
+    }
+  });
+
+  $("logout").addEventListener("click", async () => {
+    await db.auth.signOut();
+    $("dashboard").classList.add("hidden");
+    $("loginPanel").classList.remove("hidden");
+    message("You have logged out.");
+  });
+
+  function clearForm() {
+    $("firmForm").reset();
+    $("firmId").value = "";
+    $("status").value = "active";
+    $("formTitle").textContent = "Add a prop firm";
+    $("cancelEdit").classList.add("hidden");
+  }
+
+  $("cancelEdit").addEventListener("click", clearForm);
+
+  $("firmForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!currentUser || !(await isAdmin(currentUser))) {
+      message("Admin authorization required.");
+      return;
+    }
+
+    const row = {};
+    for (const field of fields) {
+      row[field] = $(field).value.trim() || null;
+    }
+
+    row.rating = row.rating === null ? 0 : Number(row.rating);
+    row.verified = $("verified").checked;
+
+    if (row.status !== "active" && row.status !== "inactive") {
+      message("Status must be active or inactive.");
+      return;
+    }
+
+    const id = $("firmId").value;
+    message("Saving firm...");
+
+    let result;
+    if (id) {
+      result = await db.from("firms").update(row).eq("id", id);
+    } else {
+      result = await db.from("firms").insert(row);
+    }
+
+    if (result.error) {
+      message("Save failed: " + result.error.message);
+      return;
+    }
+
+    message("Firm saved successfully.");
+    clearForm();
+    await loadFirms();
+  });
+
+  async function loadFirms() {
+    const list = $("firmList");
+    list.textContent = "Loading firms...";
+
+    const { data, error } = await db
+      .from("firms")
+      .select("*")
+      .order("name");
+
+    if (error) {
+      list.textContent = "Could not load firms: " + error.message;
+      return;
+    }
+
+    list.replaceChildren();
+
+    if (!data.length) {
+      list.textContent = "No firms found.";
+      return;
+    }
+
+    for (const firm of data) {
+      const card = document.createElement("div");
+      card.className = "firm";
+
+      const title = document.createElement("h3");
+      title.textContent = firm.name;
+
+      const details = document.createElement("p");
+      details.textContent =
+        `${firm.status || "active"} · Rating: ${firm.rating ?? 0}`;
+
+      const edit = document.createElement("button");
+      edit.textContent = "Edit";
+      edit.addEventListener("click", () => {
+        $("firmId").value = firm.id;
+        for (const field of fields) {
+          $(field).value = firm[field] ?? "";
+        }
+        $("verified").checked = !!firm.verified;
+        $("formTitle").textContent = "Edit " + firm.name;
+        $("cancelEdit").classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const remove = document.createElement("button");
+      remove.textContent = "Delete firm";
+      remove.className = "secondary";
+      remove.addEventListener("click", async () => {
+        if (!confirm("Permanently delete " + firm.name + "?")) return;
+
+        const { error } = await db.from("firms").delete().eq("id", firm.id);
+        if (error) {
+          message("Delete failed: " + error.message);
+          return;
+        }
+        message("Firm deleted.");
+        await loadFirms();
+      });
+
+      card.append(title, details, edit, remove);
+      list.append(card);
+    }
+  }
+
+  $("refresh").addEventListener("click", loadFirms);
+
+  try {
+    await showSession();
+  } catch (error) {
+    message("Initialization error: " + error.message);
+    $("loginPanel").classList.remove("hidden");
+  }
+</script>
 </body>
 </html>
