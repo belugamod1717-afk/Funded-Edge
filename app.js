@@ -443,20 +443,88 @@ function createFilters(grid) {
   });
 }
 
+
 function renderFirms() {
   const grid = document.getElementById("firmsGrid");
   if (!grid) return;
 
+  // Add logo styles once.
+  if (!document.getElementById("fe-logo-styles")) {
+    const style = document.createElement("style");
+    style.id = "fe-logo-styles";
+    style.textContent = `
+      #firmsGrid .firm-brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+      }
+
+      #firmsGrid .firm-logo {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        overflow: hidden;
+        border: 1px solid #315440;
+        border-radius: 13px;
+        background: linear-gradient(145deg, #1a3825, #0b1710);
+        color: #82edaa;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -1px;
+      }
+
+      #firmsGrid .firm-logo img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 9px;
+        box-sizing: border-box;
+        object-fit: contain;
+        background: #f7faf7;
+      }
+
+      #firmsGrid .firm-brand-info {
+        min-width: 0;
+      }
+
+      #firmsGrid .firm-brand-info h3 {
+        overflow-wrap: anywhere;
+      }
+
+      @media(max-width:480px) {
+        #firmsGrid .firm-logo {
+          width: 46px;
+          height: 46px;
+          border-radius: 11px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   const search = (document.getElementById("feSearch")?.value || "")
     .trim().toLowerCase();
   const category = document.getElementById("feCategory")?.value || "";
-  const minAccount = Number(document.getElementById("feAccount")?.value || 0);
-  const maxPrice = Number(document.getElementById("fePrice")?.value || 999999);
+  const minAccount = Number(
+    document.getElementById("feAccount")?.value || 0
+  );
+  const maxPrice = Number(
+    document.getElementById("fePrice")?.value || 999999
+  );
   const sort = document.getElementById("feSort")?.value || "rating";
 
   let firms = allFirms.filter(firm => {
     const searchable = [
-      firm.name, firm.category, firm.description, firm.tag,
+      firm.name,
+      firm.category,
+      firm.description,
+      firm.tag,
       firm.platforms
     ].join(" ").toLowerCase();
 
@@ -465,31 +533,36 @@ function renderFirms() {
       ? Math.max(...accountNumbers) : 0;
 
     const prices = getNumbers(firm.price);
-    const startingPrice = prices.length ? Math.min(...prices) : null;
+    const startingPrice = prices.length
+      ? Math.min(...prices) : null;
 
-    const matchesSearch = searchable.includes(search);
-    const matchesCategory = !category || firm.category === category;
-    const matchesAccount = !minAccount || maxAccountSize >= minAccount;
-    const matchesPrice = maxPrice === 999999 ||
-      (startingPrice !== null && startingPrice <= maxPrice);
-
-    return matchesSearch && matchesCategory &&
-      matchesAccount && matchesPrice;
+    return searchable.includes(search) &&
+      (!category || firm.category === category) &&
+      (!minAccount || maxAccountSize >= minAccount) &&
+      (maxPrice === 999999 ||
+        (startingPrice !== null && startingPrice <= maxPrice));
   });
 
   firms.sort((a, b) => {
-    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
+    if (sort === "name") {
+      return (a.name || "").localeCompare(b.name || "");
+    }
+
     if (sort === "price") {
       const pa = getNumbers(a.price);
       const pb = getNumbers(b.price);
       return (pa.length ? Math.min(...pa) : Infinity) -
         (pb.length ? Math.min(...pb) : Infinity);
     }
+
     return (Number(b.rating) || 0) - (Number(a.rating) || 0);
   });
 
-  document.getElementById("feResultsCount").textContent =
-    `Showing ${firms.length} of ${allFirms.length} prop firms`;
+  const count = document.getElementById("feResultsCount");
+  if (count) {
+    count.textContent =
+      `Showing ${firms.length} of ${allFirms.length} prop firms`;
+  }
 
   if (!firms.length) {
     grid.innerHTML = `
@@ -500,31 +573,115 @@ function renderFirms() {
     return;
   }
 
-  grid.innerHTML = firms.map(firm => `
-    <article class="firm-card">
-      <div class="firm-card-top">
-        <div>
-          <span class="firm-tag">${escapeHTML(firm.tag || firm.category || "PROP FIRM")}</span>
-          <h3>${escapeHTML(firm.name)}</h3>
+  // Known official domains; other firms use their saved website.
+  function getLogoDomain(firm) {
+    const name = (firm.name || "").toLowerCase().trim();
+
+    const knownDomains = {
+      "ftmo": "ftmo.com",
+      "the5ers": "the5ers.com",
+      "the 5ers": "the5ers.com",
+      "topstep": "topstep.com",
+      "apex trader funding": "apextraderfunding.com"
+    };
+
+    if (knownDomains[name]) return knownDomains[name];
+
+    try {
+      const url = new URL(firm.official_website || "");
+      if (url.protocol === "https:" || url.protocol === "http:") {
+        return url.hostname;
+      }
+    } catch (_) {}
+
+    return "";
+  }
+
+  function getInitials(name) {
+    const words = String(name || "PF")
+      .trim().split(/\s+/).filter(Boolean);
+
+    if (words.length > 1) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+
+    return (words[0] || "PF").slice(0, 2).toUpperCase();
+  }
+
+  grid.innerHTML = firms.map(firm => {
+    const domain = getLogoDomain(firm);
+    const initials = getInitials(firm.name);
+
+    const logo = domain
+      ? `<img
+           src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128"
+           alt="${escapeHTML(firm.name)} website icon"
+           loading="lazy"
+           onerror="this.style.display='none'"
+         >`
+      : "";
+
+    return `
+      <article class="firm-card">
+        <div class="firm-card-top">
+          <div class="firm-brand">
+            <div class="firm-logo">
+              <span>${escapeHTML(initials)}</span>
+              ${logo}
+            </div>
+            <div class="firm-brand-info">
+              <span class="firm-tag">
+                ${escapeHTML(firm.tag || firm.category || "PROP FIRM")}
+              </span>
+              <h3>${escapeHTML(firm.name)}</h3>
+            </div>
+          </div>
+
+          <div class="firm-rating">
+            ★ ${escapeHTML(firm.rating ?? "—")}
+          </div>
         </div>
-        <div class="firm-rating">★ ${escapeHTML(firm.rating ?? "—")}</div>
-      </div>
-      <p class="firm-description">
-        ${escapeHTML(firm.description || "Explore this firm's trading conditions.")}
-      </p>
-      <div class="firm-stats">
-        <div><small>Account Sizes</small><strong>${escapeHTML(firm.account_sizes || "—")}</strong></div>
-        <div><small>Profit Target</small><strong>${escapeHTML(firm.profit_target || "—")}</strong></div>
-        <div><small>Max Drawdown</small><strong>${escapeHTML(firm.max_drawdown || "—")}</strong></div>
-        <div><small>Profit Split</small><strong>${escapeHTML(firm.profit_split || "—")}</strong></div>
-      </div>
-      <div class="firm-card-bottom">
-        <span class="firm-price">${escapeHTML(firm.price || "See details")}</span>
-        <a class="firm-button" href="firm.html?id=${encodeURIComponent(firm.id)}">View Firm</a>
-      </div>
-    </article>
-  `).join("");
+
+        <p class="firm-description">
+          ${escapeHTML(
+            firm.description ||
+            "Explore this firm's trading conditions."
+          )}
+        </p>
+
+        <div class="firm-stats">
+          <div>
+            <small>Account Sizes</small>
+            <strong>${escapeHTML(firm.account_sizes || "—")}</strong>
+          </div>
+          <div>
+            <small>Profit Target</small>
+            <strong>${escapeHTML(firm.profit_target || "—")}</strong>
+          </div>
+          <div>
+            <small>Max Drawdown</small>
+            <strong>${escapeHTML(firm.max_drawdown || "—")}</strong>
+          </div>
+          <div>
+            <small>Profit Split</small>
+            <strong>${escapeHTML(firm.profit_split || "—")}</strong>
+          </div>
+        </div>
+
+        <div class="firm-card-bottom">
+          <span class="firm-price">
+            ${escapeHTML(firm.price || "See details")}
+          </span>
+          <a class="firm-button"
+             href="firm.html?id=${encodeURIComponent(firm.id)}">
+            View Firm
+          </a>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
+
 
 async function loadFirms() {
   const grid = document.getElementById("firmsGrid");
