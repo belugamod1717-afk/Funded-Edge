@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +12,9 @@ header{padding:20px 6%;border-bottom:1px solid #20372c}
 header a{color:#54e39a;text-decoration:none;font-size:23px;font-weight:bold}
 main{max-width:900px;margin:35px auto;padding:20px}
 .back{color:#65e5a1;text-decoration:none}
-.card{background:#101e17;border:1px solid #294535;border-radius:16px;padding:25px;margin-top:20px}
+.card,.reviews-card{background:#101e17;border:1px solid #294535;border-radius:16px;padding:25px;margin-top:20px}
 h1{font-size:32px;margin-bottom:10px}
+h2{font-size:24px}
 .muted{color:#a6b9ad;line-height:1.6}
 .tag{display:inline-block;background:#193d2b;color:#70efa9;padding:7px 12px;border-radius:20px;margin:8px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:25px}
@@ -23,15 +25,60 @@ h1{font-size:32px;margin-bottom:10px}
 .btn{display:inline-block;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;background:#54e39a;color:#07110e}
 .btn.secondary{background:#20372c;color:#eaf8ef}
 #error{color:#ffb1a8}
+form{display:grid;gap:12px;margin:20px 0}
+input,select,textarea{width:100%;padding:13px;border:1px solid #345442;border-radius:8px;background:#09150f;color:#edf7f0;font:inherit}
+textarea{min-height:110px;resize:vertical}
+button{padding:13px;border:0;border-radius:8px;background:#54e39a;color:#07110e;font-weight:bold;font-size:15px;cursor:pointer}
+button:disabled{opacity:.6}
+.review{padding:16px 0;border-bottom:1px solid #294535}
+.review:last-child{border-bottom:0}
+.stars{color:#f6ca62;letter-spacing:2px}
+.review-name{font-weight:bold}
+.review-date{font-size:12px;color:#9cb1a3;margin-top:5px}
+.review-text{line-height:1.6;overflow-wrap:anywhere}
+#reviewMessage{color:#70efa9;line-height:1.5}
+@media(max-width:500px){main{padding:14px}.card,.reviews-card{padding:18px}h1{font-size:27px}}
 </style>
 </head>
 <body>
 <header><a href="/">FundedEdge</a></header>
 <main>
 <a class="back" href="/">← Back to directory</a>
+
 <div class="card" id="content">
 <p class="muted">Loading firm details...</p>
 </div>
+
+<section class="reviews-card" id="reviewsSection" hidden>
+<h2>Reviews &amp; Ratings</h2>
+<p class="muted">Share your experience with this prop firm. Reviews are checked before publication.</p>
+
+<form id="reviewForm">
+<label for="reviewerName">Your name</label>
+<input id="reviewerName" name="reviewerName" maxlength="40" minlength="2" required placeholder="Enter your name">
+
+<label for="reviewRating">Your rating</label>
+<select id="reviewRating" name="reviewRating" required>
+<option value="">Choose stars</option>
+<option value="5">★★★★★ — 5 stars</option>
+<option value="4">★★★★ — 4 stars</option>
+<option value="3">★★★ — 3 stars</option>
+<option value="2">★★ — 2 stars</option>
+<option value="1">★ — 1 star</option>
+</select>
+
+<label for="reviewText">Your review</label>
+<textarea id="reviewText" name="reviewText" minlength="10" maxlength="1000" required placeholder="Share your experience (10–1000 characters)"></textarea>
+
+<button id="reviewSubmit" type="submit">Submit Review</button>
+<p class="muted">Please be honest and respectful. Do not include passwords or private information.</p>
+<p id="reviewMessage" role="status"></p>
+</form>
+
+<div id="reviewsList">
+<p class="muted">Loading reviews...</p>
+</div>
+</section>
 </main>
 
 <script>
@@ -39,6 +86,13 @@ const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
 
 const content = document.getElementById("content");
+const reviewsSection = document.getElementById("reviewsSection");
+const reviewForm = document.getElementById("reviewForm");
+const reviewMessage = document.getElementById("reviewMessage");
+const reviewsList = document.getElementById("reviewsList");
+const reviewSubmit = document.getElementById("reviewSubmit");
+
+let currentFirmId = null;
 
 function esc(value) {
   return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
@@ -82,12 +136,14 @@ async function loadFirm() {
     if (!response.ok) throw new Error("Database request failed (" + response.status + ")");
 
     const firms = await response.json();
+
     if (!firms.length) {
       content.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive or unavailable.</p>';
       return;
     }
 
     const f = firms[0];
+    currentFirmId = f.id;
     const official = safeUrl(f.official_website);
     const affiliate = safeUrl(f.affiliate_link);
 
@@ -105,7 +161,7 @@ async function loadFirm() {
         ${item("Profit split", f.profit_split)}
         ${item("Payout", f.payout)}
         ${item("Trading platforms", f.platforms)}
-        ${item("Rating", f.rating ? f.rating + " / 5" : "Not rated")}
+        ${item("Listed rating", f.rating ? f.rating + " / 5" : "Not rated")}
       </div>
       <div class="buttons">
         ${official ? `<a class="btn" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Official Website ↗</a>` : ""}
@@ -113,10 +169,112 @@ async function loadFirm() {
       </div>
       <p class="muted">Please verify current rules and prices on the firm's official website before purchasing.</p>
     `;
+
+    reviewsSection.hidden = false;
+    await loadReviews();
   } catch (error) {
-    content.innerHTML = `<h1>Unable to load firm</h1><p id="error"> ${esc(error.message)} </p><p class="muted">Check your connection and try again.</p>`;
+    content.innerHTML = `<h1>Unable to load firm</h1><p id="error">${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
   }
 }
+
+async function loadReviews() {
+  reviewsList.innerHTML = '<p class="muted">Loading reviews...</p>';
+
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/firm_reviews?select=reviewer_name,rating,review_text,created_at&firm_id=eq.${encodeURIComponent(currentFirmId)}&status=eq.approved&order=created_at.desc`;
+
+    const response = await fetch(url, {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`
+      }
+    });
+
+    if (!response.ok) throw new Error("Could not load reviews.");
+
+    const reviews = await response.json();
+
+    if (!reviews.length) {
+      reviewsList.innerHTML = '<p class="muted">No published reviews yet. You can be the first to submit one!</p>';
+      return;
+    }
+
+    const average = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+
+    reviewsList.innerHTML = `
+      <div class="item">
+        <div class="label">Community rating from published reviews</div>
+        <div class="value"><span class="stars">★</span> ${average.toFixed(1)} / 5</div>
+        <p class="muted">${reviews.length} published review${reviews.length === 1 ? "" : "s"}</p>
+      </div>
+      ${reviews.map(review => {
+        const date = new Date(review.created_at);
+        const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString();
+        return `
+          <article class="review">
+            <div class="review-name">${esc(review.reviewer_name)}</div>
+            <div class="stars" aria-label="${review.rating} out of 5 stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
+            <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
+            <div class="review-date">${esc(dateText)}</div>
+          </article>
+        `;
+      }).join("")}
+    `;
+  } catch (error) {
+    reviewsList.innerHTML = '<p class="muted">Reviews could not be loaded. Please refresh the page and try again.</p>';
+  }
+}
+
+reviewForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentFirmId) return;
+
+  const reviewerName = document.getElementById("reviewerName").value.trim();
+  const rating = Number(document.getElementById("reviewRating").value);
+  const reviewText = document.getElementById("reviewText").value.trim();
+
+  if (reviewerName.length < 2 || rating < 1 || rating > 5 ||
+      reviewText.length < 10 || reviewText.length > 1000) {
+    reviewMessage.textContent = "Please check your name, rating and review length.";
+    return;
+  }
+
+  reviewSubmit.disabled = true;
+  reviewMessage.textContent = "Submitting your review...";
+
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/firm_reviews`, {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        firm_id: currentFirmId,
+        reviewer_name: reviewerName,
+        rating: rating,
+        review_text: reviewText,
+        status: "pending"
+      })
+    });
+
+    if (!response.ok) {
+      const details = await response.text();
+      throw new Error(details || "Submission failed.");
+    }
+
+    reviewForm.reset();
+    reviewMessage.textContent = "Thank you! Your review was submitted and is awaiting approval.";
+  } catch (error) {
+    console.error(error);
+    reviewMessage.textContent = "Sorry, the review could not be submitted. Please try again.";
+  } finally {
+    reviewSubmit.disabled = false;
+  }
+});
 
 loadFirm();
 </script>
