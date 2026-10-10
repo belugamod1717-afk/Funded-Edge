@@ -9,8 +9,6 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FundedEdge">
 <meta property="og:title" content="Prop Firm Details | FundedEdge">
@@ -23,18 +21,13 @@
 body{margin:0;background:#07110e;color:#edf7f0;font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
-
-/* HEADER */
 header{padding:18px 6%;border-bottom:1px solid #20372c;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(7,17,14,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10}
 header .brand{color:#54e39a;text-decoration:none;font-size:23px;font-weight:800;letter-spacing:-.5px}
 header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 header nav a{color:#cfe3d6;font-size:14px}
 header nav a:hover{color:#54e39a}
-
-/* AUTH AREA */
 .fe-auth-area{display:flex;align-items:center;gap:10px}
-.fe-auth-area .fe-auth-signin,
-.fe-auth-area .fe-auth-signup{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:.2s}
+.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:.2s}
 .fe-auth-area .fe-auth-signin{background:transparent;color:#e0ece3;border:1px solid #2a4534}
 .fe-auth-area .fe-auth-signin:hover{border-color:#54e39a;color:#54e39a}
 .fe-auth-area .fe-auth-signup{background:#54e39a;color:#07110e;border:1px solid #54e39a}
@@ -42,8 +35,6 @@ header nav a:hover{color:#54e39a}
 .fe-auth-area .fe-user-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2a4534;border-radius:10px;color:#e0ece3;font-weight:600;font-size:13px;background:rgba(84,227,154,.08);transition:.2s}
 .fe-auth-area .fe-user-chip:hover{border-color:#54e39a;color:#54e39a}
 .fe-auth-area .fe-user-initial{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#54e39a;color:#07110e;font-weight:800;font-size:11px}
-
-/* MAIN */
 main{max-width:960px;margin:32px auto;padding:20px}
 .back{color:#65e5a1;font-size:13px}
 .card,.reviews-card{background:linear-gradient(145deg,#101e17,#0a1510);border:1px solid #294535;border-radius:18px;padding:26px;margin-top:20px}
@@ -59,289 +50,66 @@ h2{font-size:22px;margin:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:10px;font-weight:800;background:#54e39a;color:#07110e;border:1px solid transparent;cursor:pointer;font-size:14px;transition:.2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(84,227,154,.2)}
 .btn.secondary{background:#20372c;color:#eaf8ef}
-.btn.secondary:hover{box-shadow:0 8px 20px rgba(32,55,44,.3)}
-.btn.save{background:transparent;color:#eaf8ef;border:1px solid #345442;display:inline-flex;align-items:center;gap:8px}
-.btn.save:hover{border-color:#54e39a;color:#54e39a;box-shadow:none}
+.btn.save{background:transparent;color:#eaf8ef;border:1px solid #345442}
+.btn.save:hover{border-color:#54e39a;color:#54e39a;box-shadow:none;transform:none}
 .btn.save.is-saved{background:rgba(84,227,154,.1);border-color:#54e39a;color:#54e39a}
 .btn.save:disabled{opacity:.6;cursor:wait}
 a{overflow-wrap:anywhere}
 [hidden]{display:none!important}
 
-/* ================= REVIEWS SECTION ================= */
 .reviews-card{padding:0;overflow:hidden}
-
-.reviews-header{
-  padding:28px 30px 22px;
-  border-bottom:1px solid #22372c;
-  background:linear-gradient(135deg,#122019,#0d1812);
-}
+.reviews-header{padding:28px 30px 22px;border-bottom:1px solid #22372c;background:linear-gradient(135deg,#122019,#0d1812)}
 .reviews-header h2{font-size:24px;margin:0 0 6px}
 .reviews-header p{margin:0;color:#9cb1a3;font-size:13.5px}
-
-/* Rating summary */
-.rating-summary{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  gap:28px;
-  align-items:center;
-  padding:24px 30px;
-  background:#0c1813;
-  border-bottom:1px solid #22372c;
-}
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:24px 30px;background:#0c1813;border-bottom:1px solid #22372c}
 @media(max-width:600px){.rating-summary{grid-template-columns:1fr;gap:16px}}
-
-.rating-big{
-  text-align:center;
-  padding-right:28px;
-  border-right:1px solid #22372c;
-}
+.rating-big{text-align:center;padding-right:28px;border-right:1px solid #22372c}
 @media(max-width:600px){.rating-big{border-right:0;border-bottom:1px solid #22372c;padding:0 0 16px}}
-.rating-big .num{
-  font-size:52px;
-  font-weight:900;
-  color:#fff;
-  line-height:1;
-  letter-spacing:-2px;
-}
-.rating-big .stars{
-  color:#f5d77b;
-  font-size:18px;
-  letter-spacing:2px;
-  margin:8px 0 4px;
-}
-.rating-big .count{
-  font-size:12px;
-  color:#7a8a80;
-  font-weight:600;
-}
-
-/* Bars breakdown */
+.rating-big .num{font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
+.rating-big .stars{color:#f5d77b;font-size:18px;letter-spacing:2px;margin:8px 0 4px}
+.rating-big .count{font-size:12px;color:#7a8a80;font-weight:600}
 .rating-bars{display:grid;gap:7px}
-.rating-bar-row{
-  display:grid;
-  grid-template-columns:36px 1fr 42px;
-  gap:10px;
-  align-items:center;
-  font-size:12px;
-}
+.rating-bar-row{display:grid;grid-template-columns:36px 1fr 42px;gap:10px;align-items:center;font-size:12px}
 .rating-bar-row .lbl{color:#a0a8a2;font-weight:700}
-.rating-bar-row .bar{
-  height:8px;
-  background:#1a2420;
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-}
-.rating-bar-row .bar span{
-  display:block;
-  height:100%;
-  background:linear-gradient(90deg,#54e39a,#35d875);
-  border-radius:20px;
-  transition:width .4s ease;
-}
+.rating-bar-row .bar{height:8px;background:#1a2420;border-radius:20px;overflow:hidden}
+.rating-bar-row .bar span{display:block;height:100%;background:linear-gradient(90deg,#54e39a,#35d875);border-radius:20px}
 .rating-bar-row .pct{color:#7a8a80;text-align:right;font-weight:700}
-
-/* CTA / prompt inside reviews */
-.review-cta{
-  padding:22px 30px;
-  background:#0c1813;
-  border-bottom:1px solid #22372c;
-}
+.review-cta{padding:22px 30px;background:#0c1813;border-bottom:1px solid #22372c}
 .review-cta p{margin:0 0 14px;color:#a6b9ad;font-size:14px;line-height:1.7}
 .review-cta strong{color:#edf7f0;display:block;margin-bottom:6px;font-size:15px}
-
-/* Review form */
-.review-form-shell{
-  padding:26px 30px;
-  background:#0a1510;
-  border-bottom:1px solid #22372c;
-}
-.review-form-shell h3{
-  margin:0 0 4px;
-  font-size:16px;
-  font-weight:800;
-  letter-spacing:-.2px;
-}
-.review-form-shell .hint{
-  color:#7a8a80;
-  font-size:12.5px;
-  margin:0 0 20px;
-}
-
-/* Star picker */
-.star-picker{
-  display:inline-flex;
-  gap:6px;
-  margin:6px 0 8px;
-}
-.star-picker button{
-  background:transparent;
-  border:0;
-  padding:0;
-  font-size:34px;
-  line-height:1;
-  color:#2b3a33;
-  cursor:pointer;
-  transition:transform .12s ease,color .12s ease;
-}
-.star-picker button:hover,
-.star-picker button.on{color:#f5d77b}
+.review-form-shell{padding:26px 30px;background:#0a1510;border-bottom:1px solid #22372c}
+.review-form-shell h3{margin:0 0 4px;font-size:16px;font-weight:800}
+.review-form-shell .hint{color:#7a8a80;font-size:12.5px;margin:0 0 20px}
+.star-picker{display:inline-flex;gap:6px;margin:6px 0 8px}
+.star-picker button{background:transparent;border:0;padding:0;font-size:34px;line-height:1;color:#2b3a33;cursor:pointer;transition:transform .12s,color .12s}
+.star-picker button:hover,.star-picker button.on{color:#f5d77b}
 .star-picker button:hover{transform:scale(1.15)}
-.star-picker-label{
-  display:block;
-  font-size:12.5px;
-  color:#8a9a90;
-  margin-bottom:18px;
-  font-weight:600;
-}
-
-.review-form-shell .field{
-  display:grid;
-  gap:8px;
-  margin-bottom:16px;
-}
-.review-form-shell label{
-  font-size:12.5px;
-  font-weight:750;
-  color:#dbe9e0;
-}
-.review-form-shell input,
-.review-form-shell textarea{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid #2e4438;
-  border-radius:11px;
-  background:#0a1410;
-  color:#edf7f0;
-  font-size:14px;
-  outline:none;
-  transition:.15s;
-  font-family:inherit;
-}
-.review-form-shell input:focus,
-.review-form-shell textarea:focus{
-  border-color:#54e39a;
-  box-shadow:0 0 0 3px rgba(84,227,154,.12);
-}
+.star-picker-label{display:block;font-size:12.5px;color:#8a9a90;margin-bottom:18px;font-weight:600}
+.review-form-shell .field{display:grid;gap:8px;margin-bottom:16px}
+.review-form-shell label{font-size:12.5px;font-weight:750;color:#dbe9e0}
+.review-form-shell input,.review-form-shell textarea{width:100%;padding:13px 14px;border:1px solid #2e4438;border-radius:11px;background:#0a1410;color:#edf7f0;font-size:14px;outline:none;transition:.15s;font-family:inherit}
+.review-form-shell input:focus,.review-form-shell textarea:focus{border-color:#54e39a;box-shadow:0 0 0 3px rgba(84,227,154,.12)}
 .review-form-shell textarea{min-height:120px;resize:vertical}
-
-.char-count{
-  text-align:right;
-  font-size:11.5px;
-  color:#6e7d74;
-  margin-top:-8px;
-}
-
-.form-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-  margin-top:8px;
-}
-
-#reviewMessage{
-  display:none;
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:10px;
-  font-size:13.5px;
-  line-height:1.5;
-}
+.char-count{text-align:right;font-size:11.5px;color:#6e7d74;margin-top:-8px}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+#reviewMessage{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;font-size:13.5px;line-height:1.5}
 #reviewMessage.show{display:block}
 #reviewMessage.success{background:#153729;color:#8df0bd;border:1px solid #235c3b}
 #reviewMessage.error{background:#3a2020;color:#ffb7bb;border:1px solid #5a2a2f}
-
-/* Reviews list */
 .reviews-list{padding:12px 30px 30px}
-
-.review-item{
-  padding:22px 0;
-  border-bottom:1px solid #1f3227;
-}
+.review-item{padding:22px 0;border-bottom:1px solid #1f3227}
 .review-item:last-child{border-bottom:0}
-
-.review-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:14px;
-  margin-bottom:10px;
-  flex-wrap:wrap;
-}
-.review-author{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-}
-.review-avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  font-size:16px;
-  color:#07110e;
-  flex-shrink:0;
-  letter-spacing:-.5px;
-}
+.review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.review-author{display:flex;align-items:center;gap:12px;min-width:0}
+.review-avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:16px;color:#07110e;flex-shrink:0}
 .review-author-info{min-width:0}
-.review-author-name{
-  font-weight:800;
-  font-size:14.5px;
-  overflow-wrap:anywhere;
-}
-.review-author-date{
-  font-size:12px;
-  color:#7a8a80;
-  margin-top:2px;
-}
-.review-rating-inline{
-  flex-shrink:0;
-  font-size:14px;
-  letter-spacing:2px;
-  color:#f5d77b;
-}
-
-.review-text{
-  margin:0;
-  color:#d5e0d8;
-  font-size:14px;
-  line-height:1.75;
-  overflow-wrap:anywhere;
-  white-space:pre-wrap;
-}
-
-.reviews-empty{
-  padding:40px 20px;
-  text-align:center;
-  border:1px dashed #2e4438;
-  border-radius:14px;
-  color:#8a9a90;
-  font-size:14px;
-  background:#0a1510;
-}
-.reviews-empty .big{
-  font-size:38px;
-  margin-bottom:12px;
-  display:block;
-  opacity:.6;
-}
-
-/* Mobile */
-@media(max-width:600px){
-  header{padding:14px 5%}
-  header nav{gap:12px;font-size:13px}
-  main{padding:14px}
-  .card,.reviews-card{padding:0}
-  .card{padding:20px}
-  h1{font-size:26px}
-  .reviews-header,.rating-summary,.review-cta,.review-form-shell{padding-left:20px;padding-right:20px}
-  .reviews-list{padding-left:20px;padding-right:20px}
-  .rating-big .num{font-size:42px}
-}
+.review-author-name{font-weight:800;font-size:14.5px;overflow-wrap:anywhere}
+.review-author-date{font-size:12px;color:#7a8a80;margin-top:2px}
+.review-rating-inline{flex-shrink:0;font-size:14px;letter-spacing:2px;color:#f5d77b}
+.review-text{margin:0;color:#d5e0d8;font-size:14px;line-height:1.75;overflow-wrap:anywhere;white-space:pre-wrap}
+.reviews-empty{padding:40px 20px;text-align:center;border:1px dashed #2e4438;border-radius:14px;color:#8a9a90;font-size:14px;background:#0a1510}
+.reviews-empty .big{font-size:38px;margin-bottom:12px;display:block;opacity:.6}
+@media(max-width:600px){header{padding:14px 5%}header nav{gap:12px;font-size:13px}main{padding:14px}.card{padding:20px}.reviews-card{padding:0}h1{font-size:26px}.reviews-header,.rating-summary,.review-cta,.review-form-shell{padding-left:20px;padding-right:20px}.reviews-list{padding-left:20px;padding-right:20px}.rating-big .num{font-size:42px}}
 </style>
 </head>
 <body>
@@ -365,9 +133,8 @@ a{overflow-wrap:anywhere}
 </div>
 
 <section class="reviews-card" id="reviewsSection" hidden>
-
   <div class="reviews-header">
-    <h2>Reviews & Ratings</h2>
+    <h2>Reviews &amp; Ratings</h2>
     <p>Read what real traders say about this firm. All submissions are reviewed before publishing.</p>
   </div>
 
@@ -452,28 +219,29 @@ let currentUser = null;
 let isFavorited = false;
 let selectedStars = 0;
 
-/* HELPERS */
 function esc(value) {
   return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
     "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
   })[c]);
 }
+
 function safeUrl(value) {
   try {
     const u = new URL(value);
     return ["http:", "https:"].includes(u.protocol) ? u.href : "";
   } catch { return ""; }
 }
+
 function item(label, value) {
   return `<div class="item"><div class="label">${esc(label)}</div><div class="value">${esc(value || "Not provided")}</div></div>`;
 }
+
 function authUrl(mode) {
   const next = location.pathname + location.search;
   const q = `?next=${encodeURIComponent(next)}`;
   return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
 }
 
-/* TOAST */
 let toastTimer;
 function toast(msg) {
   let el = document.getElementById("feToast");
@@ -488,7 +256,6 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.remove(), 3500);
 }
 
-/* AUTH NAV */
 function renderAuthArea() {
   if (!authArea) return;
   if (currentUser) {
@@ -500,27 +267,28 @@ function renderAuthArea() {
   }
 }
 
-/* FAVORITES */
 async function checkIfFavorited() {
   if (!currentUser || !currentFirmId) return false;
   const { data, error } = await db.from("favorites").select("id").eq("user_id", currentUser.id).eq("firm_id", currentFirmId).maybeSingle();
   if (error) return false;
   return !!data;
 }
+
 function updateSaveButton() {
   const btn = document.getElementById("saveBtn");
   if (!btn) return;
   if (!currentUser) {
     btn.classList.remove("is-saved");
-    btn.innerHTML = `♡ Sign in to save`;
+    btn.innerHTML = "♡ Sign in to save";
   } else if (isFavorited) {
     btn.classList.add("is-saved");
-    btn.innerHTML = `♥ Saved`;
+    btn.innerHTML = "♥ Saved";
   } else {
     btn.classList.remove("is-saved");
-    btn.innerHTML = `♡ Save firm`;
+    btn.innerHTML = "♡ Save firm";
   }
 }
+
 async function toggleSave() {
   const btn = document.getElementById("saveBtn");
   if (!btn) return;
@@ -542,10 +310,11 @@ async function toggleSave() {
   } catch (err) {
     console.error(err);
     toast("Could not update favorites. Try again.");
-  } finally { btn.disabled = false; }
+  } finally {
+    btn.disabled = false;
+  }
 }
 
-/* STAR PICKER */
 function setStars(n) {
   selectedStars = n;
   reviewRatingSelect.value = n ? String(n) : "";
@@ -555,6 +324,7 @@ function setStars(n) {
   const labels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
   starPickerLabel.textContent = n ? `${n} / 5 · ${labels[n]}` : "Tap a star to rate";
 }
+
 starPicker.querySelectorAll("button").forEach(btn => {
   btn.addEventListener("click", () => setStars(Number(btn.dataset.star)));
   btn.addEventListener("mouseenter", () => {
@@ -566,12 +336,10 @@ starPicker.querySelectorAll("button").forEach(btn => {
 });
 starPicker.addEventListener("mouseleave", () => setStars(selectedStars));
 
-/* CHAR COUNT */
 reviewText.addEventListener("input", () => {
   reviewCharCount.textContent = reviewText.value.length;
 });
 
-/* REVIEW ACCESS */
 function updateReviewAccess() {
   if (currentUser) {
     reviewForm.hidden = false;
@@ -590,6 +358,7 @@ function updateReviewAccess() {
   }
   renderAuthArea();
 }
+
 async function checkUser() {
   try {
     const { data: { user }, error } = await db.auth.getUser();
@@ -600,7 +369,6 @@ async function checkUser() {
   updateReviewAccess();
 }
 
-/* LOAD FIRM */
 async function loadFirm() {
   const id = new URLSearchParams(location.search).get("id");
   if (!id) {
@@ -622,21 +390,10 @@ async function loadFirm() {
     const official = safeUrl(f.official_website);
     const affiliate = safeUrl(f.affiliate_link);
 
-    // Dynamic SEO
-    (function () {
-      const title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
-      const desc = (f.description || `Full details on ${f.name}: account sizes, profit split, drawdown rules, and trader reviews.`).slice(0, 160);
-      document.title = title;
-      function setMeta(attr, key, value) {
-        let el = document.querySelector(`meta[${attr}="${key}"]`);
-        if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
-        el.setAttribute("content", value);
-      }
-      setMeta("name", "description", desc);
-      setMeta("property", "og:title", title);
-      setMeta("property", "og:description", desc);
-      setMeta("property", "og:url", location.href);
-    })();
+    document.title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
+    const desc = (f.description || `Full details on ${f.name}: account sizes, profit split, drawdown rules, and trader reviews.`).slice(0, 160);
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", desc);
 
     content.innerHTML = `
       <span class="tag">${esc(f.category || "Prop Firm")}</span>
@@ -671,12 +428,11 @@ async function loadFirm() {
     await loadReviews();
   } catch (error) {
     console.error(error);
-    content.innerHTML = `<h1>Unable to load firm</h1><p id="error">${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
+    content.innerHTML = `<h1>Unable to load firm</h1><p>${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
     renderAuthArea();
   }
 }
 
-/* RATING SUMMARY */
 function renderRatingSummary(reviews) {
   if (!reviews.length) { ratingSummary.hidden = true; return; }
   ratingSummary.hidden = false;
@@ -684,7 +440,7 @@ function renderRatingSummary(reviews) {
   const total = reviews.length;
   const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
   const avg = sum / total;
-  const counts = [0, 0, 0, 0, 0]; // index 0 = 1 star
+  const counts = [0, 0, 0, 0, 0];
   reviews.forEach(r => {
     const n = Math.max(1, Math.min(5, Number(r.rating) || 0));
     counts[n - 1]++;
@@ -708,13 +464,13 @@ function renderRatingSummary(reviews) {
   `;
 }
 
-/* LOAD REVIEWS */
 function avatarColor(name) {
   const colors = ["#54e39a", "#7cc9f0", "#f5d77b", "#c99df0", "#f0a89d", "#9df0bd"];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
   return colors[hash % colors.length];
 }
+
 function initials(name) {
   const parts = String(name || "?").trim().split(/\s+/);
   return ((parts[0]?.[0] || "?") + (parts[1]?.[0] || "")).toUpperCase();
@@ -776,14 +532,9 @@ async function loadReviews() {
   }
 }
 
-/* SUBMIT REVIEW */
 function showReviewMessage(text, type = "success") {
   reviewMessage.textContent = text;
   reviewMessage.className = "show " + type;
-}
-function clearReviewMessage() {
-  reviewMessage.className = "";
-  reviewMessage.textContent = "";
 }
 
 reviewForm.addEventListener("submit", async event => {
@@ -808,7 +559,7 @@ reviewForm.addEventListener("submit", async event => {
 
     if (reviewerName.length < 2) throw new Error("Please enter your name (2+ characters).");
     if (rating < 1 || rating > 5) throw new Error("Please select a star rating.");
-    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10–1000 characters.");
+    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10-1000 characters.");
 
     showReviewMessage("Submitting your review...", "success");
 
@@ -835,17 +586,10 @@ reviewForm.addEventListener("submit", async event => {
   }
 });
 
-/* SESSION */
-db.auth.onAuthStateChange(async (_event, session) => {
-  const user = session?.user;
-  currentUser = user?.email_confirmed_at ? user : null;
-  updateReviewAccess();
-  isFavorited = await checkIfFavorited();
-  updateSaveButton();
-});
-
-renderAuthArea();
-await loadFirm();
-</script>
-</body>
-</html>
+db.auth.onAuthStateChange((_event, session) => {
+  queueMicrotask(async () => {
+    try {
+      const user = session?.user;
+      currentUser = user?.email_confirmed_at ? user : null;
+      updateReviewAccess();
+      if (currentFirmId) {
