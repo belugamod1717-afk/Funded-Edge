@@ -26,72 +26,343 @@ function getNumbers(value) {
   }).filter(Number.isFinite);
 }
 
+
 function injectDirectoryStyles() {
   if (document.getElementById("fe-directory-styles")) return;
 
   const style = document.createElement("style");
   style.id = "fe-directory-styles";
+
   style.textContent = `
+    /* Premium directory layout */
+    #firmsGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    /* Premium filter panel */
     .fe-filters {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
-      gap:12px;
-      margin:24px 0;
-      padding:18px;
-      border:1px solid #244637;
-      border-radius:16px;
-      background:#0d1b15;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+      padding: 20px;
+      border: 1px solid #254634;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #102219, #0a1510);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .12);
     }
-    .fe-filters input,.fe-filters select {
-      box-sizing:border-box;
-      width:100%;
-      min-width:0;
-      padding:12px;
-      border:1px solid #315343;
-      border-radius:9px;
-      background:#10251b;
-      color:#f1f7f3;
-      font:inherit;
+
+    .fe-filters input,
+    .fe-filters select {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #315343;
+      border-radius: 9px;
+      background: #0a1710;
+      color: #f1f7f3;
+      font: inherit;
+      outline: none;
     }
-    .fe-filters input::placeholder {color:#a2b6a9}
+
+    .fe-filters input:focus,
+    .fe-filters select:focus {
+      border-color: #72f0a8;
+      box-shadow: 0 0 0 3px rgba(114, 240, 168, .1);
+    }
+
+    .fe-filters input::placeholder { color: #91a99a; }
+
     .fe-filter-label {
-      display:block;
-      margin-bottom:6px;
-      color:#b6cabb;
-      font-size:12px;
+      display: block;
+      margin-bottom: 7px;
+      color: #b6cabb;
+      font-size: 12px;
+      font-weight: 600;
     }
+
     .fe-filter-actions {
-      display:flex;
-      align-items:end;
+      display: flex;
+      align-items: end;
     }
+
     .fe-reset {
-      width:100%;
-      padding:12px;
-      border:0;
-      border-radius:9px;
-      background:#b9f6cf;
-      color:#10251b;
-      font-weight:700;
-      cursor:pointer;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #315343;
+      border-radius: 9px;
+      background: #183b27;
+      color: #8ff4b5;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
     }
+
+    .fe-reset:hover {
+      background: #214b32;
+      border-color: #72f0a8;
+    }
+
     .fe-results-count {
-      margin:12px 0;
-      color:#b6cabb;
-      font-size:14px;
+      margin: 14px 0;
+      color: #9eb4a4;
+      font-size: 13px;
     }
-    .fe-no-results {
-      padding:28px;
-      border:1px solid #315343;
-      border-radius:14px;
-      color:#dce9df;
-      text-align:center;
+
+    /* Main firm card */
+    #firmsGrid .firm-card {
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 23px;
+      overflow: hidden;
+      border: 1px solid #274735;
+      border-radius: 17px;
+      background:
+        radial-gradient(ellipse at top right,
+          rgba(57, 133, 82, .12), transparent 48%),
+        linear-gradient(145deg, #112219, #0b1510 80%);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, .13);
+      transition: transform .22s ease,
+                  border-color .22s ease,
+                  box-shadow .22s ease;
     }
-    @media(max-width:480px) {
-      .fe-filters {grid-template-columns:1fr;padding:13px}
+
+    #firmsGrid .firm-card:hover {
+      transform: translateY(-4px);
+      border-color: #4e9166;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, .24);
+    }
+
+    #firmsGrid .firm-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 17px;
+      border-bottom: 1px solid rgba(126, 166, 137, .16);
+    }
+
+    #firmsGrid .firm-card-top > div:first-child {
+      min-width: 0;
+    }
+
+    #firmsGrid .firm-tag {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 9px;
+      padding: 5px 9px;
+      border: 1px solid #28583a;
+      border-radius: 6px;
+      background: rgba(41, 102, 61, .18);
+      color: #82edaa;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      overflow-wrap: anywhere;
+    }
+
+    #firmsGrid .firm-card h3 {
+      margin: 0;
+      color: #f0f8f2;
+      font-family: "Manrope", "DM Sans", Arial, sans-serif;
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -.6px;
+      overflow-wrap: anywhere;
+    }
+
+    #firmsGrid .firm-rating {
+      flex-shrink: 0;
+      padding: 6px 9px;
+      border: 1px solid #4b4327;
+      border-radius: 8px;
+      background: #211f13;
+      color: #f5d77b;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    #firmsGrid .firm-description {
+      min-height: 48px;
+      margin: 15px 0 20px;
+      color: #a7bbae;
+      font-size: 13px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    /* Financial information */
+    #firmsGrid .firm-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    #firmsGrid .firm-stats > div {
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid rgba(100, 145, 112, .16);
+      border-radius: 10px;
+      background: rgba(5, 16, 10, .55);
+    }
+
+    #firmsGrid .firm-stats small {
+      display: block;
+      margin-bottom: 6px;
+      color: #91a99a;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    #firmsGrid .firm-stats strong {
+      display: block;
+      color: #eaf5ed;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    #firmsGrid .firm-stats > div:first-child strong,
+    #firmsGrid .firm-stats > div:last-child strong {
+      color: #80eaaa;
+    }
+
+    /* Price and call-to-action */
+    #firmsGrid .firm-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 17px;
+      border-top: 1px solid rgba(126, 166, 137, .16);
+    }
+
+    #firmsGrid .firm-price {
+      color: #f0f8f2;
+      font-size: 17px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    #firmsGrid .firm-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 11px 15px;
+      border: 1px solid #72f0a8;
+      border-radius: 9px;
+      background: #72f0a8;
+      color: #07150d;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: .2s;
+    }
+
+    #firmsGrid .firm-button::after {
+      content: " ↗";
+      margin-left: 4px;
+    }
+
+    #firmsGrid .firm-button:hover {
+      border-color: #a4ffc5;
+      background: #a4ffc5;
+      transform: translateY(-1px);
+    }
+
+    /* Empty and loading states */
+    #firmsGrid .fe-no-results {
+      grid-column: 1 / -1;
+      padding: 35px 20px;
+      border: 1px dashed #315343;
+      border-radius: 14px;
+      background: #0d1b15;
+      color: #dce9df;
+      text-align: center;
+    }
+
+    #firmsGrid .fe-no-results h3 {
+      margin-top: 0;
+    }
+
+    #firmsGrid .fe-no-results p {
+      color: #a7bbae;
+      overflow-wrap: anywhere;
+    }
+
+    /* Tablet and phone layouts */
+    @media (max-width: 760px) {
+      #firmsGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      #firmsGrid .firm-card {
+        padding: 20px;
+      }
+
+      #firmsGrid .firm-description {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .fe-filters {
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+
+      #firmsGrid .firm-card {
+        padding: 17px;
+        border-radius: 14px;
+      }
+
+      #firmsGrid .firm-card h3 {
+        font-size: 19px;
+      }
+
+      #firmsGrid .firm-stats {
+        gap: 8px;
+      }
+
+      #firmsGrid .firm-stats > div {
+        padding: 11px;
+      }
+
+      #firmsGrid .firm-stats strong {
+        font-size: 13px;
+      }
+
+      #firmsGrid .firm-card-bottom {
+        align-items: flex-start;
+      }
+
+      #firmsGrid .firm-price {
+        font-size: 15px;
+      }
+
+      #firmsGrid .firm-button {
+        padding: 10px 11px;
+      }
     }
   `;
+
   document.head.appendChild(style);
 }
+
 
 function createFilters(grid) {
   if (document.getElementById("feFilters")) return;
