@@ -3,384 +3,615 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FundedEdge Admin</title>
+
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07110e;
+      --panel: #101c17;
+      --border: #263a30;
+      --green: #35d399;
+      --muted: #a4b5ab;
+      --red: #ff7777;
+    }
+
     * { box-sizing: border-box; }
+
     body {
-      margin: 0; padding: 20px; min-height: 100vh;
-      background: #06100d; color: #f2f7f5;
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: #f2f8f4;
       font-family: Arial, sans-serif;
     }
-    .wrap { max-width: 900px; margin: 30px auto; }
+
+    main { max-width: 1050px; margin: auto; }
+
+    h1 { color: var(--green); }
+    h2 { margin-top: 0; }
+    p, small { color: var(--muted); }
+
     .panel {
-      background: #0b1b16; border: 1px solid #24473b;
-      border-radius: 16px; padding: 24px; margin-bottom: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 18px 0;
     }
-    h1, h2 { color: #27d17f; }
-    input, textarea, button {
-      width: 100%; padding: 13px; margin: 7px 0;
-      border-radius: 8px; font-size: 15px;
-    }
-    input, textarea {
-      background: #06100d; color: white;
-      border: 1px solid #24473b;
-    }
-    button {
-      background: #27d17f; color: #04100b;
-      border: none; font-weight: bold; cursor: pointer;
-    }
-    .secondary { background: #20372e; color: white; }
-    .firm {
-      padding: 16px; margin: 12px 0;
-      border: 1px solid #24473b; border-radius: 10px;
-    }
-    .hidden { display: none; }
-    #message { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+    .hidden { display: none !important; }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 8px;
+      gap: 14px;
     }
-    label { display: block; margin-top: 10px; color: #a8beb3; }
+
+    .field { margin-bottom: 12px; }
+    label { display: block; margin-bottom: 7px; color: #d7e6dc; }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      background: #09140f;
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    textarea { min-height: 90px; resize: vertical; }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      margin: 5px 5px 5px 0;
+      cursor: pointer;
+      background: var(--green);
+      color: #06130d;
+      font-weight: bold;
+    }
+
+    button.secondary { background: #273b31; color: white; }
+    button.danger { background: #762e32; color: white; }
+    button:disabled { opacity: .5; cursor: wait; }
+
+    .item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .item h3 { margin: 0 0 8px; }
+    .meta { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .review-text { white-space: pre-wrap; line-height: 1.6; }
+    .status { color: var(--green); font-weight: bold; }
+    .message { margin-top: 12px; overflow-wrap: anywhere; }
+    .error { color: var(--red); }
+    .success { color: var(--green); }
+
+    .check-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .check-field input { width: auto; }
+
+    @media (max-width: 500px) {
+      body { padding: 12px; }
+      .panel { padding: 14px; }
+    }
   </style>
 </head>
-<body>
-<div class="wrap">
-  <h1>FundedEdge Admin</h1>
-  <p>Manage the prop firms displayed on your website.</p>
-  <p id="message">Connecting...</p>
 
-  <section id="loginPanel" class="panel hidden">
+<body>
+<main>
+  <h1>FundedEdge Admin</h1>
+  <p>Manage prop firms, custom logos, and customer reviews.</p>
+
+  <div id="message" class="message" role="status"></div>
+
+  <section id="loginPanel" class="panel">
     <h2>Admin Login</h2>
     <form id="loginForm">
-      <label>Email</label>
-      <input id="email" type="email" autocomplete="username" required>
-      <label>Password</label>
-      <input id="password" type="password"
-        autocomplete="current-password" required>
-      <button type="submit">Log in securely</button>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password"
+               autocomplete="current-password" required>
+      </div>
+      <button id="loginButton" type="submit">Log in</button>
     </form>
   </section>
 
   <section id="dashboard" class="hidden">
     <div class="panel">
-      <h2>Dashboard</h2>
-      <p id="account"></p>
-      <button id="logout" class="secondary">Log out</button>
+      <span id="account"></span>
+      <button id="logout" class="secondary" type="button">Log out</button>
     </div>
 
-    <div class="panel">
-      <h2 id="formTitle">Add a prop firm</h2>
+    <section class="panel">
+      <h2 id="formHeading">Add a Prop Firm</h2>
       <form id="firmForm">
         <input id="firmId" type="hidden">
-
-        <label>Firm name *</label>
-        <input id="name" required>
-
-        <div class="grid">
-          <div>
-            <label>Category</label>
-            <input id="category" placeholder="Forex, Futures">
-          </div>
-          <div>
-            <label>Account sizes</label>
-            <input id="account_sizes" placeholder="$10k, $50k">
-          </div>
-          <div>
-            <label>Price</label>
-            <input id="price" placeholder="$99">
-          </div>
-          <div>
-            <label>Profit target</label>
-            <input id="profit_target">
-          </div>
-          <div>
-            <label>Daily drawdown</label>
-            <input id="daily_drawdown">
-          </div>
-          <div>
-            <label>Maximum drawdown</label>
-            <input id="max_drawdown">
-          </div>
-          <div>
-            <label>Profit split</label>
-            <input id="profit_split">
-          </div>
-          <div>
-            <label>Payout</label>
-            <input id="payout">
-          </div>
-          <div>
-            <label>Platforms</label>
-            <input id="platforms">
-          </div>
-          <div>
-            <label>Rating (0–5)</label>
-            <input id="rating" type="number" min="0" max="5" step="0.1">
-          </div>
-          <div>
-            <label>Tag</label>
-            <input id="tag">
-          </div>
-          <div>
-            <label>Status</label>
-            <input id="status" value="active" placeholder="active or inactive">
-          </div>
-          <div>
-            <label>Official website URL</label>
-            <input id="official_website"<div class="form-group">
-  <label for="logo_url">Custom Logo URL</label>
-  <input
-    type="url"
-    id="logo_url"
-    placeholder="https://example.com/logo.png"
-  />
-  <small>Paste a direct link to the firm's logo image.</small>
-</div> type="url">
-          </div>
-          <div>
-            <label>Affiliate URL</label>
-            <input id="affiliate_link" type="url">
-          </div>
-          <div>
-            <label>Verified date</label>
-            <input id="verified_date" type="date">
-          </div>
+        <div id="fieldGrid" class="grid"></div>
+        <div class="check-field">
+          <input id="verified" type="checkbox">
+          <label for="verified">Verified firm</label>
         </div>
-
-        <label>Description</label>
-        <textarea id="description" rows="3"></textarea>
-
-        <label>
-          <input id="verified" type="checkbox" style="width:auto">
-          Mark as verified
-        </label>
-
-        <button type="submit">Save firm</button>
-        <button type="button" id="cancelEdit" class="secondary hidden">
-          Cancel edit
+        <button id="saveButton" type="submit">Save Firm</button>
+        <button id="cancelEdit" class="secondary" type="button">
+          Cancel / Clear
         </button>
       </form>
-    </div>
+    </section>
 
-    <div class="panel">
-      <h2>Existing prop firms</h2>
-      <button id="refresh" class="secondary">Refresh firms</button>
-      <div id="firmList">Loading...</div>
-    </div>
+    <section class="panel">
+      <h2>Prop Firm Management</h2>
+      <button id="refresh" class="secondary" type="button">Refresh firms</button>
+      <div id="firmList">Loading firms...</div>
+    </section>
+
+    <section class="panel">
+      <h2>Review Management</h2>
+      <p>New reviews appear as pending. Approve a review to publish it on the website, or reject it to keep it unpublished.</p>
+      <button id="refreshReviews" class="secondary" type="button">
+        Refresh reviews
+      </button>
+      <div id="reviewList">Loading reviews...</div>
+    </section>
   </section>
-</div>
+</main>
 
 <script type="module">
   import { createClient } from
     "https://esm.sh/@supabase/supabase-js@2";
 
-  const URL = "https://mvltzznwdglwaedfzxze.supabase.co";
-  const KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
-  const db = createClient(URL, KEY);
+  const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   const $ = id => document.getElementById(id);
-  const message = text => $("message").textContent = text;
-  const fields = [
-    "name", "category", "description", "account_sizes", "price",
-    "profit_target", "daily_drawdown", "max_drawdown", "profit_split",
-    "payout", "platforms", "rating", "tag", "official_website",
-    "affiliate_link", "verified_date", "status"
-  ];
 
   let currentUser = null;
+  let busy = false;
+
+  const fieldDefinitions = [
+    { id: "name", label: "Firm Name", required: true },
+    { id: "category", label: "Category" },
+    { id: "description", label: "Description", type: "textarea" },
+    { id: "account_sizes", label: "Account Sizes" },
+    { id: "price", label: "Price" },
+    { id: "profit_target", label: "Profit Target" },
+    { id: "daily_drawdown", label: "Daily Drawdown" },
+    { id: "max_drawdown", label: "Maximum Drawdown" },
+    { id: "profit_split", label: "Profit Split" },
+    { id: "payout", label: "Payout Information" },
+    { id: "platforms", label: "Trading Platforms" },
+    { id: "rating", label: "Rating", type: "number", step: "0.1" },
+    { id: "tag", label: "Tag" },
+    { id: "official_website", label: "Official Website URL", type: "url" },
+    { id: "logo_url", label: "Custom Logo URL", type: "url" },
+    { id: "affiliate_link", label: "Affiliate Link", type: "url" },
+    { id: "verified_date", label: "Verification Date", type: "date" },
+    { id: "status", label: "Status", type: "select",
+      options: ["active", "inactive"] }
+  ];
+
+  function showMessage(message, type = "") {
+    $("message").textContent = message;
+    $("message").className = "message " + type;
+  }
+
+  function makeElement(tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  }
+
+  function addButton(parent, text, className, callback) {
+    const button = makeElement("button", className, text);
+    button.type = "button";
+    button.addEventListener("click", callback);
+    parent.append(button);
+    return button;
+  }
+
+  function buildFields() {
+    const grid = $("fieldGrid");
+
+    for (const field of fieldDefinitions) {
+      const wrapper = makeElement("div", "field");
+      const label = makeElement("label", "", field.label);
+      label.htmlFor = field.id;
+
+      let input;
+
+      if (field.type === "textarea") {
+        input = document.createElement("textarea");
+      } else if (field.type === "select") {
+        input = document.createElement("select");
+        for (const value of field.options) {
+          const option = makeElement("option", "", value);
+          option.value = value;
+          input.append(option);
+        }
+      } else {
+        input = document.createElement("input");
+        input.type = field.type || "text";
+        if (field.step) input.step = field.step;
+      }
+
+      input.id = field.id;
+      if (field.required) input.required = true;
+
+      wrapper.append(label, input);
+
+      if (field.id === "logo_url") {
+        wrapper.append(makeElement(
+          "small", "", "Optional: paste a direct link to a logo image."
+        ));
+      }
+
+      grid.append(wrapper);
+    }
+  }
 
   async function isAdmin(user) {
+    if (!user) return false;
+
     const { data, error } = await db
       .from("admin_users")
       .select("user_id")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Admin check:", error);
+      return false;
+    }
+
     return !!data;
   }
 
   async function showSession() {
     const { data, error } = await db.auth.getSession();
-    if (error) throw error;
 
-    const session = data.session;
-    currentUser = session?.user || null;
-
-    if (!currentUser) {
-      $("dashboard").classList.add("hidden");
-      $("loginPanel").classList.remove("hidden");
-      message("Please log in with your Supabase account.");
+    if (error) {
+      showMessage(error.message, "error");
       return;
     }
 
-    if (!(await isAdmin(currentUser))) {
+    const user = data.session?.user || null;
+    currentUser = user;
+
+    if (!user) {
+      $("loginPanel").classList.remove("hidden");
       $("dashboard").classList.add("hidden");
-      $("loginPanel").classList.add("hidden");
-      message("This account is not authorized as a FundedEdge admin.");
+      $("account").textContent = "";
+      return;
+    }
+
+    if (!(await isAdmin(user))) {
+      await db.auth.signOut();
+      currentUser = null;
+      $("loginPanel").classList.remove("hidden");
+      $("dashboard").classList.add("hidden");
+      showMessage("This account is not an authorized admin.", "error");
       return;
     }
 
     $("loginPanel").classList.add("hidden");
     $("dashboard").classList.remove("hidden");
-    $("account").textContent = "Signed in as " + currentUser.email;
-    message("Admin access confirmed.");
-    await loadFirms();
+    $("account").textContent = "Logged in: " + user.email;
+    showMessage("Admin access confirmed.", "success");
+
+    await Promise.all([loadFirms(), loadReviews()]);
   }
 
   $("loginForm").addEventListener("submit", async event => {
     event.preventDefault();
-    message("Signing in...");
-
-    const { error } = await db.auth.signInWithPassword({
-      email: $("email").value.trim(),
-      password: $("password").value
-    });
-
-    if (error) {
-      message("Login failed: " + error.message);
-      return;
-    }
+    const button = $("loginButton");
+    button.disabled = true;
+    showMessage("Logging in...");
 
     try {
+      const { error } = await db.auth.signInWithPassword({
+        email: $("email").value.trim(),
+        password: $("password").value
+      });
+
+      if (error) throw error;
+
       await showSession();
     } catch (error) {
-      message("Access check failed: " + error.message);
+      showMessage(error.message || "Login failed.", "error");
+    } finally {
+      button.disabled = false;
     }
   });
 
   $("logout").addEventListener("click", async () => {
     await db.auth.signOut();
+    currentUser = null;
     $("dashboard").classList.add("hidden");
     $("loginPanel").classList.remove("hidden");
-    message("You have logged out.");
+    showMessage("You have logged out.", "success");
   });
 
   function clearForm() {
     $("firmForm").reset();
     $("firmId").value = "";
+    $("formHeading").textContent = "Add a Prop Firm";
+    $("saveButton").textContent = "Save Firm";
     $("status").value = "active";
-    $("formTitle").textContent = "Add a prop firm";
-    $("cancelEdit").classList.add("hidden");
+    $("verified").checked = false;
   }
 
   $("cancelEdit").addEventListener("click", clearForm);
 
-  $("firmForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    if (!currentUser || !(await isAdmin(currentUser))) {
-      message("Admin authorization required.");
-      return;
-    }
-
-    const row = {};
-    for (const field of fields) {
-      row[field] = $(field).value.trim() || null;
-    }
-
-    row.rating = row.rating === null ? 0 : Number(row.rating);
-    row.verified = $("verified").checked;
-
-    if (row.status !== "active" && row.status !== "inactive") {
-      message("Status must be active or inactive.");
-      return;
-    }
-
-    const id = $("firmId").value;
-    message("Saving firm...");
-
-    let result;
-    if (id) {
-      result = await db.from("firms").update(row).eq("id", id);
-    } else {
-      result = await db.from("firms").insert(row);
-    }
-
-    if (result.error) {
-      message("Save failed: " + result.error.message);
-      return;
-    }
-
-    message("Firm saved successfully.");
-    clearForm();
-    await loadFirms();
-  });
-
   async function loadFirms() {
     const list = $("firmList");
-    list.textContent = "Loading firms...";
+    list.replaceChildren(makeElement("p", "", "Loading firms..."));
 
     const { data, error } = await db
       .from("firms")
       .select("*")
-      .order("name");
+      .order("created_at", { ascending: false });
 
     if (error) {
-      list.textContent = "Could not load firms: " + error.message;
+      list.replaceChildren(makeElement("p", "error", error.message));
       return;
     }
 
     list.replaceChildren();
 
-    if (!data.length) {
-      list.textContent = "No firms found.";
+    if (!data || data.length === 0) {
+      list.append(makeElement("p", "", "No firms found."));
       return;
     }
 
     for (const firm of data) {
-      const card = document.createElement("div");
-      card.className = "firm";
+      const card = makeElement("article", "item");
+      card.append(makeElement("h3", "", firm.name || "Unnamed firm"));
+      card.append(makeElement(
+        "p", "meta",
+        (firm.category || "No category") + " · Status: " +
+        (firm.status || "not set")
+      ));
 
-      const title = document.createElement("h3");
-      title.textContent = firm.name;
+      if (firm.logo_url) {
+        card.append(makeElement("p", "meta", "Custom logo URL is set."));
+      }
 
-      const details = document.createElement("p");
-      details.textContent =
-        `${firm.status || "active"} · Rating: ${firm.rating ?? 0}`;
-
-      const edit = document.createElement("button");
-      edit.textContent = "Edit";
-      edit.addEventListener("click", () => {
+      addButton(card, "Edit", "", () => {
         $("firmId").value = firm.id;
-        for (const field of fields) {
-          $(field).value = firm[field] ?? "";
+
+        for (const field of fieldDefinitions) {
+          const input = $(field.id);
+          const value = firm[field.id];
+
+          if (field.type === "select") {
+            input.value = value || "active";
+          } else {
+            input.value = value ?? "";
+          }
         }
-        $("verified").checked = !!firm.verified;
-        $("formTitle").textContent = "Edit " + firm.name;
-        $("cancelEdit").classList.remove("hidden");
+
+        $("verified").checked = Boolean(firm.verified);
+        $("formHeading").textContent = "Edit Prop Firm";
+        $("saveButton").textContent = "Update Firm";
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      const remove = document.createElement("button");
-      remove.textContent = "Delete firm";
-      remove.className = "secondary";
-      remove.addEventListener("click", async () => {
-        if (!confirm("Permanently delete " + firm.name + "?")) return;
+      addButton(card, "Delete", "danger", async () => {
+        if (!confirm("Delete " + firm.name + "? This cannot be undone.")) return;
 
-        const { error } = await db.from("firms").delete().eq("id", firm.id);
+        const { error } = await db
+          .from("firms")
+          .delete()
+          .eq("id", firm.id);
+
         if (error) {
-          message("Delete failed: " + error.message);
+          showMessage("Delete failed: " + error.message, "error");
           return;
         }
-        message("Firm deleted.");
+
+        showMessage("Firm deleted.", "success");
         await loadFirms();
       });
 
-      card.append(title, details, edit, remove);
+      list.append(card);
+    }
+  }
+
+  $("firmForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!currentUser || !(await isAdmin(currentUser))) {
+      showMessage("Admin authorization required.", "error");
+      return;
+    }
+
+    const button = $("saveButton");
+    button.disabled = true;
+
+    try {
+      const payload = {};
+
+      for (const field of fieldDefinitions) {
+        const input = $(field.id);
+        let value = input.value.trim();
+
+        if (field.id === "rating") {
+          value = value === "" ? null : Number(value);
+        } else if (field.id === "verified_date" && value === "") {
+          value = null;
+        } else if (field.id === "logo_url" && value === "") {
+          value = null;
+        } else if (
+          ["official_website", "affiliate_link"].includes(field.id) &&
+          value === ""
+        ) {
+          value = null;
+        }
+
+        payload[field.id] = value;
+      }
+
+      payload.verified = $("verified").checked;
+      payload.updated_at = new Date().toISOString();
+
+      const id = $("firmId").value;
+      let result;
+
+      if (id) {
+        result = await db.from("firms").update(payload).eq("id", id);
+      } else {
+        result = await db.from("firms").insert(payload);
+      }
+
+      if (result.error) throw result.error;
+
+      showMessage(id ? "Firm updated successfully." : "Firm added successfully.", "success");
+      clearForm();
+      await loadFirms();
+    } catch (error) {
+      showMessage("Could not save firm: " + error.message, "error");
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  async function moderateReview(reviewId, status, button) {
+    if (busy) return;
+
+    if (!currentUser || !(await isAdmin(currentUser))) {
+      showMessage("Admin authorization required.", "error");
+      return;
+    }
+
+    busy = true;
+    button.disabled = true;
+
+    try {
+      const { error } = await db
+        .from("firm_reviews")
+        .update({ status })
+        .eq("id", reviewId);
+
+      if (error) throw error;
+
+      showMessage("Review marked " + status + ".", "success");
+      await loadReviews();
+    } catch (error) {
+      showMessage("Could not update review: " + error.message, "error");
+      button.disabled = false;
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function loadReviews() {
+    const list = $("reviewList");
+    list.replaceChildren(makeElement("p", "", "Loading reviews..."));
+
+    const [reviewsResult, firmsResult] = await Promise.all([
+      db.from("firm_reviews")
+        .select("id, firm_id, reviewer_name, rating, review_text, status, created_at")
+        .order("created_at", { ascending: false }),
+      db.from("firms").select("id, name")
+    ]);
+
+    if (reviewsResult.error) {
+      list.replaceChildren(makeElement(
+        "p", "error",
+        "Could not load reviews: " + reviewsResult.error.message
+      ));
+      return;
+    }
+
+    if (firmsResult.error) {
+      list.replaceChildren(makeElement(
+        "p", "error",
+        "Could not load firm names: " + firmsResult.error.message
+      ));
+      return;
+    }
+
+    const firmNames = new Map(
+      (firmsResult.data || []).map(firm => [firm.id, firm.name])
+    );
+
+    const reviews = reviewsResult.data || [];
+    list.replaceChildren();
+
+    if (reviews.length === 0) {
+      list.append(makeElement("p", "", "No reviews submitted yet."));
+      return;
+    }
+
+    for (const review of reviews) {
+      const card = makeElement("article", "item");
+
+      card.append(makeElement(
+        "h3", "",
+        firmNames.get(review.firm_id) || "Unknown firm"
+      ));
+
+      card.append(makeElement(
+        "p", "meta",
+        "Reviewer: " + (review.reviewer_name || "Anonymous") +
+        " · Rating: " + Number(review.rating || 0) + "/5"
+      ));
+
+      card.append(makeElement(
+        "p", "review-text", review.review_text || ""
+      ));
+
+      const date = review.created_at
+        ? new Date(review.created_at).toLocaleString()
+        : "Date unavailable";
+
+      card.append(makeElement("p", "meta", "Submitted: " + date));
+      card.append(makeElement(
+        "p", "status", "Status: " + (review.status || "unknown")
+      ));
+
+      addButton(card, "Approve", "", () =>
+        moderateReview(review.id, "approved", card.lastElementChild)
+      );
+
+      addButton(card, "Reject", "danger", () =>
+        moderateReview(review.id, "rejected", card.lastElementChild)
+      );
+
       list.append(card);
     }
   }
 
   $("refresh").addEventListener("click", loadFirms);
+  $("refreshReviews").addEventListener("click", loadReviews);
 
-  try {
-    await showSession();
-  } catch (error) {
-    message("Initialization error: " + error.message);
-    $("loginPanel").classList.remove("hidden");
-  }
+  buildFields();
+
+  db.auth.onAuthStateChange(() => {
+    setTimeout(() => showSession(), 0);
+  });
+
+  showSession();
 </script>
 </body>
 </html>
