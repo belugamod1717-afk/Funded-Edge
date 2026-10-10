@@ -1,2 +1,124 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Firm — FundedEdge</title><link rel="stylesheet" href="style.css"></head><body><header class="nav container"><a class="brand" href="index.html">Funded<span>Edge</span></a><nav class="navlinks"><a href="directory.html">Prop Firms</a><a href="compare.html">Compare</a><a href="admin.html">Admin</a></nav></header><main class="profile container" id="app"></main><script src="app.js"></script><script>const id=new URLSearchParams(location.search).get('id');let f;function renderFirm(){f=firms().find(x=>x.id===id);if(!f){app.innerHTML='<div class="empty">Firm not found. <a href="directory.html">Return to directory</a>.</div>'}else{document.title=f.name+' — FundedEdge';app.innerHTML=`<div class="profilehero"><div><div class="eyebrow">${esc(f.category)}</div><h1>${esc(f.name)}</h1><p class="muted">${esc(f.description||'')}</p><div class="rating">★ ${esc(f.rating)} / 5</div></div><div class="actions"><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="${esc(f.affiliate||f.website)}">Visit firm</a><button class="btn" onclick="addCompare('${esc(f.id)}')">Compare</button></div></div><div class="bigstats"><div class="bigstat"><small>Account sizes</small><strong>${esc(f.sizes)}</strong></div><div class="bigstat"><small>Price</small><strong>${esc(f.price)}</strong></div><div class="bigstat"><small>Profit target</small><strong>${esc(f.target)}</strong></div><div class="bigstat"><small>Max drawdown</small><strong>${esc(f.maxDD)}</strong></div></div><div class="card"><h2>Trading rules & details</h2><div class="stats"><div class="stat"><small>Daily drawdown</small><strong>${esc(f.dailyDD)}</strong></div><div class="stat"><small>Profit split</small><strong>${esc(f.split)}</strong></div><div class="stat"><small>Payout</small><strong>${esc(f.payout)}</strong></div><div class="stat"><small>Platforms</small><strong>${esc(f.platforms)}</strong></div></div><p class="muted">Last verified: ${esc(f.verified||'Not verified')}. Always confirm current official rules before purchasing.</p></div>`}}renderFirm();document.addEventListener('fundededge-firms-updated',renderFirm);
-/*if(!f){app.innerHTML='<div class="empty">Firm not found. <a href="directory.html">Return to directory</a>.</div>'}else{document.title=f.name+' — FundedEdge';app.innerHTML=`<div class="profilehero"><div><div class="eyebrow">${esc(f.category)}</div><h1>${esc(f.name)}</h1><p class="muted">${esc(f.description||'')}</p><div class="rating">★ ${esc(f.rating)} / 5</div></div><div class="actions"><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="${esc(f.affiliate||f.website)}">Visit firm</a><button class="btn" onclick="addCompare('${esc(f.id)}')">Compare</button></div></div><div class="bigstats"><div class="bigstat"><small>Account sizes</small><strong>${esc(f.sizes)}</strong></div><div class="bigstat"><small>Price</small><strong>${esc(f.price)}</strong></div><div class="bigstat"><small>Profit target</small><strong>${esc(f.target)}</strong></div><div class="bigstat"><small>Max drawdown</small><strong>${esc(f.maxDD)}</strong></div></div><div class="card"><h2>Trading rules & details</h2><div class="stats"><div class="stat"><small>Daily drawdown</small><strong>${esc(f.dailyDD)}</strong></div><div class="stat"><small>Profit split</small><strong>${esc(f.split)}</strong></div><div class="stat"><small>Payout</small><strong>${esc(f.payout)}</strong></div><div class="stat"><small>Platforms</small><strong>${esc(f.platforms)}</strong></div></div><p class="muted">Last verified: ${esc(f.verified||'Not verified')}. Always confirm current official rules before purchasing.</p></div>`}*/</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prop Firm Details | FundedEdge</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07110e;color:#edf7f0;font-family:Arial,sans-serif}
+header{padding:20px 6%;border-bottom:1px solid #20372c}
+header a{color:#54e39a;text-decoration:none;font-size:23px;font-weight:bold}
+main{max-width:900px;margin:35px auto;padding:20px}
+.back{color:#65e5a1;text-decoration:none}
+.card{background:#101e17;border:1px solid #294535;border-radius:16px;padding:25px;margin-top:20px}
+h1{font-size:32px;margin-bottom:10px}
+.muted{color:#a6b9ad;line-height:1.6}
+.tag{display:inline-block;background:#193d2b;color:#70efa9;padding:7px 12px;border-radius:20px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:25px}
+.item{background:#0a1510;padding:15px;border-radius:10px}
+.label{color:#9cb1a3;font-size:13px;margin-bottom:8px}
+.value{font-size:18px;font-weight:bold;overflow-wrap:anywhere}
+.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.btn{display:inline-block;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;background:#54e39a;color:#07110e}
+.btn.secondary{background:#20372c;color:#eaf8ef}
+#error{color:#ffb1a8}
+</style>
+</head>
+<body>
+<header><a href="/">FundedEdge</a></header>
+<main>
+<a class="back" href="/">← Back to directory</a>
+<div class="card" id="content">
+<p class="muted">Loading firm details...</p>
+</div>
+</main>
+
+<script>
+const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
+
+const content = document.getElementById("content");
+
+function esc(value) {
+  return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+
+function safeUrl(value) {
+  try {
+    const u = new URL(value);
+    return ["http:", "https:"].includes(u.protocol) ? u.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function item(label, value) {
+  return `<div class="item"><div class="label">${esc(label)}</div>
+  <div class="value">${esc(value || "Not provided")}</div></div>`;
+}
+
+async function loadFirm() {
+  const id = new URLSearchParams(location.search).get("id");
+
+  if (!id) {
+    content.innerHTML = '<h1>Firm not selected</h1><p class="muted">Return to the directory and select a firm.</p>';
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/firms?select=*&id=eq.${encodeURIComponent(id)}&status=eq.active`,
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    if (!response.ok) throw new Error("Database request failed (" + response.status + ")");
+
+    const firms = await response.json();
+    if (!firms.length) {
+      content.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive or unavailable.</p>';
+      return;
+    }
+
+    const f = firms[0];
+    const official = safeUrl(f.official_website);
+    const affiliate = safeUrl(f.affiliate_link);
+
+    content.innerHTML = `
+      <span class="tag">${esc(f.category || "Prop Firm")}</span>
+      <h1>${esc(f.name)}</h1>
+      <p class="muted">${esc(f.description || "No description has been added yet.")}</p>
+      ${f.tag ? `<span class="tag">${esc(f.tag)}</span>` : ""}
+      <div class="grid">
+        ${item("Account sizes", f.account_sizes)}
+        ${item("Starting price", f.price)}
+        ${item("Profit target", f.profit_target)}
+        ${item("Daily drawdown", f.daily_drawdown)}
+        ${item("Maximum drawdown", f.max_drawdown)}
+        ${item("Profit split", f.profit_split)}
+        ${item("Payout", f.payout)}
+        ${item("Trading platforms", f.platforms)}
+        ${item("Rating", f.rating ? f.rating + " / 5" : "Not rated")}
+      </div>
+      <div class="buttons">
+        ${official ? `<a class="btn" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Official Website ↗</a>` : ""}
+        ${affiliate ? `<a class="btn secondary" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View Offer ↗</a>` : ""}
+      </div>
+      <p class="muted">Please verify current rules and prices on the firm's official website before purchasing.</p>
+    `;
+  } catch (error) {
+    content.innerHTML = `<h1>Unable to load firm</h1><p id="error"> ${esc(error.message)} </p><p class="muted">Check your connection and try again.</p>`;
+  }
+}
+
+loadFirm();
+</script>
+</body>
+</html>
