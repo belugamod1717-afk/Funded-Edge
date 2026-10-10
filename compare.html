@@ -69,15 +69,106 @@
       margin-left: 8px;
       cursor: pointer;
     }
+
+    /* AUTH AREA in nav (matches homepage + directory) */
+    .fe-auth-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .fe-auth-area .fe-auth-signin,
+    .fe-auth-area .fe-auth-signup {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: .2s;
+    }
+
+    .fe-auth-area .fe-auth-signin {
+      background: transparent;
+      color: #e0ece3;
+      border: 1px solid #2a4534;
+    }
+
+    .fe-auth-area .fe-auth-signin:hover {
+      border-color: #72f0a8;
+      color: #72f0a8;
+    }
+
+    .fe-auth-area .fe-auth-signup {
+      background: #72f0a8;
+      color: #07110d;
+      border: 1px solid #72f0a8;
+    }
+
+    .fe-auth-area .fe-auth-signup:hover {
+      background: #a0ffc4;
+      border-color: #a0ffc4;
+    }
+
+    .fe-auth-area .fe-user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid #2a4534;
+      border-radius: 10px;
+      color: #e0ece3;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+      background: rgba(114,240,168,.06);
+      transition: .2s;
+    }
+
+    .fe-auth-area .fe-user-chip:hover {
+      border-color: #72f0a8;
+      color: #72f0a8;
+    }
+
+    .fe-auth-area .fe-user-chip .fe-user-initial {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #72f0a8;
+      color: #07110d;
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    @media (max-width: 700px) {
+      .fe-auth-area { gap: 6px; }
+      .fe-auth-area .fe-auth-signin,
+      .fe-auth-area .fe-auth-signup,
+      .fe-auth-area .fe-user-chip {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
 <header class="nav container">
   <a class="brand" href="index.html">Funded<span>Edge</span></a>
   <nav class="navlinks">
-  <a href="directory.html">Prop Firms</a>
-  <a href="compare.html">Compare</a>
-</nav>
+    <a href="directory.html">Prop Firms</a>
+    <a href="compare.html">Compare</a>
+
+    <!-- Auth area: filled by auth-nav.js -->
+    <div id="feAuthArea" class="fe-auth-area">
+      <a class="fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
+      <a class="fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
+    </div>
+  </nav>
 </header>
 
 <main class="section container">
@@ -132,6 +223,45 @@ function status(message, type = "") {
   el.textContent = message;
 }
 
+/* AUTH NAV (inline version — avoids loading app.js and colliding with consts) */
+function getDashboardUrl() { return "dashboard.html"; }
+function getAuthUrl(mode) {
+  const page = window.location.pathname.split("/").pop() || "compare.html";
+  const next = encodeURIComponent(page + window.location.search);
+  return `auth.html?mode=${mode}&next=${next}`;
+}
+async function renderAuthArea() {
+  const area = document.getElementById("feAuthArea");
+  if (!area) return;
+
+  try {
+    const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data } = await sb.auth.getSession();
+    const user = data.session?.user || null;
+
+    if (user) {
+      const name = user.user_metadata?.full_name ||
+                   user.user_metadata?.name ||
+                   user.email || "Account";
+      const initial = String(name).trim().charAt(0).toUpperCase() || "U";
+      area.innerHTML = `
+        <a class="fe-user-chip" href="${getDashboardUrl()}">
+          <span class="fe-user-initial">${safe(initial)}</span>
+          <span>Dashboard</span>
+        </a>`;
+    } else {
+      area.innerHTML = `
+        <a class="fe-auth-signin" href="${getAuthUrl("signin")}">Sign In</a>
+        <a class="fe-auth-signup" href="${getAuthUrl("signup")}">Sign Up</a>`;
+    }
+  } catch (err) {
+    console.error("Auth nav failed:", err);
+  }
+}
+renderAuthArea();
+/* END AUTH NAV */
+
 async function loadComparisonFirms() {
   try {
     const response = await fetch(
@@ -167,7 +297,6 @@ async function loadComparisonFirms() {
       if (!Array.isArray(saved)) saved = [];
     } catch (_) {}
 
-    // Also accept firm IDs passed from the directory URL.
     const params = new URLSearchParams(location.search);
     const urlIds = params.getAll("id");
     const requestedIds = urlIds.length ? urlIds : saved;
