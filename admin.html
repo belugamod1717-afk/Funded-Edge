@@ -530,8 +530,9 @@
 
     const [reviewsResult, firmsResult] = await Promise.all([
       db.from("firm_reviews")
-        .select("id, firm_id, reviewer_name, rating, review_text, status, created_at")
-        .order("created_at", { ascending: false }),
+  .select("id, firm_id, reviewer_name, rating, review_text, status, created_at")
+  .eq("status", "pending")
+  .order("created_at", { ascending: false }),
       db.from("firms").select("id, name")
     ]);
 
