@@ -1,1 +1,36 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prop Firms — FundedEdge</title><link rel="stylesheet" href="style.css"></head><body><header class="nav container"><a class="brand" href="index.html">Funded<span>Edge</span></a><nav class="navlinks"><a href="directory.html">Prop Firms</a><a href="compare.html">Compare</a><a href="admin.html">Admin</a></nav></header><main class="section container"><div class="sectionhead"><div><div class="eyebrow">Directory</div><h2>Compare prop firms</h2></div><a class="btn" href="compare.html">Comparison</a></div><div class="filters"><input id="q" placeholder="Search firm or market…"><select id="cat"><option value="">All markets</option><option>Forex / CFD</option><option>Futures</option><option>Crypto</option></select><select id="sort"><option value="rating">Highest rated</option><option value="name">Name</option></select></div><div class="grid" id="list"></div></main><script src="app.js"></script><script>const p=new URLSearchParams(location.search);q.value=p.get('q')||'';function render(){let term=q.value.toLowerCase().trim(),catv=cat.value,arr=firms().filter(f=>f.status!=='inactive').filter(f=>!term||(f.name+' '+f.category).toLowerCase().includes(term)).filter(f=>!catv||f.category===catv);arr.sort(sort.value==='name'?(a,b)=>a.name.localeCompare(b.name):(a,b)=>Number(b.rating)-Number(a.rating));list.innerHTML=arr.length?arr.map(card).join(''):'<div class="empty">No matching firms found.</div>'}q.oninput=render;cat.onchange=render;sort.onchange=render;render();document.addEventListener('fundededge-firms-updated',render);</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Prop Firms — FundedEdge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav container">
+  <a class="brand" href="index.html">Funded<span>Edge</span></a>
+  <nav class="navlinks">
+    <a href="directory.html">Prop Firms</a>
+    <a href="compare.html">Compare</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<main class="section container">
+  <div class="sectionhead">
+    <div>
+      <div class="eyebrow">Directory</div>
+      <h2>Compare prop firms</h2>
+    </div>
+    <a class="btn" href="compare.html">Comparison</a>
+  </div>
+
+  <div id="firmsGrid" class="grid">
+    <p>Loading prop firms...</p>
+  </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
