@@ -693,4 +693,38 @@ function renderFirms() {
 }
 
 async function loadFirms() {
-  const gr
+  const grid = document.getElementById("firmsGrid");
+  if (!grid) {
+    console.error("Cannot find #firmsGrid");
+    return;
+  }
+
+  injectDirectoryStyles();
+  grid.innerHTML = "<p>Loading prop firms...</p>";
+
+  await initMemberFeatures();
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/firms?select=*&status=eq.active&order=rating.desc`,
+      { headers: { apikey: SUPABASE_KEY } }
+);
+
+    if (!response.ok) {
+      throw new Error(`Supabase ${response.status}: ${await response.text()}`);
+    }
+
+    allFirms = await response.json();
+    createFilters(grid);
+    renderFirms();
+  } catch (error) {
+    console.error("FundedEdge error:", error);
+    grid.innerHTML = `
+      <div class="fe-no-results">
+        <h3>Couldn't load prop firms</h3>
+        <p>${escapeHTML(error.message)}</p>
+      </div>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadFirms);
