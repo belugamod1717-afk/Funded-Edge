@@ -3,33 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
-<link rel="apple-touch-icon" href="/logo.png"> <title>Prop Firm Directory — Compare All Firms | FundedEdge</title>
-<meta name="description" content="Browse every prop firm on FundedEdge. Filter by account size, price, profit split and drawdown rules to find your ideal funded account.">
-<meta name="theme-color" content="#07110e">
+  <title>Prop Firm Directory — Compare All Firms | FundedEdge</title>
+  <meta name="description" content="Browse every prop firm on FundedEdge. Filter by account size, price, profit split and drawdown rules to find your ideal funded account.">
+  <meta name="theme-color" content="#0a0f14">
+  <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="Prop Firm Directory — Compare All Firms">
-<meta property="og:description" content="Browse every prop firm on FundedEdge.">
-<meta property="og:url" content="https://funded-edge-two.vercel.app/directory.html">
-<meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FundedEdge">
+  <meta property="og:title" content="Prop Firm Directory — Compare All Firms">
+  <meta property="og:description" content="Browse every prop firm on FundedEdge.">
+  <meta property="og:url" content="https://funded-edge-two.vercel.app/directory.html">
+  <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prop Firm Directory — Compare All Firms">
+  <meta name="twitter:description" content="Browse every prop firm on FundedEdge.">
+  <meta name="twitter:image" content="https://funded-edge-two.vercel.app/og-image.png">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Prop Firm Directory — Compare All Firms">
-<meta name="twitter:description" content="Browse every prop firm on FundedEdge.">
-<meta name="twitter:image" content="https://funded-edge-two.vercel.app/og-image.png">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://esm.sh">
+  <link rel="preconnect" href="https://mvltzznwdglwaedfzxze.supabase.co">
+
   <style>
-    /* Auth area in nav (matches homepage) */
+    /* AUTH AREA in nav */
     .fe-auth-area {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-left: auto;
     }
-
     .fe-auth-area .fe-auth-signin,
     .fe-auth-area .fe-auth-signup {
       display: inline-flex;
@@ -42,81 +45,101 @@
       text-decoration: none;
       transition: .2s;
     }
-
     .fe-auth-area .fe-auth-signin {
       background: transparent;
-      color: #e0ece3;
-      border: 1px solid #2a4534;
+      color: #e0ecf3;
+      border: 1px solid #2a4055;
     }
-
     .fe-auth-area .fe-auth-signin:hover {
-      border-color: #72f0a8;
-      color: #72f0a8;
+      border-color: #4a9eff;
+      color: #4a9eff;
     }
-
     .fe-auth-area .fe-auth-signup {
-      background: #72f0a8;
-      color: #07110d;
-      border: 1px solid #72f0a8;
+      background: #4a9eff;
+      color: #061321;
+      border: 1px solid #4a9eff;
     }
-
     .fe-auth-area .fe-auth-signup:hover {
-      background: #a0ffc4;
-      border-color: #a0ffc4;
+      background: #7db8ff;
+      border-color: #7db8ff;
     }
-
     .fe-auth-area .fe-user-chip {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 9px 14px;
-      border: 1px solid #2a4534;
+      border: 1px solid #2a4055;
       border-radius: 10px;
-      color: #e0ece3;
+      color: #e0ecf3;
       font-weight: 600;
       font-size: 13px;
       text-decoration: none;
-      background: rgba(114,240,168,.06);
+      background: rgba(74,158,255,.08);
       transition: .2s;
     }
-
     .fe-auth-area .fe-user-chip:hover {
-      border-color: #72f0a8;
-      color: #72f0a8;
+      border-color: #4a9eff;
+      color: #4a9eff;
     }
-
-    .fe-auth-area .fe-user-chip .fe-user-initial {
+    .fe-auth-area .fe-user-initial {
       width: 22px;
       height: 22px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: #72f0a8;
-      color: #07110d;
+      background: #4a9eff;
+      color: #061321;
       font-weight: 800;
       font-size: 11px;
     }
 
-    @media (max-width: 700px) {
-      .fe-auth-area { gap: 6px; }
+    /* Override any green from style.css */
+    :root {
+      --bg: #0a0f14;
+      --panel: #10161c;
+      --panel2: #0d1419;
+      --border: rgba(120,170,220,.15);
+      --green: #4a9eff;
+      --green2: #2d7dd2;
+      --text: #f0f5fa;
+      --muted: #8fa3b8;
+    }
+    body {
+      background: radial-gradient(ellipse at 50% 0%, rgba(45,120,200,.12), transparent 45%), #0a0f14 !important;
+      color: #f0f5fa !important;
+    }
+    .brand span { color: #4a9eff !important; }
+    .nav { background: rgba(10,15,20,.9) !important; border-bottom-color: rgba(120,170,220,.15) !important; }
+    .navlinks a:hover { color: #4a9eff !important; }
+    .btn {
+      background: #4a9eff !important;
+      color: #061321 !important;
+      border-radius: 10px;
+    }
+    .btn:hover { background: #7db8ff !important; }
+    .eyebrow { color: #4a9eff !important; }
+    h2 {
+      background: linear-gradient(180deg,#fff 0%,#c9d8e2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (max-width:700px){
+      .fe-auth-area{gap:6px}
       .fe-auth-area .fe-auth-signin,
       .fe-auth-area .fe-auth-signup,
-      .fe-auth-area .fe-user-chip {
-        padding: 8px 10px;
-        font-size: 12px;
-      }
+      .fe-auth-area .fe-user-chip{padding:8px 10px;font-size:12px}
     }
   </style>
 </head>
+
 <body>
 
 <header class="nav container">
   <a class="brand" href="index.html">Funded<span>Edge</span></a>
   <nav class="navlinks">
     <a href="directory.html">Prop Firms</a>
-
-
-    <!-- Auth area: app.js swaps this based on session -->
     <div id="feAuthArea" class="fe-auth-area">
       <a class="fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
       <a class="fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
@@ -129,8 +152,8 @@
     <div>
       <div class="eyebrow">Directory</div>
       <h2>Compare prop firms</h2>
+      <p class="muted">Filter, search, and explore the full list of active firms.</p>
     </div>
-    <a class="btn" href="compare.html">Comparison</a>
   </div>
 
   <div id="firmsGrid" class="grid">
