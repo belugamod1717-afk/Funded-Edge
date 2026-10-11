@@ -1,521 +1,531 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07110e">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0f14">
+<title>Sign In or Create Account | FundedEdge</title>
+<meta name="description" content="Sign in or create your FundedEdge account to save favorite prop firms, write reviews, and track your trading journal.">
+<meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
-<link rel="apple-touch-icon" href="/logo.png"><title>Account | FundedEdge</title>
-<meta name="robots" content="noindex, nofollow">
+<link rel="apple-touch-icon" href="/logo.png">
 
-  <style>
-    :root {
-      --bg: #07110e;
-      --panel: #101c17;
-      --border: #263a30;
-      --green: #45e0a0;
-      --text: #f2f8f4;
-      --muted: #9aada3;
-      --red: #ff8585;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at top, #153528 0%, var(--bg) 58%);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, sans-serif;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-    }
-
-    .wrap { width: 100%; max-width: 440px; }
-
-    .brand {
-      text-align: center;
-      margin-bottom: 26px;
-      font-size: 27px;
-      font-weight: 850;
-      letter-spacing: -1px;
-    }
-
-    .brand span { color: var(--green); }
-
-    .card {
-      padding: 30px;
-      background: rgba(16, 28, 23, .96);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: 0 24px 80px #0005;
-    }
-
-    h1 { margin: 0 0 8px; font-size: 27px; }
-
-    .sub {
-      color: var(--muted);
-      line-height: 1.6;
-      margin: 0 0 24px;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 5px;
-      border-radius: 12px;
-      background: #08120e;
-      margin-bottom: 22px;
-    }
-
-    .tabs button {
-      border: 0;
-      border-radius: 9px;
-      padding: 11px;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tabs button.active {
-      background: #1a3528;
-      color: var(--green);
-    }
-
-    label {
-      display: block;
-      margin: 16px 0 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #dbe9e0;
-    }
-
-    input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #09130f;
-      color: var(--text);
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px #45e0a018;
-    }
-
-    .primary {
-      width: 100%;
-      border: 0;
-      border-radius: 10px;
-      margin-top: 22px;
-      padding: 14px;
-      background: var(--green);
-      color: #062116;
-      font-weight: 850;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .primary:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .secondary {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-    }
-
-    .message {
-      display: none;
-      margin-top: 17px;
-      padding: 12px;
-      border-radius: 10px;
-      line-height: 1.5;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .message.show { display: block; }
-    .message.success { background: #153729; color: #8df0bd; }
-    .message.error { background: #3a2020; color: var(--red); }
-
-    .links {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 22px;
-      font-size: 13px;
-    }
-
-    a { color: var(--green); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .small {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 18px;
-    }
-
-    [hidden] { display: none !important; }
-
-    @media (max-width: 420px) {
-      .card { padding: 22px; }
-    }
-  </style>
+<style>
+:root{
+  --bg:#0a0f14;--panel:#10161c;--panel2:#0d1419;
+  --border:#22314a;--border2:#2c405a;
+  --blue:#4a9eff;--blue2:#2d7dd2;--blue-deep:#173755;
+  --text:#f0f5fa;--muted:#8fa3b8;--muted2:#5f7a94;
+  --red:#ff6b6b;--green:#4ade80;--green-deep:#173c27;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#12203a 0%,var(--bg) 58%);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;display:grid;place-items:center;padding:24px;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(74,158,255,.08),transparent 60%);pointer-events:none}
+.wrap{width:100%;max-width:440px;position:relative;z-index:1}
+.brand{text-align:center;margin-bottom:26px;font-size:27px;font-weight:850;letter-spacing:-1px}
+.brand span{color:var(--blue)}
+.card{padding:30px;background:rgba(16,22,28,.96);border:1px solid var(--border);border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.4);animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+h1{margin:0 0 8px;font-size:27px;letter-spacing:-.5px}
+.sub{color:var(--muted);line-height:1.6;margin:0 0 24px;font-size:14px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:12px;background:#0a1018;border:1px solid var(--border);margin-bottom:22px}
+.tabs button{border:0;border-radius:9px;padding:11px;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;transition:.2s;font-size:14px}
+.tabs button:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.tabs button.active{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;box-shadow:0 4px 14px rgba(74,158,255,.25)}
+label{display:block;margin:16px 0 8px;font-size:13px;font-weight:700;color:#cfe0ee}
+input,select{width:100%;padding:13px 14px;border:1px solid var(--border2);border-radius:10px;background:#0a141c;color:var(--text);font-size:15px;outline:none;transition:.2s;font-family:inherit;-webkit-appearance:none;-moz-appearance:none;appearance:none}
+select{background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238fa3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:14px;padding-right:40px;cursor:pointer}
+select option{background:#0a141c;color:#f0f5fa}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.12);background:#0b1720}
+.primary{width:100%;border:0;border-radius:10px;margin-top:22px;padding:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;font-weight:850;font-size:15px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.primary::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%)}
+.primary:hover::before{animation:shine .8s}
+.primary:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(74,158,255,.32)}
+.primary:disabled{opacity:.6;cursor:wait;transform:none}
+@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.secondary{width:100%;padding:12px;margin-top:12px;border:1px solid var(--border2);border-radius:10px;background:transparent;color:var(--text);cursor:pointer;font-weight:700;font-size:14px;transition:.2s}
+.secondary:hover{border-color:var(--blue);color:var(--blue)}
+.message{display:none;margin-top:17px;padding:12px 14px;border-radius:10px;line-height:1.5;font-size:14px;overflow-wrap:anywhere}
+.message.show{display:block;animation:fadeUp .25s ease}
+.message.success{background:var(--green-deep);color:#a9f2c4;border:1px solid #235c3b}
+.message.error{background:#3a1a1e;color:#ffb7bb;border:1px solid #5a2a2f}
+.links{display:flex;justify-content:space-between;gap:12px;margin-top:22px;font-size:13px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.small{color:var(--muted2);font-size:12px;line-height:1.6;margin-top:18px}
+[hidden]{display:none!important}
+@media(max-width:420px){.card{padding:22px}h1{font-size:23px}.brand{font-size:24px}}
+</style>
 </head>
 
 <body>
-  <main class="wrap">
-    <div class="brand">Funded<span>Edge</span></div>
+<main class="wrap">
+  <div class="brand">Funded<span>Edge</span></div>
 
-    <section class="card">
-      <div id="authPanel">
-        <h1 id="heading">Welcome back</h1>
-        <p class="sub" id="subtitle">
-          Log in to access your FundedEdge account.
-        </p>
+  <section class="card">
+    <div id="authPanel">
+      <h1 id="heading">Welcome back</h1>
+      <p class="sub" id="subtitle">Log in to access your FundedEdge account.</p>
 
-        <div class="tabs">
-          <button type="button" id="loginTab" class="active">Log in</button>
-          <button type="button" id="signupTab">Create account</button>
+      <div class="tabs">
+        <button type="button" id="loginTab" class="active">Log in</button>
+        <button type="button" id="signupTab">Create account</button>
+      </div>
+
+      <form id="authForm">
+        <div id="nameField" hidden>
+          <label for="fullName">Your name</label>
+          <input id="fullName" type="text" maxlength="80" autocomplete="name" placeholder="Your name">
         </div>
 
-        <form id="authForm">
-          <div id="nameField" hidden>
-            <label for="fullName">Your name</label>
-            <input
-              id="fullName"
-              type="text"
-              maxlength="80"
-              autocomplete="name"
-              placeholder="Your name"
-            >
-          </div>
+        <div id="countryField" hidden>
+          <label for="country">Country</label>
+          <select id="country" autocomplete="country-name">
+            <option value="">Select your country</option>
+            <option value="AF">Afghanistan</option>
+            <option value="AL">Albania</option>
+            <option value="DZ">Algeria</option>
+            <option value="AD">Andorra</option>
+            <option value="AO">Angola</option>
+            <option value="AR">Argentina</option>
+            <option value="AM">Armenia</option>
+            <option value="AU">Australia</option>
+            <option value="AT">Austria</option>
+            <option value="AZ">Azerbaijan</option>
+            <option value="BH">Bahrain</option>
+            <option value="BD">Bangladesh</option>
+            <option value="BY">Belarus</option>
+            <option value="BE">Belgium</option>
+            <option value="BZ">Belize</option>
+            <option value="BJ">Benin</option>
+            <option value="BT">Bhutan</option>
+            <option value="BO">Bolivia</option>
+            <option value="BA">Bosnia and Herzegovina</option>
+            <option value="BW">Botswana</option>
+            <option value="BR">Brazil</option>
+            <option value="BN">Brunei</option>
+            <option value="BG">Bulgaria</option>
+            <option value="BF">Burkina Faso</option>
+            <option value="BI">Burundi</option>
+            <option value="KH">Cambodia</option>
+            <option value="CM">Cameroon</option>
+            <option value="CA">Canada</option>
+            <option value="CV">Cape Verde</option>
+            <option value="CF">Central African Republic</option>
+            <option value="TD">Chad</option>
+            <option value="CL">Chile</option>
+            <option value="CN">China</option>
+            <option value="CO">Colombia</option>
+            <option value="KM">Comoros</option>
+            <option value="CG">Congo</option>
+            <option value="CD">Congo (DRC)</option>
+            <option value="CR">Costa Rica</option>
+            <option value="CI">Côte d'Ivoire</option>
+            <option value="HR">Croatia</option>
+            <option value="CU">Cuba</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Czechia</option>
+            <option value="DK">Denmark</option>
+            <option value="DJ">Djibouti</option>
+            <option value="DM">Dominica</option>
+            <option value="DO">Dominican Republic</option>
+            <option value="EC">Ecuador</option>
+            <option value="EG">Egypt</option>
+            <option value="SV">El Salvador</option>
+            <option value="GQ">Equatorial Guinea</option>
+            <option value="ER">Eritrea</option>
+            <option value="EE">Estonia</option>
+            <option value="SZ">Eswatini</option>
+            <option value="ET">Ethiopia</option>
+            <option value="FJ">Fiji</option>
+            <option value="FI">Finland</option>
+            <option value="FR">France</option>
+            <option value="GA">Gabon</option>
+            <option value="GM">Gambia</option>
+            <option value="GE">Georgia</option>
+            <option value="DE">Germany</option>
+            <option value="GH">Ghana</option>
+            <option value="GR">Greece</option>
+            <option value="GD">Grenada</option>
+            <option value="GT">Guatemala</option>
+            <option value="GN">Guinea</option>
+            <option value="GW">Guinea-Bissau</option>
+            <option value="GY">Guyana</option>
+            <option value="HT">Haiti</option>
+            <option value="HN">Honduras</option>
+            <option value="HK">Hong Kong</option>
+            <option value="HU">Hungary</option>
+            <option value="IS">Iceland</option>
+            <option value="IN">India</option>
+            <option value="ID">Indonesia</option>
+            <option value="IR">Iran</option>
+            <option value="IQ">Iraq</option>
+            <option value="IE">Ireland</option>
+            <option value="IL">Israel</option>
+            <option value="IT">Italy</option>
+            <option value="JM">Jamaica</option>
+            <option value="JP">Japan</option>
+            <option value="JO">Jordan</option>
+            <option value="KZ">Kazakhstan</option>
+            <option value="KE">Kenya</option>
+            <option value="KI">Kiribati</option>
+            <option value="KW">Kuwait</option>
+            <option value="KG">Kyrgyzstan</option>
+            <option value="LA">Laos</option>
+            <option value="LV">Latvia</option>
+            <option value="LB">Lebanon</option>
+            <option value="LS">Lesotho</option>
+            <option value="LR">Liberia</option>
+            <option value="LY">Libya</option>
+            <option value="LI">Liechtenstein</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="MO">Macau</option>
+            <option value="MG">Madagascar</option>
+            <option value="MW">Malawi</option>
+            <option value="MY">Malaysia</option>
+            <option value="MV">Maldives</option>
+            <option value="ML">Mali</option>
+            <option value="MT">Malta</option>
+            <option value="MH">Marshall Islands</option>
+            <option value="MR">Mauritania</option>
+            <option value="MU">Mauritius</option>
+            <option value="MX">Mexico</option>
+            <option value="FM">Micronesia</option>
+            <option value="MD">Moldova</option>
+            <option value="MC">Monaco</option>
+            <option value="MN">Mongolia</option>
+            <option value="ME">Montenegro</option>
+            <option value="MA">Morocco</option>
+            <option value="MZ">Mozambique</option>
+            <option value="MM">Myanmar</option>
+            <option value="NA">Namibia</option>
+            <option value="NR">Nauru</option>
+            <option value="NP">Nepal</option>
+            <option value="NL">Netherlands</option>
+            <option value="NZ">New Zealand</option>
+            <option value="NI">Nicaragua</option>
+            <option value="NE">Niger</option>
+            <option value="NG">Nigeria</option>
+            <option value="KP">North Korea</option>
+            <option value="MK">North Macedonia</option>
+            <option value="NO">Norway</option>
+            <option value="OM">Oman</option>
+            <option value="PK">Pakistan</option>
+            <option value="PW">Palau</option>
+            <option value="PS">Palestine</option>
+            <option value="PA">Panama</option>
+            <option value="PG">Papua New Guinea</option>
+            <option value="PY">Paraguay</option>
+            <option value="PE">Peru</option>
+            <option value="PH">Philippines</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="QA">Qatar</option>
+            <option value="RO">Romania</option>
+            <option value="RU">Russia</option>
+            <option value="RW">Rwanda</option>
+            <option value="KN">Saint Kitts and Nevis</option>
+            <option value="LC">Saint Lucia</option>
+            <option value="VC">Saint Vincent and the Grenadines</option>
+            <option value="WS">Samoa</option>
+            <option value="SM">San Marino</option>
+            <option value="ST">São Tomé and Príncipe</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="SN">Senegal</option>
+            <option value="RS">Serbia</option>
+            <option value="SC">Seychelles</option>
+            <option value="SL">Sierra Leone</option>
+            <option value="SG">Singapore</option>
+            <option value="SK">Slovakia</option>
+            <option value="SI">Slovenia</option>
+            <option value="SB">Solomon Islands</option>
+            <option value="SO">Somalia</option>
+            <option value="ZA">South Africa</option>
+            <option value="KR">South Korea</option>
+            <option value="SS">South Sudan</option>
+            <option value="ES">Spain</option>
+            <option value="LK">Sri Lanka</option>
+            <option value="SD">Sudan</option>
+            <option value="SR">Suriname</option>
+            <option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option>
+            <option value="SY">Syria</option>
+            <option value="TW">Taiwan</option>
+            <option value="TJ">Tajikistan</option>
+            <option value="TZ">Tanzania</option>
+            <option value="TH">Thailand</option>
+            <option value="TL">Timor-Leste</option>
+            <option value="TG">Togo</option>
+            <option value="TO">Tonga</option>
+            <option value="TT">Trinidad and Tobago</option>
+            <option value="TN">Tunisia</option>
+            <option value="TR">Turkey</option>
+            <option value="TM">Turkmenistan</option>
+            <option value="TV">Tuvalu</option>
+            <option value="UG">Uganda</option>
+            <option value="UA">Ukraine</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="GB">United Kingdom</option>
+            <option value="US">United States</option>
+            <option value="UY">Uruguay</option>
+            <option value="UZ">Uzbekistan</option>
+            <option value="VU">Vanuatu</option>
+            <option value="VA">Vatican City</option>
+            <option value="VE">Venezuela</option>
+            <option value="VN">Vietnam</option>
+            <option value="YE">Yemen</option>
+            <option value="ZM">Zambia</option>
+            <option value="ZW">Zimbabwe</option>
+          </select>
+        </div>
 
-          <label for="email">Email address</label>
-          <input
-            id="email"
-            type="email"
-            required
-            maxlength="254"
-            autocomplete="email"
-            placeholder="you@example.com"
-          >
+        <label for="email">Email address</label>
+        <input id="email" type="email" required maxlength="254" autocomplete="email" placeholder="you@example.com">
 
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            required
-            minlength="8"
-            autocomplete="current-password"
-            placeholder="At least 8 characters"
-          >
+        <label for="password">Password</label>
+        <input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters">
 
-          <button class="primary" id="submitButton" type="submit">
-            Log in
-          </button>
-        </form>
+        <button class="primary" id="submitButton" type="submit">Log in</button>
+      </form>
 
-        <button class="secondary" id="forgotButton" type="button">
-          Forgot password?
-        </button>
+      <button class="secondary" id="forgotButton" type="button">Forgot password?</button>
 
-        <div id="message" class="message" role="status" aria-live="polite"></div>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
 
-        <p class="small">
-          By creating an account, you agree to use FundedEdge responsibly.
-          Never share your password with anyone.
-        </p>
-      </div>
-
-      <div id="accountPanel" hidden>
-        <h1>Your account</h1>
-        <p class="sub">You are signed in to FundedEdge.</p>
-        <p id="accountEmail"></p>
-
-        <button class="primary" id="continueButton" type="button">
-          Open Member Dashboard
-        </button>
-
-        <button class="secondary" id="logoutButton" type="button">
-          Log out
-        </button>
-
-        <div id="accountMessage" class="message" role="status"></div>
-      </div>
-    </section>
-
-    <div class="links">
-      <a href="index.html">← Home</a>
-      <a href="directory.html">Browse firms →</a>
+      <p class="small">
+        By creating an account, you agree to use FundedEdge responsibly.
+        Never share your password with anyone.
+      </p>
     </div>
-  </main>
 
-  <script type="module">
-        import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
+    <div id="accountPanel" hidden>
+      <h1>Your account</h1>
+      <p class="sub">You are signed in to FundedEdge.</p>
+      <p id="accountEmail" style="color:#cfe0ee;font-weight:600"></p>
+      <p id="accountCountry" style="color:#8fa3b8;font-weight:500;font-size:14px"></p>
 
-    const $ = (id) => document.getElementById(id);
-    const params = new URLSearchParams(location.search);
+      <button class="primary" id="continueButton" type="button">Open Member Dashboard</button>
+      <button class="secondary" id="logoutButton" type="button">Log out</button>
 
-    let mode = "login";
-    let busy = false;
+      <div id="accountMessage" class="message" role="status"></div>
+    </div>
+  </section>
 
-    // Normal login goes to dashboard.
-    // A valid ?next= destination is preserved.
-    function getNextUrl() {
-      const next = params.get("next");
+  <div class="links">
+    <a href="index.html">← Home</a>
+    <a href="index.html#directory">Browse firms →</a>
+  </div>
+</main>
 
-      if (next) {
-        try {
-          const target = new URL(next, location.origin);
+<script type="module">
+import { db } from "./supabase.js";
 
-          if (
-            target.origin === location.origin &&
-            !target.pathname.endsWith("/auth.html")
-          ) {
-            return target.pathname + target.search + target.hash;
-          }
-        } catch {
-          // Invalid destination: use dashboard.
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+
+let mode = "login";
+let busy = false;
+
+function getNextUrl() {
+  const next = params.get("next");
+  if (next) {
+    try {
+      const target = new URL(next, location.origin);
+      if (target.origin === location.origin && !target.pathname.endsWith("/auth.html")) {
+        return target.pathname + target.search + target.hash;
+      }
+    } catch {}
+  }
+  return "dashboard.html";
+}
+
+function showMessage(message, type = "success") {
+  const el = $("message");
+  el.textContent = message;
+  el.className = "message show " + type;
+}
+function clearMessage() {
+  $("message").className = "message";
+  $("message").textContent = "";
+}
+
+function setMode(nextMode) {
+  mode = nextMode;
+  const signup = mode === "signup";
+
+  $("loginTab").classList.toggle("active", !signup);
+  $("signupTab").classList.toggle("active", signup);
+
+  $("heading").textContent = signup ? "Create your account" : "Welcome back";
+  $("subtitle").textContent = signup
+    ? "Join FundedEdge to save favorites and share reviews."
+    : "Log in to access your FundedEdge account.";
+
+  $("nameField").hidden = !signup;
+  $("countryField").hidden = !signup;
+  $("fullName").required = signup;
+  $("country").required = signup;
+
+  $("password").autocomplete = signup ? "new-password" : "current-password";
+  $("submitButton").textContent = signup ? "Create account" : "Log in";
+  $("forgotButton").hidden = signup;
+  clearMessage();
+}
+
+function showAccount(user) {
+  $("authPanel").hidden = true;
+  $("accountPanel").hidden = false;
+  $("accountEmail").textContent = user.email || "Signed in";
+  const country = user.user_metadata?.country;
+  if (country) {
+    const opt = document.querySelector(`#country option[value="${country}"]`);
+    $("accountCountry").textContent = "Country: " + (opt ? opt.textContent : country);
+  } else {
+    $("accountCountry").textContent = "";
+  }
+}
+function showAuth() {
+  $("authPanel").hidden = false;
+  $("accountPanel").hidden = true;
+}
+
+function friendlyError(error) {
+  const msg = error?.message || "Something went wrong. Please try again.";
+  if (/invalid login credentials/i.test(msg)) return "Email or password is incorrect. If you just registered, confirm your email first.";
+  if (/email not confirmed/i.test(msg)) return "Please confirm your email using the link we sent you.";
+  if (/already registered/i.test(msg)) return "This email already has an account. Try logging in instead.";
+  if (/rate limit/i.test(msg)) return "Too many attempts. Please wait a moment and try again.";
+  return msg;
+}
+
+$("loginTab").addEventListener("click", () => setMode("login"));
+$("signupTab").addEventListener("click", () => setMode("signup"));
+
+$("authForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (busy) return;
+
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  const fullName = $("fullName").value.trim();
+  const country = $("country").value;
+
+  if (password.length < 8) {
+    showMessage("Please use a password with at least 8 characters.", "error");
+    return;
+  }
+  if (mode === "signup" && !fullName) {
+    showMessage("Please enter your name.", "error");
+    return;
+  }
+  if (mode === "signup" && !country) {
+    showMessage("Please select your country.", "error");
+    return;
+  }
+
+  busy = true;
+  $("submitButton").disabled = true;
+  $("submitButton").textContent = "Please wait…";
+  clearMessage();
+
+  try {
+    if (mode === "signup") {
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName, country: country },
+          emailRedirectTo: location.origin + location.pathname
         }
-      }
+      });
 
-      return "dashboard.html";
-    }
+      if (error) throw error;
 
-    function showMessage(message, type = "success") {
-      const el = $("message");
-      el.textContent = message;
-      el.className = "message show " + type;
-    }
-
-    function clearMessage() {
-      $("message").className = "message";
-      $("message").textContent = "";
-    }
-
-    function setMode(nextMode) {
-      mode = nextMode;
-
-      const signup = mode === "signup";
-
-      $("loginTab").classList.toggle("active", !signup);
-      $("signupTab").classList.toggle("active", signup);
-
-      $("heading").textContent = signup
-        ? "Create your account"
-        : "Welcome back";
-
-      $("subtitle").textContent = signup
-        ? "Join FundedEdge to save favorites and share reviews."
-        : "Log in to access your FundedEdge account.";
-
-      $("nameField").hidden = !signup;
-      $("fullName").required = signup;
-
-      $("password").autocomplete = signup
-        ? "new-password"
-        : "current-password";
-
-      $("submitButton").textContent = signup
-        ? "Create account"
-        : "Log in";
-
-      $("forgotButton").hidden = signup;
-      clearMessage();
-    }
-
-    function showAccount(user) {
-      $("authPanel").hidden = true;
-      $("accountPanel").hidden = false;
-      $("accountEmail").textContent = user.email || "Signed in";
-    }
-
-    function showAuth() {
-      $("authPanel").hidden = false;
-      $("accountPanel").hidden = true;
-    }
-
-    function friendlyError(error) {
-      const msg =
-        error?.message || "Something went wrong. Please try again.";
-
-      if (/invalid login credentials/i.test(msg)) {
-        return "Email or password is incorrect. If you just registered, confirm your email first.";
-      }
-
-      if (/email not confirmed/i.test(msg)) {
-        return "Please confirm your email using the link we sent you.";
-      }
-
-      if (/already registered/i.test(msg)) {
-        return "This email already has an account. Try logging in instead.";
-      }
-
-      return msg;
-    }
-
-    $("loginTab").addEventListener("click", () => setMode("login"));
-    $("signupTab").addEventListener("click", () => setMode("signup"));
-
-    $("authForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      if (busy) return;
-
-      const email = $("email").value.trim();
-      const password = $("password").value;
-      const fullName = $("fullName").value.trim();
-
-      if (password.length < 8) {
-        showMessage(
-          "Please use a password with at least 8 characters.",
-          "error"
-        );
-        return;
-      }
-
-      if (mode === "signup" && !fullName) {
-        showMessage("Please enter your name.", "error");
-        return;
-      }
-
-      busy = true;
-      $("submitButton").disabled = true;
-      $("submitButton").textContent = "Please wait…";
-      clearMessage();
-
-      try {
-        if (mode === "signup") {
-          const { data, error } = await db.auth.signUp({
-            email,
-            password,
-            options: {
-              data: { full_name: fullName },
-              emailRedirectTo: location.origin + location.pathname
-            }
-          });
-
-          if (error) throw error;
-
-          if (data.session && data.user) {
-            location.assign(getNextUrl());
-          } else {
-            showMessage(
-              "Account created! Check your inbox and spam folder, then click the verification link before logging in."
-            );
-          }
-        } else {
-          const { data, error } = await db.auth.signInWithPassword({
-            email,
-            password
-          });
-
-          if (error) throw error;
-
-          if (!data.user?.email_confirmed_at) {
-            await db.auth.signOut();
-            showMessage(
-              "Please verify your email before continuing.",
-              "error"
-            );
-            return;
-          }
-
-          location.assign(getNextUrl());
-        }
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      } finally {
-        busy = false;
-        $("submitButton").disabled = false;
-        $("submitButton").textContent =
-          mode === "signup" ? "Create account" : "Log in";
-      }
-    });
-
-    $("forgotButton").addEventListener("click", async () => {
-      const email = $("email").value.trim();
-
-      if (!email) {
-        showMessage("Enter your email address first.", "error");
-        $("email").focus();
-        return;
-      }
-
-      try {
-        const { error } = await db.auth.resetPasswordForEmail(email, {
-          redirectTo: location.origin + location.pathname
-        });
-
-        if (error) throw error;
-
-        showMessage(
-          "If an account exists for that email, a password-reset link will be sent."
-        );
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      }
-    });
-
-    $("continueButton").addEventListener("click", () => {
-      location.assign(getNextUrl());
-    });
-
-    $("logoutButton").addEventListener("click", async () => {
-      const { error } = await db.auth.signOut();
-
-      if (error) {
-        $("accountMessage").textContent = error.message;
-        $("accountMessage").className = "message show error";
-        return;
-      }
-
-      showAuth();
-      setMode("login");
-      showMessage("You have logged out successfully.");
-    });
-
-    const {
-      data: { session }
-    } = await db.auth.getSession();
-
-    if (session?.user?.email_confirmed_at) {
-      showAccount(session.user);
-    } else {
-      showAuth();
-
-      if (params.get("verified") === "1") {
-        showMessage(
-          "Email verification complete. Please log in to continue."
-        );
-      }
-    }
-
-    db.auth.onAuthStateChange((_event, session) => {
-      if (session?.user?.email_confirmed_at) {
-        showAccount(session.user);
+      if (data.session && data.user) {
+        location.assign(getNextUrl());
       } else {
-        showAuth();
+        showMessage("Account created! Check your inbox and spam folder, then click the verification link before logging in.");
       }
+    } else {
+      const { data, error } = await db.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      if (!data.user?.email_confirmed_at) {
+        await db.auth.signOut();
+        showMessage("Please verify your email before continuing.", "error");
+        return;
+      }
+
+      location.assign(getNextUrl());
+    }
+  } catch (error) {
+    showMessage(friendlyError(error), "error");
+  } finally {
+    busy = false;
+    $("submitButton").disabled = false;
+    $("submitButton").textContent = mode === "signup" ? "Create account" : "Log in";
+  }
+});
+
+$("forgotButton").addEventListener("click", async () => {
+  const email = $("email").value.trim();
+  if (!email) {
+    showMessage("Enter your email address first.", "error");
+    $("email").focus();
+    return;
+  }
+  try {
+    const { error } = await db.auth.resetPasswordForEmail(email, {
+      redirectTo: location.origin + location.pathname
     });
-  </script>
+    if (error) throw error;
+    showMessage("If an account exists for that email, a password-reset link will be sent.");
+  } catch (error) {
+    showMessage(friendlyError(error), "error");
+  }
+});
+
+$("continueButton").addEventListener("click", () => {
+  location.assign(getNextUrl());
+});
+
+$("logoutButton").addEventListener("click", async () => {
+  const { error } = await db.auth.signOut();
+  if (error) {
+    $("accountMessage").textContent = error.message;
+    $("accountMessage").className = "message show error";
+    return;
+  }
+  showAuth();
+  setMode("login");
+  showMessage("You have logged out successfully.");
+});
+
+const requestedMode = params.get("mode");
+if (requestedMode === "signup" || requestedMode === "signin") {
+  setMode(requestedMode === "signup" ? "signup" : "login");
+}
+
+const { data: { session } } = await db.auth.getSession();
+
+if (session?.user?.email_confirmed_at) {
+  showAccount(session.user);
+} else {
+  showAuth();
+  if (params.get("verified") === "1") {
+    showMessage("Email verification complete. Please log in to continue.");
+  }
+}
+
+db.auth.onAuthStateChange((_event, session) => {
+  if (session?.user?.email_confirmed_at) {
+    showAccount(session.user);
+  } else {
+    showAuth();
+  }
+});
+</script>
 </body>
 </html>
