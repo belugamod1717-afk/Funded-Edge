@@ -80,8 +80,8 @@
 <section class="page" id="page-settings"><div class="head"><div><div class="eyebrow">Your account</div><h1>Account Settings</h1><p class="muted">Signed-in account details.</p></div></div><div class="panel"><div class="list"><div class="item"><div><b>Email address</b><small id="settingEmail"></small></div><span class="status approved">Confirmed</span></div><div class="item"><div><b>Display name</b><small id="settingName"></small></div></div></div><div class="actions"><button class="btn" id="refresh">Refresh dashboard</button><button class="btn danger" id="logout2">Logout</button></div></div></section>
 </div></main></div><footer>FundedEdge · Independent prop firm research · Trading involves risk.</footer><div id="toast" hidden></div>
 <script type="module">
-import{createClient}from"https://esm.sh/@supabase/supabase-js@2";
-const db=createClient("https://mvltzznwdglwaedfzxze.supabase.co","sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid"),$=id=>document.getElementById(id);
+import { db } from "./supabase.js";
+const $ = id => document.getElementById(id);
 let user=null,trades=[],toastTimer,firmsLoaded=false;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(s){$("toast").textContent=s;$("toast").hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").hidden=true,3500)}
