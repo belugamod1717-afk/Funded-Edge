@@ -8,12 +8,21 @@
 <style>
 :root{--bg:#080a09;--side:#111312;--panel:#151716;--line:#303531;--green:#35d875;--text:#f5f7f5;--muted:#a0a8a2;--red:#f16d75}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button,a,select{cursor:pointer}.top{height:78px;display:flex;align-items:center;gap:16px;padding:0 24px;border-bottom:1px solid #292d2a;background:#080a09;position:sticky;top:0;z-index:5}.toggle{width:46px;height:46px;border:1px solid #277d49;border-radius:10px;background:#101411;color:var(--green);font-size:22px}.brand{font-size:21px;font-weight:900;letter-spacing:1px}.brand span{color:var(--green)}.email{margin-left:auto;color:var(--muted);font-size:12px}.layout{display:flex;min-height:calc(100vh - 78px)}aside{width:255px;flex-shrink:0;background:var(--side);border-right:1px solid #262a27;padding:17px 13px;position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto;transition:margin .2s}aside.closed{margin-left:-255px}.navlabel{padding:14px 13px 7px;color:#747d76;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.nav{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#f1f3f1;text-align:left;padding:13px;border-radius:10px;margin:3px 0;font-size:14px}.nav:hover{background:#202521}.nav.active{background:var(--green);color:#07150b}.nav .ico{width:20px;font-size:17px}.nav.logout{margin-top:15px;color:#ffb0b4}main{padding:30px clamp(14px,3vw,36px) 55px;flex:1;min-width:0;max-width:1500px}.page{display:none}.page.active{display:block}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.7px;color:var(--green);text-transform:uppercase}h1{font-size:clamp(27px,4vw,38px);margin:7px 0}h2{font-size:19px;margin:0}.muted{font-size:13px;color:var(--muted);line-height:1.65;margin:0}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:#1a1e1b;color:var(--text);font-size:13px;font-weight:700;text-decoration:none;cursor:pointer}.btn.primary{background:var(--green);border-color:var(--green);color:#07150b}.btn.danger{color:#ffb0b4}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{background:linear-gradient(145deg,#171a18,#111312);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}.statlabel{font-size:13px;color:var(--muted)}.stat{font-size:31px;font-weight:850;margin:9px 0}.section{margin-top:22px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.list{display:grid;gap:9px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;border:1px solid #2b302c;background:#0d0f0e;border-radius:10px;min-width:0}.info{min-width:0;overflow-wrap:anywhere}.itemtitle{font-size:14px;font-weight:750}.item small{display:block;color:var(--muted);font-size:12px;line-height:1.6;margin-top:4px}.empty{padding:23px;text-align:center;border:1px dashed #414841;border-radius:11px;color:var(--muted);font-size:13px;line-height:1.7}.status{font-size:11px;font-weight:800;border-radius:20px;padding:5px 8px;background:#303630}.approved{background:#173c27;color:#9df0ba}.pending{background:#44371c;color:#ffe099}.rejected{background:#452326;color:#ffb4b7}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:750}.field input,.field select,.field textarea{width:100%;min-width:0;padding:11px;border-radius:9px;border:1px solid #3b423c;background:#0b0d0c;color:var(--text)}.field textarea{min-height:85px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.notice{padding:12px;border-radius:9px;background:#16271d;color:#b5f5ca;font-size:13px;margin:12px 0}.error{padding:12px;border-radius:9px;background:#452326;color:#ffb4b7;margin-bottom:14px}.pos{color:#8ff0ad}.neg{color:#ff9ea4}footer{text-align:center;padding:20px;color:#727b75;border-top:1px solid #242825;font-size:11px}#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1b2b20;border:1px solid #39784d;padding:12px 16px;border-radius:10px;z-index:20;font-size:13px;max-width:90vw}[hidden]{display:none!important}
-.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
 .fav-card{display:flex;flex-direction:column;border:1px solid #2b302c;background:linear-gradient(145deg,#161a17,#0e100f);border-radius:14px;padding:18px;min-width:0;transition:transform .18s ease,border-color .18s ease}
 .fav-card:hover{transform:translateY(-3px);border-color:#3d9460}
 .fav-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.fav-brand{display:flex;align-items:flex-start;gap:12px;min-width:0;flex:1}
+.fav-logo{position:relative;display:flex;align-items:center;justify-content:center;width:48px;height:48px;flex-shrink:0;border-radius:12px;background:linear-gradient(145deg,#1a3825,#0b1710);border:1px solid #315440;overflow:hidden}
+.fav-logo-fallback{font-size:16px;font-weight:900;color:#8ff0b5;letter-spacing:-.5px}
+.fav-logo img{position:absolute;inset:0;width:100%;height:100%;padding:7px;box-sizing:border-box;object-fit:contain;background:#f7faf7}
+.fav-brand-info{min-width:0;flex:1}
 .fav-name{font-size:17px;font-weight:800;margin:0;overflow-wrap:anywhere}
-.fav-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.8px;padding:4px 8px;border-radius:6px;background:rgba(53,216,117,.14);color:#8df0b5;border:1px solid #235c3b;margin-bottom:8px;text-transform:uppercase}
+.fav-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.v-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0;line-height:1;white-space:nowrap}
+.v-yes{background:rgba(53,216,117,.14);color:#8ff0b5;border:1px solid #235c3b}
+.v-no{background:rgba(120,120,120,.12);color:#a0a8a2;border:1px solid #3b423c}
+.fav-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.8px;padding:4px 8px;border-radius:6px;background:rgba(53,216,117,.14);color:#8df0b5;border:1px solid #235c3b;margin-bottom:6px;text-transform:uppercase}
 .fav-rating{flex-shrink:0;padding:5px 9px;border-radius:8px;background:#2a240e;color:#f5d77b;font-size:12px;font-weight:800;border:1px solid #4a4127}
 .fav-desc{color:var(--muted);font-size:12.5px;line-height:1.6;margin:0 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .fav-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
@@ -28,7 +37,7 @@
 .fav-actions .btn:disabled{opacity:.6;cursor:wait}
 .loading-skeleton{padding:20px;border:1px solid #262a27;background:#0e100f;border-radius:12px;color:var(--muted);font-size:13px;text-align:center}
 
-/* ========= COMPARE TOOL ========= */
+/* COMPARE TOOL */
 .cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:20px}
 .cmp-slot{position:relative;padding:16px;border:1px solid #262a27;background:#0d0f0e;border-radius:14px;transition:.2s}
 .cmp-slot.filled{border-color:rgba(53,216,117,.4);background:rgba(53,216,117,.04)}
@@ -51,8 +60,6 @@
 .cmp-result .r-empty{color:var(--muted);text-align:center;padding:14px;font-size:12.5px}
 .cmp-chosen{margin-top:10px;padding:9px 12px;background:rgba(53,216,117,.08);border:1px solid rgba(53,216,117,.25);border-radius:9px;font-size:12.5px;font-weight:700;color:#8ff0ad;display:none}
 .cmp-slot.filled .cmp-chosen{display:block}
-
-/* Compare result table */
 .compare-table-wrap{overflow-x:auto;border:1px solid #2b302c;border-radius:14px;margin-top:20px;animation:fadeUp .4s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .compare-table{width:100%;min-width:520px;border-collapse:collapse;background:#0d0f0e;color:#eaf5ed}
@@ -64,7 +71,7 @@
 .compare-table tr:hover td{background:#131715}
 .compare-table .better{color:#8ff0ad;font-weight:800}
 
-@media(max-width:800px){aside{position:fixed;top:78px;bottom:0;height:auto;z-index:10;box-shadow:12px 0 35px #0008}aside.closed{margin-left:-270px}.cards{grid-template-columns:1fr}main{padding:23px 13px 40px}.top{padding:0 13px}.email{font-size:10px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.fav-grid{grid-template-columns:1fr}.cmp-grid{grid-template-columns:1fr}}
+@media(max-width:800px){aside{position:fixed;top:78px;bottom:0;height:auto;z-index:10;box-shadow:12px 0 35px #0008}aside.closed{margin-left:-270px}.cards{grid-template-columns:1fr}main{padding:23px 13px 40px}.top{padding:0 13px}.email{font-size:10px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.fav-grid{grid-template-columns:1fr}.cmp-grid{grid-template-columns:1fr}.fav-logo{width:42px;height:42px;border-radius:11px}.fav-logo-fallback{font-size:14px}}
 </style></head><body>
 <header class="top"><button class="toggle" id="toggle" aria-label="Toggle menu">☰</button><div class="brand">↗ FUNDED<span>EDGE</span></div><div class="email" id="topEmail"></div></header>
 <div class="layout"><aside id="sidebar">
@@ -99,7 +106,6 @@
   </div>
 </section>
 
-<!-- COMPARE PAGE -->
 <section class="page" id="page-compare">
   <div class="head">
     <div>
@@ -108,14 +114,10 @@
       <p class="muted">Search and pick up to 3 firms to compare rules side by side.</p>
     </div>
   </div>
-
   <div class="panel">
     <div class="cmp-grid">
       <div class="cmp-slot" id="cmpSlot1" data-slot="1">
-        <div class="cmp-slot-label">
-          <span>Firm 1</span>
-          <button class="clear-x" type="button" data-clear="1" title="Clear">✕</button>
-        </div>
+        <div class="cmp-slot-label"><span>Firm 1</span><button class="clear-x" type="button" data-clear="1" title="Clear">✕</button></div>
         <div class="cmp-search-wrap">
           <input class="cmp-search" id="cmpSearch1" type="text" placeholder="Search by name…" autocomplete="off">
           <span class="cmp-search-icon">🔍</span>
@@ -123,12 +125,8 @@
         </div>
         <div class="cmp-chosen" id="cmpChosen1">—</div>
       </div>
-
       <div class="cmp-slot" id="cmpSlot2" data-slot="2">
-        <div class="cmp-slot-label">
-          <span>Firm 2</span>
-          <button class="clear-x" type="button" data-clear="2" title="Clear">✕</button>
-        </div>
+        <div class="cmp-slot-label"><span>Firm 2</span><button class="clear-x" type="button" data-clear="2" title="Clear">✕</button></div>
         <div class="cmp-search-wrap">
           <input class="cmp-search" id="cmpSearch2" type="text" placeholder="Search by name…" autocomplete="off">
           <span class="cmp-search-icon">🔍</span>
@@ -136,12 +134,8 @@
         </div>
         <div class="cmp-chosen" id="cmpChosen2">—</div>
       </div>
-
       <div class="cmp-slot" id="cmpSlot3" data-slot="3">
-        <div class="cmp-slot-label">
-          <span>Firm 3 (optional)</span>
-          <button class="clear-x" type="button" data-clear="3" title="Clear">✕</button>
-        </div>
+        <div class="cmp-slot-label"><span>Firm 3 (optional)</span><button class="clear-x" type="button" data-clear="3" title="Clear">✕</button></div>
         <div class="cmp-search-wrap">
           <input class="cmp-search" id="cmpSearch3" type="text" placeholder="Search by name…" autocomplete="off">
           <span class="cmp-search-icon">🔍</span>
@@ -150,7 +144,6 @@
         <div class="cmp-chosen" id="cmpChosen3">—</div>
       </div>
     </div>
-
     <div class="actions">
       <button class="btn primary" id="cmpRun" type="button">Compare</button>
       <button class="btn" id="cmpClear" type="button">Clear all</button>
@@ -179,9 +172,30 @@
 import { db } from "./supabase.js";
 const $ = id => document.getElementById(id);
 let user=null,trades=[],toastTimer,firmsLoaded=false,compareFirmsCache=[];
-const compareSlots={1:null,2:null,3:null}; // slot number → firm object
+const compareSlots={1:null,2:null,3:null};
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(s){$("toast").textContent=s;$("toast").hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").hidden=true,3500)}
+
+function getLogoDomain(firm){
+  const name=(firm.name||"").toLowerCase().trim();
+  const known={"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
+  if(known[name])return known[name];
+  try{const u=new URL(firm.official_website||"");if(u.protocol==="https:"||u.protocol==="http:")return u.hostname;}catch(_){}
+  return "";
+}
+function getInitials(name){
+  const words=String(name||"PF").trim().split(/\s+/).filter(Boolean);
+  return words.length>1?(words[0][0]+words[1][0]).toUpperCase():(words[0]||"PF").slice(0,2).toUpperCase();
+}
+function firmLogoURL(firm){
+  const domain=getLogoDomain(firm);
+  return firm.logo_url||(domain?`https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`:"");
+}
+function verifiedBadge(firm){
+  if(firm.verified)return `<span class="v-badge v-yes" title="Verified firm">✓ Verified</span>`;
+  return `<span class="v-badge v-no" title="Not yet verified">Unverified</span>`;
+}
+
 function empty(id,s){$(id).innerHTML=`<div class="empty">${esc(s)}</div>`}
 function go(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+p));document.querySelectorAll(".nav[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));if(innerWidth<=800)$("sidebar").classList.add("closed");if(p==="stats")stats();if(p==="compare")loadCompareFirms()}
 document.querySelectorAll(".nav[data-page]").forEach(b=>{b.onclick=()=>{go(b.dataset.page);if(b.dataset.page==="firms"&&!firmsLoaded){firmsLoaded=true;loadAllFirms()}}});
@@ -191,33 +205,77 @@ $("logout").onclick=logout;$("logout2").onclick=logout;$("refresh").onclick=load
 function firmHref(f){return f?.id?"firm.html?id="+encodeURIComponent(f.id):"directory.html"}
 
 function favCard(favItem,firm){
-  const f=firm||{};const name=f.name||"Prop firm";const rating=f.rating?`★ ${f.rating}`:"—";const tag=f.tag||f.category||"PROP FIRM";
-  return `<article class="fav-card"><div class="fav-head"><div style="min-width:0"><span class="fav-tag">${esc(tag)}</span><h3 class="fav-name">${esc(name)}</h3></div><div class="fav-rating">${esc(rating)}</div></div>
-  ${f.description?`<p class="fav-desc">${esc(f.description)}</p>`:""}
-  <div class="fav-stats">
-    <div class="fav-stat"><small>Account sizes</small><strong>${esc(f.account_sizes||"—")}</strong></div>
-    <div class="fav-stat"><small>Starting price</small><strong>${esc(f.price||"—")}</strong></div>
-    <div class="fav-stat"><small>Profit target</small><strong>${esc(f.profit_target||"—")}</strong></div>
-    <div class="fav-stat"><small>Profit split</small><strong>${esc(f.profit_split||"—")}</strong></div>
-    <div class="fav-stat"><small>Max drawdown</small><strong>${esc(f.max_drawdown||"—")}</strong></div>
-    <div class="fav-stat"><small>Payout</small><strong>${esc(f.payout||"—")}</strong></div>
-  </div>
-  <div class="fav-actions"><a class="btn primary" href="${firmHref(f)}">View full details ↗</a><button class="btn remove" data-remove-fav="${esc(favItem.id)}" type="button">Remove</button></div></article>`;
+  const f=firm||{};
+  const name=f.name||"Prop firm";
+  const rating=f.rating?`★ ${f.rating}`:"—";
+  const tag=f.tag||f.category||"PROP FIRM";
+  const logo=firmLogoURL(f);
+  const initials=getInitials(f.name);
+  return `<article class="fav-card">
+    <div class="fav-head">
+      <div class="fav-brand">
+        <div class="fav-logo">
+          <span class="fav-logo-fallback">${esc(initials)}</span>
+          ${logo?`<img src="${esc(logo)}" alt="${esc(name)} logo" loading="lazy" onerror="this.style.display='none'">`:""}
+        </div>
+        <div class="fav-brand-info">
+          <span class="fav-tag">${esc(tag)}</span>
+          <div class="fav-name-row">
+            <h3 class="fav-name">${esc(name)}</h3>
+            ${verifiedBadge(f)}
+          </div>
+        </div>
+      </div>
+      <div class="fav-rating">${esc(rating)}</div>
+    </div>
+    ${f.description?`<p class="fav-desc">${esc(f.description)}</p>`:""}
+    <div class="fav-stats">
+      <div class="fav-stat"><small>Account sizes</small><strong>${esc(f.account_sizes||"—")}</strong></div>
+      <div class="fav-stat"><small>Starting price</small><strong>${esc(f.price||"—")}</strong></div>
+      <div class="fav-stat"><small>Profit target</small><strong>${esc(f.profit_target||"—")}</strong></div>
+      <div class="fav-stat"><small>Profit split</small><strong>${esc(f.profit_split||"—")}</strong></div>
+      <div class="fav-stat"><small>Max drawdown</small><strong>${esc(f.max_drawdown||"—")}</strong></div>
+      <div class="fav-stat"><small>Payout</small><strong>${esc(f.payout||"—")}</strong></div>
+    </div>
+    <div class="fav-actions"><a class="btn primary" href="${firmHref(f)}">View full details ↗</a><button class="btn remove" data-remove-fav="${esc(favItem.id)}" type="button">Remove</button></div>
+  </article>`;
 }
 
 function firmCardAll(firm,savedIds){
-  const isSaved=savedIds.has(String(firm.id));const name=firm.name||"Prop firm";const rating=firm.rating?`★ ${firm.rating}`:"—";const tag=firm.tag||firm.category||"PROP FIRM";
-  return `<article class="fav-card"><div class="fav-head"><div style="min-width:0"><span class="fav-tag">${esc(tag)}</span><h3 class="fav-name">${esc(name)}</h3></div><div class="fav-rating">${esc(rating)}</div></div>
-  ${firm.description?`<p class="fav-desc">${esc(firm.description)}</p>`:""}
-  <div class="fav-stats">
-    <div class="fav-stat"><small>Account sizes</small><strong>${esc(firm.account_sizes||"—")}</strong></div>
-    <div class="fav-stat"><small>Starting price</small><strong>${esc(firm.price||"—")}</strong></div>
-    <div class="fav-stat"><small>Profit target</small><strong>${esc(firm.profit_target||"—")}</strong></div>
-    <div class="fav-stat"><small>Profit split</small><strong>${esc(firm.profit_split||"—")}</strong></div>
-    <div class="fav-stat"><small>Max drawdown</small><strong>${esc(firm.max_drawdown||"—")}</strong></div>
-    <div class="fav-stat"><small>Payout</small><strong>${esc(firm.payout||"—")}</strong></div>
-  </div>
-  <div class="fav-actions"><a class="btn primary" href="firm.html?id=${encodeURIComponent(firm.id)}">View details ↗</a><button class="btn ${isSaved?"is-saved":""}" data-save-firm="${esc(firm.id)}" data-saved="${isSaved?"1":"0"}" type="button">${isSaved?"♥ Saved":"♡ Save"}</button></div></article>`;
+  const isSaved=savedIds.has(String(firm.id));
+  const name=firm.name||"Prop firm";
+  const rating=firm.rating?`★ ${firm.rating}`:"—";
+  const tag=firm.tag||firm.category||"PROP FIRM";
+  const logo=firmLogoURL(firm);
+  const initials=getInitials(firm.name);
+  return `<article class="fav-card">
+    <div class="fav-head">
+      <div class="fav-brand">
+        <div class="fav-logo">
+          <span class="fav-logo-fallback">${esc(initials)}</span>
+          ${logo?`<img src="${esc(logo)}" alt="${esc(name)} logo" loading="lazy" onerror="this.style.display='none'">`:""}
+        </div>
+        <div class="fav-brand-info">
+          <span class="fav-tag">${esc(tag)}</span>
+          <div class="fav-name-row">
+            <h3 class="fav-name">${esc(name)}</h3>
+            ${verifiedBadge(firm)}
+          </div>
+        </div>
+      </div>
+      <div class="fav-rating">${esc(rating)}</div>
+    </div>
+    ${firm.description?`<p class="fav-desc">${esc(firm.description)}</p>`:""}
+    <div class="fav-stats">
+      <div class="fav-stat"><small>Account sizes</small><strong>${esc(firm.account_sizes||"—")}</strong></div>
+      <div class="fav-stat"><small>Starting price</small><strong>${esc(firm.price||"—")}</strong></div>
+      <div class="fav-stat"><small>Profit target</small><strong>${esc(firm.profit_target||"—")}</strong></div>
+      <div class="fav-stat"><small>Profit split</small><strong>${esc(firm.profit_split||"—")}</strong></div>
+      <div class="fav-stat"><small>Max drawdown</small><strong>${esc(firm.max_drawdown||"—")}</strong></div>
+      <div class="fav-stat"><small>Payout</small><strong>${esc(firm.payout||"—")}</strong></div>
+    </div>
+    <div class="fav-actions"><a class="btn primary" href="firm.html?id=${encodeURIComponent(firm.id)}">View details ↗</a><button class="btn ${isSaved?"is-saved":""}" data-save-firm="${esc(firm.id)}" data-saved="${isSaved?"1":"0"}" type="button">${isSaved?"♥ Saved":"♡ Save"}</button></div>
+  </article>`;
 }
 
 async function toggleSaveFirm(firmId,btn){
@@ -253,13 +311,9 @@ async function loadAllFirms(){
   }
 }
 
-/* ============ COMPARE TOOL (dashboard-native with search) ============ */
+/* COMPARE TOOL */
 async function loadCompareFirms(){
-  if(compareFirmsCache.length){
-    // Already loaded — ensure slots reflect current state
-    [1,2,3].forEach(n=>updateSlotUI(n));
-    return;
-  }
+  if(compareFirmsCache.length){[1,2,3].forEach(n=>updateSlotUI(n));return}
   try{
     const{data,error}=await db.from("firms").select("*").eq("status","active").order("name",{ascending:true});
     if(error)throw error;
@@ -269,20 +323,10 @@ async function loadCompareFirms(){
 }
 
 function updateSlotUI(n){
-  const slot=$("cmpSlot"+n);
-  const chosen=$("cmpChosen"+n);
-  const search=$("cmpSearch"+n);
-  if(!slot)return;
-  const firm=compareSlots[n];
-  if(firm){
-    slot.classList.add("filled");
-    chosen.textContent="✓ "+firm.name+(firm.category?" · "+firm.category:"");
-    search.value=firm.name;
-  }else{
-    slot.classList.remove("filled");
-    chosen.textContent="—";
-    search.value="";
-  }
+  const slot=$("cmpSlot"+n);const chosen=$("cmpChosen"+n);const search=$("cmpSearch"+n);
+  if(!slot)return;const firm=compareSlots[n];
+  if(firm){slot.classList.add("filled");chosen.textContent="✓ "+firm.name+(firm.category?" · "+firm.category:"");search.value=firm.name}
+  else{slot.classList.remove("filled");chosen.textContent="—";search.value=""}
 }
 
 function searchFirms(query,excludeIds){
@@ -290,20 +334,13 @@ function searchFirms(query,excludeIds){
   return compareFirmsCache.filter(f=>{
     if(excludeIds.has(String(f.id)))return false;
     if(!q)return true;
-    return (f.name||"").toLowerCase().includes(q)
-      || (f.category||"").toLowerCase().includes(q)
-      || (f.tag||"").toLowerCase().includes(q);
+    return (f.name||"").toLowerCase().includes(q)||(f.category||"").toLowerCase().includes(q)||(f.tag||"").toLowerCase().includes(q);
   }).slice(0,20);
 }
 
 function showResults(n,items){
-  const box=$("cmpResults"+n);
-  if(!box)return;
-  if(!items.length){
-    box.innerHTML=`<div class="r-empty">No firms found</div>`;
-    box.classList.add("show");
-    return;
-  }
+  const box=$("cmpResults"+n);if(!box)return;
+  if(!items.length){box.innerHTML=`<div class="r-empty">No firms found</div>`;box.classList.add("show");return}
   const currentId=compareSlots[n]?.id;
   box.innerHTML=items.map(f=>`
     <div class="cmp-result ${String(f.id)===String(currentId)?"selected":""}" data-firm-id="${esc(f.id)}">
@@ -314,142 +351,73 @@ function showResults(n,items){
     row.onclick=()=>{
       const firm=compareFirmsCache.find(x=>String(x.id)===String(row.dataset.firmId));
       if(!firm)return;
-      compareSlots[n]=firm;
-      updateSlotUI(n);
-      box.classList.remove("show");
+      compareSlots[n]=firm;updateSlotUI(n);box.classList.remove("show");
     };
   });
   box.classList.add("show");
 }
 
 [1,2,3].forEach(n=>{
-  const input=$("cmpSearch"+n);
-  const box=$("cmpResults"+n);
-  const slot=$("cmpSlot"+n);
-  const clearBtn=slot?.querySelector("[data-clear]");
-
+  const input=$("cmpSearch"+n);const box=$("cmpResults"+n);const slot=$("cmpSlot"+n);const clearBtn=slot?.querySelector("[data-clear]");
   input?.addEventListener("focus",()=>{
     const taken=new Set([1,2,3].filter(x=>x!==n).map(x=>compareSlots[x]?.id).filter(Boolean).map(String));
     showResults(n,searchFirms(input.value,taken));
   });
-
   input?.addEventListener("input",()=>{
-    // If user edits, treat as new selection
-    if(compareSlots[n]&&input.value!==compareSlots[n].name){
-      compareSlots[n]=null;
-      slot.classList.remove("filled");
-      $("cmpChosen"+n).textContent="—";
-    }
+    if(compareSlots[n]&&input.value!==compareSlots[n].name){compareSlots[n]=null;slot.classList.remove("filled");$("cmpChosen"+n).textContent="—"}
     const taken=new Set([1,2,3].filter(x=>x!==n).map(x=>compareSlots[x]?.id).filter(Boolean).map(String));
     showResults(n,searchFirms(input.value,taken));
   });
-
-  input?.addEventListener("blur",()=>{
-    // Delay hiding so click on result works
-    setTimeout(()=>box?.classList.remove("show"),180);
-  });
-
-  clearBtn?.addEventListener("click",()=>{
-    compareSlots[n]=null;
-    updateSlotUI(n);
-    box?.classList.remove("show");
-  });
+  input?.addEventListener("blur",()=>setTimeout(()=>box?.classList.remove("show"),180));
+  clearBtn?.addEventListener("click",()=>{compareSlots[n]=null;updateSlotUI(n);box?.classList.remove("show")});
 });
-
-// Hide all dropdowns on outside click
-document.addEventListener("click",e=>{
-  if(!e.target.closest(".cmp-search-wrap")){
-    [1,2,3].forEach(n=>$("cmpResults"+n)?.classList.remove("show"));
-  }
-});
+document.addEventListener("click",e=>{if(!e.target.closest(".cmp-search-wrap"))[1,2,3].forEach(n=>$("cmpResults"+n)?.classList.remove("show"))});
 
 function parseNums(str){
   const matches=String(str||"").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g)||[];
-  return matches.map(m=>{
-    const cleaned=m.replace(/,/g,"").replace(/\s/g,"");
-    const mult=/m$/i.test(cleaned)?1e6:/k$/i.test(cleaned)?1e3:1;
-    return parseFloat(cleaned.replace(/[kKmM]$/,""))*mult;
-  }).filter(Number.isFinite);
+  return matches.map(m=>{const c=m.replace(/,/g,"").replace(/\s/g,"");const mult=/m$/i.test(c)?1e6:/k$/i.test(c)?1e3:1;return parseFloat(c.replace(/[kKmM]$/,""))*mult}).filter(Number.isFinite);
 }
 
 function runCompare(){
   const selected=[1,2,3].map(n=>compareSlots[n]).filter(Boolean);
   const wrap=$("cmpResult");
-  if(!selected.length){
-    wrap.innerHTML=`<div class="empty">Pick at least one firm above to compare.</div>`;
-    return;
-  }
+  if(!selected.length){wrap.innerHTML=`<div class="empty">Pick at least one firm above to compare.</div>`;return}
   const fields=[
-    ["Category",["category"]],
-    ["Account sizes",["account_sizes"]],
-    ["Starting price",["price"]],
-    ["Profit target",["profit_target"]],
-    ["Daily drawdown",["daily_drawdown"]],
-    ["Max drawdown",["max_drawdown"]],
-    ["Profit split",["profit_split"]],
-    ["Payout",["payout"]],
-    ["Platforms",["platforms"]],
-    ["Rating",["rating"]],
-    ["Best for",["best_for"]],
-    ["Pros",["pros"]],
-    ["Cons",["cons"]]
+    ["Category",["category"]],["Account sizes",["account_sizes"]],["Starting price",["price"]],
+    ["Profit target",["profit_target"]],["Daily drawdown",["daily_drawdown"]],["Max drawdown",["max_drawdown"]],
+    ["Profit split",["profit_split"]],["Payout",["payout"]],["Platforms",["platforms"]],
+    ["Rating",["rating"]],["Best for",["best_for"]],["Pros",["pros"]],["Cons",["cons"]]
   ];
-  const get=(firm,keys)=>{
-    for(const k of keys){
-      if(firm[k]!==undefined&&firm[k]!==null&&firm[k]!=="")return String(firm[k]);
-    }
-    return "—";
-  };
-  // Find best rating, best split, lowest price
+  const get=(firm,keys)=>{for(const k of keys){if(firm[k]!==undefined&&firm[k]!==null&&firm[k]!=="")return String(firm[k])}return "—"};
   const bestRating=Math.max(...selected.map(f=>Number(f.rating)||0));
-  const bestSplit=Math.max(...selected.map(f=>{const nums=String(f.profit_split||"").match(/\d+/g)?.map(Number)||[0];return Math.max(...nums);}));
-  const priceVals=selected.map(f=>{const n=parseNums(f.price);return n.length?Math.min(...n):null;});
+  const bestSplit=Math.max(...selected.map(f=>{const n=String(f.profit_split||"").match(/\d+/g)?.map(Number)||[0];return Math.max(...n)}));
+  const priceVals=selected.map(f=>{const n=parseNums(f.price);return n.length?Math.min(...n):null});
   const validPrices=priceVals.filter(v=>v!==null);
   const bestPrice=validPrices.length?Math.min(...validPrices):null;
 
-  const cellClass=(label,val,firm)=>{
+  const cellClass=(label,firm)=>{
     if(label==="Rating"&&Number(firm.rating)===bestRating&&bestRating>0)return "better";
-    if(label==="Profit split"){
-      const nums=String(firm.profit_split||"").match(/\d+/g)?.map(Number)||[0];
-      if(Math.max(...nums)===bestSplit&&bestSplit>0)return "better";
-    }
-    if(label==="Starting price"){
-      const n=parseNums(firm.price);
-      const v=n.length?Math.min(...n):null;
-      if(v!==null&&v===bestPrice)return "better";
-    }
+    if(label==="Profit split"){const n=String(firm.profit_split||"").match(/\d+/g)?.map(Number)||[0];if(Math.max(...n)===bestSplit&&bestSplit>0)return "better"}
+    if(label==="Starting price"){const n=parseNums(firm.price);const v=n.length?Math.min(...n):null;if(v!==null&&v===bestPrice)return "better"}
     return "";
   };
 
   wrap.innerHTML=`
     <div class="compare-table-wrap">
       <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            ${selected.map(f=>`<th class="firm-head">${esc(f.name)}</th>`).join("")}
-          </tr>
-        </thead>
+        <thead><tr><th>Feature</th>${selected.map(f=>`<th class="firm-head">${esc(f.name)}</th>`).join("")}</tr></thead>
         <tbody>
           ${fields.map(([label,keys])=>`
-            <tr>
-              <td>${esc(label)}</td>
-              ${selected.map(f=>`<td class="${cellClass(label,null,f)}">${esc(get(f,keys))}</td>`).join("")}
-            </tr>
+            <tr><td>${esc(label)}</td>${selected.map(f=>`<td class="${cellClass(label,f)}">${esc(get(f,keys))}</td>`).join("")}</tr>
           `).join("")}
         </tbody>
       </table>
     </div>
-    <p class="muted" style="margin-top:14px;font-size:12px">Highlighted cells show the best value among the firms you selected. Green = better.</p>
+    <p class="muted" style="margin-top:14px;font-size:12px">Highlighted cells show the best value among the firms you selected.</p>
   `;
 }
-
 $("cmpRun")?.addEventListener("click",runCompare);
-$("cmpClear")?.addEventListener("click",()=>{
-  compareSlots[1]=compareSlots[2]=compareSlots[3]=null;
-  [1,2,3].forEach(n=>{updateSlotUI(n);$("cmpResults"+n)?.classList.remove("show")});
-  $("cmpResult").innerHTML="";
-});
+$("cmpClear")?.addEventListener("click",()=>{compareSlots[1]=compareSlots[2]=compareSlots[3]=null;[1,2,3].forEach(n=>{updateSlotUI(n);$("cmpResults"+n)?.classList.remove("show")});$("cmpResult").innerHTML=""});
 
 async function removeFavorite(favId){
   if(!user)return;const{error}=await db.from("favorites").delete().eq("id",favId).eq("user_id",user.id);
@@ -457,21 +425,15 @@ async function removeFavorite(favId){
 }
 
 async function getUser(){
-  try {
-    const { data, error } = await db.auth.getUser();
-    if (!error && data?.user?.email_confirmed_at) return data.user;
-  } catch(e) { console.error("getUser failed:", e); }
-  try {
-    const { data } = await db.auth.getSession();
-    if (data?.session?.user?.email_confirmed_at) return data.session.user;
-  } catch(e) { console.error("getSession failed:", e); }
+  try{const{data,error}=await db.auth.getUser();if(!error&&data?.user?.email_confirmed_at)return data.user}catch(e){console.error("getUser failed:",e)}
+  try{const{data}=await db.auth.getSession();if(data?.session?.user?.email_confirmed_at)return data.session.user}catch(e){console.error("getSession failed:",e)}
   return null;
 }
 
 async function load(){
-  const u = await getUser();
-  if (!u) { location.replace("auth.html?next="+encodeURIComponent("dashboard.html")); return; }
-  user = u;
+  const u=await getUser();
+  if(!u){location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));return}
+  user=u;
   const name=u.user_metadata?.full_name||u.email?.split("@")[0]||"Trader";
   $("memberName").textContent=name;$("topEmail").textContent=u.email||"";$("settingEmail").textContent=u.email||"";$("settingName").textContent=name;$("app").hidden=false;
 
@@ -513,8 +475,8 @@ async function deleteTrade(id){if(!confirm("Delete this journal entry?"))return;
 function stats(){const n=trades.length,w=trades.filter(t=>t.result==="Win").length,l=trades.filter(t=>t.result==="Loss").length,b=trades.filter(t=>t.result==="Breakeven").length,net=trades.reduce((s,t)=>s+(Number(t.pnl)||0),0),dec=w+l,avg=n?net/n:0;$("winRate").textContent=(dec?w/dec*100:0).toFixed(1)+"%";$("netPnl").textContent=(net<0?"−":"+")+"$"+Math.abs(net).toFixed(2);$("netPnl").className="stat "+(net>0?"pos":net<0?"neg":"");$("avgPnl").textContent=(avg<0?"−":"+")+"$"+Math.abs(avg).toFixed(2);$("wins").textContent=w;$("losses").textContent=l;$("breakevens").textContent=b;$("totalTrades").textContent=n}
 
 await db.auth.getSession();
-const bootUser = await getUser();
-if (!bootUser) location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));
+const bootUser=await getUser();
+if(!bootUser)location.replace("auth.html?next="+encodeURIComponent("dashboard.html"));
 else await load();
 
 db.auth.onAuthStateChange((event,s)=>{if(event==="SIGNED_OUT"||!s)location.replace("auth.html")});
