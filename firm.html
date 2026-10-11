@@ -1,520 +1,280 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prop Firm Details | FundedEdge</title>
-<meta name="description" content="Full details on this prop firm: rules, pricing, account sizes, profit splits and trader reviews.">
-<meta name="theme-color" content="#0a0f14">
-<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
-<link rel="apple-touch-icon" href="/logo.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="Prop Firm Details | FundedEdge">
-<meta property="og:description" content="Full details: rules, pricing, and trader reviews.">
-<meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<style>
-*{box-sizing:border-box}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes barFill{from{width:0}}
-body{margin:0;background:#0a0f14;color:#f0f5fa;font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55;position:relative;overflow-x:hidden}
-body::before{content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(74,158,255,.08),transparent 60%);pointer-events:none;z-index:0}
-body::after{content:"";position:fixed;bottom:-300px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(74,158,255,.05),transparent 65%);pointer-events:none;z-index:0}
-main,header{position:relative;z-index:1}
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit;color:inherit}
-header{padding:18px 6%;border-bottom:1px solid #1c2a3a;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(10,15,20,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
-header .brand{color:#4a9eff;font-size:23px;font-weight:800;letter-spacing:-.5px;transition:.3s}
-header .brand:hover{text-shadow:0 0 20px rgba(74,158,255,.6)}
-header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-header nav a{color:#cfe0ee;font-size:14px;position:relative;transition:color .2s}
-header nav a::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#4a9eff;transition:width .25s;border-radius:2px}
-header nav a:hover{color:#4a9eff}
-header nav a:hover::after{width:100%}
-.fe-auth-area{display:flex;align-items:center;gap:10px}
-.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:.25s}
-.fe-auth-area .fe-auth-signin{background:transparent;color:#e0ecf3;border:1px solid #2a4055}
-.fe-auth-area .fe-auth-signin:hover{border-color:#4a9eff;color:#4a9eff;transform:translateY(-1px)}
-.fe-auth-area .fe-auth-signup{background:#4a9eff;color:#061321;border:1px solid #4a9eff}
-.fe-auth-area .fe-auth-signup:hover{background:#7db8ff;transform:translateY(-1px);box-shadow:0 8px 20px rgba(74,158,255,.3)}
-.fe-auth-area .fe-user-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2a4055;border-radius:10px;color:#e0ecf3;font-weight:600;font-size:13px;background:rgba(74,158,255,.08);transition:.25s}
-.fe-auth-area .fe-user-chip:hover{border-color:#4a9eff;color:#4a9eff;transform:translateY(-1px)}
-.fe-auth-area .fe-user-initial{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#4a9eff;color:#061321;font-weight:800;font-size:11px}
-main{max-width:960px;margin:32px auto;padding:20px}
-.back{color:#4a9eff;font-size:13px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
-.back:hover{gap:10px}
-.card,.reviews-card,.rules-card{position:relative;background:linear-gradient(145deg,#101a24,#0a1018);border:1px solid #22374d;border-radius:20px;padding:28px;margin-top:22px;animation:fadeUp .6s ease both;transition:border-color .3s}
-.card::before,.reviews-card::before,.rules-card::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(74,158,255,.4),transparent 40%,transparent 60%,rgba(74,158,255,.25));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}
-.card:hover::before,.reviews-card:hover::before,.rules-card:hover::before{opacity:1}
-h1{font-size:34px;margin:12px 0;letter-spacing:-.8px;background:linear-gradient(180deg,#fff 0%,#c9d8e2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-h2{font-size:22px;margin:0}
-.muted{color:#a8b8c8;line-height:1.65}
-.tag{display:inline-block;background:linear-gradient(135deg,#1d3a5c,#173755);color:#8fc7ff;padding:7px 14px;border-radius:20px;margin:8px 4px 8px 0;font-size:11.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border:1px solid #1f4d7a;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:26px}
-.item{background:linear-gradient(145deg,#0d1a24,#081018);padding:16px;border-radius:14px;border:1px solid #1c2a3a;transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.item::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(74,158,255,.08),transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
-.item:hover{transform:translateY(-4px);border-color:rgba(74,158,255,.5);box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 0 1px rgba(74,158,255,.1)}
-.item:hover::before{opacity:1}
-.label{color:#8fa3b8;font-size:11.5px;margin-bottom:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
-.value{font-size:17px;font-weight:800;overflow-wrap:anywhere}
-.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;align-items:center}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:11px;font-weight:800;background:#4a9eff;color:#061321;border:1px solid transparent;cursor:pointer;font-size:14px;transition:.25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none}
-.btn::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);transition:transform .6s}
-.btn:hover::before{transform:translateX(250%)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(74,158,255,.28)}
-.btn:active{transform:translateY(0)}
-.btn.secondary{background:#173755;color:#eaf0f5}
-.btn.save{background:transparent;color:#eaf0f5;border:1px solid #2c405a}
-.btn.save:hover{border-color:#4a9eff;color:#4a9eff;box-shadow:0 0 0 3px rgba(74,158,255,.12);transform:translateY(-2px)}
-.btn.save.is-saved{background:rgba(74,158,255,.1);border-color:#4a9eff;color:#4a9eff}
-.btn.save:disabled{opacity:.6;cursor:wait}
-a{overflow-wrap:anywhere}
-[hidden]{display:none!important}
-.firm-head{display:flex;align-items:flex-start;gap:22px;margin:8px 0 18px;flex-wrap:wrap}
-.firm-logo{position:relative;display:flex;align-items:center;justify-content:center;width:92px;height:92px;flex-shrink:0;border-radius:22px;background:linear-gradient(145deg,#1a3a5c,#0b1826);border:1px solid #2d4a6b;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);isolation:isolate;contain:paint}
-.firm-logo .firm-logo-fallback{font-size:34px;font-weight:900;letter-spacing:-1.5px;color:#8fc7ff}
-.firm-logo img{position:absolute;inset:0;width:92px;height:92px;padding:15px;box-sizing:border-box;object-fit:contain;background:#f7faf7;z-index:1;max-width:92px;max-height:92px}
-.firm-head-text{min-width:0;flex:1}
-.firm-head-text h1{margin:6px 0 0}
-.firm-head-text .tag{margin-top:0}
-.v-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0;line-height:1;vertical-align:middle;margin-left:8px}
-.v-yes{background:rgba(74,222,128,.14);color:#8ff0b0;border:1px solid #235c3b}
-.v-no{background:rgba(120,130,140,.12);color:#8fa3b8;border:1px solid #3b4756}
-.rules-card{animation-delay:.08s;padding:28px}
-.rules-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#4a9eff;text-transform:uppercase;margin-bottom:8px}
-.rules-head h2{font-size:22px;margin:0 0 6px;letter-spacing:-.4px}
-.rules-head p{margin:0 0 22px;color:#8fa3b8;font-size:13.5px}
-.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.rule-item{padding:16px;background:linear-gradient(145deg,#0d1a24,#081018);border:1px solid #1c2a3a;border-radius:12px;transition:.3s cubic-bezier(.4,0,.2,1)}
-.rule-item:hover{transform:translateY(-3px);border-color:rgba(74,158,255,.5);box-shadow:0 12px 28px rgba(0,0,0,.3)}
-.rule-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:#8fa3b8;text-transform:uppercase;margin-bottom:6px}
-.rule-value{font-size:15px;font-weight:800;color:#eaf0f5;overflow-wrap:anywhere}
-.rules-note{margin-top:20px;padding-top:16px;border-top:1px solid #1c2a3a;font-size:12px;color:#7a8a99}
-.reviews-card{padding:0;overflow:hidden;animation-delay:.15s}
-.reviews-header{padding:30px 32px 24px;border-bottom:1px solid #1c2a3a;background:linear-gradient(135deg,#12203a,#0c1626);position:relative;overflow:hidden}
-.reviews-header::after{content:"";position:absolute;top:-50%;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(74,158,255,.15),transparent 70%);pointer-events:none}
-.reviews-header h2{font-size:24px;margin:0 0 6px}
-.reviews-header p{margin:0;color:#8fa3b8;font-size:13.5px}
-.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:26px 32px;background:#0c1626;border-bottom:1px solid #1c2a3a}
-@media(max-width:600px){.rating-summary{grid-template-columns:1fr;gap:20px}}
-.rating-big{text-align:center;padding-right:32px;border-right:1px solid #1c2a3a;animation:fadeIn .5s ease both}
-@media(max-width:600px){.rating-big{border-right:0;border-bottom:1px solid #1c2a3a;padding:0 0 20px}}
-.rating-big .num{font-size:58px;font-weight:900;line-height:1;letter-spacing:-2.5px;background:linear-gradient(180deg,#fff 0%,#8fc7ff 120%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.rating-big .stars{color:#f5d77b;font-size:19px;letter-spacing:3px;margin:10px 0 4px}
-.rating-big .count{font-size:12px;color:#7a8a99;font-weight:600}
-.rating-bars{display:grid;gap:9px}
-.rating-bar-row{display:grid;grid-template-columns:36px 1fr 44px;gap:12px;align-items:center;font-size:12px;opacity:0;animation:fadeUp .4s ease forwards}
-.rating-bar-row:nth-child(1){animation-delay:.05s}
-.rating-bar-row:nth-child(2){animation-delay:.1s}
-.rating-bar-row:nth-child(3){animation-delay:.15s}
-.rating-bar-row:nth-child(4){animation-delay:.2s}
-.rating-bar-row:nth-child(5){animation-delay:.25s}
-.rating-bar-row .lbl{color:#a0b0c0;font-weight:700}
-.rating-bar-row .bar{height:8px;background:#1a2634;border-radius:20px;overflow:hidden}
-.rating-bar-row .bar span{display:block;height:100%;background:linear-gradient(90deg,#4a9eff,#2d7dd2);border-radius:20px;box-shadow:0 0 12px rgba(74,158,255,.4);animation:barFill .8s cubic-bezier(.4,0,.2,1) both}
-.rating-bar-row .pct{color:#7a8a99;text-align:right;font-weight:700}
-.reviews-preview{padding:8px 32px 32px}
-.review-item{padding:24px 0;border-bottom:1px solid #1c2a3a;opacity:0;animation:fadeUp .5s ease forwards}
-.review-item:nth-child(1){animation-delay:.05s}
-.review-item:nth-child(2){animation-delay:.15s}
-.review-item:nth-child(3){animation-delay:.25s}
-.review-item:last-child{border-bottom:0}
-.review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px;flex-wrap:wrap}
-.review-author{display:flex;align-items:center;gap:12px;min-width:0}
-.review-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:16px;color:#061321;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s}
-.review-item:hover .review-avatar{transform:scale(1.08)}
-.review-author-info{min-width:0}
-.review-author-name{font-weight:800;font-size:14.5px;overflow-wrap:anywhere}
-.review-author-date{font-size:12px;color:#7a8a99;margin-top:2px}
-.review-rating-inline{flex-shrink:0;font-size:15px;letter-spacing:2px;color:#f5d77b}
-.review-text{margin:0;color:#d5e0ee;font-size:14px;line-height:1.8;overflow-wrap:anywhere;white-space:pre-wrap}
-.reviews-empty{padding:44px 22px;text-align:center;border:1px dashed #2c405a;border-radius:14px;color:#8fa3b8;font-size:14px;background:#0a1018;animation:fadeIn .5s ease both}
-.reviews-empty .big{font-size:42px;margin-bottom:14px;display:block;opacity:.5;animation:float 3s ease-in-out infinite}
-.reviews-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:22px;border-top:1px solid #1c2a3a}
-@media(max-width:600px){.reviews-preview{padding:8px 22px 22px}.reviews-actions{flex-direction:column}.reviews-actions .btn{width:100%;justify-content:center}}
-@media(max-width:600px){
-  header{padding:14px 5%}
-  main{padding:14px}
-  .card{padding:22px}
-  .rules-card{padding:22px}
-  .reviews-card{padding:0}
-  h1{font-size:26px}
-  .reviews-header,.rating-summary{padding-left:22px;padding-right:22px}
-  .rating-big .num{font-size:48px}
-  .firm-head{gap:16px}
-  .firm-logo{width:72px;height:72px;border-radius:18px}
-  .firm-logo .firm-logo-fallback{font-size:26px}
-  .firm-logo img{width:72px;height:72px;padding:11px}
-}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
-</style>
-</head>
-<body>
-<header>
-  <a class="brand" href="/">FundedEdge</a>
-  <nav>
-    <a href="/index.html#directory">Prop Firms</a>
-    <div id="feAuthArea" class="fe-auth-area">
-      <a class="fe-auth-signin" href="/auth.html?mode=signin">Sign In</a>
-      <a class="fe-auth-signup" href="/auth.html?mode=signup">Sign Up</a>
-    </div>
-  </nav>
-</header>
+const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
 
-<main>
-<a class="back" href="/index.html#directory">← Back to all firms</a>
+let allFirms = [];
+let feSupabase = null;
+let feCurrentUser = null;
+let feMemberInitPromise = null;
 
-<div class="card" id="content">
-<p class="muted">Loading firm details...</p>
-</div>
-
-<section class="rules-card" id="rulesSection" hidden>
-  <div class="rules-head">
-    <div class="rules-eyebrow">Trading rules</div>
-    <h2 id="rulesTitle">Trading rules &amp; conditions</h2>
-    <p id="rulesIntro">Full overview of this firm's rules, targets, and account conditions.</p>
-  </div>
-  <div class="rules-grid">
-    <div class="rule-item"><div class="rule-label">Account sizes</div><div class="rule-value" id="ruleAccounts">—</div></div>
-    <div class="rule-item"><div class="rule-label">Starting price</div><div class="rule-value" id="rulePrice">—</div></div>
-    <div class="rule-item"><div class="rule-label">Profit target</div><div class="rule-value" id="ruleTarget">—</div></div>
-    <div class="rule-item"><div class="rule-label">Daily drawdown</div><div class="rule-value" id="ruleDaily">—</div></div>
-    <div class="rule-item"><div class="rule-label">Maximum drawdown</div><div class="rule-value" id="ruleMax">—</div></div>
-    <div class="rule-item"><div class="rule-label">Profit split</div><div class="rule-value" id="ruleSplit">—</div></div>
-    <div class="rule-item"><div class="rule-label">Payout</div><div class="rule-value" id="rulePayout">—</div></div>
-    <div class="rule-item"><div class="rule-label">Platforms</div><div class="rule-value" id="rulePlatforms">—</div></div>
-  </div>
-  <p class="rules-note">Rules and pricing change — always verify on the firm's official website before purchasing.</p>
-</section>
-
-<section class="reviews-card" id="reviewsSection" hidden>
-  <div class="reviews-header">
-    <h2>Reviews &amp; Ratings</h2>
-    <p>Read what real traders say about this firm. All submissions are reviewed before publishing.</p>
-  </div>
-
-  <div id="ratingSummary" class="rating-summary" hidden></div>
-
-  <div class="reviews-preview">
-    <div id="reviewsList" class="reviews-list">
-      <p class="muted">Loading reviews...</p>
-    </div>
-
-    <div class="reviews-actions">
-      <a class="btn" id="viewAllReviewsBtn" href="#">View all reviews →</a>
-      <a class="btn secondary" id="writeReviewBtn" href="#">Write a review →</a>
-    </div>
-  </div>
-</section>
-</main>
-
-<script type="module">
-import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
-
-const content = document.getElementById("content");
-const reviewsSection = document.getElementById("reviewsSection");
-const rulesSection = document.getElementById("rulesSection");
-const reviewsList = document.getElementById("reviewsList");
-const authArea = document.getElementById("feAuthArea");
-const ratingSummary = document.getElementById("ratingSummary");
-
-let currentFirmId = null;
-let currentUser = null;
-let isFavorited = false;
-
-function esc(value) {
-  return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
-function safeUrl(value) {
-  try { const u = new URL(value); return ["http:","https:"].includes(u.protocol) ? u.href : ""; } catch { return ""; }
-}
-function item(label, value) {
-  return `<div class="item"><div class="label">${esc(label)}</div><div class="value">${esc(value || "Not provided")}</div></div>`;
-}
-function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val || "—"; }
-function authUrl(mode) {
-  const next = location.pathname + location.search;
-  const q = `?next=${encodeURIComponent(next)}`;
-  return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
-}
-let toastTimer;
-function toast(msg) {
-  let el = document.getElementById("feToast");
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "feToast";
-    el.style.cssText = "position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#12263a;border:1px solid #4a9eff;color:#c8e6f5;padding:13px 20px;border-radius:12px;font-size:14px;z-index:9999;max-width:90vw;box-shadow:0 14px 40px rgba(0,0,0,.5);";
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.remove(), 3500);
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[char]);
 }
 
-function renderAuthArea() {
-  if (!authArea) return;
-  if (currentUser) {
-    const name = currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email || "Account";
-    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
-    authArea.innerHTML = `<a class="fe-user-chip" href="/dashboard.html"><span class="fe-user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
-  } else {
-    authArea.innerHTML = `<a class="fe-auth-signin" href="${authUrl("signin")}">Sign In</a><a class="fe-auth-signup" href="${authUrl("signup")}">Sign Up</a>`;
-  }
+function getNumbers(value) {
+  const matches = String(value ?? "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || [];
+  return matches.map(item => {
+    const cleaned = item.replace(/,/g, "").replace(/\s/g, "");
+    const multiplier = /m$/i.test(cleaned) ? 1000000 : /k$/i.test(cleaned) ? 1000 : 1;
+    return parseFloat(cleaned.replace(/[kKmM]$/, "")) * multiplier;
+  }).filter(Number.isFinite);
 }
 
-function getLogoDomain(firm) {
-  const name = (firm.name || "").toLowerCase().trim();
-  const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
-  if (known[name]) return known[name];
-  try { const u = new URL(firm.official_website || ""); if (u.protocol === "https:" || u.protocol === "http:") return u.hostname; } catch(_) {}
-  return "";
-}
-function getInitials(name) {
-  const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
-  return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0, 2).toUpperCase();
-}
-function logoUrlFor(firm) {
-  const domain = getLogoDomain(firm);
-  return firm.logo_url || (domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : "");
-}
-
-async function checkIfFavorited() {
-  if (!currentUser || !currentFirmId) return false;
-  const { data, error } = await db.from("favorites").select("id").eq("user_id", currentUser.id).eq("firm_id", currentFirmId).maybeSingle();
-  if (error) return false;
-  return !!data;
-}
-function updateSaveButton() {
-  const btn = document.getElementById("saveBtn");
-  if (!btn) return;
-  if (!currentUser) { btn.classList.remove("is-saved"); btn.innerHTML = "♡ Sign in to save"; }
-  else if (isFavorited) { btn.classList.add("is-saved"); btn.innerHTML = "♥ Saved"; }
-  else { btn.classList.remove("is-saved"); btn.innerHTML = "♡ Save firm"; }
-}
-async function toggleSave() {
-  const btn = document.getElementById("saveBtn");
-  if (!btn) return;
-  if (!currentUser) { location.assign(authUrl("signin")); return; }
-  btn.disabled = true;
-  try {
-    if (isFavorited) {
-      const { error } = await db.from("favorites").delete().eq("user_id", currentUser.id).eq("firm_id", currentFirmId);
-      if (error) throw error;
-      isFavorited = false; toast("Removed from favorites");
-    } else {
-      const { error } = await db.from("favorites").insert({ user_id: currentUser.id, firm_id: currentFirmId });
-      if (error) throw error;
-      isFavorited = true; toast("Saved to favorites");
-    }
-    updateSaveButton();
-  } catch (err) { console.error(err); toast("Could not update favorites."); }
-  finally { btn.disabled = false; }
-}
-
-async function checkUser() {
-  try {
-    const { data: { user }, error } = await db.auth.getUser();
-    if (error) currentUser = null;
-    else if (user && user.email_confirmed_at) currentUser = user;
-    else currentUser = null;
-  } catch { currentUser = null; }
-  renderAuthArea();
-}
-
-async function loadFirm() {
-  const id = new URLSearchParams(location.search).get("id");
-  if (!id) {
-    content.innerHTML = '<h1>Firm not selected</h1><p class="muted">Return to the homepage and select a firm.</p>';
-    renderAuthArea(); return;
-  }
-  try {
-    const { data: firms, error } = await db.from("firms").select("*").eq("id", id).eq("status", "active").limit(1);
+async function initMemberFeatures() {
+  if (feMemberInitPromise) return feMemberInitPromise;
+  feMemberInitPromise = (async () => {
+    const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+    feSupabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, storageKey: "fundededge-auth" }
+    });
+    const { data, error } = await feSupabase.auth.getSession();
     if (error) throw error;
-    if (!firms || !firms.length) {
-      content.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive or unavailable.</p>';
-      renderAuthArea(); return;
-    }
-
-    const f = firms[0];
-    currentFirmId = f.id;
-    const official = safeUrl(f.official_website);
-    const affiliate = safeUrl(f.affiliate_link);
-
-    document.title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
-    const desc = (f.description || `Full details on ${f.name}: account sizes, profit split, drawdown rules, and trader reviews.`).slice(0, 160);
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", desc);
-
-    const logoUrl = logoUrlFor(f);
-    const initials = getInitials(f.name);
-    const verifiedBadge = f.verified
-      ? `<span class="v-badge v-yes">✓ Verified</span>`
-      : `<span class="v-badge v-no">Unverified</span>`;
-
-    content.innerHTML = `
-      <div class="firm-head">
-        <div class="firm-logo">
-          <span class="firm-logo-fallback">${esc(initials)}</span>
-          ${logoUrl ? `<img src="${esc(logoUrl)}" alt="${esc(f.name)} logo" loading="eager" onerror="this.style.display='none'">` : ""}
-        </div>
-        <div class="firm-head-text">
-          <span class="tag">${esc(f.category || "Prop Firm")}</span>
-          ${f.tag ? `<span class="tag">${esc(f.tag)}</span>` : ""}
-          <h1>${esc(f.name)}${verifiedBadge}</h1>
-        </div>
-      </div>
-      <p class="muted">${esc(f.description || "No description has been added yet.")}</p>
-      <div class="grid">
-        ${item("Account sizes", f.account_sizes)}
-        ${item("Starting price", f.price)}
-        ${item("Profit target", f.profit_target)}
-        ${item("Daily drawdown", f.daily_drawdown)}
-        ${item("Maximum drawdown", f.max_drawdown)}
-        ${item("Profit split", f.profit_split)}
-        ${item("Payout", f.payout)}
-        ${item("Trading platforms", f.platforms)}
-        ${item("Listed rating", f.rating ? f.rating + " / 5" : "Not rated")}
-      </div>
-      <div class="buttons">
-        <button class="btn save" id="saveBtn" type="button">♡ Save firm</button>
-        ${official ? `<a class="btn" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Official Website ↗</a>` : ""}
-        ${affiliate ? `<a class="btn secondary" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View Offer ↗</a>` : ""}
-      </div>
-      <p class="muted" style="margin-top:16px;font-size:12.5px">Please verify current rules and prices on the firm's official website before purchasing.</p>
-    `;
-
-    document.getElementById("saveBtn").addEventListener("click", toggleSave);
-
-    setText("ruleAccounts", f.account_sizes);
-    setText("rulePrice", f.price);
-    setText("ruleTarget", f.profit_target);
-    setText("ruleDaily", f.daily_drawdown);
-    setText("ruleMax", f.max_drawdown);
-    setText("ruleSplit", f.profit_split);
-    setText("rulePayout", f.payout);
-    setText("rulePlatforms", f.platforms);
-    setText("rulesTitle", `${f.name} — Trading rules`);
-    setText("rulesIntro", `Key rules and conditions for ${f.name}.`);
-    rulesSection.hidden = false;
-
-    const viewAllBtn = document.getElementById("viewAllReviewsBtn");
-    const writeBtn = document.getElementById("writeReviewBtn");
-    if (viewAllBtn) viewAllBtn.href = `/reviews.html?id=${encodeURIComponent(f.id)}`;
-    if (writeBtn) writeBtn.href = `/review.html?id=${encodeURIComponent(f.id)}`;
-
-    reviewsSection.hidden = false;
-    await checkUser();
-    isFavorited = await checkIfFavorited();
-    updateSaveButton();
-    await loadReviews();
-  } catch (error) {
-    console.error(error);
-    content.innerHTML = `<h1>Unable to load firm</h1><p>${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
+    feCurrentUser = data.session?.user || null;
     renderAuthArea();
+  })().catch(error => { console.error("Member init failed:", error); renderAuthArea(); });
+  return feMemberInitPromise;
+}
+
+function getDashboardUrl() { return "dashboard.html"; }
+function getAuthUrl(mode) {
+  const page = window.location.pathname.split("/").pop() || "index.html";
+  const next = encodeURIComponent(page + window.location.search);
+  return `auth.html?mode=${mode}&next=${next}`;
+}
+function renderAuthArea() {
+  const area = document.getElementById("feAuthArea");
+  if (!area) return;
+  if (feCurrentUser) {
+    const name = feCurrentUser.user_metadata?.full_name || feCurrentUser.user_metadata?.name || feCurrentUser.email || "Account";
+    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
+    area.innerHTML = `<a class="fe-user-chip" href="${getDashboardUrl()}"><span class="fe-user-initial">${escapeHTML(initial)}</span><span>Dashboard</span></a>`;
+  } else {
+    area.innerHTML = `<a class="nav-cta fe-auth-signin" href="${getAuthUrl("signin")}">Sign In</a><a class="nav-cta fe-auth-signup" href="${getAuthUrl("signup")}">Sign Up</a>`;
   }
 }
 
-function renderRatingSummary(reviews) {
-  if (!reviews.length) { ratingSummary.hidden = true; return; }
-  ratingSummary.hidden = false;
-  const total = reviews.length;
-  const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
-  const avg = sum / total;
-  const counts = [0,0,0,0,0];
-  reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n - 1]++; });
-  const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
-  const bars = [5,4,3,2,1].map(star => {
-    const c = counts[star - 1];
-    const pct = total ? Math.round((c / total) * 100) : 0;
-    return `<div class="rating-bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
-  }).join("");
-  ratingSummary.innerHTML = `
-    <div class="rating-big">
-      <div class="num">${avg.toFixed(1)}</div>
-      <div class="stars">${fullStars}</div>
-      <div class="count">${total} review${total === 1 ? "" : "s"}</div>
-    </div>
-    <div class="rating-bars">${bars}</div>
-  `;
-}
-
-function avatarColor(name) {
-  const colors = ["#4a9eff","#7cc9f0","#f5d77b","#c99df0","#f0a89d","#9df0bd"];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  return colors[hash % colors.length];
-}
-function initials(name) {
-  const parts = String(name || "?").trim().split(/\s+/);
-  return ((parts[0]?.[0] || "?") + (parts[1]?.[0] || "")).toUpperCase();
-}
-
-async function loadReviews() {
-  reviewsList.innerHTML = '<p class="muted">Loading reviews...</p>';
-  ratingSummary.hidden = true;
-  try {
-    const { data: reviews, error } = await db
-      .from("firm_reviews")
-      .select("reviewer_name,rating,review_text,created_at")
-      .eq("firm_id", currentFirmId)
-      .eq("status", "approved")
-      .order("created_at", { ascending: false });
-    if (error) throw error;
-    if (!reviews || !reviews.length) {
-      reviewsList.innerHTML = `<div class="reviews-empty"><span class="big">☆</span><strong style="color:#d5e0ee;display:block;margin-bottom:6px">No reviews yet</strong>Be the first to share your experience with this firm.</div>`;
-      return;
+function injectDirectoryStyles() {
+  if (document.getElementById("fe-directory-styles")) return;
+  const style = document.createElement("style");
+  style.id = "fe-directory-styles";
+  style.textContent = `
+    #firmsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+    .fe-filters-toggle{display:none;align-items:center;justify-content:center;gap:8px;width:100%;margin:18px 0 0;padding:14px;border:1px solid #2c405a;border-radius:12px;background:linear-gradient(145deg,#101a24,#0a1018);color:#8fc7ff;font-weight:800;font-size:14px;cursor:pointer;transition:.2s}
+    .fe-filters-toggle:hover{border-color:#4a9eff;background:#173755}
+    .fe-filters-toggle .fe-caret{display:inline-block;transition:transform .2s;font-size:11px}
+    .fe-filters-toggle.is-open .fe-caret{transform:rotate(180deg)}
+    .fe-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin:14px 0 24px;padding:20px;border:1px solid #22374d;border-radius:16px;background:linear-gradient(145deg,#101a24,#0a1018);box-shadow:0 12px 35px rgba(0,0,0,.12)}
+    .fe-filters input,.fe-filters select{box-sizing:border-box;width:100%;min-width:0;padding:12px;border:1px solid #2c405a;border-radius:9px;background:#0a141c;color:#f1f7fa;font:inherit;outline:none}
+    .fe-filters input:focus,.fe-filters select:focus{border-color:#4a9eff;box-shadow:0 0 0 3px rgba(74,158,255,.1)}
+    .fe-filters input::placeholder{color:#8fa3b8}
+    .fe-filter-label{display:block;margin-bottom:7px;color:#b6c8d8;font-size:12px;font-weight:600}
+    .fe-filter-actions{display:flex;align-items:end}
+    .fe-reset{width:100%;padding:12px;border:1px solid #2c405a;border-radius:9px;background:#173755;color:#8fc7ff;font-weight:700;cursor:pointer;transition:.2s}
+    .fe-reset:hover{background:#1f4d7a;border-color:#4a9eff}
+    .fe-results-count{margin:14px 0;color:#9eb4c4;font-size:13px}
+    #firmsGrid .firm-card{box-sizing:border-box;position:relative;display:flex;flex-direction:column;min-width:0;padding:23px;overflow:hidden;border:1px solid #22394d;border-radius:17px;background:radial-gradient(ellipse at top right,rgba(57,133,182,.12),transparent 48%),linear-gradient(145deg,#101a24,#0a1018 80%);box-shadow:0 8px 26px rgba(0,0,0,.13);transition:transform .22s,border-color .22s,box-shadow .22s}
+    #firmsGrid .firm-card:hover{transform:translateY(-4px);border-color:#4a9eff;box-shadow:0 16px 36px rgba(0,0,0,.24)}
+    #firmsGrid .firm-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:17px;border-bottom:1px solid rgba(126,166,197,.16)}
+    #firmsGrid .firm-card-top>div:first-child{min-width:0}
+    #firmsGrid .firm-brand{display:flex;align-items:center;gap:13px;min-width:0}
+    #firmsGrid .firm-logo{position:relative;display:flex;flex-shrink:0;align-items:center;justify-content:center;width:54px;height:54px;overflow:hidden;border:1px solid #2d4a6b;border-radius:13px;background:linear-gradient(145deg,#1a3a5c,#0b1826);color:#8fc7ff;font-size:18px;font-weight:800;letter-spacing:-1px;isolation:isolate;contain:paint}
+    #firmsGrid .firm-logo img{position:absolute;inset:0;width:54px;height:54px;padding:9px;box-sizing:border-box;object-fit:contain;background:#f7faf7;z-index:1;max-width:54px;max-height:54px}
+    #firmsGrid .firm-brand-info{min-width:0}
+    #firmsGrid .firm-tag{display:inline-block;max-width:100%;margin-bottom:9px;padding:5px 9px;border:1px solid #1f4d7a;border-radius:6px;background:rgba(74,158,255,.18);color:#8fc7ff;font-size:10px;font-weight:800;letter-spacing:1px;overflow-wrap:anywhere;text-transform:uppercase}
+    #firmsGrid .firm-card h3{margin:0;color:#f0f5fa;font-family:"Manrope","DM Sans",Arial,sans-serif;font-size:21px;font-weight:800;line-height:1.35;letter-spacing:-.6px;overflow-wrap:anywhere}
+    #firmsGrid .firm-rating{flex-shrink:0;padding:6px 9px;border:1px solid #4b4327;border-radius:8px;background:#211f13;color:#f5d77b;font-size:13px;font-weight:800}
+    #firmsGrid .firm-description{min-height:48px;margin:15px 0 20px;color:#a8b8c8;font-size:13px;line-height:1.75;overflow-wrap:anywhere}
+    #firmsGrid .firm-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:22px}
+    #firmsGrid .firm-stats>div{min-width:0;padding:13px;border:1px solid rgba(100,145,180,.16);border-radius:10px;background:rgba(5,16,25,.55)}
+    #firmsGrid .firm-stats small{display:block;margin-bottom:6px;color:#8fa3b8;font-size:11px;line-height:1.4}
+    #firmsGrid .firm-stats strong{display:block;color:#eaf0f5;font-size:14px;font-weight:700;line-height:1.5;overflow-wrap:anywhere;word-break:break-word}
+    #firmsGrid .firm-stats>div:first-child strong,#firmsGrid .firm-stats>div:last-child strong{color:#8fc7ff}
+    #firmsGrid .firm-card-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:auto;padding-top:17px;border-top:1px solid rgba(126,166,197,.16)}
+    #firmsGrid .firm-price{color:#f0f5fa;font-size:17px;font-weight:800;overflow-wrap:anywhere}
+    #firmsGrid .firm-card-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+    #firmsGrid .firm-button{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:11px 15px;border:1px solid #4a9eff;border-radius:9px;background:#4a9eff;color:#061321;font-size:12px;font-weight:800;text-decoration:none;transition:.2s}
+    #firmsGrid .firm-button::after{content:" ↗";margin-left:4px}
+    #firmsGrid .firm-button:hover{border-color:#7db8ff;background:#7db8ff;transform:translateY(-1px)}
+    #firmsGrid .fe-no-results{grid-column:1/-1;padding:35px 20px;border:1px dashed #2c405a;border-radius:14px;background:#0a1018;color:#dce8f0;text-align:center}
+    #firmsGrid .fe-no-results h3{margin-top:0}
+    #firmsGrid .fe-no-results p{color:#a8b8c8;overflow-wrap:anywhere}
+    @media (max-width:760px){
+      #firmsGrid{grid-template-columns:1fr;gap:15px}
+      #firmsGrid .firm-card{padding:20px}
+      #firmsGrid .firm-description{min-height:0}
+      .fe-filters-toggle{display:flex}
+      .fe-filters{grid-template-columns:1fr;max-height:0;overflow:hidden;padding:0 20px;margin:0;border-width:0;opacity:0;transition:max-height .3s ease,padding .3s ease,opacity .25s ease,margin .3s ease,border-width .2s ease}
+      .fe-filters.is-open{max-height:900px;padding:20px;margin:12px 0 24px;border-width:1px;opacity:1}
     }
-    renderRatingSummary(reviews);
-    const top3 = reviews.slice(0, 3);
-    reviewsList.innerHTML = top3.map(review => {
-      const date = new Date(review.created_at);
-      const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-      const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
-      const name = review.reviewer_name || "Anonymous";
-      const initialsText = initials(name);
-      const color = avatarColor(name);
-      return `<article class="review-item">
-        <div class="review-head">
-          <div class="review-author">
-            <div class="review-avatar" style="background:${color}">${esc(initialsText)}</div>
-            <div class="review-author-info">
-              <div class="review-author-name">${esc(name)}</div>
-              <div class="review-author-date">${esc(dateText)}</div>
+    @media (max-width:480px){
+      .fe-filters{grid-template-columns:1fr;padding:14px}
+      #firmsGrid .firm-card{padding:17px;border-radius:14px}
+      #firmsGrid .firm-card h3{font-size:19px}
+      #firmsGrid .firm-logo{width:46px;height:46px;border-radius:11px}
+      #firmsGrid .firm-logo img{width:46px;height:46px;padding:7px}
+      #firmsGrid .firm-stats{gap:8px}
+      #firmsGrid .firm-stats>div{padding:11px}
+      #firmsGrid .firm-stats strong{font-size:13px}
+      #firmsGrid .firm-price{font-size:15px}
+      #firmsGrid .firm-button{padding:10px 11px}
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function createFilters(grid) {
+  if (document.getElementById("feFilters")) return;
+  const wrapper = document.createElement("section");
+  wrapper.innerHTML = `
+    <button class="fe-filters-toggle" id="feFiltersToggle" type="button" aria-expanded="false"><span>🔍 Filters</span><span class="fe-caret">▼</span></button>
+    <div class="fe-filters" id="feFilters">
+      <div><label class="fe-filter-label" for="feSearch">Search firms</label><input id="feSearch" type="search" placeholder="Search by name..." /></div>
+      <div><label class="fe-filter-label" for="feCategory">Firm category</label><select id="feCategory"><option value="">All categories</option></select></div>
+      <div><label class="fe-filter-label" for="feAccount">Minimum account size</label><select id="feAccount"><option value="0">Any account size</option><option value="10000">$10,000+</option><option value="25000">$25,000+</option><option value="50000">$50,000+</option><option value="100000">$100,000+</option></select></div>
+      <div><label class="fe-filter-label" for="fePrice">Maximum starting price</label><select id="fePrice"><option value="999999">Any price</option><option value="50">Up to $50</option><option value="100">Up to $100</option><option value="200">Up to $200</option></select></div>
+      <div><label class="fe-filter-label" for="feSort">Sort results</label><select id="feSort"><option value="rating">Highest rated</option><option value="name">Name: A to Z</option><option value="price">Lowest starting price</option></select></div>
+      <div class="fe-filter-actions"><button class="fe-reset" id="feReset" type="button">Reset filters</button></div>
+    </div>
+    <p class="fe-results-count" id="feResultsCount" aria-live="polite"></p>`;
+  grid.parentNode.insertBefore(wrapper, grid);
+
+  const categories = [...new Set(allFirms.map(f => f.category).filter(Boolean))].sort();
+  const categorySelect = wrapper.querySelector("#feCategory");
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category; option.textContent = category;
+    categorySelect.appendChild(option);
+  });
+
+  wrapper.querySelectorAll("input,select").forEach(control => {
+    control.addEventListener("input", renderFirms);
+    control.addEventListener("change", renderFirms);
+  });
+
+  wrapper.querySelector("#feReset").addEventListener("click", () => {
+    wrapper.querySelector("#feSearch").value = "";
+    wrapper.querySelector("#feCategory").value = "";
+    wrapper.querySelector("#feAccount").value = "0";
+    wrapper.querySelector("#fePrice").value = "999999";
+    wrapper.querySelector("#feSort").value = "rating";
+    renderFirms();
+  });
+
+  const toggleBtn = wrapper.querySelector("#feFiltersToggle");
+  const filtersPanel = wrapper.querySelector("#feFilters");
+  toggleBtn.addEventListener("click", () => {
+    const isOpen = filtersPanel.classList.toggle("is-open");
+    toggleBtn.classList.toggle("is-open", isOpen);
+    toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    toggleBtn.querySelector("span").textContent = isOpen ? "▲ Hide filters" : "🔍 Filters";
+  });
+}
+
+function renderFirms() {
+  const grid = document.getElementById("firmsGrid");
+  if (!grid) return;
+  const search = (document.getElementById("feSearch")?.value || "").trim().toLowerCase();
+  const category = document.getElementById("feCategory")?.value || "";
+  const minAccount = Number(document.getElementById("feAccount")?.value || 0);
+  const maxPrice = Number(document.getElementById("fePrice")?.value || 999999);
+  const sort = document.getElementById("feSort")?.value || "rating";
+
+  let firms = allFirms.filter(firm => {
+    const searchable = [firm.name, firm.category, firm.description, firm.tag, firm.platforms].join(" ").toLowerCase();
+    const accountNumbers = getNumbers(firm.account_sizes);
+    const maxAccountSize = accountNumbers.length ? Math.max(...accountNumbers) : 0;
+    const prices = getNumbers(firm.price);
+    const startingPrice = prices.length ? Math.min(...prices) : null;
+    return searchable.includes(search) &&
+      (!category || firm.category === category) &&
+      (!minAccount || maxAccountSize >= minAccount) &&
+      (maxPrice === 999999 || (startingPrice !== null && startingPrice <= maxPrice));
+  });
+
+  firms.sort((a, b) => {
+    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
+    if (sort === "price") {
+      const pa = getNumbers(a.price), pb = getNumbers(b.price);
+      return (pa.length ? Math.min(...pa) : Infinity) - (pb.length ? Math.min(...pb) : Infinity);
+    }
+    return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+  });
+
+  const count = document.getElementById("feResultsCount");
+  if (count) count.textContent = `Showing ${firms.length} of ${allFirms.length} prop firms`;
+
+  if (!firms.length) {
+    grid.innerHTML = `<div class="fe-no-results"><h3>No matching firms found</h3><p>Try changing your search or resetting the filters.</p></div>`;
+    return;
+  }
+
+  function getLogoDomain(firm) {
+    const name = (firm.name || "").toLowerCase().trim();
+    const known = { "ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com" };
+    if (known[name]) return known[name];
+    try { const url = new URL(firm.official_website || ""); if (url.protocol === "https:" || url.protocol === "http:") return url.hostname; } catch (_) {}
+    return "";
+  }
+  function getInitials(name) {
+    const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
+    return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0, 2).toUpperCase();
+  }
+
+  grid.innerHTML = firms.map(firm => {
+    const domain = getLogoDomain(firm);
+    const initials = getInitials(firm.name);
+    const logo = firm.logo_url || (domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : "");
+    return `
+      <article class="firm-card">
+        <div class="firm-card-top">
+          <div class="firm-brand">
+            <div class="firm-logo">
+              <span>${escapeHTML(initials)}</span>
+              ${logo ? `<img src="${escapeHTML(logo)}" alt="${escapeHTML(firm.name)} logo" loading="lazy" onerror="this.style.display='none'">` : ""}
+            </div>
+            <div class="firm-brand-info">
+              <span class="firm-tag">${escapeHTML(firm.tag || firm.category || "PROP FIRM")}</span>
+              <h3>${escapeHTML(firm.name)}</h3>
             </div>
           </div>
-          <div class="review-rating-inline">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
+          <div class="firm-rating">★ ${escapeHTML(firm.rating ?? "—")}</div>
         </div>
-        <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
+        <p class="firm-description">${escapeHTML(firm.description || "Explore this firm's trading conditions.")}</p>
+        <div class="firm-stats">
+          <div><small>Account Sizes</small><strong>${escapeHTML(firm.account_sizes || "—")}</strong></div>
+          <div><small>Profit Target</small><strong>${escapeHTML(firm.profit_target || "—")}</strong></div>
+          <div><small>Max Drawdown</small><strong>${escapeHTML(firm.max_drawdown || "—")}</strong></div>
+          <div><small>Profit Split</small><strong>${escapeHTML(firm.profit_split || "—")}</strong></div>
+        </div>
+        <div class="firm-card-bottom">
+          <span class="firm-price">${escapeHTML(firm.price || "See details")}</span>
+          <div class="firm-card-actions"><a class="firm-button" href="firm.html?id=${encodeURIComponent(firm.id)}">View Firm</a></div>
+        </div>
       </article>`;
-    }).join("");
+  }).join("");
+}
+
+async function loadFirms() {
+  const grid = document.getElementById("firmsGrid");
+  if (!grid) return;
+  injectDirectoryStyles();
+  grid.innerHTML = "<p>Loading prop firms...</p>";
+  renderAuthArea();
+  await initMemberFeatures();
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/firms?select=*&status=eq.active&order=rating.desc`, { headers: { apikey: SUPABASE_KEY } });
+    if (!response.ok) throw new Error(`Supabase ${response.status}`);
+    allFirms = await response.json();
+    window.allFirms = allFirms;
+    createFilters(grid);
+    renderFirms();
   } catch (error) {
-    console.error("Review loading failed:", error);
-    reviewsList.innerHTML = '<p class="muted">Reviews could not be loaded.</p>';
+    console.error("FundedEdge error:", error);
+    grid.innerHTML = `<div class="fe-no-results"><h3>Couldn't load prop firms</h3><p>${escapeHTML(error.message)}</p></div>`;
   }
 }
 
-db.auth.onAuthStateChange((_event, session) => {
-  queueMicrotask(async () => {
-    try {
-      const user = session?.user;
-      currentUser = user?.email_confirmed_at ? user : null;
-      renderAuthArea();
-      if (currentFirmId) {
-        isFavorited = await checkIfFavorited();
-        updateSaveButton();
-      }
-    } catch (err) { console.error("Auth sync failed:", err); }
-  });
-});
-
-renderAuthArea();
-await loadFirm();
-</script>
-</body>
-</html>
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadFirms);
+else loadFirms();
