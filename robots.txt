@@ -3,5 +3,6 @@ Allow: /
 Disallow: /dashboard.html
 Disallow: /auth.html
 Disallow: /admin.html
+Disallow: /review.html
 
 Sitemap: https://funded-edge-two.vercel.app/sitemap.xml
