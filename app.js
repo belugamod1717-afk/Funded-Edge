@@ -1,6 +1,4 @@
-const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
-const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
-
+import { db as feSupabase, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
 let allFirms = [];
 let feSupabase = null;
 let feCurrentUser = null;
