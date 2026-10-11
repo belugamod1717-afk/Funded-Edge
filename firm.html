@@ -27,7 +27,7 @@ body::after{content:"";position:fixed;bottom:-300px;right:-200px;width:700px;hei
 main,header{position:relative;z-index:1}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
-header{padding:18px 6%;border-bottom:1px solid #20372c;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(7,17,14,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
+header{padding:18px 6%;border-bottom:1px solid #20372c;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(7,17,14,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:sticky;top:0;z-index:20}
 header .brand{color:#54e39a;font-size:23px;font-weight:800;letter-spacing:-.5px;transition:.3s}
 header .brand:hover{text-shadow:0 0 20px rgba(84,227,154,.6)}
 header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
@@ -47,118 +47,151 @@ header nav a:hover::after{width:100%}
 main{max-width:960px;margin:32px auto;padding:20px}
 .back{color:#65e5a1;font-size:13px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
 .back:hover{gap:10px}
-.card,.reviews-card,.rules-card{position:relative;background:linear-gradient(145deg,#101e17,#0a1510);border:1px solid #294535;border-radius:20px;padding:28px;margin-top:22px;animation:fadeUp .6s ease both;transition:border-color .3s}
-.card::before,.reviews-card::before,.rules-card::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(84,227,154,.4),transparent 40%,transparent 60%,rgba(84,227,154,.25));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}
-.card:hover::before,.reviews-card:hover::before,.rules-card:hover::before{opacity:1}
-h1{font-size:34px;margin:12px 0;letter-spacing:-.8px;background:linear-gradient(180deg,#fff 0%,#c9ded2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-h2{font-size:22px;margin:0}
-.muted{color:#a6b9ad;line-height:1.65}
-.tag{display:inline-block;background:linear-gradient(135deg,#1d4a32,#193d2b);color:#8ff0b5;padding:7px 14px;border-radius:20px;margin:8px 0;font-size:11.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border:1px solid #235c3b;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:26px}
-.item{background:linear-gradient(145deg,#0d1a14,#081410);padding:16px;border-radius:14px;border:1px solid #1f3227;transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.item::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(84,227,154,.08),transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
-.item:hover{transform:translateY(-4px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 0 1px rgba(84,227,154,.1)}
-.item:hover::before{opacity:1}
-.label{color:#9cb1a3;font-size:11.5px;margin-bottom:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
-.value{font-size:17px;font-weight:800;overflow-wrap:anywhere}
-.buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;align-items:center}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:11px;font-weight:800;background:#54e39a;color:#07110e;border:1px solid transparent;cursor:pointer;font-size:14px;transition:.25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none}
-.btn::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);transition:transform .6s}
-.btn:hover::before{transform:translateX(250%)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(84,227,154,.28)}
-.btn:active{transform:translateY(0)}
-.btn.secondary{background:#20372c;color:#eaf8ef}
-.btn.save{background:transparent;color:#eaf8ef;border:1px solid #345442}
-.btn.save:hover{border-color:#54e39a;color:#54e39a;box-shadow:0 0 0 3px rgba(84,227,154,.12);transform:translateY(-2px)}
-.btn.save.is-saved{background:rgba(84,227,154,.1);border-color:#54e39a;color:#54e39a}
-.btn.save:disabled{opacity:.6;cursor:wait}
-a{overflow-wrap:anywhere}
-[hidden]{display:none!important}
+.card{position:relative;background:linear-gradient(145deg,#101e17,#0a1510);border:1px solid #294535;border-radius:20px;padding:0;margin-top:22px;animation:fadeUp .6s ease both;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(84,227,154,.4),transparent 40%,transparent 60%,rgba(84,227,154,.25));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}
+.card:hover::before{opacity:1}
 
-/* FIRM HEAD WITH LOGO */
-.firm-head{display:flex;align-items:flex-start;gap:22px;margin:8px 0 18px;flex-wrap:wrap}
+/* HERO */
+.firm-hero{padding:28px;background:linear-gradient(135deg,#122019,#0d1812);border-bottom:1px solid #22372c;position:relative;overflow:hidden}
+.firm-hero::after{content:"";position:absolute;top:-50%;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(84,227,154,.15),transparent 70%);pointer-events:none}
+.firm-head{display:flex;align-items:flex-start;gap:22px;flex-wrap:wrap;position:relative;z-index:1}
 .firm-logo{position:relative;display:flex;align-items:center;justify-content:center;width:92px;height:92px;flex-shrink:0;border-radius:22px;background:linear-gradient(145deg,#1a3825,#0b1710);border:1px solid #315440;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)}
 .firm-logo .firm-logo-fallback{font-size:34px;font-weight:900;letter-spacing:-1.5px;color:#8ff0b5}
 .firm-logo img{position:absolute;inset:0;width:100%;height:100%;padding:15px;box-sizing:border-box;object-fit:contain;background:#f7faf7}
 .firm-head-text{min-width:0;flex:1}
-.firm-head-text h1{margin:6px 0 0}
 .firm-head-text .tag{margin-top:0}
-@media(max-width:600px){
-  .firm-head{gap:16px}
-  .firm-logo{width:72px;height:72px;border-radius:18px}
-  .firm-logo .firm-logo-fallback{font-size:26px}
-  .firm-logo img{padding:11px}
-}
+h1{font-size:34px;margin:6px 0 8px;letter-spacing:-.8px;background:linear-gradient(180deg,#fff 0%,#c9ded2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{font-size:22px;margin:0}
+.tag{display:inline-block;background:linear-gradient(135deg,#1d4a32,#193d2b);color:#8ff0b5;padding:6px 12px;border-radius:20px;margin:4px 4px 4px 0;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border:1px solid #235c3b}
+.firm-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:10px;background:rgba(5,16,10,.7);border:1px solid #1f3227;color:#cfe3d6;font-size:12px;font-weight:700}
+.chip strong{color:#8ff0b5}
 
-/* RULES CARD */
-.rules-card{animation-delay:.08s;padding:28px}
-.rules-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#54e39a;text-transform:uppercase;margin-bottom:8px}
-.rules-head h2{font-size:22px;margin:0 0 6px;letter-spacing:-.4px}
-.rules-head p{margin:0 0 22px;color:#9cb1a3;font-size:13.5px}
-.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.rule-item{padding:16px;background:linear-gradient(145deg,#0d1a14,#081410);border:1px solid #1f3227;border-radius:12px;transition:.3s cubic-bezier(.4,0,.2,1)}
+/* VISIT BUTTON STICKY */
+.visit-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center;position:relative;z-index:1}
+
+/* TABS */
+.tabs{display:flex;gap:4px;padding:6px;background:#08120e;border-radius:12px;margin:0;border-bottom:1px solid #22372c;border-radius:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-btn{flex:1;min-width:100px;padding:14px 16px;border:0;background:transparent;color:#8a9a90;font-size:14px;font-weight:750;cursor:pointer;border-radius:10px;transition:.2s;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.tab-btn:hover{color:#cfe3d6;background:rgba(255,255,255,.03)}
+.tab-btn.active{background:linear-gradient(135deg,#1d4a32,#193d2b);color:#8ff0b5;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.tab-panel{display:none;padding:28px;animation:fadeUp .35s ease both}
+.tab-panel.active{display:block}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.item{background:linear-gradient(145deg,#0d1a14,#081410);padding:16px;border-radius:14px;border:1px solid #1f3227;transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.item::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(84,227,154,.08),transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
+.item:hover{transform:translateY(-4px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.item:hover::before{opacity:1}
+.label{color:#9cb1a3;font-size:11.5px;margin-bottom:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
+.value{font-size:17px;font-weight:800;overflow-wrap:anywhere}
+
+/* PROS & CONS */
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:600px){.pros-cons{grid-template-columns:1fr}}
+.pc-box{padding:20px;border-radius:14px;border:1px solid #1f3227;background:linear-gradient(145deg,#0d1a14,#081410);position:relative}
+.pc-box h3{margin:0 0 14px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;display:flex;align-items:center;gap:8px}
+.pc-box.pros h3{color:#8ff0b5}
+.pc-box.cons h3{color:#ffb7bb}
+.pc-box ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.pc-box li{position:relative;padding-left:26px;color:#d5e0d8;font-size:14px;line-height:1.65}
+.pc-box.pros li::before{content:"✓";position:absolute;left:0;top:0;color:#54e39a;font-weight:900;font-size:14px}
+.pc-box.cons li::before{content:"✕";position:absolute;left:0;top:0;color:#ff8585;font-weight:900;font-size:13px}
+
+/* BEST FOR */
+.best-for{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.best-for-tag{padding:8px 14px;border-radius:20px;background:rgba(84,227,154,.1);border:1px solid #235c3b;color:#8ff0b5;font-size:12.5px;font-weight:700}
+
+/* PLATFORMS */
+.platform-tiles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.platform-tile{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:11px;background:linear-gradient(145deg,#0d1a14,#081410);border:1px solid #1f3227;font-size:13px;font-weight:700;color:#d5e0d8;transition:.25s}
+.platform-tile:hover{border-color:#54e39a;color:#8ff0b5;transform:translateY(-2px)}
+.platform-tile .dot{width:8px;height:8px;border-radius:50%;background:#54e39a;box-shadow:0 0 8px #54e39a}
+
+/* DESCRIPTION SECTIONS */
+.desc-section{margin-bottom:22px}
+.desc-section:last-child{margin-bottom:0}
+.desc-section h3{margin:0 0 12px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:#54e39a;font-weight:800}
+.desc-section p{margin:0 0 10px;color:#c8d5cc;font-size:14px;line-height:1.8}
+.desc-section ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.desc-section li{position:relative;padding-left:24px;color:#c8d5cc;font-size:14px;line-height:1.7}
+.desc-section li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:#54e39a;box-shadow:0 0 10px rgba(84,227,154,.6)}
+.desc-highlight{display:inline-block;padding:2px 8px;margin:0 2px;background:rgba(84,227,154,.12);color:#8ff0b5;font-weight:700;border-radius:5px;border:1px solid #235c3b;font-size:13px}
+
+/* RULES GRID */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:22px}
+.rule-item{padding:16px;background:linear-gradient(145deg,#0d1a14,#081410);border:1px solid #1f3227;border-radius:12px;transition:.3s}
 .rule-item:hover{transform:translateY(-3px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 28px rgba(0,0,0,.3)}
 .rule-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:#9cb1a3;text-transform:uppercase;margin-bottom:6px}
 .rule-value{font-size:15px;font-weight:800;color:#eaf5ed;overflow-wrap:anywhere}
 .rules-note{margin-top:20px;padding-top:16px;border-top:1px solid #1f3227;font-size:12px;color:#7a8a80}
 
-/* REVIEWS */
-.reviews-card{padding:0;overflow:hidden;animation-delay:.15s}
-.reviews-header{padding:30px 32px 24px;border-bottom:1px solid #22372c;background:linear-gradient(135deg,#122019,#0d1812);position:relative;overflow:hidden}
-.reviews-header::after{content:"";position:absolute;top:-50%;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(84,227,154,.15),transparent 70%);pointer-events:none}
-.reviews-header h2{font-size:24px;margin:0 0 6px}
-.reviews-header p{margin:0;color:#9cb1a3;font-size:13.5px}
-.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:26px 32px;background:#0c1813;border-bottom:1px solid #22372c}
-@media(max-width:600px){.rating-summary{grid-template-columns:1fr;gap:20px}}
-.rating-big{text-align:center;padding-right:32px;border-right:1px solid #22372c;animation:fadeIn .5s ease both}
-@media(max-width:600px){.rating-big{border-right:0;border-bottom:1px solid #22372c;padding:0 0 20px}}
-.rating-big .num{font-size:58px;font-weight:900;line-height:1;letter-spacing:-2.5px;background:linear-gradient(180deg,#fff 0%,#8ff0b5 120%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.rating-big .stars{color:#f5d77b;font-size:19px;letter-spacing:3px;margin:10px 0 4px}
+/* REVIEWS TAB */
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:0 0 24px;margin-bottom:24px;border-bottom:1px solid #22372c}
+@media(max-width:600px){.rating-summary{grid-template-columns:1fr;gap:16px}}
+.rating-big{text-align:center;padding-right:28px;border-right:1px solid #22372c}
+@media(max-width:600px){.rating-big{border-right:0;border-bottom:1px solid #22372c;padding:0 0 16px}}
+.rating-big .num{font-size:56px;font-weight:900;line-height:1;letter-spacing:-2.5px;background:linear-gradient(180deg,#fff 0%,#8ff0b5 120%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rating-big .stars{color:#f5d77b;font-size:18px;letter-spacing:3px;margin:10px 0 4px}
 .rating-big .count{font-size:12px;color:#7a8a80;font-weight:600}
-.rating-bars{display:grid;gap:9px}
-.rating-bar-row{display:grid;grid-template-columns:36px 1fr 44px;gap:12px;align-items:center;font-size:12px;opacity:0;animation:fadeUp .4s ease forwards}
-.rating-bar-row:nth-child(1){animation-delay:.05s}
-.rating-bar-row:nth-child(2){animation-delay:.1s}
-.rating-bar-row:nth-child(3){animation-delay:.15s}
-.rating-bar-row:nth-child(4){animation-delay:.2s}
-.rating-bar-row:nth-child(5){animation-delay:.25s}
+.rating-bars{display:grid;gap:8px}
+.rating-bar-row{display:grid;grid-template-columns:36px 1fr 44px;gap:12px;align-items:center;font-size:12px}
 .rating-bar-row .lbl{color:#a0a8a2;font-weight:700}
 .rating-bar-row .bar{height:8px;background:#1a2420;border-radius:20px;overflow:hidden}
 .rating-bar-row .bar span{display:block;height:100%;background:linear-gradient(90deg,#54e39a,#35d875);border-radius:20px;box-shadow:0 0 12px rgba(84,227,154,.4);animation:barFill .8s cubic-bezier(.4,0,.2,1) both}
 .rating-bar-row .pct{color:#7a8a80;text-align:right;font-weight:700}
-.reviews-preview{padding:8px 32px 32px}
-.review-item{padding:24px 0;border-bottom:1px solid #1f3227;opacity:0;animation:fadeUp .5s ease forwards}
-.review-item:nth-child(1){animation-delay:.05s}
-.review-item:nth-child(2){animation-delay:.15s}
-.review-item:nth-child(3){animation-delay:.25s}
+.review-item{padding:22px 0;border-bottom:1px solid #1f3227}
 .review-item:last-child{border-bottom:0}
 .review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px;flex-wrap:wrap}
 .review-author{display:flex;align-items:center;gap:12px;min-width:0}
-.review-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:16px;color:#07110e;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s}
-.review-item:hover .review-avatar{transform:scale(1.08)}
+.review-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:16px;color:#07110e;flex-shrink:0}
 .review-author-info{min-width:0}
-.review-author-name{font-weight:800;font-size:14.5px;overflow-wrap:anywhere}
+.review-author-name{font-weight:800;font-size:14.5px}
 .review-author-date{font-size:12px;color:#7a8a80;margin-top:2px}
 .review-rating-inline{flex-shrink:0;font-size:15px;letter-spacing:2px;color:#f5d77b}
-.review-text{margin:0;color:#d5e0d8;font-size:14px;line-height:1.8;overflow-wrap:anywhere;white-space:pre-wrap}
-.reviews-empty{padding:44px 22px;text-align:center;border:1px dashed #2e4438;border-radius:14px;color:#8a9a90;font-size:14px;background:#0a1510;animation:fadeIn .5s ease both}
-.reviews-empty .big{font-size:42px;margin-bottom:14px;display:block;opacity:.5;animation:float 3s ease-in-out infinite}
+.review-text{margin:0;color:#d5e0d8;font-size:14px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
+.reviews-empty{padding:44px 22px;text-align:center;border:1px dashed #2e4438;border-radius:14px;color:#8a9a90;font-size:14px;background:rgba(5,16,10,.4)}
+.reviews-empty .big{font-size:42px;margin-bottom:14px;display:block;opacity:.5}
 .reviews-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:22px;border-top:1px solid #22372c}
-@media(max-width:600px){.reviews-preview{padding:8px 22px 22px}.reviews-actions{flex-direction:column}.reviews-actions .btn{width:100%;justify-content:center}}
 
-@media(max-width:600px){
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:11px;font-weight:800;background:#54e39a;color:#07110e;border:1px solid transparent;cursor:pointer;font-size:14px;transition:.25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none}
+.btn::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);transition:transform .6s}
+.btn:hover::before{transform:translateX(250%)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(84,227,154,.28)}
+.btn.secondary{background:#20372c;color:#eaf8ef}
+.btn.save{background:transparent;color:#eaf8ef;border:1px solid #345442}
+.btn.save:hover{border-color:#54e39a;color:#54e39a;box-shadow:0 0 0 3px rgba(84,227,154,.12)}
+.btn.save.is-saved{background:rgba(84,227,154,.1);border-color:#54e39a;color:#54e39a}
+.btn.save:disabled{opacity:.6;cursor:wait}
+
+/* SIMILAR FIRMS */
+.similar-section{margin-top:32px;padding:28px;background:linear-gradient(145deg,#101e17,#0a1510);border:1px solid #294535;border-radius:20px;animation:fadeUp .6s ease .2s both}
+.similar-section h2{font-size:18px;margin:0 0 18px;letter-spacing:-.4px}
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.similar-card{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(145deg,#0d1a14,#081410);border:1px solid #1f3227;border-radius:14px;transition:.25s;text-decoration:none;color:inherit}
+.similar-card:hover{transform:translateY(-3px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 28px rgba(0,0,0,.3)}
+.similar-logo{position:relative;display:flex;align-items:center;justify-content:center;width:46px;height:46px;flex-shrink:0;border-radius:12px;background:linear-gradient(145deg,#1a3825,#0b1710);border:1px solid #315440;overflow:hidden;font-weight:900;color:#8ff0b5;font-size:15px}
+.similar-logo img{position:absolute;inset:0;width:100%;height:100%;padding:7px;box-sizing:border-box;object-fit:contain;background:#f7faf7}
+.similar-info{min-width:0;flex:1}
+.similar-name{font-weight:800;font-size:14px;overflow-wrap:anywhere}
+.similar-meta{font-size:12px;color:#8a9a90;margin-top:2px}
+
+[hidden]{display:none!important}
+@media(max-width:700px){
   header{padding:14px 5%}
   main{padding:14px}
-  .card{padding:22px}
-  .rules-card{padding:22px}
-  .reviews-card{padding:0}
   h1{font-size:26px}
-  .reviews-header,.rating-summary{padding-left:22px;padding-right:22px}
-  .rating-big .num{font-size:48px}
+  .firm-hero,.tab-panel{padding:20px}
+  .tabs{padding:4px}
+  .tab-btn{padding:12px;font-size:13px}
+  .visit-row{flex-direction:column;align-items:stretch}
+  .visit-row .btn{width:100%}
+  .reviews-actions{flex-direction:column}
+  .reviews-actions .btn{width:100%}
 }
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
-}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
 </style>
 </head>
 <body>
@@ -177,47 +210,26 @@ a{overflow-wrap:anywhere}
 <main>
 <a class="back" href="/directory.html">← Back to directory</a>
 
-<div class="card" id="content">
-<p class="muted">Loading firm details...</p>
+<div class="card" id="firmCard">
+  <div id="firmHero" class="firm-hero">
+    <p class="muted">Loading firm details...</p>
+  </div>
+  <div id="tabsWrap" hidden>
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="overview" role="tab">Overview</button>
+      <button class="tab-btn" data-tab="rules" role="tab">Rules &amp; Conditions</button>
+      <button class="tab-btn" data-tab="reviews" role="tab" id="reviewsTab">Reviews</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-overview"></div>
+    <div class="tab-panel" id="panel-rules"></div>
+    <div class="tab-panel" id="panel-reviews"></div>
+  </div>
 </div>
 
-<section class="rules-card" id="rulesSection" hidden>
-  <div class="rules-head">
-    <div class="rules-eyebrow">Trading rules</div>
-    <h2 id="rulesTitle">Trading rules &amp; conditions</h2>
-    <p id="rulesIntro">Full overview of this firm's rules, targets, and account conditions.</p>
-  </div>
-  <div class="rules-grid">
-    <div class="rule-item"><div class="rule-label">Account sizes</div><div class="rule-value" id="ruleAccounts">—</div></div>
-    <div class="rule-item"><div class="rule-label">Starting price</div><div class="rule-value" id="rulePrice">—</div></div>
-    <div class="rule-item"><div class="rule-label">Profit target</div><div class="rule-value" id="ruleTarget">—</div></div>
-    <div class="rule-item"><div class="rule-label">Daily drawdown</div><div class="rule-value" id="ruleDaily">—</div></div>
-    <div class="rule-item"><div class="rule-label">Maximum drawdown</div><div class="rule-value" id="ruleMax">—</div></div>
-    <div class="rule-item"><div class="rule-label">Profit split</div><div class="rule-value" id="ruleSplit">—</div></div>
-    <div class="rule-item"><div class="rule-label">Payout</div><div class="rule-value" id="rulePayout">—</div></div>
-    <div class="rule-item"><div class="rule-label">Platforms</div><div class="rule-value" id="rulePlatforms">—</div></div>
-  </div>
-  <p class="rules-note">Rules and pricing change — always verify on the firm's official website before purchasing.</p>
-</section>
-
-<section class="reviews-card" id="reviewsSection" hidden>
-  <div class="reviews-header">
-    <h2>Reviews &amp; Ratings</h2>
-    <p>Read what real traders say about this firm. All submissions are reviewed before publishing.</p>
-  </div>
-
-  <div id="ratingSummary" class="rating-summary" hidden></div>
-
-  <div class="reviews-preview">
-    <div id="reviewsList" class="reviews-list">
-      <p class="muted">Loading reviews...</p>
-    </div>
-
-    <div class="reviews-actions">
-      <a class="btn" id="viewAllReviewsBtn" href="#">View all reviews →</a>
-      <a class="btn secondary" id="writeReviewBtn" href="#">Write a review →</a>
-    </div>
-  </div>
+<section class="similar-section" id="similarSection" hidden>
+  <h2>Similar firms</h2>
+  <div class="similar-grid" id="similarGrid"></div>
 </section>
 </main>
 
@@ -228,14 +240,17 @@ const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
 const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const content = document.getElementById("content");
-const reviewsSection = document.getElementById("reviewsSection");
-const rulesSection = document.getElementById("rulesSection");
-const reviewsList = document.getElementById("reviewsList");
+const firmHero = document.getElementById("firmHero");
+const tabsWrap = document.getElementById("tabsWrap");
+const panelOverview = document.getElementById("panel-overview");
+const panelRules = document.getElementById("panel-rules");
+const panelReviews = document.getElementById("panel-reviews");
 const authArea = document.getElementById("feAuthArea");
-const ratingSummary = document.getElementById("ratingSummary");
+const similarSection = document.getElementById("similarSection");
+const similarGrid = document.getElementById("similarGrid");
 
 let currentFirmId = null;
+let currentFirm = null;
 let currentUser = null;
 let isFavorited = false;
 
@@ -245,36 +260,18 @@ function esc(value) {
   })[c]);
 }
 function safeUrl(value) {
-  try {
-    const u = new URL(value);
-    return ["http:","https:"].includes(u.protocol) ? u.href : "";
-  } catch { return ""; }
-}
-function item(label, value) {
-  return `<div class="item"><div class="label">${esc(label)}</div><div class="value">${esc(value || "Not provided")}</div></div>`;
-}
-function setText(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = val || "—";
+  try { const u = new URL(value); return ["http:","https:"].includes(u.protocol) ? u.href : ""; } catch { return ""; }
 }
 function authUrl(mode) {
   const next = location.pathname + location.search;
   const q = `?next=${encodeURIComponent(next)}`;
   return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
 }
-
 let toastTimer;
-function toast(msg) {
-  let el = document.getElementById("feToast");
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "feToast";
-    el.style.cssText = "position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#163a27;border:1px solid #2f8a56;color:#c8f5d8;padding:13px 20px;border-radius:12px;font-size:14px;z-index:9999;max-width:90vw;box-shadow:0 14px 40px rgba(0,0,0,.5);";
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.remove(), 3500);
+function toast(msg){
+  let el=document.getElementById("feToast");
+  if(!el){el=document.createElement("div");el.id="feToast";el.style.cssText="position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#163a27;border:1px solid #2f8a56;color:#c8f5d8;padding:13px 20px;border-radius:12px;font-size:14px;z-index:9999;max-width:90vw;box-shadow:0 14px 40px rgba(0,0,0,.5);";document.body.appendChild(el);}
+  el.textContent=msg;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3500);
 }
 
 function renderAuthArea() {
@@ -290,49 +287,234 @@ function renderAuthArea() {
 
 function getLogoDomain(firm) {
   const name = (firm.name || "").toLowerCase().trim();
-  const known = {
-    "ftmo":"ftmo.com",
-    "the5ers":"the5ers.com",
-    "the 5ers":"the5ers.com",
-    "topstep":"topstep.com",
-    "apex trader funding":"apextraderfunding.com"
-  };
+  const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
   if (known[name]) return known[name];
-  try {
-    const u = new URL(firm.official_website || "");
-    if (u.protocol === "https:" || u.protocol === "http:") return u.hostname;
-  } catch(_) {}
+  try { const u = new URL(firm.official_website || ""); if (u.protocol === "https:" || u.protocol === "http:") return u.hostname; } catch(_) {}
   return "";
 }
 function getInitials(name) {
   const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
-  return words.length > 1
-    ? (words[0][0] + words[1][0]).toUpperCase()
-    : (words[0] || "PF").slice(0, 2).toUpperCase();
+  return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0, 2).toUpperCase();
+}
+function logoUrlFor(firm) {
+  const domain = getLogoDomain(firm);
+  return firm.logo_url || (domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : "");
+}
+
+/* Auto-generate pros/cons from firm data */
+function generateProsCons(f) {
+  const pros = [];
+  const cons = [];
+
+  // Rating
+  const r = Number(f.rating) || 0;
+  if (r >= 4.5) pros.push(`Highly rated by traders (${r}/5)`);
+  else if (r >= 4) pros.push(`Well-rated (${r}/5)`);
+  else if (r > 0 && r < 3.5) cons.push(`Below-average rating (${r}/5)`);
+
+  // Profit split
+  const splitNums = String(f.profit_split || "").match(/\d+/g)?.map(Number) || [];
+  const maxSplit = splitNums.length ? Math.max(...splitNums) : 0;
+  if (maxSplit >= 90) pros.push(`Up to ${maxSplit}% profit split`);
+  else if (maxSplit >= 80) pros.push(`Competitive ${maxSplit}% profit split`);
+  else if (maxSplit > 0 && maxSplit < 70) cons.push(`Lower profit split (${maxSplit}%)`);
+
+  // Starting price
+  const priceNums = String(f.price || "").match(/\d+/g)?.map(Number) || [];
+  const minPrice = priceNums.length ? Math.min(...priceNums) : null;
+  if (minPrice !== null && minPrice <= 50) pros.push("Low starting price");
+  else if (minPrice !== null && minPrice > 200) cons.push("Higher entry cost");
+
+  // Account sizes
+  const sizeNums = String(f.account_sizes || "").match(/\d[\d,]*\s*[kKmM]?/g) || [];
+  const sizeMultipliers = sizeNums.map(s => {
+    const n = parseFloat(s.replace(/[kKmM]/,"").replace(/,/g,""));
+    const mult = /m/i.test(s) ? 1e6 : /k/i.test(s) ? 1e3 : 1;
+    return n * mult;
+  });
+  const maxSize = sizeMultipliers.length ? Math.max(...sizeMultipliers) : 0;
+  if (maxSize >= 200000) pros.push("Large account sizes available");
+  if (sizeMultipliers.length <= 1) cons.push("Limited account size options");
+
+  // Platforms
+  const platforms = String(f.platforms || "").split(/[,;]/).map(p => p.trim()).filter(Boolean);
+  if (platforms.length >= 3) pros.push(`Supports ${platforms.length} platforms`);
+  if (platforms.length === 1) cons.push("Only one trading platform");
+
+  return { pros, cons };
+}
+
+function buildRulesDescription(f) {
+  const sections = [];
+  sections.push({
+    title: "Overview",
+    html: `<p>${esc(f.description || `Full overview of ${f.name}'s trading rules and account conditions. Always confirm the latest terms on the firm's official website.`)}</p>`
+  });
+  if (f.account_sizes || f.price || f.profit_target) {
+    const items = [];
+    if (f.account_sizes) items.push(`<li>Account sizes: <span class="desc-highlight">${esc(f.account_sizes)}</span></li>`);
+    if (f.price) items.push(`<li>Starting price: <span class="desc-highlight">${esc(f.price)}</span></li>`);
+    if (f.profit_target) items.push(`<li>Profit target: <span class="desc-highlight">${esc(f.profit_target)}</span></li>`);
+    sections.push({ title: "Evaluation & accounts", html: `<ul>${items.join("")}</ul>` });
+  }
+  if (f.daily_drawdown || f.max_drawdown) {
+    const items = [];
+    if (f.daily_drawdown) items.push(`<li>Daily drawdown: <span class="desc-highlight">${esc(f.daily_drawdown)}</span></li>`);
+    if (f.max_drawdown) items.push(`<li>Maximum drawdown: <span class="desc-highlight">${esc(f.max_drawdown)}</span></li>`);
+    sections.push({ title: "Drawdown rules", html: `<p>Keep your account within these limits. Breaching them usually terminates the account.</p><ul>${items.join("")}</ul>` });
+  }
+  if (f.profit_split || f.payout) {
+    const items = [];
+    if (f.profit_split) items.push(`<li>Profit split: <span class="desc-highlight">${esc(f.profit_split)}</span></li>`);
+    if (f.payout) items.push(`<li>Payout schedule: <span class="desc-highlight">${esc(f.payout)}</span></li>`);
+    sections.push({ title: "Payout terms", html: `<ul>${items.join("")}</ul>` });
+  }
+  if (f.platforms) {
+    sections.push({ title: "Supported platforms", html: `<p>This firm supports:</p><ul><li><span class="desc-highlight">${esc(f.platforms)}</span></li></ul>` });
+  }
+  sections.push({ title: "Important note", html: `<p>Rules, prices, and payout terms can change. Always verify the latest terms on the firm's official website before purchasing.</p>` });
+  return sections;
+}
+
+function renderHero(f) {
+  const logoUrl = logoUrlFor(f);
+  const initials = getInitials(f.name);
+  const official = safeUrl(f.official_website);
+  const affiliate = safeUrl(f.affiliate_link);
+
+  // Auto best-for based on data
+  const bestFor = [];
+  if (f.best_for) bestFor.push(...String(f.best_for).split(",").map(s => s.trim()).filter(Boolean));
+  else {
+    const priceNums = String(f.price || "").match(/\d+/g)?.map(Number) || [];
+    const minPrice = priceNums.length ? Math.min(...priceNums) : null;
+    if (minPrice !== null && minPrice <= 100) bestFor.push("Beginners");
+    if ((f.platforms || "").toLowerCase().includes("futures") || (f.name || "").toLowerCase().includes("topstep")) bestFor.push("Futures traders");
+    if ((f.category || "").toLowerCase().includes("forex")) bestFor.push("Forex traders");
+    if (Number(f.rating) >= 4.5) bestFor.push("Experienced traders");
+  }
+
+  firmHero.innerHTML = `
+    <div class="firm-head">
+      <div class="firm-logo">
+        <span class="firm-logo-fallback">${esc(initials)}</span>
+        ${logoUrl ? `<img src="${esc(logoUrl)}" alt="${esc(f.name)} logo" loading="eager" onerror="this.style.display='none'">` : ""}
+      </div>
+      <div class="firm-head-text">
+        <span class="tag">${esc(f.category || "Prop Firm")}</span>
+        ${f.tag ? `<span class="tag">${esc(f.tag)}</span>` : ""}
+        <h1>${esc(f.name)}</h1>
+        <div class="firm-meta">
+          ${f.rating ? `<span class="chip">★ <strong>${esc(f.rating)}</strong>/5</span>` : ""}
+          ${f.price ? `<span class="chip">From <strong>${esc(f.price)}</strong></span>` : ""}
+          ${f.profit_split ? `<span class="chip">Split <strong>${esc(f.profit_split)}</strong></span>` : ""}
+          ${f.payout ? `<span class="chip">Payout <strong>${esc(f.payout)}</strong></span>` : ""}
+        </div>
+      </div>
+    </div>
+    <div class="visit-row">
+      <button class="btn save" id="saveBtn" type="button">♡ Save firm</button>
+      ${official ? `<a class="btn" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Visit ${esc(f.name)} ↗</a>` : ""}
+      ${affiliate ? `<a class="btn secondary" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View Offer ↗</a>` : ""}
+    </div>
+  `;
+
+  document.getElementById("saveBtn").addEventListener("click", toggleSave);
+
+  // Best for chips
+  const bestForHTML = bestFor.length
+    ? `<div class="best-for">${bestFor.map(b => `<span class="best-for-tag">Best for: ${esc(b)}</span>`).join("")}</div>`
+    : "";
+
+  // Overview panel
+  const domain = getLogoDomain(f);
+  const platformList = String(f.platforms || "").split(/[,;]/).map(p => p.trim()).filter(Boolean);
+  const platformsHTML = platformList.length
+    ? `<div class="platform-tiles">${platformList.map(p => `<span class="platform-tile"><span class="dot"></span>${esc(p)}</span>`).join("")}</div>`
+    : "";
+
+  // Pros / cons
+  const auto = generateProsCons(f);
+  const prosList = f.pros ? String(f.pros).split(",").map(s => s.trim()).filter(Boolean) : auto.pros;
+  const consList = f.cons ? String(f.cons).split(",").map(s => s.trim()).filter(Boolean) : auto.cons;
+
+  const prosConsHTML = (prosList.length || consList.length) ? `
+    <div class="pros-cons">
+      <div class="pc-box pros">
+        <h3>✓ Pros</h3>
+        <ul>${prosList.length ? prosList.map(p => `<li>${esc(p)}</li>`).join("") : "<li>—</li>"}</ul>
+      </div>
+      <div class="pc-box cons">
+        <h3>✕ Cons</h3>
+        <ul>${consList.length ? consList.map(c => `<li>${esc(c)}</li>`).join("") : "<li>—</li>"}</ul>
+      </div>
+    </div>
+  ` : "";
+
+  panelOverview.innerHTML = `
+    ${bestForHTML}
+    ${prosConsHTML}
+    <div class="desc-section">
+      <h3>About ${esc(f.name)}</h3>
+      <p>${esc(f.description || "No description has been added yet.")}</p>
+    </div>
+    ${platformsHTML}
+    <div class="grid">
+      <div class="item"><div class="label">Account sizes</div><div class="value">${esc(f.account_sizes || "—")}</div></div>
+      <div class="item"><div class="label">Starting price</div><div class="value">${esc(f.price || "—")}</div></div>
+      <div class="item"><div class="label">Profit target</div><div class="value">${esc(f.profit_target || "—")}</div></div>
+      <div class="item"><div class="label">Profit split</div><div class="value">${esc(f.profit_split || "—")}</div></div>
+      <div class="item"><div class="label">Payout</div><div class="value">${esc(f.payout || "—")}</div></div>
+      <div class="item"><div class="label">Rating</div><div class="value">${f.rating ? f.rating + " / 5" : "Not rated"}</div></div>
+    </div>
+    <p class="rules-note">Please verify current rules and prices on the firm's official website before purchasing.</p>
+  `;
+
+  // Rules panel
+  const rulesDesc = buildRulesDescription(f);
+  panelRules.innerHTML = `
+    <div class="rules-grid">
+      <div class="rule-item"><div class="rule-label">Account sizes</div><div class="rule-value">${esc(f.account_sizes || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Starting price</div><div class="rule-value">${esc(f.price || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Profit target</div><div class="rule-value">${esc(f.profit_target || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Daily drawdown</div><div class="rule-value">${esc(f.daily_drawdown || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Max drawdown</div><div class="rule-value">${esc(f.max_drawdown || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Profit split</div><div class="rule-value">${esc(f.profit_split || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Payout</div><div class="rule-value">${esc(f.payout || "—")}</div></div>
+      <div class="rule-item"><div class="rule-label">Platforms</div><div class="rule-value">${esc(f.platforms || "—")}</div></div>
+    </div>
+    <div style="margin-top:24px;padding-top:24px;border-top:1px solid #22372c">
+      ${rulesDesc.map(sec => `<div class="desc-section"><h3>${esc(sec.title)}</h3>${sec.html}</div>`).join("")}
+    </div>
+  `;
+
+  tabsWrap.hidden = false;
+}
+
+function wireTabs() {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      const panel = document.getElementById("panel-" + btn.dataset.tab);
+      if (panel) panel.classList.add("active");
+    });
+  });
 }
 
 async function checkIfFavorited() {
   if (!currentUser || !currentFirmId) return false;
-  const { data, error } = await db.from("favorites").select("id").eq("user_id", currentUser.id).eq("firm_id", currentFirmId).maybeSingle();
-  if (error) return false;
+  const { data } = await db.from("favorites").select("id").eq("user_id", currentUser.id).eq("firm_id", currentFirmId).maybeSingle();
   return !!data;
 }
-
 function updateSaveButton() {
   const btn = document.getElementById("saveBtn");
   if (!btn) return;
-  if (!currentUser) {
-    btn.classList.remove("is-saved");
-    btn.innerHTML = "♡ Sign in to save";
-  } else if (isFavorited) {
-    btn.classList.add("is-saved");
-    btn.innerHTML = "♥ Saved";
-  } else {
-    btn.classList.remove("is-saved");
-    btn.innerHTML = "♡ Save firm";
-  }
+  if (!currentUser) { btn.classList.remove("is-saved"); btn.innerHTML = "♡ Sign in to save"; }
+  else if (isFavorited) { btn.classList.add("is-saved"); btn.innerHTML = "♥ Saved"; }
+  else { btn.classList.remove("is-saved"); btn.innerHTML = "♡ Save firm"; }
 }
-
 async function toggleSave() {
   const btn = document.getElementById("saveBtn");
   if (!btn) return;
@@ -342,19 +524,15 @@ async function toggleSave() {
     if (isFavorited) {
       const { error } = await db.from("favorites").delete().eq("user_id", currentUser.id).eq("firm_id", currentFirmId);
       if (error) throw error;
-      isFavorited = false;
-      toast("Removed from favorites");
+      isFavorited = false; toast("Removed from favorites");
     } else {
       const { error } = await db.from("favorites").insert({ user_id: currentUser.id, firm_id: currentFirmId });
       if (error) throw error;
-      isFavorited = true;
-      toast("Saved to favorites");
+      isFavorited = true; toast("Saved to favorites");
     }
     updateSaveButton();
-  } catch (err) {
-    console.error(err);
-    toast("Could not update favorites. Try again.");
-  } finally { btn.disabled = false; }
+  } catch (err) { console.error(err); toast("Could not update favorites."); }
+  finally { btn.disabled = false; }
 }
 
 async function checkUser() {
@@ -367,209 +545,158 @@ async function checkUser() {
   renderAuthArea();
 }
 
+async function loadReviews() {
+  const reviewsTab = document.getElementById("reviewsTab");
+  const stored = await db.from("firm_reviews").select("id", { count: "exact", head: true }).eq("firm_id", currentFirmId).eq("status", "approved");
+  const total = stored.count || 0;
+  reviewsTab.textContent = total ? `Reviews (${total})` : "Reviews";
+
+  panelReviews.innerHTML = `<p class="muted">Loading reviews...</p>`;
+
+  try {
+    const { data: reviews, error } = await db.from("firm_reviews").select("reviewer_name,rating,review_text,created_at").eq("firm_id", currentFirmId).eq("status", "approved").order("created_at", { ascending: false });
+    if (error) throw error;
+
+    if (!reviews || !reviews.length) {
+      panelReviews.innerHTML = `
+        <div class="reviews-empty">
+          <span class="big">☆</span>
+          <strong style="color:#d5e0d8;display:block;margin-bottom:6px">No reviews yet</strong>
+          Be the first to share your experience with this firm.
+        </div>
+        <div class="reviews-actions">
+          <a class="btn" href="/review.html?id=${encodeURIComponent(currentFirmId)}">Write the first review →</a>
+        </div>`;
+      return;
+    }
+
+    const count = reviews.length;
+    const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / count;
+    const counts = [0,0,0,0,0];
+    reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+    const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+    const bars = [5,4,3,2,1].map(star => {
+      const c = counts[star - 1];
+      const pct = count ? Math.round((c / count) * 100) : 0;
+      return `<div class="rating-bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
+    }).join("");
+
+    const top3 = reviews.slice(0, 3);
+    const avatarColors = ["#54e39a","#7cc9f0","#f5d77b","#c99df0","#f0a89d","#9df0bd"];
+    const initials = n => { const p = String(n||"?").trim().split(/\s+/); return ((p[0]?.[0]||"?") + (p[1]?.[0]||"")).toUpperCase(); };
+    const avatarColor = n => { let h=0; for(let i=0;i<n.length;i++) h=(h*31+n.charCodeAt(i))>>>0; return avatarColors[h % avatarColors.length]; };
+
+    panelReviews.innerHTML = `
+      <div class="rating-summary">
+        <div class="rating-big">
+          <div class="num">${avg.toFixed(1)}</div>
+          <div class="stars">${fullStars}</div>
+          <div class="count">${count} review${count === 1 ? "" : "s"}</div>
+        </div>
+        <div class="rating-bars">${bars}</div>
+      </div>
+      ${top3.map(review => {
+        const date = new Date(review.created_at);
+        const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+        const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
+        const name = review.reviewer_name || "Anonymous";
+        return `
+          <article class="review-item">
+            <div class="review-head">
+              <div class="review-author">
+                <div class="review-avatar" style="background:${avatarColor(name)}">${esc(initials(name))}</div>
+                <div class="review-author-info">
+                  <div class="review-author-name">${esc(name)}</div>
+                  <div class="review-author-date">${esc(dateText)}</div>
+                </div>
+              </div>
+              <div class="review-rating-inline">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
+            </div>
+            <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
+          </article>`;
+      }).join("")}
+      <div class="reviews-actions">
+        <a class="btn" href="/reviews.html?id=${encodeURIComponent(currentFirmId)}">View all reviews →</a>
+        <a class="btn secondary" href="/review.html?id=${encodeURIComponent(currentFirmId)}">Write a review →</a>
+      </div>
+    `;
+  } catch (error) {
+    console.error(error);
+    panelReviews.innerHTML = '<p class="muted">Reviews could not be loaded.</p>';
+  }
+}
+
+async function loadSimilarFirms(f) {
+  try {
+    const { data } = await db.from("firms").select("id,name,category,rating,official_website,logo_url,price").eq("status", "active").neq("id", f.id).order("rating", { ascending: false }).limit(20);
+    if (!data || !data.length) return;
+    const sameCat = data.filter(x => x.category === f.category);
+    const others = data.filter(x => x.category !== f.category);
+    const picks = [...sameCat, ...others].slice(0, 3);
+    if (!picks.length) return;
+
+    similarGrid.innerHTML = picks.map(firm => {
+      const logo = logoUrlFor(firm);
+      return `
+        <a class="similar-card" href="/firm.html?id=${encodeURIComponent(firm.id)}">
+          <div class="similar-logo">
+            ${esc(getInitials(firm.name))}
+            ${logo ? `<img src="${esc(logo)}" alt="${esc(firm.name)}" onerror="this.style.display='none'">` : ""}
+          </div>
+          <div class="similar-info">
+            <div class="similar-name">${esc(firm.name)}</div>
+            <div class="similar-meta">${firm.rating ? `★ ${esc(firm.rating)}` : ""} ${firm.price ? "· " + esc(firm.price) : ""}</div>
+          </div>
+        </a>`;
+    }).join("");
+    similarSection.hidden = false;
+  } catch (err) { console.error("Similar firms failed:", err); }
+}
+
 async function loadFirm() {
   const id = new URLSearchParams(location.search).get("id");
   if (!id) {
-    content.innerHTML = '<h1>Firm not selected</h1><p class="muted">Return to the directory and select a firm.</p>';
-    renderAuthArea();
+    firmHero.innerHTML = '<h1>Firm not selected</h1><p class="muted">Return to the directory and select a firm.</p>';
     return;
   }
   try {
     const { data: firms, error } = await db.from("firms").select("*").eq("id", id).eq("status", "active").limit(1);
     if (error) throw error;
     if (!firms || !firms.length) {
-      content.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive or unavailable.</p>';
-      renderAuthArea();
+      firmHero.innerHTML = '<h1>Firm not found</h1><p class="muted">This firm may be inactive.</p>';
       return;
     }
-
     const f = firms[0];
     currentFirmId = f.id;
-    const official = safeUrl(f.official_website);
-    const affiliate = safeUrl(f.affiliate_link);
+    currentFirm = f;
 
     document.title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
     const desc = (f.description || `Full details on ${f.name}: account sizes, profit split, drawdown rules, and trader reviews.`).slice(0, 160);
-    let metaDesc = document.querySelector('meta[name="description"]');
+    const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", desc);
 
-    const domain = getLogoDomain(f);
-    const initials = getInitials(f.name);
-    const logoUrl = f.logo_url || (domain
-      ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`
-      : "");
+    renderHero(f);
+    wireTabs();
 
-    content.innerHTML = `
-      <div class="firm-head">
-        <div class="firm-logo">
-          <span class="firm-logo-fallback">${esc(initials)}</span>
-          ${logoUrl ? `<img src="${esc(logoUrl)}" alt="${esc(f.name)} logo" loading="eager" onerror="this.style.display='none'">` : ""}
-        </div>
-        <div class="firm-head-text">
-          <span class="tag">${esc(f.category || "Prop Firm")}</span>
-          <h1>${esc(f.name)}</h1>
-          ${f.tag ? `<span class="tag">${esc(f.tag)}</span>` : ""}
-        </div>
-      </div>
-      <p class="muted">${esc(f.description || "No description has been added yet.")}</p>
-      <div class="grid">
-        ${item("Account sizes", f.account_sizes)}
-        ${item("Starting price", f.price)}
-        ${item("Profit target", f.profit_target)}
-        ${item("Daily drawdown", f.daily_drawdown)}
-        ${item("Maximum drawdown", f.max_drawdown)}
-        ${item("Profit split", f.profit_split)}
-        ${item("Payout", f.payout)}
-        ${item("Trading platforms", f.platforms)}
-        ${item("Listed rating", f.rating ? f.rating + " / 5" : "Not rated")}
-      </div>
-      <div class="buttons">
-        <button class="btn save" id="saveBtn" type="button">♡ Save firm</button>
-        ${official ? `<a class="btn" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Official Website ↗</a>` : ""}
-        ${affiliate ? `<a class="btn secondary" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View Offer ↗</a>` : ""}
-      </div>
-      <p class="muted" style="margin-top:16px;font-size:12.5px">Please verify current rules and prices on the firm's official website before purchasing.</p>
-    `;
-
-    document.getElementById("saveBtn").addEventListener("click", toggleSave);
-
-    setText("ruleAccounts", f.account_sizes);
-    setText("rulePrice", f.price);
-    setText("ruleTarget", f.profit_target);
-    setText("ruleDaily", f.daily_drawdown);
-    setText("ruleMax", f.max_drawdown);
-    setText("ruleSplit", f.profit_split);
-    setText("rulePayout", f.payout);
-    setText("rulePlatforms", f.platforms);
-    setText("rulesTitle", `${f.name} — Trading rules`);
-    setText("rulesIntro", `Key rules and conditions for ${f.name}.`);
-    rulesSection.hidden = false;
-
-    const viewAllBtn = document.getElementById("viewAllReviewsBtn");
-    const writeBtn = document.getElementById("writeReviewBtn");
-    if (viewAllBtn) viewAllBtn.href = `/reviews.html?id=${encodeURIComponent(f.id)}`;
-    if (writeBtn) writeBtn.href = `/review.html?id=${encodeURIComponent(f.id)}`;
-
-    reviewsSection.hidden = false;
     await checkUser();
     isFavorited = await checkIfFavorited();
     updateSaveButton();
+
     await loadReviews();
-  } catch (error) {
-    console.error(error);
-    content.innerHTML = `<h1>Unable to load firm</h1><p>${esc(error.message)}</p><p class="muted">Check your connection and try again.</p>`;
-    renderAuthArea();
+    await loadSimilarFirms(f);
+  } catch (err) {
+    console.error(err);
+    firmHero.innerHTML = `<h1>Unable to load firm</h1><p>${esc(err.message)}</p>`;
   }
 }
 
-function renderRatingSummary(reviews) {
-  if (!reviews.length) { ratingSummary.hidden = true; return; }
-  ratingSummary.hidden = false;
-
-  const total = reviews.length;
-  const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
-  const avg = sum / total;
-  const counts = [0,0,0,0,0];
-  reviews.forEach(r => {
-    const n = Math.max(1, Math.min(5, Number(r.rating) || 0));
-    counts[n - 1]++;
-  });
-  const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
-  const bars = [5,4,3,2,1].map(star => {
-    const c = counts[star - 1];
-    const pct = total ? Math.round((c / total) * 100) : 0;
-    return `<div class="rating-bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
-  }).join("");
-
-  ratingSummary.innerHTML = `
-    <div class="rating-big">
-      <div class="num">${avg.toFixed(1)}</div>
-      <div class="stars">${fullStars}</div>
-      <div class="count">${total} review${total === 1 ? "" : "s"}</div>
-    </div>
-    <div class="rating-bars">${bars}</div>
-  `;
-}
-
-function avatarColor(name) {
-  const colors = ["#54e39a","#7cc9f0","#f5d77b","#c99df0","#f0a89d","#9df0bd"];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  return colors[hash % colors.length];
-}
-function initials(name) {
-  const parts = String(name || "?").trim().split(/\s+/);
-  return ((parts[0]?.[0] || "?") + (parts[1]?.[0] || "")).toUpperCase();
-}
-
-async function loadReviews() {
-  reviewsList.innerHTML = '<p class="muted">Loading reviews...</p>';
-  ratingSummary.hidden = true;
-
-  try {
-    const { data: reviews, error } = await db
-      .from("firm_reviews")
-      .select("reviewer_name,rating,review_text,created_at")
-      .eq("firm_id", currentFirmId)
-      .eq("status", "approved")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    if (!reviews || !reviews.length) {
-      reviewsList.innerHTML = `
-        <div class="reviews-empty">
-          <span class="big">☆</span>
-          <strong style="color:#d5e0d8;display:block;margin-bottom:6px">No reviews yet</strong>
-          Be the first to share your experience with this firm.
-        </div>`;
-      return;
-    }
-
-    renderRatingSummary(reviews);
-
-    const top3 = reviews.slice(0, 3);
-    reviewsList.innerHTML = top3.map(review => {
-      const date = new Date(review.created_at);
-      const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-      const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
-      const name = review.reviewer_name || "Anonymous";
-      const initialsText = initials(name);
-      const color = avatarColor(name);
-
-      return `
-        <article class="review-item">
-          <div class="review-head">
-            <div class="review-author">
-              <div class="review-avatar" style="background:${color}">${esc(initialsText)}</div>
-              <div class="review-author-info">
-                <div class="review-author-name">${esc(name)}</div>
-                <div class="review-author-date">${esc(dateText)}</div>
-              </div>
-            </div>
-            <div class="review-rating-inline">${"★".repeat(rating)}${"☆".repeat(5 - rating)}</div>
-          </div>
-          <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
-        </article>
-      `;
-    }).join("");
-  } catch (error) {
-    console.error("Review loading failed:", error);
-    reviewsList.innerHTML = '<p class="muted">Reviews could not be loaded. Please refresh the page.</p>';
-  }
-}
-
-db.auth.onAuthStateChange((_event, session) => {
+db.auth.onAuthStateChange((_e, session) => {
   queueMicrotask(async () => {
     try {
-      const user = session?.user;
-      currentUser = user?.email_confirmed_at ? user : null;
+      currentUser = session?.user?.email_confirmed_at ? session.user : null;
       renderAuthArea();
-      if (currentFirmId) {
-        isFavorited = await checkIfFavorited();
-        updateSaveButton();
-      }
-    } catch (err) { console.error("Auth sync failed:", err); }
+      if (currentFirmId) { isFavorited = await checkIfFavorited(); updateSaveButton(); }
+    } catch (err) { console.error(err); }
   });
 });
 
