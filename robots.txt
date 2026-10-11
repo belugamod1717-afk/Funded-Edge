@@ -4,4 +4,4 @@ Disallow: /dashboard.html
 Disallow: /auth.html
 Disallow: /admin.html
 
-Sitemap: https://e-two.vercel.app/sitemap.xml
+Sitemap: https://funded-edge-two.vercel.app/sitemap.xml
