@@ -234,11 +234,7 @@ h2{font-size:22px;margin:0}
 </main>
 
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
-const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
 
 const firmHero = document.getElementById("firmHero");
 const tabsWrap = document.getElementById("tabsWrap");
