@@ -34,10 +34,8 @@ h1{margin:0 0 8px;font-size:27px;letter-spacing:-.5px}
 .tabs button:hover{color:var(--text);background:rgba(255,255,255,.03)}
 .tabs button.active{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;box-shadow:0 4px 14px rgba(74,158,255,.25)}
 label{display:block;margin:16px 0 8px;font-size:13px;font-weight:700;color:#cfe0ee}
-input,select{width:100%;padding:13px 14px;border:1px solid var(--border2);border-radius:10px;background:#0a141c;color:var(--text);font-size:15px;outline:none;transition:.2s;font-family:inherit;-webkit-appearance:none;-moz-appearance:none;appearance:none}
-select{background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238fa3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:14px;padding-right:40px;cursor:pointer}
-select option{background:#0a141c;color:#f0f5fa}
-input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.12);background:#0b1720}
+input{width:100%;padding:13px 14px;border:1px solid var(--border2);border-radius:10px;background:#0a141c;color:var(--text);font-size:15px;outline:none;transition:.2s;font-family:inherit;-webkit-appearance:none;-moz-appearance:none;appearance:none}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.12);background:#0b1720}
 .primary{width:100%;border:0;border-radius:10px;margin-top:22px;padding:14px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;font-weight:850;font-size:15px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
 .primary::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%)}
 .primary:hover::before{animation:shine .8s}
@@ -55,6 +53,44 @@ a{color:var(--blue);text-decoration:none}
 a:hover{text-decoration:underline}
 .small{color:var(--muted2);font-size:12px;line-height:1.6;margin-top:18px}
 [hidden]{display:none!important}
+
+/* ====== COUNTRY PICKER ====== */
+.country-picker{position:relative}
+.country-picker input[type="text"]{
+  width:100%;padding:13px 40px 13px 14px;
+  border:1px solid var(--border2);border-radius:10px;
+  background:#0a141c;color:var(--text);font-size:15px;
+  outline:none;transition:.2s;font-family:inherit;cursor:pointer;
+}
+.country-picker input[type="text"]:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(74,158,255,.12);
+  background:#0b1720;
+}
+.country-picker::after{
+  content:"▾";position:absolute;right:14px;top:50%;
+  transform:translateY(-50%);color:var(--muted2);
+  font-size:12px;pointer-events:none;transition:transform .2s;
+}
+.country-picker.open::after{transform:translateY(-50%) rotate(180deg)}
+.country-picker.open input[type="text"]{cursor:text}
+.country-results{
+  display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;
+  max-height:260px;overflow-y:auto;
+  background:#0d1419;border:1px solid var(--border2);border-radius:10px;
+  z-index:50;box-shadow:0 14px 40px rgba(0,0,0,.6);
+}
+.country-picker.open .country-results{display:block}
+.country-result{
+  padding:10px 14px;font-size:13.5px;cursor:pointer;
+  border-bottom:1px solid var(--border);transition:.15s;
+}
+.country-result:last-child{border-bottom:0}
+.country-result:hover,
+.country-result.highlight{background:var(--blue-deep);color:#cfe6ff}
+.country-result.selected{background:rgba(74,158,255,.14);color:#8fc7ff;font-weight:700}
+.country-no-match{padding:14px;text-align:center;color:var(--muted);font-size:13px}
+
 @media(max-width:420px){.card{padding:22px}h1{font-size:23px}.brand{font-size:24px}}
 </style>
 </head>
@@ -80,205 +116,12 @@ a:hover{text-decoration:underline}
         </div>
 
         <div id="countryField" hidden>
-          <label for="country">Country</label>
-          <select id="country" autocomplete="country-name">
-            <option value="">Select your country</option>
-            <option value="AF">Afghanistan</option>
-            <option value="AL">Albania</option>
-            <option value="DZ">Algeria</option>
-            <option value="AD">Andorra</option>
-            <option value="AO">Angola</option>
-            <option value="AR">Argentina</option>
-            <option value="AM">Armenia</option>
-            <option value="AU">Australia</option>
-            <option value="AT">Austria</option>
-            <option value="AZ">Azerbaijan</option>
-            <option value="BH">Bahrain</option>
-            <option value="BD">Bangladesh</option>
-            <option value="BY">Belarus</option>
-            <option value="BE">Belgium</option>
-            <option value="BZ">Belize</option>
-            <option value="BJ">Benin</option>
-            <option value="BT">Bhutan</option>
-            <option value="BO">Bolivia</option>
-            <option value="BA">Bosnia and Herzegovina</option>
-            <option value="BW">Botswana</option>
-            <option value="BR">Brazil</option>
-            <option value="BN">Brunei</option>
-            <option value="BG">Bulgaria</option>
-            <option value="BF">Burkina Faso</option>
-            <option value="BI">Burundi</option>
-            <option value="KH">Cambodia</option>
-            <option value="CM">Cameroon</option>
-            <option value="CA">Canada</option>
-            <option value="CV">Cape Verde</option>
-            <option value="CF">Central African Republic</option>
-            <option value="TD">Chad</option>
-            <option value="CL">Chile</option>
-            <option value="CN">China</option>
-            <option value="CO">Colombia</option>
-            <option value="KM">Comoros</option>
-            <option value="CG">Congo</option>
-            <option value="CD">Congo (DRC)</option>
-            <option value="CR">Costa Rica</option>
-            <option value="CI">Côte d'Ivoire</option>
-            <option value="HR">Croatia</option>
-            <option value="CU">Cuba</option>
-            <option value="CY">Cyprus</option>
-            <option value="CZ">Czechia</option>
-            <option value="DK">Denmark</option>
-            <option value="DJ">Djibouti</option>
-            <option value="DM">Dominica</option>
-            <option value="DO">Dominican Republic</option>
-            <option value="EC">Ecuador</option>
-            <option value="EG">Egypt</option>
-            <option value="SV">El Salvador</option>
-            <option value="GQ">Equatorial Guinea</option>
-            <option value="ER">Eritrea</option>
-            <option value="EE">Estonia</option>
-            <option value="SZ">Eswatini</option>
-            <option value="ET">Ethiopia</option>
-            <option value="FJ">Fiji</option>
-            <option value="FI">Finland</option>
-            <option value="FR">France</option>
-            <option value="GA">Gabon</option>
-            <option value="GM">Gambia</option>
-            <option value="GE">Georgia</option>
-            <option value="DE">Germany</option>
-            <option value="GH">Ghana</option>
-            <option value="GR">Greece</option>
-            <option value="GD">Grenada</option>
-            <option value="GT">Guatemala</option>
-            <option value="GN">Guinea</option>
-            <option value="GW">Guinea-Bissau</option>
-            <option value="GY">Guyana</option>
-            <option value="HT">Haiti</option>
-            <option value="HN">Honduras</option>
-            <option value="HK">Hong Kong</option>
-            <option value="HU">Hungary</option>
-            <option value="IS">Iceland</option>
-            <option value="IN">India</option>
-            <option value="ID">Indonesia</option>
-            <option value="IR">Iran</option>
-            <option value="IQ">Iraq</option>
-            <option value="IE">Ireland</option>
-            <option value="IL">Israel</option>
-            <option value="IT">Italy</option>
-            <option value="JM">Jamaica</option>
-            <option value="JP">Japan</option>
-            <option value="JO">Jordan</option>
-            <option value="KZ">Kazakhstan</option>
-            <option value="KE">Kenya</option>
-            <option value="KI">Kiribati</option>
-            <option value="KW">Kuwait</option>
-            <option value="KG">Kyrgyzstan</option>
-            <option value="LA">Laos</option>
-            <option value="LV">Latvia</option>
-            <option value="LB">Lebanon</option>
-            <option value="LS">Lesotho</option>
-            <option value="LR">Liberia</option>
-            <option value="LY">Libya</option>
-            <option value="LI">Liechtenstein</option>
-            <option value="LT">Lithuania</option>
-            <option value="LU">Luxembourg</option>
-            <option value="MO">Macau</option>
-            <option value="MG">Madagascar</option>
-            <option value="MW">Malawi</option>
-            <option value="MY">Malaysia</option>
-            <option value="MV">Maldives</option>
-            <option value="ML">Mali</option>
-            <option value="MT">Malta</option>
-            <option value="MH">Marshall Islands</option>
-            <option value="MR">Mauritania</option>
-            <option value="MU">Mauritius</option>
-            <option value="MX">Mexico</option>
-            <option value="FM">Micronesia</option>
-            <option value="MD">Moldova</option>
-            <option value="MC">Monaco</option>
-            <option value="MN">Mongolia</option>
-            <option value="ME">Montenegro</option>
-            <option value="MA">Morocco</option>
-            <option value="MZ">Mozambique</option>
-            <option value="MM">Myanmar</option>
-            <option value="NA">Namibia</option>
-            <option value="NR">Nauru</option>
-            <option value="NP">Nepal</option>
-            <option value="NL">Netherlands</option>
-            <option value="NZ">New Zealand</option>
-            <option value="NI">Nicaragua</option>
-            <option value="NE">Niger</option>
-            <option value="NG">Nigeria</option>
-            <option value="KP">North Korea</option>
-            <option value="MK">North Macedonia</option>
-            <option value="NO">Norway</option>
-            <option value="OM">Oman</option>
-            <option value="PK">Pakistan</option>
-            <option value="PW">Palau</option>
-            <option value="PS">Palestine</option>
-            <option value="PA">Panama</option>
-            <option value="PG">Papua New Guinea</option>
-            <option value="PY">Paraguay</option>
-            <option value="PE">Peru</option>
-            <option value="PH">Philippines</option>
-            <option value="PL">Poland</option>
-            <option value="PT">Portugal</option>
-            <option value="QA">Qatar</option>
-            <option value="RO">Romania</option>
-            <option value="RU">Russia</option>
-            <option value="RW">Rwanda</option>
-            <option value="KN">Saint Kitts and Nevis</option>
-            <option value="LC">Saint Lucia</option>
-            <option value="VC">Saint Vincent and the Grenadines</option>
-            <option value="WS">Samoa</option>
-            <option value="SM">San Marino</option>
-            <option value="ST">São Tomé and Príncipe</option>
-            <option value="SA">Saudi Arabia</option>
-            <option value="SN">Senegal</option>
-            <option value="RS">Serbia</option>
-            <option value="SC">Seychelles</option>
-            <option value="SL">Sierra Leone</option>
-            <option value="SG">Singapore</option>
-            <option value="SK">Slovakia</option>
-            <option value="SI">Slovenia</option>
-            <option value="SB">Solomon Islands</option>
-            <option value="SO">Somalia</option>
-            <option value="ZA">South Africa</option>
-            <option value="KR">South Korea</option>
-            <option value="SS">South Sudan</option>
-            <option value="ES">Spain</option>
-            <option value="LK">Sri Lanka</option>
-            <option value="SD">Sudan</option>
-            <option value="SR">Suriname</option>
-            <option value="SE">Sweden</option>
-            <option value="CH">Switzerland</option>
-            <option value="SY">Syria</option>
-            <option value="TW">Taiwan</option>
-            <option value="TJ">Tajikistan</option>
-            <option value="TZ">Tanzania</option>
-            <option value="TH">Thailand</option>
-            <option value="TL">Timor-Leste</option>
-            <option value="TG">Togo</option>
-            <option value="TO">Tonga</option>
-            <option value="TT">Trinidad and Tobago</option>
-            <option value="TN">Tunisia</option>
-            <option value="TR">Turkey</option>
-            <option value="TM">Turkmenistan</option>
-            <option value="TV">Tuvalu</option>
-            <option value="UG">Uganda</option>
-            <option value="UA">Ukraine</option>
-            <option value="AE">United Arab Emirates</option>
-            <option value="GB">United Kingdom</option>
-            <option value="US">United States</option>
-            <option value="UY">Uruguay</option>
-            <option value="UZ">Uzbekistan</option>
-            <option value="VU">Vanuatu</option>
-            <option value="VA">Vatican City</option>
-            <option value="VE">Venezuela</option>
-            <option value="VN">Vietnam</option>
-            <option value="YE">Yemen</option>
-            <option value="ZM">Zambia</option>
-            <option value="ZW">Zimbabwe</option>
-          </select>
+          <label for="countrySearch">Country</label>
+          <div class="country-picker">
+            <input id="countrySearch" type="text" placeholder="Search countries…" autocomplete="off" readonly>
+            <input id="country" type="hidden">
+            <div class="country-results" id="countryResults"></div>
+          </div>
         </div>
 
         <label for="email">Email address</label>
@@ -294,10 +137,7 @@ a:hover{text-decoration:underline}
 
       <div id="message" class="message" role="status" aria-live="polite"></div>
 
-      <p class="small">
-        By creating an account, you agree to use FundedEdge responsibly.
-        Never share your password with anyone.
-      </p>
+      <p class="small">By creating an account, you agree to use FundedEdge responsibly. Never share your password with anyone.</p>
     </div>
 
     <div id="accountPanel" hidden>
@@ -324,7 +164,6 @@ import { db } from "./supabase.js";
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
-
 let mode = "login";
 let busy = false;
 
@@ -340,7 +179,6 @@ function getNextUrl() {
   }
   return "dashboard.html";
 }
-
 function showMessage(message, type = "success") {
   const el = $("message");
   el.textContent = message;
@@ -350,38 +188,30 @@ function clearMessage() {
   $("message").className = "message";
   $("message").textContent = "";
 }
-
 function setMode(nextMode) {
   mode = nextMode;
   const signup = mode === "signup";
-
   $("loginTab").classList.toggle("active", !signup);
   $("signupTab").classList.toggle("active", signup);
-
   $("heading").textContent = signup ? "Create your account" : "Welcome back";
-  $("subtitle").textContent = signup
-    ? "Join FundedEdge to save favorites and share reviews."
-    : "Log in to access your FundedEdge account.";
-
+  $("subtitle").textContent = signup ? "Join FundedEdge to save favorites and share reviews." : "Log in to access your FundedEdge account.";
   $("nameField").hidden = !signup;
   $("countryField").hidden = !signup;
   $("fullName").required = signup;
-  $("country").required = signup;
-
   $("password").autocomplete = signup ? "new-password" : "current-password";
   $("submitButton").textContent = signup ? "Create account" : "Log in";
   $("forgotButton").hidden = signup;
   clearMessage();
+  if (signup) resetCountryPicker();
 }
-
 function showAccount(user) {
   $("authPanel").hidden = true;
   $("accountPanel").hidden = false;
   $("accountEmail").textContent = user.email || "Signed in";
   const country = user.user_metadata?.country;
   if (country) {
-    const opt = document.querySelector(`#country option[value="${country}"]`);
-    $("accountCountry").textContent = "Country: " + (opt ? opt.textContent : country);
+    const found = COUNTRIES.find(c => c.code === country);
+    $("accountCountry").textContent = "Country: " + (found ? found.name : country);
   } else {
     $("accountCountry").textContent = "";
   }
@@ -390,7 +220,6 @@ function showAuth() {
   $("authPanel").hidden = false;
   $("accountPanel").hidden = true;
 }
-
 function friendlyError(error) {
   const msg = error?.message || "Something went wrong. Please try again.";
   if (/invalid login credentials/i.test(msg)) return "Email or password is incorrect. If you just registered, confirm your email first.";
@@ -400,6 +229,308 @@ function friendlyError(error) {
   return msg;
 }
 
+/* ============ COUNTRY LIST ============ */
+const COUNTRIES = [
+  { code: "AF", name: "Afghanistan" },
+  { code: "AL", name: "Albania" },
+  { code: "DZ", name: "Algeria" },
+  { code: "AD", name: "Andorra" },
+  { code: "AO", name: "Angola" },
+  { code: "AR", name: "Argentina" },
+  { code: "AM", name: "Armenia" },
+  { code: "AU", name: "Australia" },
+  { code: "AT", name: "Austria" },
+  { code: "AZ", name: "Azerbaijan" },
+  { code: "BH", name: "Bahrain" },
+  { code: "BD", name: "Bangladesh" },
+  { code: "BY", name: "Belarus" },
+  { code: "BE", name: "Belgium" },
+  { code: "BZ", name: "Belize" },
+  { code: "BJ", name: "Benin" },
+  { code: "BT", name: "Bhutan" },
+  { code: "BO", name: "Bolivia" },
+  { code: "BA", name: "Bosnia and Herzegovina" },
+  { code: "BW", name: "Botswana" },
+  { code: "BR", name: "Brazil" },
+  { code: "BN", name: "Brunei" },
+  { code: "BG", name: "Bulgaria" },
+  { code: "BF", name: "Burkina Faso" },
+  { code: "BI", name: "Burundi" },
+  { code: "KH", name: "Cambodia" },
+  { code: "CM", name: "Cameroon" },
+  { code: "CA", name: "Canada" },
+  { code: "CV", name: "Cape Verde" },
+  { code: "CF", name: "Central African Republic" },
+  { code: "TD", name: "Chad" },
+  { code: "CL", name: "Chile" },
+  { code: "CN", name: "China" },
+  { code: "CO", name: "Colombia" },
+  { code: "KM", name: "Comoros" },
+  { code: "CG", name: "Congo" },
+  { code: "CD", name: "Congo (DRC)" },
+  { code: "CR", name: "Costa Rica" },
+  { code: "CI", name: "Côte d'Ivoire" },
+  { code: "HR", name: "Croatia" },
+  { code: "CU", name: "Cuba" },
+  { code: "CY", name: "Cyprus" },
+  { code: "CZ", name: "Czechia" },
+  { code: "DK", name: "Denmark" },
+  { code: "DJ", name: "Djibouti" },
+  { code: "DM", name: "Dominica" },
+  { code: "DO", name: "Dominican Republic" },
+  { code: "EC", name: "Ecuador" },
+  { code: "EG", name: "Egypt" },
+  { code: "SV", name: "El Salvador" },
+  { code: "GQ", name: "Equatorial Guinea" },
+  { code: "ER", name: "Eritrea" },
+  { code: "EE", name: "Estonia" },
+  { code: "SZ", name: "Eswatini" },
+  { code: "ET", name: "Ethiopia" },
+  { code: "FJ", name: "Fiji" },
+  { code: "FI", name: "Finland" },
+  { code: "FR", name: "France" },
+  { code: "GA", name: "Gabon" },
+  { code: "GM", name: "Gambia" },
+  { code: "GE", name: "Georgia" },
+  { code: "DE", name: "Germany" },
+  { code: "GH", name: "Ghana" },
+  { code: "GR", name: "Greece" },
+  { code: "GD", name: "Grenada" },
+  { code: "GT", name: "Guatemala" },
+  { code: "GN", name: "Guinea" },
+  { code: "GW", name: "Guinea-Bissau" },
+  { code: "GY", name: "Guyana" },
+  { code: "HT", name: "Haiti" },
+  { code: "HN", name: "Honduras" },
+  { code: "HK", name: "Hong Kong" },
+  { code: "HU", name: "Hungary" },
+  { code: "IS", name: "Iceland" },
+  { code: "IN", name: "India" },
+  { code: "ID", name: "Indonesia" },
+  { code: "IR", name: "Iran" },
+  { code: "IQ", name: "Iraq" },
+  { code: "IE", name: "Ireland" },
+  { code: "IL", name: "Israel" },
+  { code: "IT", name: "Italy" },
+  { code: "JM", name: "Jamaica" },
+  { code: "JP", name: "Japan" },
+  { code: "JO", name: "Jordan" },
+  { code: "KZ", name: "Kazakhstan" },
+  { code: "KE", name: "Kenya" },
+  { code: "KI", name: "Kiribati" },
+  { code: "KW", name: "Kuwait" },
+  { code: "KG", name: "Kyrgyzstan" },
+  { code: "LA", name: "Laos" },
+  { code: "LV", name: "Latvia" },
+  { code: "LB", name: "Lebanon" },
+  { code: "LS", name: "Lesotho" },
+  { code: "LR", name: "Liberia" },
+  { code: "LY", name: "Libya" },
+  { code: "LI", name: "Liechtenstein" },
+  { code: "LT", name: "Lithuania" },
+  { code: "LU", name: "Luxembourg" },
+  { code: "MO", name: "Macau" },
+  { code: "MG", name: "Madagascar" },
+  { code: "MW", name: "Malawi" },
+  { code: "MY", name: "Malaysia" },
+  { code: "MV", name: "Maldives" },
+  { code: "ML", name: "Mali" },
+  { code: "MT", name: "Malta" },
+  { code: "MH", name: "Marshall Islands" },
+  { code: "MR", name: "Mauritania" },
+  { code: "MU", name: "Mauritius" },
+  { code: "MX", name: "Mexico" },
+  { code: "FM", name: "Micronesia" },
+  { code: "MD", name: "Moldova" },
+  { code: "MC", name: "Monaco" },
+  { code: "MN", name: "Mongolia" },
+  { code: "ME", name: "Montenegro" },
+  { code: "MA", name: "Morocco" },
+  { code: "MZ", name: "Mozambique" },
+  { code: "MM", name: "Myanmar" },
+  { code: "NA", name: "Namibia" },
+  { code: "NR", name: "Nauru" },
+  { code: "NP", name: "Nepal" },
+  { code: "NL", name: "Netherlands" },
+  { code: "NZ", name: "New Zealand" },
+  { code: "NI", name: "Nicaragua" },
+  { code: "NE", name: "Niger" },
+  { code: "NG", name: "Nigeria" },
+  { code: "KP", name: "North Korea" },
+  { code: "MK", name: "North Macedonia" },
+  { code: "NO", name: "Norway" },
+  { code: "OM", name: "Oman" },
+  { code: "PK", name: "Pakistan" },
+  { code: "PW", name: "Palau" },
+  { code: "PS", name: "Palestine" },
+  { code: "PA", name: "Panama" },
+  { code: "PG", name: "Papua New Guinea" },
+  { code: "PY", name: "Paraguay" },
+  { code: "PE", name: "Peru" },
+  { code: "PH", name: "Philippines" },
+  { code: "PL", name: "Poland" },
+  { code: "PT", name: "Portugal" },
+  { code: "QA", name: "Qatar" },
+  { code: "RO", name: "Romania" },
+  { code: "RU", name: "Russia" },
+  { code: "RW", name: "Rwanda" },
+  { code: "KN", name: "Saint Kitts and Nevis" },
+  { code: "LC", name: "Saint Lucia" },
+  { code: "VC", name: "Saint Vincent and the Grenadines" },
+  { code: "WS", name: "Samoa" },
+  { code: "SM", name: "San Marino" },
+  { code: "ST", name: "São Tomé and Príncipe" },
+  { code: "SA", name: "Saudi Arabia" },
+  { code: "SN", name: "Senegal" },
+  { code: "RS", name: "Serbia" },
+  { code: "SC", name: "Seychelles" },
+  { code: "SL", name: "Sierra Leone" },
+  { code: "SG", name: "Singapore" },
+  { code: "SK", name: "Slovakia" },
+  { code: "SI", name: "Slovenia" },
+  { code: "SB", name: "Solomon Islands" },
+  { code: "SO", name: "Somalia" },
+  { code: "ZA", name: "South Africa" },
+  { code: "KR", name: "South Korea" },
+  { code: "SS", name: "South Sudan" },
+  { code: "ES", name: "Spain" },
+  { code: "LK", name: "Sri Lanka" },
+  { code: "SD", name: "Sudan" },
+  { code: "SR", name: "Suriname" },
+  { code: "SE", name: "Sweden" },
+  { code: "CH", name: "Switzerland" },
+  { code: "SY", name: "Syria" },
+  { code: "TW", name: "Taiwan" },
+  { code: "TJ", name: "Tajikistan" },
+  { code: "TZ", name: "Tanzania" },
+  { code: "TH", name: "Thailand" },
+  { code: "TL", name: "Timor-Leste" },
+  { code: "TG", name: "Togo" },
+  { code: "TO", name: "Tonga" },
+  { code: "TT", name: "Trinidad and Tobago" },
+  { code: "TN", name: "Tunisia" },
+  { code: "TR", name: "Turkey" },
+  { code: "TM", name: "Turkmenistan" },
+  { code: "TV", name: "Tuvalu" },
+  { code: "UG", name: "Uganda" },
+  { code: "UA", name: "Ukraine" },
+  { code: "AE", name: "United Arab Emirates" },
+  { code: "GB", name: "United Kingdom" },
+  { code: "US", name: "United States" },
+  { code: "UY", name: "Uruguay" },
+  { code: "UZ", name: "Uzbekistan" },
+  { code: "VU", name: "Vanuatu" },
+  { code: "VA", name: "Vatican City" },
+  { code: "VE", name: "Venezuela" },
+  { code: "VN", name: "Vietnam" },
+  { code: "YE", name: "Yemen" },
+  { code: "ZM", name: "Zambia" },
+  { code: "ZW", name: "Zimbabwe" }
+];
+
+/* ============ COUNTRY PICKER LOGIC ============ */
+const countryPicker = document.querySelector(".country-picker");
+const countrySearch = $("countrySearch");
+const countryResults = $("countryResults");
+const countryHidden = $("country");
+let countryHighlight = -1;
+let filteredCountries = COUNTRIES;
+
+function resetCountryPicker() {
+  countrySearch.value = "";
+  countryHidden.value = "";
+  countrySearch.readOnly = true;
+  countryPicker.classList.remove("open");
+  countryResults.innerHTML = "";
+  countryHighlight = -1;
+  filteredCountries = COUNTRIES;
+}
+
+function renderCountryResults(list) {
+  filteredCountries = list;
+  if (!list.length) {
+    countryResults.innerHTML = `<div class="country-no-match">No countries found</div>`;
+    return;
+  }
+  countryResults.innerHTML = list.map((c, i) =>
+    `<div class="country-result${i === countryHighlight ? " highlight" : ""}${c.code === countryHidden.value ? " selected" : ""}" data-code="${c.code}">${c.name}</div>`
+  ).join("");
+}
+
+function openCountryPicker() {
+  countrySearch.readOnly = false;
+  countryPicker.classList.add("open");
+  const q = countrySearch.value.toLowerCase().trim();
+  const list = q ? COUNTRIES.filter(c => c.name.toLowerCase().includes(q)) : COUNTRIES;
+  countryHighlight = -1;
+  renderCountryResults(list);
+  if (list.length && !q) {
+    const sel = countryResults.querySelector(".selected");
+    if (sel) sel.scrollIntoView({ block: "nearest" });
+  }
+}
+
+function closeCountryPicker() {
+  countrySearch.readOnly = true;
+  countryPicker.classList.remove("open");
+  countryHighlight = -1;
+}
+
+function selectCountry(country) {
+  countryHidden.value = country.code;
+  countrySearch.value = country.name;
+  closeCountryPicker();
+  countrySearch.blur();
+}
+
+countrySearch.addEventListener("focus", openCountryPicker);
+countrySearch.addEventListener("click", openCountryPicker);
+
+countrySearch.addEventListener("input", () => {
+  const q = countrySearch.value.toLowerCase().trim();
+  const list = q ? COUNTRIES.filter(c => c.name.toLowerCase().includes(q)) : COUNTRIES;
+  countryHighlight = -1;
+  renderCountryResults(list);
+});
+
+countrySearch.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    countryHighlight = Math.min(countryHighlight + 1, filteredCountries.length - 1);
+    renderCountryResults(filteredCountries);
+    countryResults.querySelector(".highlight")?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    countryHighlight = Math.max(countryHighlight - 1, 0);
+    renderCountryResults(filteredCountries);
+    countryResults.querySelector(".highlight")?.scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    if (countryHighlight >= 0 && filteredCountries[countryHighlight]) {
+      selectCountry(filteredCountries[countryHighlight]);
+    } else if (filteredCountries.length === 1) {
+      selectCountry(filteredCountries[0]);
+    }
+  } else if (e.key === "Escape") {
+    closeCountryPicker();
+    countrySearch.blur();
+  }
+});
+
+countryResults.addEventListener("click", (e) => {
+  const row = e.target.closest(".country-result");
+  if (!row) return;
+  const country = COUNTRIES.find(c => c.code === row.dataset.code);
+  if (country) selectCountry(country);
+});
+
+document.addEventListener("click", (e) => {
+  if (!countryPicker.contains(e.target)) closeCountryPicker();
+});
+
+resetCountryPicker();
+
+/* ============ AUTH FLOW ============ */
 $("loginTab").addEventListener("click", () => setMode("login"));
 $("signupTab").addEventListener("click", () => setMode("signup"));
 
@@ -410,20 +541,11 @@ $("authForm").addEventListener("submit", async (event) => {
   const email = $("email").value.trim();
   const password = $("password").value;
   const fullName = $("fullName").value.trim();
-  const country = $("country").value;
+  const country = countryHidden.value;
 
-  if (password.length < 8) {
-    showMessage("Please use a password with at least 8 characters.", "error");
-    return;
-  }
-  if (mode === "signup" && !fullName) {
-    showMessage("Please enter your name.", "error");
-    return;
-  }
-  if (mode === "signup" && !country) {
-    showMessage("Please select your country.", "error");
-    return;
-  }
+  if (password.length < 8) { showMessage("Please use a password with at least 8 characters.", "error"); return; }
+  if (mode === "signup" && !fullName) { showMessage("Please enter your name.", "error"); return; }
+  if (mode === "signup" && !country) { showMessage("Please select your country.", "error"); return; }
 
   busy = true;
   $("submitButton").disabled = true;
@@ -440,9 +562,7 @@ $("authForm").addEventListener("submit", async (event) => {
           emailRedirectTo: location.origin + location.pathname
         }
       });
-
       if (error) throw error;
-
       if (data.session && data.user) {
         location.assign(getNextUrl());
       } else {
@@ -451,13 +571,11 @@ $("authForm").addEventListener("submit", async (event) => {
     } else {
       const { data, error } = await db.auth.signInWithPassword({ email, password });
       if (error) throw error;
-
       if (!data.user?.email_confirmed_at) {
         await db.auth.signOut();
         showMessage("Please verify your email before continuing.", "error");
         return;
       }
-
       location.assign(getNextUrl());
     }
   } catch (error) {
@@ -471,25 +589,15 @@ $("authForm").addEventListener("submit", async (event) => {
 
 $("forgotButton").addEventListener("click", async () => {
   const email = $("email").value.trim();
-  if (!email) {
-    showMessage("Enter your email address first.", "error");
-    $("email").focus();
-    return;
-  }
+  if (!email) { showMessage("Enter your email address first.", "error"); $("email").focus(); return; }
   try {
-    const { error } = await db.auth.resetPasswordForEmail(email, {
-      redirectTo: location.origin + location.pathname
-    });
+    const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
     if (error) throw error;
     showMessage("If an account exists for that email, a password-reset link will be sent.");
-  } catch (error) {
-    showMessage(friendlyError(error), "error");
-  }
+  } catch (error) { showMessage(friendlyError(error), "error"); }
 });
 
-$("continueButton").addEventListener("click", () => {
-  location.assign(getNextUrl());
-});
+$("continueButton").addEventListener("click", () => location.assign(getNextUrl()));
 
 $("logoutButton").addEventListener("click", async () => {
   const { error } = await db.auth.signOut();
@@ -498,8 +606,7 @@ $("logoutButton").addEventListener("click", async () => {
     $("accountMessage").className = "message show error";
     return;
   }
-  showAuth();
-  setMode("login");
+  showAuth(); setMode("login");
   showMessage("You have logged out successfully.");
 });
 
@@ -509,7 +616,6 @@ if (requestedMode === "signup" || requestedMode === "signin") {
 }
 
 const { data: { session } } = await db.auth.getSession();
-
 if (session?.user?.email_confirmed_at) {
   showAccount(session.user);
 } else {
@@ -520,11 +626,8 @@ if (session?.user?.email_confirmed_at) {
 }
 
 db.auth.onAuthStateChange((_event, session) => {
-  if (session?.user?.email_confirmed_at) {
-    showAccount(session.user);
-  } else {
-    showAuth();
-  }
+  if (session?.user?.email_confirmed_at) showAccount(session.user);
+  else showAuth();
 });
 </script>
 </body>
