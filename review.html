@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Write a Review | FundedEdge</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#07110e">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07110e;color:#edf7f0;font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55;min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(84,227,154,.08),transparent 60%);pointer-events:none;z-index:0}
+main,header{position:relative;z-index:1}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit;color:inherit}
+
+header{
+  padding:18px 6%;border-bottom:1px solid #20372c;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  background:rgba(7,17,14,.85);backdrop-filter:blur(14px);
+  position:sticky;top:0;z-index:10;
+}
+header .brand{color:#54e39a;font-size:23px;font-weight:800;letter-spacing:-.5px;transition:.3s}
+header .brand:hover{text-shadow:0 0 20px rgba(84,227,154,.5)}
+header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header nav a{color:#cfe3d6;font-size:14px;transition:color .2s}
+header nav a:hover{color:#54e39a}
+
+.fe-auth-area{display:flex;align-items:center;gap:10px}
+.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
+  text-decoration:none;transition:.2s;
+}
+.fe-auth-area .fe-auth-signin{background:transparent;color:#e0ece3;border:1px solid #2a4534}
+.fe-auth-area .fe-auth-signin:hover{border-color:#54e39a;color:#54e39a}
+.fe-auth-area .fe-auth-signup{background:#54e39a;color:#07110e;border:1px solid #54e39a}
+.fe-auth-area .fe-auth-signup:hover{background:#7ff0b6}
+.fe-auth-area .fe-user-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border:1px solid #2a4534;border-radius:10px;
+  color:#e0ece3;font-weight:600;font-size:13px;
+  background:rgba(84,227,154,.08);transition:.2s;
+}
+.fe-auth-area .fe-user-chip:hover{border-color:#54e39a;color:#54e39a}
+.fe-auth-area .fe-user-initial{
+  width:22px;height:22px;display:grid;place-items:center;
+  border-radius:50%;background:#54e39a;color:#07110e;
+  font-weight:800;font-size:11px;
+}
+
+main{max-width:720px;margin:36px auto;padding:20px}
+
+.back{
+  display:inline-flex;align-items:center;gap:6px;
+  color:#65e5a1;font-size:13px;margin-bottom:20px;transition:.2s;
+}
+.back:hover{gap:10px}
+
+.firm-header{
+  padding:26px;
+  background:linear-gradient(145deg,#101e17,#0a1510);
+  border:1px solid #294535;
+  border-radius:18px;
+  margin-bottom:22px;
+  animation:fadeUp .5s ease both;
+}
+.firm-header .eyebrow{
+  font-size:11px;font-weight:800;letter-spacing:1.6px;
+  color:#54e39a;text-transform:uppercase;margin-bottom:8px;
+}
+.firm-header h1{font-size:26px;margin:0 0 4px;letter-spacing:-.6px}
+.firm-header p{margin:0;color:#a6b9ad;font-size:13.5px}
+
+.review-card{
+  padding:28px;
+  background:linear-gradient(145deg,#0c1813,#0a1510);
+  border:1px solid #294535;
+  border-radius:18px;
+  animation:fadeUp .6s ease .1s both;
+}
+.review-card h2{margin:0 0 4px;font-size:20px;letter-spacing:-.4px}
+.review-card .sub{margin:0 0 22px;color:#8a9a90;font-size:13px;line-height:1.7}
+
+.field{display:grid;gap:8px;margin-bottom:18px}
+.field label{font-size:12.5px;font-weight:750;color:#dbe9e0}
+.field input,.field textarea{
+  width:100%;padding:14px 16px;
+  border:1px solid #2e4438;border-radius:12px;
+  background:#0a1410;color:#edf7f0;
+  font-size:14px;outline:none;transition:.2s;
+  font-family:inherit;
+}
+.field input:focus,.field textarea:focus{
+  border-color:#54e39a;
+  box-shadow:0 0 0 3px rgba(84,227,154,.12);
+  background:#0b1712;
+}
+.field textarea{min-height:150px;resize:vertical}
+
+.star-picker{display:inline-flex;gap:8px;margin:4px 0 6px}
+.star-picker button{
+  background:transparent;border:0;padding:0;
+  font-size:38px;line-height:1;color:#2b3a33;
+  cursor:pointer;transition:color .15s,transform .2s;
+}
+.star-picker button:hover,.star-picker button.on{
+  color:#f5d77b;
+  text-shadow:0 0 14px rgba(245,215,123,.5);
+}
+.star-picker button:hover{transform:scale(1.18) translateY(-2px)}
+.star-picker-label{display:block;font-size:13px;color:#8a9a90;font-weight:600;min-height:18px}
+
+.char-count{
+  text-align:right;font-size:11.5px;
+  color:#6e7d74;margin-top:-10px;
+}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:14px 24px;border-radius:11px;
+  background:#54e39a;color:#07110e;
+  font-weight:800;font-size:14px;
+  border:1px solid transparent;cursor:pointer;
+  transition:.2s;position:relative;overflow:hidden;
+  text-decoration:none;
+}
+.btn::before{
+  content:"";position:absolute;top:0;left:0;
+  width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  transform:translateX(-100%);transition:transform .6s;
+}
+.btn:hover::before{transform:translateX(250%)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(84,227,154,.28)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.btn.secondary{
+  background:transparent;color:#cfe3d6;
+  border:1px solid #2a4534;
+}
+.btn.secondary:hover{border-color:#54e39a;color:#54e39a;box-shadow:none}
+
+#message{
+  display:none;margin-top:18px;padding:14px 16px;
+  border-radius:11px;font-size:13.5px;line-height:1.5;
+}
+#message.show{display:block;animation:fadeUp .3s ease}
+#message.success{background:#153729;color:#8df0bd;border:1px solid #235c3b}
+#message.error{background:#3a2020;color:#ffb7bb;border:1px solid #5a2a2f}
+
+.auth-prompt{
+  padding:32px;text-align:center;
+  background:linear-gradient(145deg,#0c1813,#0a1510);
+  border:1px solid #294535;border-radius:18px;
+  animation:fadeUp .5s ease both;
+}
+.auth-prompt .icon{font-size:42px;margin-bottom:14px;opacity:.5}
+.auth-prompt strong{display:block;font-size:17px;margin-bottom:8px;color:#edf7f0}
+.auth-prompt p{color:#8a9a90;font-size:13.5px;margin:0 0 20px;line-height:1.7}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:600px){
+  header{padding:14px 5%}
+  main{padding:14px;margin-top:20px}
+  .review-card{padding:22px}
+  .firm-header{padding:20px}
+  .star-picker button{font-size:34px}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="/">FundedEdge</a>
+  <nav>
+    <a href="/directory.html">Prop Firms</a>
+    <a href="/compare.html">Compare</a>
+    <div id="feAuthArea" class="fe-auth-area">
+      <a class="fe-auth-signin" href="/auth.html?mode=signin">Sign In</a>
+      <a class="fe-auth-signup" href="/auth.html?mode=signup">Sign Up</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <a class="back" id="backLink" href="/directory.html">← Back</a>
+
+  <div class="firm-header" id="firmHeader" hidden>
+    <div class="eyebrow">Share your experience</div>
+    <h1 id="firmName">Loading…</h1>
+    <p>Your honest feedback helps other traders choose the right firm.</p>
+  </div>
+
+  <div class="auth-prompt" id="authPrompt" hidden>
+    <div class="icon">☆</div>
+    <strong>Sign in to write a review</strong>
+    <p>You need an account with a verified email to submit a review. It takes 20 seconds to create one.</p>
+    <a class="btn" id="signInBtn" href="/auth.html">Sign In / Create Account</a>
+  </div>
+
+  <form class="review-card" id="reviewForm" hidden>
+    <h2>Write your review</h2>
+    <p class="sub">Be honest and respectful. Your review is published after a quick admin check.</p>
+
+    <div class="field">
+      <label for="reviewerName">Your name</label>
+      <input id="reviewerName" type="text" maxlength="40" minlength="2" required placeholder="Enter your display name">
+    </div>
+
+    <div class="field">
+      <label>Your rating <span style="color:#54e39a">*</span></label>
+      <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Star rating">
+        <button type="button" data-star="1" aria-label="1 star">★</button>
+        <button type="button" data-star="2" aria-label="2 stars">★</button>
+        <button type="button" data-star="3" aria-label="3 stars">★</button>
+        <button type="button" data-star="4" aria-label="4 stars">★</button>
+        <button type="button" data-star="5" aria-label="5 stars">★</button>
+      </div>
+      <span class="star-picker-label" id="starPickerLabel">Tap a star to rate</span>
+    </div>
+
+    <div class="field">
+      <label for="reviewText">Your review</label>
+      <textarea id="reviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm? What stood out — the rules, payouts, platform, support?"></textarea>
+      <div class="char-count"><span id="charCount">0</span> / 1000</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="submitBtn" type="submit">Publish Review</button>
+      <a class="btn secondary" id="cancelBtn" href="/directory.html">Cancel</a>
+    </div>
+
+    <div id="message" role="status"></div>
+  </form>
+</main>
+
+<script type="module">
+import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
+
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const firmId = params.get("id");
+
+const firmHeader = $("firmHeader");
+const firmName = $("firmName");
+const authPrompt = $("authPrompt");
+const reviewForm = $("reviewForm");
+const backLink = $("backLink");
+const cancelBtn = $("cancelBtn");
+const signInBtn = $("signInBtn");
+const message = $("message");
+const submitBtn = $("submitBtn");
+const reviewerName = $("reviewerName");
+const reviewText = $("reviewText");
+const charCount = $("charCount");
+const starPicker = $("starPicker");
+const starPickerLabel = $("starPickerLabel");
+const authArea = $("feAuthArea");
+
+let currentUser = null;
+let selectedStars = 0;
+let firmData = null;
+
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function showMessage(text, type = "success") {
+  message.textContent = text;
+  message.className = "show " + type;
+}
+
+function authUrl(mode) {
+  const next = location.pathname + location.search;
+  const q = `?next=${encodeURIComponent(next)}`;
+  return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
+}
+
+function renderAuthArea() {
+  if (!authArea) return;
+  if (currentUser) {
+    const name = currentUser.user_metadata?.full_name || currentUser.email || "Account";
+    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
+    authArea.innerHTML = `<a class="fe-user-chip" href="/dashboard.html"><span class="fe-user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+  } else {
+    authArea.innerHTML = `<a class="fe-auth-signin" href="${authUrl("signin")}">Sign In</a><a class="fe-auth-signup" href="${authUrl("signup")}">Sign Up</a>`;
+  }
+}
+
+function setStars(n) {
+  selectedStars = n;
+  starPicker.querySelectorAll("button").forEach(b => {
+    b.classList.toggle("on", Number(b.dataset.star) <= n);
+  });
+  const labels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
+  starPickerLabel.textContent = n ? `${n} / 5 · ${labels[n]}` : "Tap a star to rate";
+}
+
+starPicker.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => setStars(Number(btn.dataset.star)));
+  btn.addEventListener("mouseenter", () => {
+    const n = Number(btn.dataset.star);
+    starPicker.querySelectorAll("button").forEach(b => {
+      b.classList.toggle("on", Number(b.dataset.star) <= n);
+    });
+  });
+});
+starPicker.addEventListener("mouseleave", () => setStars(selectedStars));
+
+reviewText.addEventListener("input", () => {
+  charCount.textContent = reviewText.value.length;
+});
+
+async function loadFirm() {
+  if (!firmId) {
+    firmName.textContent = "Firm not selected";
+    firmHeader.hidden = false;
+    return;
+  }
+
+  try {
+    const { data, error } = await db
+      .from("firms")
+      .select("id,name")
+      .eq("id", firmId)
+      .eq("status", "active")
+      .limit(1);
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      firmName.textContent = "Firm not found";
+      firmHeader.hidden = false;
+      return;
+    }
+
+    firmData = data[0];
+    firmName.textContent = firmData.name;
+    firmHeader.hidden = false;
+
+    const backUrl = `/firm.html?id=${encodeURIComponent(firmData.id)}`;
+    backLink.href = backUrl;
+    backLink.textContent = `← Back to ${firmData.name}`;
+    cancelBtn.href = backUrl;
+  } catch (err) {
+    console.error(err);
+    firmName.textContent = "Could not load firm";
+    firmHeader.hidden = false;
+  }
+}
+
+async function checkUser() {
+  try {
+    const { data: { user }, error } = await db.auth.getUser();
+    if (error) currentUser = null;
+    else if (user && user.email_confirmed_at) currentUser = user;
+    else currentUser = null;
+  } catch {
+    currentUser = null;
+  }
+
+  renderAuthArea();
+
+  if (currentUser) {
+    reviewForm.hidden = false;
+    authPrompt.hidden = true;
+    if (!reviewerName.value) {
+      reviewerName.value =
+        currentUser.user_metadata?.full_name ||
+        currentUser.email?.split("@")[0] ||
+        "";
+    }
+  } else {
+    reviewForm.hidden = true;
+    authPrompt.hidden = false;
+    signInBtn.href = authUrl("signin");
+  }
+}
+
+reviewForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!firmId) return;
+
+  submitBtn.disabled = true;
+  showMessage("Checking your account…", "success");
+
+  try {
+    const { data: { user }, error: userErr } = await db.auth.getUser();
+    if (userErr || !user || !user.email_confirmed_at) {
+      currentUser = null;
+      await checkUser();
+      throw new Error("Please sign in with a verified email.");
+    }
+    currentUser = user;
+
+    const name = reviewerName.value.trim();
+    const rating = selectedStars;
+    const text = reviewText.value.trim();
+
+    if (name.length < 2) throw new Error("Please enter your name (2+ characters).");
+    if (rating < 1 || rating > 5) throw new Error("Please select a star rating.");
+    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10–1000 characters.");
+
+    showMessage("Submitting your review…", "success");
+
+    const { error } = await db.from("firm_reviews").insert({
+      firm_id: firmId,
+      user_id: user.id,
+      reviewer_name: name,
+      rating,
+      review_text: text,
+      status: "pending"
+    });
+
+    if (error) throw error;
+
+    showMessage("Thank you! Your review is awaiting admin approval. Redirecting…", "success");
+
+    setTimeout(() => {
+      location.href = `/firm.html?id=${encodeURIComponent(firmId)}`;
+    }, 1800);
+  } catch (err) {
+    console.error(err);
+    showMessage(err.message || "Could not submit review.", "error");
+    submitBtn.disabled = false;
+  }
+});
+
+db.auth.onAuthStateChange(async (_e, session) => {
+  const user = session?.user;
+  currentUser = user?.email_confirmed_at ? user : null;
+  renderAuthArea();
+  await checkUser();
+});
+
+renderAuthArea();
+await loadFirm();
+await checkUser();
+</script>
+</body>
+</html>
