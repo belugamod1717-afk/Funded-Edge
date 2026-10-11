@@ -32,11 +32,7 @@ async function initMemberFeatures() {
   if (feMemberInitPromise) return feMemberInitPromise;
 
   feMemberInitPromise = (async () => {
-    const { createClient } = await import(
-      "https://esm.sh/@supabase/supabase-js@2"
-    );
-
-    feSupabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        // feSupabase is imported at the top of this file
 
     const { data, error } = await feSupabase.auth.getSession();
     if (error) throw error;
