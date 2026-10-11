@@ -15,232 +15,58 @@
 <meta property="og:description" content="Full details: rules, pricing, and trader reviews.">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-
 <style>
 *{box-sizing:border-box}
-
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(84,227,154,.4)}50%{box-shadow:0 0 0 12px rgba(84,227,154,0)}}
 @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes starPop{0%{transform:scale(1)}50%{transform:scale(1.35)}100%{transform:scale(1)}}
-@keyframes shimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
-@keyframes barFill{from{width:0 !important}to{width:var(--w)}}
-
-body{
-  margin:0;
-  background:#07110e;
-  color:#edf7f0;
-  font-family:Inter,system-ui,-apple-system,sans-serif;
-  line-height:1.55;
-  position:relative;
-  overflow-x:hidden;
-}
-body::before{
-  content:"";
-  position:fixed;
-  top:-200px;left:50%;transform:translateX(-50%);
-  width:900px;height:900px;
-  background:radial-gradient(circle,rgba(84,227,154,.08),transparent 60%);
-  pointer-events:none;
-  z-index:0;
-}
-body::after{
-  content:"";
-  position:fixed;
-  bottom:-300px;right:-200px;
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(84,227,154,.05),transparent 65%);
-  pointer-events:none;
-  z-index:0;
-}
+@keyframes barFill{from{width:0}}
+body{margin:0;background:#07110e;color:#edf7f0;font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(84,227,154,.08),transparent 60%);pointer-events:none;z-index:0}
+body::after{content:"";position:fixed;bottom:-300px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(84,227,154,.05),transparent 65%);pointer-events:none;z-index:0}
 main,header{position:relative;z-index:1}
-
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
-
-/* HEADER */
-header{
-  padding:18px 6%;
-  border-bottom:1px solid #20372c;
-  display:flex;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-  background:rgba(7,17,14,.75);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-header .brand{
-  color:#54e39a;
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:-.5px;
-  transition:.3s;
-  display:inline-flex;
-  align-items:center;
-  gap:2px;
-}
-header .brand:hover{
-  text-shadow:0 0 20px rgba(84,227,154,.6);
-}
+header{padding:18px 6%;border-bottom:1px solid #20372c;display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(7,17,14,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:sticky;top:0;z-index:10}
+header .brand{color:#54e39a;font-size:23px;font-weight:800;letter-spacing:-.5px;transition:.3s}
+header .brand:hover{text-shadow:0 0 20px rgba(84,227,154,.6)}
 header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 header nav a{color:#cfe3d6;font-size:14px;position:relative;transition:color .2s}
-header nav a::after{
-  content:"";
-  position:absolute;
-  bottom:-4px;left:0;
-  width:0;height:2px;
-  background:#54e39a;
-  transition:width .25s;
-  border-radius:2px;
-}
+header nav a::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#54e39a;transition:width .25s;border-radius:2px}
 header nav a:hover{color:#54e39a}
 header nav a:hover::after{width:100%}
-
-/* AUTH */
 .fe-auth-area{display:flex;align-items:center;gap:10px}
-.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
-  text-decoration:none;transition:.25s;position:relative;overflow:hidden;
-}
+.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:.25s}
 .fe-auth-area .fe-auth-signin{background:transparent;color:#e0ece3;border:1px solid #2a4534}
 .fe-auth-area .fe-auth-signin:hover{border-color:#54e39a;color:#54e39a;transform:translateY(-1px)}
 .fe-auth-area .fe-auth-signup{background:#54e39a;color:#07110e;border:1px solid #54e39a}
 .fe-auth-area .fe-auth-signup:hover{background:#7ff0b6;transform:translateY(-1px);box-shadow:0 8px 20px rgba(84,227,154,.3)}
-.fe-auth-area .fe-user-chip{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:9px 14px;border:1px solid #2a4534;border-radius:10px;
-  color:#e0ece3;font-weight:600;font-size:13px;
-  background:rgba(84,227,154,.08);transition:.25s;
-}
+.fe-auth-area .fe-user-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2a4534;border-radius:10px;color:#e0ece3;font-weight:600;font-size:13px;background:rgba(84,227,154,.08);transition:.25s}
 .fe-auth-area .fe-user-chip:hover{border-color:#54e39a;color:#54e39a;transform:translateY(-1px)}
 .fe-auth-area .fe-user-initial{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#54e39a;color:#07110e;font-weight:800;font-size:11px}
-
-/* MAIN */
 main{max-width:960px;margin:32px auto;padding:20px}
-.back{
-  color:#65e5a1;font-size:13px;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:.2s;
-}
+.back{color:#65e5a1;font-size:13px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
 .back:hover{gap:10px}
-
-/* CARDS with gradient border + glow */
-.card,.reviews-card{
-  position:relative;
-  background:linear-gradient(145deg,#101e17,#0a1510);
-  border:1px solid #294535;
-  border-radius:20px;
-  padding:28px;
-  margin-top:22px;
-  animation:fadeUp .6s ease both;
-  transition:border-color .3s;
-}
-.card::before{
-  content:"";
-  position:absolute;inset:0;
-  border-radius:20px;
-  padding:1px;
-  background:linear-gradient(135deg,rgba(84,227,154,.4),transparent 40%,transparent 60%,rgba(84,227,154,.25));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .4s;
-}
-.card:hover::before,.reviews-card:hover::before{opacity:1}
-
-h1{
-  font-size:34px;
-  margin:12px 0;
-  letter-spacing:-.8px;
-  background:linear-gradient(180deg,#fff 0%,#c9ded2 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
+.card,.reviews-card,.rules-card{position:relative;background:linear-gradient(145deg,#101e17,#0a1510);border:1px solid #294535;border-radius:20px;padding:28px;margin-top:22px;animation:fadeUp .6s ease both;transition:border-color .3s}
+.card::before,.reviews-card::before,.rules-card::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(84,227,154,.4),transparent 40%,transparent 60%,rgba(84,227,154,.25));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}
+.card:hover::before,.reviews-card:hover::before,.rules-card:hover::before{opacity:1}
+h1{font-size:34px;margin:12px 0;letter-spacing:-.8px;background:linear-gradient(180deg,#fff 0%,#c9ded2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 h2{font-size:22px;margin:0}
 .muted{color:#a6b9ad;line-height:1.65}
-.tag{
-  display:inline-block;
-  background:linear-gradient(135deg,#1d4a32,#193d2b);
-  color:#8ff0b5;
-  padding:7px 14px;
-  border-radius:20px;
-  margin:8px 0;
-  font-size:11.5px;
-  font-weight:800;
-  letter-spacing:.8px;
-  text-transform:uppercase;
-  border:1px solid #235c3b;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
-  margin-top:26px;
-}
-.item{
-  background:linear-gradient(145deg,#0d1a14,#081410);
-  padding:16px;
-  border-radius:14px;
-  border:1px solid #1f3227;
-  transition:.3s cubic-bezier(.4,0,.2,1);
-  position:relative;
-  overflow:hidden;
-}
-.item::before{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(84,227,154,.08),transparent 50%);
-  opacity:0;
-  transition:opacity .3s;
-  pointer-events:none;
-}
-.item:hover{
-  transform:translateY(-4px);
-  border-color:rgba(84,227,154,.5);
-  box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 0 1px rgba(84,227,154,.1);
-}
+.tag{display:inline-block;background:linear-gradient(135deg,#1d4a32,#193d2b);color:#8ff0b5;padding:7px 14px;border-radius:20px;margin:8px 0;font-size:11.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;border:1px solid #235c3b;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:26px}
+.item{background:linear-gradient(145deg,#0d1a14,#081410);padding:16px;border-radius:14px;border:1px solid #1f3227;transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.item::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(84,227,154,.08),transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
+.item:hover{transform:translateY(-4px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 0 1px rgba(84,227,154,.1)}
 .item:hover::before{opacity:1}
-.label{
-  color:#9cb1a3;
-  font-size:11.5px;
-  margin-bottom:8px;
-  font-weight:700;
-  letter-spacing:.6px;
-  text-transform:uppercase;
-}
+.label{color:#9cb1a3;font-size:11.5px;margin-bottom:8px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
 .value{font-size:17px;font-weight:800;overflow-wrap:anywhere}
-
 .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;align-items:center}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:13px 22px;border-radius:11px;font-weight:800;
-  background:#54e39a;color:#07110e;
-  border:1px solid transparent;cursor:pointer;font-size:14px;
-  transition:.25s cubic-bezier(.4,0,.2,1);
-  position:relative;
-  overflow:hidden;
-}
-.btn::before{
-  content:"";
-  position:absolute;
-  top:0;left:0;
-  width:40%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-  transform:translateX(-100%);
-  transition:transform .6s;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:11px;font-weight:800;background:#54e39a;color:#07110e;border:1px solid transparent;cursor:pointer;font-size:14px;transition:.25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;text-decoration:none}
+.btn::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);transition:transform .6s}
 .btn:hover::before{transform:translateX(250%)}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(84,227,154,.28)}
 .btn:active{transform:translateY(0)}
@@ -252,187 +78,72 @@ h2{font-size:22px;margin:0}
 a{overflow-wrap:anywhere}
 [hidden]{display:none!important}
 
+/* RULES CARD */
+.rules-card{animation-delay:.08s;padding:28px}
+.rules-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;color:#54e39a;text-transform:uppercase;margin-bottom:8px}
+.rules-head h2{font-size:22px;margin:0 0 6px;letter-spacing:-.4px}
+.rules-head p{margin:0 0 22px;color:#9cb1a3;font-size:13.5px}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.rule-item{padding:16px;background:linear-gradient(145deg,#0d1a14,#081410);border:1px solid #1f3227;border-radius:12px;transition:.3s cubic-bezier(.4,0,.2,1)}
+.rule-item:hover{transform:translateY(-3px);border-color:rgba(84,227,154,.5);box-shadow:0 12px 28px rgba(0,0,0,.3)}
+.rule-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:#9cb1a3;text-transform:uppercase;margin-bottom:6px}
+.rule-value{font-size:15px;font-weight:800;color:#eaf5ed;overflow-wrap:anywhere}
+.rules-note{margin-top:20px;padding-top:16px;border-top:1px solid #1f3227;font-size:12px;color:#7a8a80}
+
 /* REVIEWS */
 .reviews-card{padding:0;overflow:hidden;animation-delay:.15s}
-.reviews-header{
-  padding:30px 32px 24px;
-  border-bottom:1px solid #22372c;
-  background:linear-gradient(135deg,#122019,#0d1812);
-  position:relative;
-  overflow:hidden;
-}
-.reviews-header::after{
-  content:"";
-  position:absolute;
-  top:-50%;right:-50px;
-  width:200px;height:200px;
-  background:radial-gradient(circle,rgba(84,227,154,.15),transparent 70%);
-  pointer-events:none;
-}
+.reviews-header{padding:30px 32px 24px;border-bottom:1px solid #22372c;background:linear-gradient(135deg,#122019,#0d1812);position:relative;overflow:hidden}
+.reviews-header::after{content:"";position:absolute;top:-50%;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(84,227,154,.15),transparent 70%);pointer-events:none}
 .reviews-header h2{font-size:24px;margin:0 0 6px}
 .reviews-header p{margin:0;color:#9cb1a3;font-size:13.5px}
-
-.rating-summary{
-  display:grid;
-  grid-template-columns:auto 1fr;
-  gap:32px;
-  align-items:center;
-  padding:26px 32px;
-  background:#0c1813;
-  border-bottom:1px solid #22372c;
-}
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:26px 32px;background:#0c1813;border-bottom:1px solid #22372c}
 @media(max-width:600px){.rating-summary{grid-template-columns:1fr;gap:20px}}
-.rating-big{
-  text-align:center;
-  padding-right:32px;
-  border-right:1px solid #22372c;
-  animation:fadeIn .5s ease both;
-}
+.rating-big{text-align:center;padding-right:32px;border-right:1px solid #22372c;animation:fadeIn .5s ease both}
 @media(max-width:600px){.rating-big{border-right:0;border-bottom:1px solid #22372c;padding:0 0 20px}}
-.rating-big .num{
-  font-size:58px;
-  font-weight:900;
-  line-height:1;
-  letter-spacing:-2.5px;
-  background:linear-gradient(180deg,#fff 0%,#8ff0b5 120%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
+.rating-big .num{font-size:58px;font-weight:900;line-height:1;letter-spacing:-2.5px;background:linear-gradient(180deg,#fff 0%,#8ff0b5 120%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .rating-big .stars{color:#f5d77b;font-size:19px;letter-spacing:3px;margin:10px 0 4px}
 .rating-big .count{font-size:12px;color:#7a8a80;font-weight:600}
-
 .rating-bars{display:grid;gap:9px}
-.rating-bar-row{
-  display:grid;
-  grid-template-columns:36px 1fr 44px;
-  gap:12px;
-  align-items:center;
-  font-size:12px;
-  opacity:0;
-  animation:fadeUp .4s ease forwards;
-}
+.rating-bar-row{display:grid;grid-template-columns:36px 1fr 44px;gap:12px;align-items:center;font-size:12px;opacity:0;animation:fadeUp .4s ease forwards}
 .rating-bar-row:nth-child(1){animation-delay:.05s}
 .rating-bar-row:nth-child(2){animation-delay:.1s}
 .rating-bar-row:nth-child(3){animation-delay:.15s}
 .rating-bar-row:nth-child(4){animation-delay:.2s}
 .rating-bar-row:nth-child(5){animation-delay:.25s}
 .rating-bar-row .lbl{color:#a0a8a2;font-weight:700}
-.rating-bar-row .bar{
-  height:8px;
-  background:#1a2420;
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-}
-.rating-bar-row .bar span{
-  display:block;
-  height:100%;
-  background:linear-gradient(90deg,#54e39a,#35d875);
-  border-radius:20px;
-  box-shadow:0 0 12px rgba(84,227,154,.4);
-  animation:barFill .8s cubic-bezier(.4,0,.2,1) both;
-}
+.rating-bar-row .bar{height:8px;background:#1a2420;border-radius:20px;overflow:hidden}
+.rating-bar-row .bar span{display:block;height:100%;background:linear-gradient(90deg,#54e39a,#35d875);border-radius:20px;box-shadow:0 0 12px rgba(84,227,154,.4);animation:barFill .8s cubic-bezier(.4,0,.2,1) both}
 .rating-bar-row .pct{color:#7a8a80;text-align:right;font-weight:700}
-
-.review-cta{
-  padding:24px 32px;
-  background:#0c1813;
-  border-bottom:1px solid #22372c;
-  animation:fadeIn .5s ease both;
-}
-.review-cta p{margin:0 0 14px;color:#a6b9ad;font-size:14px;line-height:1.7}
-.review-cta strong{color:#edf7f0;display:block;margin-bottom:6px;font-size:15px}
-
-.review-form-shell{
-  padding:28px 32px;
-  background:#0a1510;
-  border-bottom:1px solid #22372c;
-  animation:fadeIn .5s ease both;
-}
-.review-form-shell h3{margin:0 0 4px;font-size:16px;font-weight:800}
-.review-form-shell .hint{color:#7a8a80;font-size:12.5px;margin:0 0 20px}
-.star-picker{display:inline-flex;gap:8px;margin:8px 0 10px}
-.star-picker button{
-  background:transparent;border:0;padding:0;
-  font-size:36px;line-height:1;
-  color:#2b3a33;
-  cursor:pointer;
-  transition:color .15s,transform .2s;
-}
-.star-picker button:hover,.star-picker button.on{color:#f5d77b;text-shadow:0 0 14px rgba(245,215,123,.5)}
-.star-picker button:hover{transform:scale(1.2) translateY(-2px)}
-.star-picker button.pop{animation:starPop .3s ease}
-.star-picker-label{display:block;font-size:12.5px;color:#8a9a90;margin-bottom:20px;font-weight:600;min-height:18px}
-.review-form-shell .field{display:grid;gap:8px;margin-bottom:16px}
-.review-form-shell label{font-size:12.5px;font-weight:750;color:#dbe9e0}
-.review-form-shell input,.review-form-shell textarea{
-  width:100%;padding:14px 16px;border:1px solid #2e4438;border-radius:12px;
-  background:#0a1410;color:#edf7f0;font-size:14px;outline:none;
-  transition:.25s;font-family:inherit;
-}
-.review-form-shell input:focus,.review-form-shell textarea:focus{
-  border-color:#54e39a;
-  box-shadow:0 0 0 3px rgba(84,227,154,.15);
-  background:#0b1712;
-}
-.review-form-shell textarea{min-height:130px;resize:vertical}
-.char-count{text-align:right;font-size:11.5px;color:#6e7d74;margin-top:-8px}
-.form-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
-#reviewMessage{display:none;margin-top:14px;padding:14px 16px;border-radius:11px;font-size:13.5px;line-height:1.5}
-#reviewMessage.show{display:block;animation:fadeUp .3s ease}
-#reviewMessage.success{background:#153729;color:#8df0bd;border:1px solid #235c3b}
-#reviewMessage.error{background:#3a2020;color:#ffb7bb;border:1px solid #5a2a2f}
-
-.reviews-list{padding:14px 32px 32px}
-.review-item{
-  padding:24px 0;
-  border-bottom:1px solid #1f3227;
-  opacity:0;
-  animation:fadeUp .5s ease forwards;
-}
+.reviews-preview{padding:8px 32px 32px}
+.review-item{padding:24px 0;border-bottom:1px solid #1f3227;opacity:0;animation:fadeUp .5s ease forwards}
 .review-item:nth-child(1){animation-delay:.05s}
 .review-item:nth-child(2){animation-delay:.15s}
 .review-item:nth-child(3){animation-delay:.25s}
-.review-item:nth-child(4){animation-delay:.35s}
-.review-item:nth-child(5){animation-delay:.45s}
 .review-item:last-child{border-bottom:0}
 .review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px;flex-wrap:wrap}
 .review-author{display:flex;align-items:center;gap:12px;min-width:0}
-.review-avatar{
-  width:44px;height:44px;border-radius:50%;
-  display:grid;place-items:center;
-  font-weight:900;font-size:16px;color:#07110e;flex-shrink:0;
-  box-shadow:0 4px 12px rgba(0,0,0,.3);
-  transition:transform .2s;
-}
+.review-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:16px;color:#07110e;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .2s}
 .review-item:hover .review-avatar{transform:scale(1.08)}
 .review-author-info{min-width:0}
 .review-author-name{font-weight:800;font-size:14.5px;overflow-wrap:anywhere}
 .review-author-date{font-size:12px;color:#7a8a80;margin-top:2px}
 .review-rating-inline{flex-shrink:0;font-size:15px;letter-spacing:2px;color:#f5d77b}
 .review-text{margin:0;color:#d5e0d8;font-size:14px;line-height:1.8;overflow-wrap:anywhere;white-space:pre-wrap}
-
-.reviews-empty{
-  padding:44px 22px;text-align:center;
-  border:1px dashed #2e4438;border-radius:14px;
-  color:#8a9a90;font-size:14px;background:#0a1510;
-  animation:fadeIn .5s ease both;
-}
+.reviews-empty{padding:44px 22px;text-align:center;border:1px dashed #2e4438;border-radius:14px;color:#8a9a90;font-size:14px;background:#0a1510;animation:fadeIn .5s ease both}
 .reviews-empty .big{font-size:42px;margin-bottom:14px;display:block;opacity:.5;animation:float 3s ease-in-out infinite}
+.reviews-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:22px;border-top:1px solid #22372c}
+@media(max-width:600px){.reviews-preview{padding:8px 22px 22px}.reviews-actions{flex-direction:column}.reviews-actions .btn{width:100%;justify-content:center}}
 
 @media(max-width:600px){
   header{padding:14px 5%}
-  header nav{gap:12px;font-size:13px}
   main{padding:14px}
   .card{padding:22px}
+  .rules-card{padding:22px}
   .reviews-card{padding:0}
   h1{font-size:26px}
-  .reviews-header,.rating-summary,.review-cta,.review-form-shell{padding-left:22px;padding-right:22px}
-  .reviews-list{padding-left:22px;padding-right:22px}
+  .reviews-header,.rating-summary{padding-left:22px;padding-right:22px}
   .rating-big .num{font-size:48px}
 }
-
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
 }
@@ -458,6 +169,25 @@ a{overflow-wrap:anywhere}
 <p class="muted">Loading firm details...</p>
 </div>
 
+<section class="rules-card" id="rulesSection" hidden>
+  <div class="rules-head">
+    <div class="rules-eyebrow">Trading rules</div>
+    <h2 id="rulesTitle">Trading rules &amp; conditions</h2>
+    <p id="rulesIntro">Full overview of this firm's rules, targets, and account conditions.</p>
+  </div>
+  <div class="rules-grid">
+    <div class="rule-item"><div class="rule-label">Account sizes</div><div class="rule-value" id="ruleAccounts">—</div></div>
+    <div class="rule-item"><div class="rule-label">Starting price</div><div class="rule-value" id="rulePrice">—</div></div>
+    <div class="rule-item"><div class="rule-label">Profit target</div><div class="rule-value" id="ruleTarget">—</div></div>
+    <div class="rule-item"><div class="rule-label">Daily drawdown</div><div class="rule-value" id="ruleDaily">—</div></div>
+    <div class="rule-item"><div class="rule-label">Maximum drawdown</div><div class="rule-value" id="ruleMax">—</div></div>
+    <div class="rule-item"><div class="rule-label">Profit split</div><div class="rule-value" id="ruleSplit">—</div></div>
+    <div class="rule-item"><div class="rule-label">Payout</div><div class="rule-value" id="rulePayout">—</div></div>
+    <div class="rule-item"><div class="rule-label">Platforms</div><div class="rule-value" id="rulePlatforms">—</div></div>
+  </div>
+  <p class="rules-note">Rules and pricing change — always verify on the firm's official website before purchasing.</p>
+</section>
+
 <section class="reviews-card" id="reviewsSection" hidden>
   <div class="reviews-header">
     <h2>Reviews &amp; Ratings</h2>
@@ -466,53 +196,15 @@ a{overflow-wrap:anywhere}
 
   <div id="ratingSummary" class="rating-summary" hidden></div>
 
-  <div id="reviewAuthPrompt" class="review-cta" hidden></div>
-
-  <form id="reviewForm" class="review-form-shell" hidden>
-    <h3>Share your experience</h3>
-    <p class="hint">Be honest and respectful. Your review will be published after admin approval.</p>
-
-    <div class="field">
-      <label for="reviewerName">Your name</label>
-      <input id="reviewerName" name="reviewerName" maxlength="40" minlength="2" required placeholder="Enter your display name">
+  <div class="reviews-preview">
+    <div id="reviewsList" class="reviews-list">
+      <p class="muted">Loading reviews...</p>
     </div>
 
-    <div class="field">
-      <label>Your rating <span style="color:#54e39a">*</span></label>
-      <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Star rating">
-        <button type="button" data-star="1" aria-label="1 star">★</button>
-        <button type="button" data-star="2" aria-label="2 stars">★</button>
-        <button type="button" data-star="3" aria-label="3 stars">★</button>
-        <button type="button" data-star="4" aria-label="4 stars">★</button>
-        <button type="button" data-star="5" aria-label="5 stars">★</button>
-      </div>
-      <span class="star-picker-label" id="starPickerLabel">Tap a star to rate</span>
-      <select id="reviewRating" required hidden>
-        <option value="">Choose stars</option>
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-      </select>
+    <div class="reviews-actions">
+      <a class="btn" id="viewAllReviewsBtn" href="#">View all reviews →</a>
+      <a class="btn secondary" id="writeReviewBtn" href="#">Write a review →</a>
     </div>
-
-    <div class="field">
-      <label for="reviewText">Your review</label>
-      <textarea id="reviewText" name="reviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm? What stood out — the rules, payouts, platform, support?"></textarea>
-      <div class="char-count"><span id="reviewCharCount">0</span> / 1000</div>
-    </div>
-
-    <div class="form-actions">
-      <button id="reviewSubmit" class="btn" type="submit">Publish Review</button>
-    </div>
-    <p class="hint" style="margin-top:14px">Never include passwords or private information.</p>
-
-    <div id="reviewMessage" role="status"></div>
-  </form>
-
-  <div id="reviewsList" class="reviews-list">
-    <p class="muted">Loading reviews...</p>
   </div>
 </section>
 </main>
@@ -526,42 +218,33 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const content = document.getElementById("content");
 const reviewsSection = document.getElementById("reviewsSection");
-const reviewForm = document.getElementById("reviewForm");
-const reviewAuthPrompt = document.getElementById("reviewAuthPrompt");
-const reviewMessage = document.getElementById("reviewMessage");
+const rulesSection = document.getElementById("rulesSection");
 const reviewsList = document.getElementById("reviewsList");
-const reviewSubmit = document.getElementById("reviewSubmit");
-const reviewerNameInput = document.getElementById("reviewerName");
 const authArea = document.getElementById("feAuthArea");
 const ratingSummary = document.getElementById("ratingSummary");
-const starPicker = document.getElementById("starPicker");
-const starPickerLabel = document.getElementById("starPickerLabel");
-const reviewRatingSelect = document.getElementById("reviewRating");
-const reviewText = document.getElementById("reviewText");
-const reviewCharCount = document.getElementById("reviewCharCount");
 
 let currentFirmId = null;
 let currentUser = null;
 let isFavorited = false;
-let selectedStars = 0;
 
 function esc(value) {
   return String(value ?? "Not provided").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[c]);
 }
-
 function safeUrl(value) {
   try {
     const u = new URL(value);
-    return ["http:", "https:"].includes(u.protocol) ? u.href : "";
+    return ["http:","https:"].includes(u.protocol) ? u.href : "";
   } catch { return ""; }
 }
-
 function item(label, value) {
   return `<div class="item"><div class="label">${esc(label)}</div><div class="value">${esc(value || "Not provided")}</div></div>`;
 }
-
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val || "—";
+}
 function authUrl(mode) {
   const next = location.pathname + location.search;
   const q = `?next=${encodeURIComponent(next)}`;
@@ -636,58 +319,7 @@ async function toggleSave() {
   } catch (err) {
     console.error(err);
     toast("Could not update favorites. Try again.");
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-function setStars(n) {
-  selectedStars = n;
-  reviewRatingSelect.value = n ? String(n) : "";
-  starPicker.querySelectorAll("button").forEach(b => {
-    b.classList.toggle("on", Number(b.dataset.star) <= n);
-  });
-  const labels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
-  starPickerLabel.textContent = n ? `${n} / 5 · ${labels[n]}` : "Tap a star to rate";
-}
-
-starPicker.querySelectorAll("button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    setStars(Number(btn.dataset.star));
-    btn.classList.remove("pop");
-    void btn.offsetWidth;
-    btn.classList.add("pop");
-  });
-  btn.addEventListener("mouseenter", () => {
-    const n = Number(btn.dataset.star);
-    starPicker.querySelectorAll("button").forEach(b => {
-      b.classList.toggle("on", Number(b.dataset.star) <= n);
-    });
-  });
-});
-starPicker.addEventListener("mouseleave", () => setStars(selectedStars));
-
-reviewText.addEventListener("input", () => {
-  reviewCharCount.textContent = reviewText.value.length;
-});
-
-function updateReviewAccess() {
-  if (currentUser) {
-    reviewForm.hidden = false;
-    reviewAuthPrompt.hidden = true;
-    const fullName = currentUser.user_metadata?.full_name;
-    const emailName = currentUser.email?.split("@")[0] || "";
-    if (!reviewerNameInput.value) reviewerNameInput.value = fullName || emailName;
-  } else {
-    reviewForm.hidden = true;
-    reviewAuthPrompt.hidden = false;
-    reviewAuthPrompt.innerHTML = `
-      <strong>Sign in to share your experience</strong>
-      <p>You need an account with a verified email to submit a review. You can read published reviews without signing in.</p>
-      <a class="btn" href="${esc(authUrl())}">Sign In / Create Account</a>
-    `;
-  }
-  renderAuthArea();
+  } finally { btn.disabled = false; }
 }
 
 async function checkUser() {
@@ -697,7 +329,7 @@ async function checkUser() {
     else if (user && user.email_confirmed_at) currentUser = user;
     else currentUser = null;
   } catch { currentUser = null; }
-  updateReviewAccess();
+  renderAuthArea();
 }
 
 async function loadFirm() {
@@ -752,6 +384,25 @@ async function loadFirm() {
 
     document.getElementById("saveBtn").addEventListener("click", toggleSave);
 
+    // Populate rules section
+    setText("ruleAccounts", f.account_sizes);
+    setText("rulePrice", f.price);
+    setText("ruleTarget", f.profit_target);
+    setText("ruleDaily", f.daily_drawdown);
+    setText("ruleMax", f.max_drawdown);
+    setText("ruleSplit", f.profit_split);
+    setText("rulePayout", f.payout);
+    setText("rulePlatforms", f.platforms);
+    setText("rulesTitle", `${f.name} — Trading rules`);
+    setText("rulesIntro", `Key rules and conditions for ${f.name}.`);
+    rulesSection.hidden = false;
+
+    // Wire review CTA links
+    const viewAllBtn = document.getElementById("viewAllReviewsBtn");
+    const writeBtn = document.getElementById("writeReviewBtn");
+    if (viewAllBtn) viewAllBtn.href = `/reviews.html?id=${encodeURIComponent(f.id)}`;
+    if (writeBtn) writeBtn.href = `/review.html?id=${encodeURIComponent(f.id)}`;
+
     reviewsSection.hidden = false;
     await checkUser();
     isFavorited = await checkIfFavorited();
@@ -771,50 +422,34 @@ function renderRatingSummary(reviews) {
   const total = reviews.length;
   const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
   const avg = sum / total;
-  const counts = [0, 0, 0, 0, 0];
+  const counts = [0,0,0,0,0];
   reviews.forEach(r => {
     const n = Math.max(1, Math.min(5, Number(r.rating) || 0));
     counts[n - 1]++;
   });
-
   const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
-
-  const bars = [5, 4, 3, 2, 1].map(star => {
+  const bars = [5,4,3,2,1].map(star => {
     const c = counts[star - 1];
     const pct = total ? Math.round((c / total) * 100) : 0;
-    return `<div class="rating-bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="--w:${pct}%;width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
+    return `<div class="rating-bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
   }).join("");
 
   ratingSummary.innerHTML = `
     <div class="rating-big">
-      <div class="num" data-target="${avg.toFixed(1)}">0.0</div>
+      <div class="num">${avg.toFixed(1)}</div>
       <div class="stars">${fullStars}</div>
       <div class="count">${total} review${total === 1 ? "" : "s"}</div>
     </div>
     <div class="rating-bars">${bars}</div>
   `;
-
-  const numEl = ratingSummary.querySelector(".num");
-  const target = parseFloat(avg.toFixed(1));
-  const duration = 900;
-  const start = performance.now();
-  function tick(now) {
-    const t = Math.min(1, (now - start) / duration);
-    const eased = 1 - Math.pow(1 - t, 3);
-    numEl.textContent = (target * eased).toFixed(1);
-    if (t < 1) requestAnimationFrame(tick);
-    else numEl.textContent = target.toFixed(1);
-  }
-  requestAnimationFrame(tick);
 }
 
 function avatarColor(name) {
-  const colors = ["#54e39a", "#7cc9f0", "#f5d77b", "#c99df0", "#f0a89d", "#9df0bd"];
+  const colors = ["#54e39a","#7cc9f0","#f5d77b","#c99df0","#f0a89d","#9df0bd"];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
   return colors[hash % colors.length];
 }
-
 function initials(name) {
   const parts = String(name || "?").trim().split(/\s+/);
   return ((parts[0]?.[0] || "?") + (parts[1]?.[0] || "")).toUpperCase();
@@ -846,7 +481,8 @@ async function loadReviews() {
 
     renderRatingSummary(reviews);
 
-    reviewsList.innerHTML = reviews.map(review => {
+    const top3 = reviews.slice(0, 3);
+    reviewsList.innerHTML = top3.map(review => {
       const date = new Date(review.created_at);
       const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
       const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
@@ -876,73 +512,17 @@ async function loadReviews() {
   }
 }
 
-function showReviewMessage(text, type = "success") {
-  reviewMessage.textContent = text;
-  reviewMessage.className = "show " + type;
-}
-
-reviewForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!currentFirmId) return;
-
-  reviewSubmit.disabled = true;
-  showReviewMessage("Checking your account...", "success");
-
-  try {
-    const { data: { user }, error: userError } = await db.auth.getUser();
-    if (userError || !user || !user.email_confirmed_at) {
-      currentUser = null;
-      updateReviewAccess();
-      throw new Error("Please sign in with a verified email before submitting.");
-    }
-    currentUser = user;
-
-    const reviewerName = reviewerNameInput.value.trim();
-    const rating = Number(reviewRatingSelect.value) || selectedStars;
-    const text = reviewText.value.trim();
-
-    if (reviewerName.length < 2) throw new Error("Please enter your name (2+ characters).");
-    if (rating < 1 || rating > 5) throw new Error("Please select a star rating.");
-    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10-1000 characters.");
-
-    showReviewMessage("Submitting your review...", "success");
-
-    const { error } = await db.from("firm_reviews").insert({
-      firm_id: currentFirmId,
-      user_id: user.id,
-      reviewer_name: reviewerName,
-      rating,
-      review_text: text,
-      status: "pending"
-    });
-    if (error) throw error;
-
-    reviewForm.reset();
-    setStars(0);
-    reviewCharCount.textContent = "0";
-    updateReviewAccess();
-    showReviewMessage("Thank you! Your review is awaiting admin approval.", "success");
-  } catch (error) {
-    console.error("Review submission failed:", error);
-    showReviewMessage(error.message || "Sorry, your review could not be submitted.", "error");
-  } finally {
-    reviewSubmit.disabled = false;
-  }
-});
-
 db.auth.onAuthStateChange((_event, session) => {
   queueMicrotask(async () => {
     try {
       const user = session?.user;
       currentUser = user?.email_confirmed_at ? user : null;
-      updateReviewAccess();
+      renderAuthArea();
       if (currentFirmId) {
         isFavorited = await checkIfFavorited();
         updateSaveButton();
       }
-    } catch (err) {
-      console.error("Auth sync failed:", err);
-    }
+    } catch (err) { console.error("Auth sync failed:", err); }
   });
 });
 
