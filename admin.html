@@ -480,12 +480,7 @@ a{color:inherit;text-decoration:none;}
 </div>
 
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const SUPABASE_URL = "https://mvltzznwdglwaedfzxze.supabase.co";
-const SUPABASE_KEY = "sb_publishable_6Z18S8P-DzDiBcl_EwRuZQ_nrq_8hid";
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
-const $ = id => document.getElementById(id);
+  import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
 
 let currentUser = null;
 let busy = false;
