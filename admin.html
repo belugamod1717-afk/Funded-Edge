@@ -516,7 +516,13 @@ const fieldsMeta = [
     hint: "Optional: paste a direct link to a logo image." },
   { id: "affiliate_link", label: "Affiliate link", type: "url" },
   { id: "verified_date", label: "Verification date", type: "date" },
-  { id: "status", label: "Status", type: "select", options: ["active", "inactive"] }
+  { id: "status", label: "Status", type: "select", options: ["active", "inactive"] },
+  { id: "best_for", label: "Best for (comma-separated)", type: "text",
+    hint: 'e.g. "Beginners, Forex traders, Scalping"' },
+  { id: "pros", label: "Pros (comma-separated)", type: "text", full: true,
+    hint: 'Override auto-generated pros. e.g. "Low price, Fast payouts, High split"' },
+  { id: "cons", label: "Cons (comma-separated)", type: "text", full: true,
+    hint: 'Override auto-generated cons. e.g. "No MT4, Slow support"' }
 ];
 
 const allFields = [...fieldsBasic, ...fieldsTrading, ...fieldsMeta];
