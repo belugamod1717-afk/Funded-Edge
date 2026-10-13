@@ -2,320 +2,230 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a0f14">
-<title>Admin Console | FundedEdge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e11">
+<title>Admin — FundedEdge</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
+<link rel="preconnect" href="https://esm.sh">
+<link rel="preconnect" href="https://mvltzznwdglwaedfzxze.supabase.co">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0a0f14;
-  --side:#0f161e;
-  --panel:#10161c;
-  --panel2:#0d1419;
-  --line:#22314a;
-  --line2:#2c405a;
-  --blue:#4a9eff;
-  --blue2:#2d7dd2;
-  --blue-deep:#173755;
-  --text:#f0f5fa;
-  --muted:#8fa3b8;
-  --muted2:#5f7a94;
-  --red:#ff6b6b;
-  --red-deep:#3a1a1e;
-  --gold:#f5d77b;
-  --green:#4ade80;
-  --green-deep:#173c27;
-  --amber:#f5b945;
-  --amber-deep:#44371c;
+:root[data-theme="dark"]{
+  --bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--surface-3:#1a2029;
+  --line:#242b35;--line-2:#2f3846;
+  --text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;
+  --accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);
+  --success:#4ade80;--gold:#e4b949;--danger:#ff6b6b;
+  --shadow:0 8px 24px rgba(0,0,0,.4);
 }
-*{box-sizing:border-box}
+:root[data-theme="light"]{
+  --bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--surface-3:#e9ecf0;
+  --line:#e1e5eb;--line-2:#d1d7de;
+  --text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;
+  --accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);
+  --success:#16a34a;--gold:#c99b1e;--danger:#dc2626;
+  --shadow:0 4px 12px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,system-ui,-apple-system,sans-serif;
-  line-height:1.5;font-size:14px;overflow-x:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-size:14.5px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  transition:background .2s,color .2s;
 }
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
-button,a,select{cursor:pointer}
+button{cursor:pointer}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* TOP BAR */
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo span{color:var(--accent)}
+.admin-pill{font-size:10px;font-weight:700;letter-spacing:1.2px;padding:4px 9px;border-radius:999px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-dim);text-transform:uppercase;}
+.topbar-spacer{flex:1}
+.topbar-email{color:var(--text-mute);font-size:12.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;}
+.topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+.topbar-logout{padding:7px 12px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--danger);font-size:12.5px;font-weight:500;transition:.15s;}
+.topbar-logout:hover{background:rgba(255,107,107,.1);border-color:var(--danger)}
 
-/* ========== TOP BAR ========== */
-.top{
-  height:64px;display:flex;align-items:center;gap:16px;
-  padding:0 22px;border-bottom:1px solid var(--line);
-  background:rgba(10,15,20,.9);backdrop-filter:blur(16px);
-  position:sticky;top:0;z-index:20;
-}
-.brand{
-  font-size:17px;font-weight:900;letter-spacing:.5px;
-  display:flex;align-items:center;gap:9px;flex-shrink:0;
-}
-.brand-mark{
-  width:30px;height:30px;border-radius:8px;
-  background:linear-gradient(135deg,var(--blue),var(--blue2));
-  color:#061321;display:grid;place-items:center;
-  font-weight:900;font-size:14px;
-  box-shadow:0 0 14px rgba(74,158,255,.35);
-}
-.brand span{color:var(--blue)}
-.admin-pill{
-  font-size:10px;font-weight:800;letter-spacing:1.4px;
-  padding:4px 9px;border-radius:20px;text-transform:uppercase;
-  background:var(--blue-deep);color:#8fc7ff;border:1px solid #1f4d7a;
-}
-.top-spacer{flex:1}
-.top-email{color:var(--muted);font-size:12.5px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.top-logout{
-  padding:8px 14px;border:1px solid var(--line2);border-radius:9px;
-  background:transparent;color:#ffb0b4;font-size:12.5px;font-weight:700;
-  transition:.2s;
-}
-.top-logout:hover{background:var(--red-deep);border-color:#5a2a2f}
+/* LAYOUT */
+.admin-wrap{max-width:1300px;margin:0 auto;padding:24px 20px 60px;}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px;}
+h1{font-size:26px;font-weight:700;letter-spacing:-.6px;margin-bottom:6px;}
+.page-head p{color:var(--text-dim);font-size:14px}
+.page-head-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-/* ========== LAYOUT ========== */
-.admin-wrap{max-width:1400px;margin:0 auto;padding:24px 22px 60px}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:22px;}
+.stat-card{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;}
+.stat-card .k{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px;}
+.stat-card .v{font-size:24px;font-weight:700;letter-spacing:-.5px;color:var(--text);}
 
-.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.7px;color:var(--blue);text-transform:uppercase;margin-bottom:6px}
-h1{font-size:clamp(24px,3vw,32px);margin:0 0 4px;letter-spacing:-.5px}
-h2{font-size:18px;margin:0;letter-spacing:-.3px}
-.muted{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
-
-/* ========== STATS CARDS ========== */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
-.stat-card{
-  padding:18px;background:linear-gradient(145deg,var(--panel),var(--panel2));
-  border:1px solid var(--line);border-radius:14px;position:relative;overflow:hidden;
-  transition:.25s;
-}
-.stat-card:hover{border-color:rgba(74,158,255,.4);transform:translateY(-2px)}
-.stat-card .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
-.stat-card .ico{width:36px;height:36px;border-radius:10px;background:rgba(74,158,255,.12);color:var(--blue);display:grid;place-items:center;font-size:16px;border:1px solid rgba(74,158,255,.2)}
-.stat-card .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);text-align:right}
-.stat-card .val{font-size:28px;font-weight:850;color:#fff;letter-spacing:-.8px;line-height:1;margin-bottom:3px}
-.stat-card .sub{font-size:12px;color:var(--muted2)}
-
-/* ========== TABS ========== */
-.tabs{display:flex;gap:4px;padding:5px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tab{
-  flex:1;min-width:130px;padding:11px 16px;border:0;background:transparent;
-  color:var(--muted);font-size:13px;font-weight:750;cursor:pointer;
-  border-radius:9px;transition:.2s;white-space:nowrap;
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;
-}
-.tab:hover{color:var(--text);background:rgba(255,255,255,.03)}
-.tab.active{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;box-shadow:0 4px 14px rgba(74,158,255,.25)}
-.tab .badge{
-  padding:1px 7px;border-radius:20px;font-size:10.5px;font-weight:800;
-  background:rgba(0,0,0,.2);
-}
-.tab.active .badge{background:rgba(6,19,33,.3);color:#061321}
-
+/* TABS */
+.tabs{display:flex;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow-x:auto;}
+.tab{padding:9px 16px;border:0;background:transparent;color:var(--text-dim);font-size:13.5px;font-weight:500;border-radius:6px;transition:.15s;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.tab .badge{font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--surface-3);color:var(--text-mute);}
+.tab.active .badge{background:var(--accent);color:#fff}
 .tab-panel{display:none}
-.tab-panel.active{display:block;animation:fadeUp .3s ease}
+.tab-panel.active{display:block}
 
-/* ========== PANELS ========== */
-.panel{
-  background:linear-gradient(145deg,var(--panel),var(--panel2));
-  border:1px solid var(--line);border-radius:14px;padding:20px;
-  margin-bottom:16px;
-}
-.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+/* PANEL */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px;}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+.panel-head h2{font-size:16px;font-weight:600;letter-spacing:-.2px;}
+.panel-head p{font-size:13px;color:var(--text-mute);margin-top:4px}
 
-/* ========== BUTTONS ========== */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;
-  padding:10px 16px;border:1px solid var(--line2);border-radius:9px;
-  background:var(--panel);color:var(--text);
-  font-size:13px;font-weight:700;transition:.2s;
-  white-space:nowrap;
-}
-.btn:hover{border-color:var(--blue);color:var(--blue)}
-.btn.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;color:#061321}
-.btn.primary:hover{background:linear-gradient(135deg,#5fa9ff,#3d87dc);color:#061321;box-shadow:0 6px 20px rgba(74,158,255,.3);transform:translateY(-1px)}
-.btn.danger{color:#ffb0b4;border-color:#5a2a2f}
-.btn.danger:hover{background:var(--red-deep)}
-.btn.success{color:#8ff0b0;border-color:#235c3b}
-.btn.success:hover{background:var(--green-deep)}
-.btn.small{padding:6px 10px;font-size:11.5px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:6px;border:1px solid var(--line-2);background:transparent;color:var(--text);font-size:13px;font-weight:500;transition:.15s;text-decoration:none;white-space:nowrap;}
+.btn:hover{border-color:var(--accent-dim);background:var(--accent-bg);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#fff}
+.btn.danger{color:var(--danger)}
+.btn.danger:hover{background:rgba(255,107,107,.1);border-color:var(--danger);color:var(--danger)}
+.btn.success{color:var(--success)}
+.btn.success:hover{background:rgba(74,222,128,.1);border-color:var(--success);color:var(--success)}
+.btn.small{padding:5px 10px;font-size:12px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 
-/* ========== TOOLBAR (search, filters) ========== */
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
-.search-wrap{flex:1;min-width:200px;position:relative}
-.search-wrap input{
-  width:100%;padding:10px 38px 10px 14px;
-  border:1px solid var(--line2);border-radius:10px;
-  background:var(--panel);color:var(--text);font-size:13.5px;outline:none;
-  transition:.2s;
-}
-.search-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.1)}
-.search-wrap .icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:13px;pointer-events:none}
-.filter-select{
-  padding:10px 14px;border:1px solid var(--line2);border-radius:10px;
-  background:var(--panel);color:var(--text);font-size:13px;font-weight:600;
-  outline:none;transition:.2s;
-}
-.filter-select:focus{border-color:var(--blue)}
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-wrap input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;}
+.search-wrap input:focus{border-color:var(--accent);background:var(--surface-2)}
+.search-wrap .icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px;pointer-events:none;}
+.filter-select{padding:9px 12px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;font-weight:500;outline:none;transition:.15s;}
+.filter-select:focus{border-color:var(--accent)}
 
-/* ========== TABLE ========== */
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
-table{width:100%;border-collapse:collapse;min-width:700px}
-thead th{
-  padding:12px 14px;text-align:left;
-  font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
-  color:var(--muted);background:#0d1826;border-bottom:1px solid var(--line2);
-  white-space:nowrap;position:sticky;top:0;z-index:1;
-}
-thead th.sortable{cursor:pointer;transition:.15s}
-thead th.sortable:hover{color:var(--blue)}
-thead th .sort-ind{font-size:9px;color:var(--muted2);margin-left:4px}
-tbody tr{border-bottom:1px solid var(--line);transition:.15s}
+/* TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+table{width:100%;border-collapse:collapse;min-width:640px;}
+thead th{padding:11px 14px;text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-mute);background:var(--surface-2);border-bottom:1px solid var(--line);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--line);transition:.12s;}
 tbody tr:last-child{border-bottom:0}
-tbody tr:hover{background:rgba(74,158,255,.04)}
-tbody td{padding:12px 14px;font-size:13px;vertical-align:middle}
-td.firm-name{font-weight:750;color:#eaf0f5;min-width:180px}
-td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:500;margin-top:2px}
+tbody tr:hover{background:var(--surface-2)}
+tbody td{padding:12px 14px;font-size:13px;vertical-align:middle;}
+td.firm-name{font-weight:600;color:var(--text);min-width:160px;}
+td.firm-name .sub{display:block;font-size:11.5px;color:var(--text-mute);font-weight:500;margin-top:2px;}
 
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
-.badge.blue{background:rgba(74,158,255,.14);color:#8fc7ff;border:1px solid #1f4d7a}
-.badge.green{background:rgba(74,222,128,.14);color:#8ff0b0;border:1px solid #235c3b}
-.badge.grey{background:rgba(120,130,140,.12);color:#8fa3b8;border:1px solid #3b4756}
-.badge.gold{background:rgba(245,215,123,.14);color:var(--gold);border:1px solid #4a4127}
-.badge.amber{background:rgba(245,185,69,.14);color:#ffd977;border:1px solid #5c4318}
-.badge.red{background:rgba(255,107,107,.14);color:#ffb0b4;border:1px solid #5a2a2f}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap;}
+.badge.blue{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-dim)}
+.badge.green{background:rgba(74,222,128,.1);color:var(--success);border:1px solid rgba(74,222,128,.25)}
+.badge.grey{background:transparent;color:var(--text-mute);border:1px solid var(--line-2)}
+.badge.gold{background:rgba(228,185,73,.1);color:var(--gold);border:1px solid rgba(228,185,73,.25)}
+.badge.amber{background:rgba(228,185,73,.1);color:var(--gold);border:1px solid rgba(228,185,73,.25)}
+.badge.red{background:rgba(255,107,107,.1);color:var(--danger);border:1px solid rgba(255,107,107,.25)}
 
-.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.row-actions{display:flex;gap:6px;justify-content:flex-end;}
+.table-empty{padding:40px;text-align:center;color:var(--text-mute);font-size:13.5px;}
 
-.table-empty{padding:40px;text-align:center;color:var(--muted);font-size:13.5px}
+/* FORM */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.field{display:grid;gap:6px;min-width:0;}
+.field.full{grid-column:1/-1;}
+.field label{font-size:12px;font-weight:600;color:var(--text-dim);}
+.field label .req{color:var(--accent)}
+.field input,.field select,.field textarea{padding:9px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;font-family:inherit;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--surface-2)}
+.field textarea{min-height:80px;resize:vertical;line-height:1.55;}
+.field .hint{font-size:11.5px;color:var(--text-mute);line-height:1.5;}
+.form-section{margin:22px 0 12px;padding-top:18px;border-top:1px solid var(--line);}
+.form-section h3{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-mute);}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
 
-/* ========== FORM ========== */
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.field{display:grid;gap:6px;min-width:0}
-.field.full{grid-column:1/-1}
-.field label{font-size:12px;font-weight:750;color:#cfe0ee}
-.field label .req{color:var(--blue)}
-.field input,.field select,.field textarea{
-  width:100%;padding:11px 13px;
-  border:1px solid var(--line2);border-radius:9px;
-  background:var(--panel);color:var(--text);
-  font-size:13.5px;outline:none;transition:.2s;font-family:inherit;
-}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.1);
-}
-.field textarea{min-height:90px;resize:vertical;line-height:1.55}
-.field .hint{font-size:11.5px;color:var(--muted2);line-height:1.5}
+.check-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;cursor:pointer;margin:14px 0;}
+.check-row input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;}
+.check-row label{font-size:13px;color:var(--text);cursor:pointer;}
 
-.form-section{margin:22px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
-.form-section h3{margin:0 0 4px;font-size:12px;font-weight:850;letter-spacing:1.4px;text-transform:uppercase;color:var(--blue)}
-.form-section p{margin:0 0 14px;color:var(--muted2);font-size:12px}
+/* MESSAGE */
+.msg{display:none;padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;}
+.msg.show{display:block}
+.msg.success{background:rgba(74,222,128,.1);color:var(--success);border:1px solid rgba(74,222,128,.25)}
+.msg.error{background:rgba(255,107,107,.1);color:var(--danger);border:1px solid rgba(255,107,107,.25)}
+.msg.info{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-dim)}
 
-.check-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--panel2);border:1px solid var(--line2);border-radius:9px;cursor:pointer;margin:14px 0}
-.check-row input{width:18px;height:18px;accent-color:var(--blue);cursor:pointer}
-.check-row label{font-size:13px;color:#cfe0ee;cursor:pointer;margin:0}
+/* LOGIN */
+.login-shell{max-width:400px;margin:8vh auto 0;}
+.login-brand{text-align:center;margin-bottom:24px;font-size:26px;font-weight:700;letter-spacing:-.6px;}
+.login-brand span{color:var(--accent)}
+.login-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;box-shadow:var(--shadow);}
+.login-card h1{font-size:22px;margin-bottom:6px;}
+.login-card .sub{color:var(--text-dim);font-size:13.5px;margin-bottom:20px;}
+.login-card .field{margin-bottom:14px;}
+.login-card .btn.primary{width:100%;padding:11px;font-size:14px;}
 
-.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
-
-/* ========== MESSAGE ========== */
-.msg{display:none;padding:12px 16px;border-radius:10px;font-size:13.5px;margin-bottom:16px;border:1px solid transparent}
-.msg.show{display:block;animation:fadeUp .25s ease}
-.msg.success{background:var(--green-deep);color:#a9f2c4;border-color:#235c3b}
-.msg.error{background:var(--red-deep);color:#ffb7bb;border-color:#5a2a2f}
-.msg.info{background:var(--blue-deep);color:#b5d8f5;border-color:#1f4d7a}
-
-/* ========== LOGIN SCREEN ========== */
-.login-shell{max-width:420px;margin:8vh auto 0}
-.login-brand{text-align:center;margin-bottom:24px;font-size:26px;font-weight:900;letter-spacing:1px}
-.login-brand span{color:var(--blue)}
-.login-shell .panel{padding:30px}
-.login-shell h1{font-size:24px;margin:0 0 6px}
-.login-shell p.sub{color:var(--muted);font-size:13.5px;margin:0 0 22px}
-
-/* ========== MODAL ========== */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
-  z-index:100;display:flex;align-items:center;justify-content:center;
-  padding:20px;animation:fadeIn .2s ease;
-}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;}
 .modal-overlay[hidden]{display:none}
-.modal{
-  max-width:640px;width:100%;max-height:90vh;overflow-y:auto;
-  background:linear-gradient(145deg,var(--panel),var(--panel2));
-  border:1px solid var(--line2);border-radius:16px;
-  padding:24px;animation:fadeUp .25s ease;
-}
-.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
-.modal-close{width:32px;height:32px;border:1px solid var(--line2);border-radius:8px;background:transparent;color:var(--muted);font-size:16px}
-.modal-close:hover{border-color:var(--red);color:#ffb0b4}
+.modal{max-width:720px;width:100%;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:auto 0;}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:22px 24px;border-bottom:1px solid var(--line);}
+.modal-head h2{font-size:18px;font-weight:600;letter-spacing:-.3px;}
+.modal-head .kicker{margin-bottom:4px}
+.modal-body{padding:22px 24px;}
+.modal-close{width:32px;height:32px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);font-size:14px;transition:.15s;}
+.modal-close:hover{border-color:var(--danger);color:var(--danger)}
 
-/* ========== TOAST ========== */
-#toast{
-  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  background:#12263a;border:1px solid var(--blue);color:#c8e6f5;
-  padding:13px 20px;border-radius:12px;z-index:200;
-  font-size:13.5px;font-weight:600;max-width:92vw;
-  box-shadow:0 14px 40px rgba(0,0,0,.6);animation:fadeUp .3s ease;
-}
-[hidden]{display:none!important}
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:200;}
 
-/* ========== RESPONSIVE ========== */
-@media(max-width:600px){
-  .top{padding:0 12px;height:60px;gap:10px}
-  .top-email{display:none}
-  .brand{font-size:15px}
+/* RESPONSIVE */
+@media (max-width:640px){
+  .topbar{padding:0 12px;gap:10px}
+  .logo{font-size:14px}
+  .logo-mark{width:22px;height:22px;font-size:11px;border-radius:5px}
+  .topbar-email{display:none}
   .admin-pill{display:none}
   .admin-wrap{padding:16px 12px 40px}
   .panel{padding:16px}
+  .page-head h1{font-size:22px}
   .form-grid{grid-template-columns:1fr}
-  .btn{padding:9px 13px;font-size:12.5px}
-  .tab{min-width:110px;padding:10px 12px;font-size:12px}
-  .modal{padding:18px}
+  .table-wrap{border-radius:8px}
+  table{min-width:560px}
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
 </style>
 </head>
-
 <body>
 
-<!-- TOP BAR -->
-<header class="top">
-  <div class="brand"><div class="brand-mark">F</div>FUNDED<span>EDGE</span></div>
+<header class="topbar">
+  <a class="logo" href="index.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
   <span class="admin-pill">Admin</span>
-  <div class="top-spacer"></div>
-  <span class="top-email" id="topEmail"></span>
-  <button class="top-logout" id="logoutTop" type="button" hidden>Log out</button>
+  <div class="topbar-spacer"></div>
+  <span class="topbar-email" id="topEmail"></span>
+  <button class="topbar-btn" id="themeToggle" title="Toggle theme">◐</button>
+  <button class="topbar-logout" id="logoutTop" hidden>Sign out</button>
 </header>
 
 <div class="admin-wrap">
 
-  <div id="message" class="msg" role="status" aria-live="polite"></div>
+  <div id="message" class="msg"></div>
 
   <!-- LOGIN -->
   <section id="loginPanel" class="login-shell">
     <div class="login-brand">Funded<span>Edge</span></div>
-    <div class="panel">
+    <div class="login-card">
       <h1>Admin access</h1>
       <p class="sub">Sign in with your admin account to manage firms and reviews.</p>
       <form id="loginForm">
-        <div class="field" style="margin-bottom:14px">
+        <div class="field">
           <label for="email">Email</label>
           <input id="email" type="email" autocomplete="username" required placeholder="you@example.com">
         </div>
-        <div class="field" style="margin-bottom:18px">
+        <div class="field">
           <label for="password">Password</label>
           <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
         </div>
-        <div class="form-actions" style="border:0;padding:0;margin:0">
-          <button id="loginButton" class="btn primary" type="submit" style="width:100%">Log in</button>
-        </div>
+        <button id="loginButton" class="btn primary" type="submit">Log in</button>
       </form>
     </div>
   </section>
@@ -325,35 +235,36 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
 
     <div class="page-head">
       <div>
-        <div class="eyebrow">Control panel</div>
+        <div class="kicker">Control panel</div>
         <h1>Admin console</h1>
-        <p class="muted">Manage firms, moderate reviews, and keep the directory up to date.</p>
+        <p>Manage firms, moderate reviews, and keep the directory up to date.</p>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn" id="refreshAll" type="button">↻ Refresh</button>
+      <div class="page-head-actions">
+        <button class="btn" id="refreshAll" type="button">Refresh</button>
         <button class="btn primary" id="newFirmBtn" type="button">+ New firm</button>
       </div>
     </div>
 
-    <!-- STATS -->
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-card"><div class="row"><div class="ico">▤</div><span class="lbl">Total firms</span></div><div class="val" id="statTotalFirms">—</div><div class="sub">In directory</div></div>
-      <div class="stat-card"><div class="row"><div class="ico">✓</div><span class="lbl">Verified</span></div><div class="val" id="statVerified">—</div><div class="sub">Trusted listings</div></div>
-      <div class="stat-card"><div class="row"><div class="ico">☆</div><span class="lbl">Pending reviews</span></div><div class="val" id="statPendingReviews">—</div><div class="sub">Awaiting moderation</div></div>
-      <div class="stat-card"><div class="row"><div class="ico">★</div><span class="lbl">Avg rating</span></div><div class="val" id="statAvgRating">—</div><div class="sub">Across all firms</div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="k">Total firms</div><div class="v" id="statTotalFirms">—</div></div>
+      <div class="stat-card"><div class="k">Verified</div><div class="v" id="statVerified">—</div></div>
+      <div class="stat-card"><div class="k">Pending reviews</div><div class="v" id="statPendingReviews">—</div></div>
+      <div class="stat-card"><div class="k">Avg rating</div><div class="v" id="statAvgRating">—</div></div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
-      <button class="tab active" data-tab="firms" type="button">▤ Firms <span class="badge" id="tabBadgeFirms">0</span></button>
-      <button class="tab" data-tab="reviews" type="button">☆ Reviews <span class="badge" id="tabBadgeReviews">0</span></button>
+      <button class="tab active" data-tab="firms" type="button">Firms <span class="badge" id="tabBadgeFirms">0</span></button>
+      <button class="tab" data-tab="reviews" type="button">Reviews <span class="badge" id="tabBadgeReviews">0</span></button>
     </div>
 
     <!-- FIRMS TAB -->
     <div class="tab-panel active" id="tab-firms">
       <div class="panel">
         <div class="panel-head">
-          <div><h2>All firms</h2><p class="muted">Click any row to edit. Changes appear instantly on the public site.</p></div>
+          <div>
+            <h2>All firms</h2>
+            <p>Click Edit on any row to update. Changes appear on the site immediately.</p>
+          </div>
         </div>
 
         <div class="toolbar">
@@ -363,8 +274,8 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
           </div>
           <select class="filter-select" id="firmStatusFilter">
             <option value="all">All statuses</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="active">Active only</option>
+            <option value="inactive">Inactive only</option>
           </select>
           <select class="filter-select" id="firmVerifiedFilter">
             <option value="all">All firms</option>
@@ -380,7 +291,7 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
         </div>
 
         <div class="table-wrap">
-          <table id="firmsTable">
+          <table>
             <thead>
               <tr>
                 <th>Firm</th>
@@ -403,7 +314,10 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
     <div class="tab-panel" id="tab-reviews">
       <div class="panel">
         <div class="panel-head">
-          <div><h2>Pending reviews</h2><p class="muted">Approve to publish on the public site, or reject to hide.</p></div>
+          <div>
+            <h2>Reviews</h2>
+            <p>Approve reviews to publish them on the site, or reject to keep them hidden.</p>
+          </div>
         </div>
 
         <div class="toolbar">
@@ -412,7 +326,7 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
             <span class="icon">🔍</span>
           </div>
           <select class="filter-select" id="reviewStatusFilter">
-            <option value="pending">Pending only</option>
+            <option value="pending">Pending</option>
             <option value="approved">Approved</option>
             <option value="rejected">Rejected</option>
             <option value="all">All</option>
@@ -442,77 +356,76 @@ td.firm-name .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:
   </section>
 </div>
 
-<!-- FIRM EDIT MODAL -->
+<!-- FIRM MODAL -->
 <div class="modal-overlay" id="firmModal" hidden>
   <div class="modal">
     <div class="modal-head">
       <div>
-        <div class="eyebrow" id="modalEyebrow">Create</div>
+        <div class="kicker" id="modalKicker">Create</div>
         <h2 id="modalTitle">Add a prop firm</h2>
       </div>
       <button class="modal-close" id="modalClose" type="button">✕</button>
     </div>
 
-    <form id="firmForm">
-      <input id="firmId" type="hidden">
+    <div class="modal-body">
+      <form id="firmForm">
+        <input id="firmId" type="hidden">
 
-      <div class="form-section" style="border:0;padding:0;margin:0 0 12px">
-        <h3>Basic details</h3>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label for="fName">Firm name <span class="req">*</span></label><input id="fName" required></div>
-        <div class="field"><label for="fCategory">Category</label>
-          <select id="fCategory">
-            <option value="Forex / CFD">Forex / CFD</option>
-            <option value="Futures">Futures</option>
-            <option value="Crypto">Crypto</option>
-            <option value="Multi-Asset">Multi-Asset</option>
-            <option value="Other">Other</option>
-          </select>
+        <div class="form-grid">
+          <div class="field"><label>Firm name <span class="req">*</span></label><input id="fName" required></div>
+          <div class="field"><label>Category</label>
+            <select id="fCategory">
+              <option value="Forex / CFD">Forex / CFD</option>
+              <option value="Futures">Futures</option>
+              <option value="Crypto">Crypto</option>
+              <option value="Multi-Asset">Multi-Asset</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Tag</label><input id="fTag" placeholder="Top Rated, Low Cost…"></div>
+          <div class="field full"><label>Description</label><textarea id="fDescription" placeholder="Short description of the firm…"></textarea></div>
         </div>
-        <div class="field"><label for="fTag">Tag</label><input id="fTag" placeholder="Top Rated, Low Cost…"></div>
-        <div class="field full"><label for="fDescription">Description</label><textarea id="fDescription" placeholder="Short description of the firm…"></textarea></div>
-      </div>
 
-      <div class="form-section"><h3>Trading conditions</h3><p>Account rules, pricing, and payouts.</p></div>
-      <div class="form-grid">
-        <div class="field"><label for="fAccountSizes">Account sizes</label><input id="fAccountSizes" placeholder="$10K - $200K"></div>
-        <div class="field"><label for="fPrice">Starting price</label><input id="fPrice" placeholder="From €89"></div>
-        <div class="field"><label for="fProfitTarget">Profit target</label><input id="fProfitTarget" placeholder="10%"></div>
-        <div class="field"><label for="fDailyDrawdown">Daily drawdown</label><input id="fDailyDrawdown" placeholder="5%"></div>
-        <div class="field"><label for="fMaxDrawdown">Max drawdown</label><input id="fMaxDrawdown" placeholder="10%"></div>
-        <div class="field"><label for="fProfitSplit">Profit split</label><input id="fProfitSplit" placeholder="80% - 90%"></div>
-        <div class="field"><label for="fPayout">Payout</label><input id="fPayout" placeholder="Bi-weekly"></div>
-        <div class="field"><label for="fPlatforms">Platforms</label><input id="fPlatforms" placeholder="MT4, MT5, cTrader"></div>
-        <div class="field"><label for="fRating">Rating (1–5)</label><input id="fRating" type="number" min="0" max="5" step="0.1" placeholder="4.5"></div>
-        <div class="field full"><label for="fBestFor">Best for (comma separated)</label><input id="fBestFor" placeholder="Beginners, Forex traders"><span class="hint">Auto-filled if empty.</span></div>
-        <div class="field full"><label for="fPros">Pros (comma separated)</label><input id="fPros" placeholder="Low price, Fast payouts"><span class="hint">Override auto-generated pros.</span></div>
-        <div class="field full"><label for="fCons">Cons (comma separated)</label><input id="fCons" placeholder="No MT4, Slow support"><span class="hint">Override auto-generated cons.</span></div>
-      </div>
-
-      <div class="form-section"><h3>Links & status</h3></div>
-      <div class="form-grid">
-        <div class="field"><label for="fOfficialWebsite">Official website</label><input id="fOfficialWebsite" type="url" placeholder="https://…"></div>
-        <div class="field"><label for="fLogoUrl">Custom logo URL</label><input id="fLogoUrl" type="url" placeholder="https://…"><span class="hint">Optional. Falls back to favicon.</span></div>
-        <div class="field"><label for="fAffiliateLink">Affiliate link</label><input id="fAffiliateLink" type="url" placeholder="https://…"></div>
-        <div class="field"><label for="fStatus">Status</label>
-          <select id="fStatus">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
+        <div class="form-section"><h3>Trading conditions</h3></div>
+        <div class="form-grid">
+          <div class="field"><label>Account sizes</label><input id="fAccountSizes" placeholder="$10K - $200K"></div>
+          <div class="field"><label>Starting price</label><input id="fPrice" placeholder="From €89"></div>
+          <div class="field"><label>Profit target</label><input id="fProfitTarget" placeholder="10%"></div>
+          <div class="field"><label>Daily drawdown</label><input id="fDailyDrawdown" placeholder="5%"></div>
+          <div class="field"><label>Max drawdown</label><input id="fMaxDrawdown" placeholder="10%"></div>
+          <div class="field"><label>Profit split</label><input id="fProfitSplit" placeholder="80% - 90%"></div>
+          <div class="field"><label>Payout</label><input id="fPayout" placeholder="Bi-weekly"></div>
+          <div class="field"><label>Platforms</label><input id="fPlatforms" placeholder="MT4, MT5, cTrader"></div>
+          <div class="field"><label>Rating (1–5)</label><input id="fRating" type="number" min="0" max="5" step="0.1" placeholder="4.5"></div>
+          <div class="field full"><label>Best for</label><input id="fBestFor" placeholder="Beginners, Forex traders"><span class="hint">Comma separated. Auto-filled if empty.</span></div>
+          <div class="field full"><label>Pros</label><textarea id="fPros" placeholder="Low price, Fast payouts, High split"></textarea><span class="hint">Comma separated or paragraph.</span></div>
+          <div class="field full"><label>Cons</label><textarea id="fCons" placeholder="No MT4, Slow support"></textarea></div>
         </div>
-      </div>
 
-      <label class="check-row" for="fVerified">
-        <input id="fVerified" type="checkbox">
-        <label for="fVerified">Verified firm — shows green badge on public site</label>
-      </label>
+        <div class="form-section"><h3>Links & status</h3></div>
+        <div class="form-grid">
+          <div class="field"><label>Official website</label><input id="fOfficialWebsite" type="url" placeholder="https://…"></div>
+          <div class="field"><label>Logo URL</label><input id="fLogoUrl" type="url" placeholder="https://…"><span class="hint">Optional. Falls back to favicon.</span></div>
+          <div class="field"><label>Affiliate link</label><input id="fAffiliateLink" type="url" placeholder="https://…"></div>
+          <div class="field"><label>Status</label>
+            <select id="fStatus">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="form-actions">
-        <button class="btn primary" id="saveFirmBtn" type="submit">Save firm</button>
-        <button class="btn" type="button" id="cancelFirmBtn">Cancel</button>
-      </div>
-    </form>
+        <label class="check-row" for="fVerified">
+          <input id="fVerified" type="checkbox">
+          <label for="fVerified">Verified firm — shows green badge on the public site</label>
+        </label>
+
+        <div class="form-actions">
+          <button class="btn primary" id="saveFirmBtn" type="submit">Save firm</button>
+          <button class="btn" type="button" id="cancelFirmBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -531,37 +444,45 @@ let editingFirmId = null;
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+/* THEME */
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+$("themeToggle").addEventListener("click", toggleTheme);
+
+/* HELPERS */
 function toast(msg){
   const el = $("toast");
   el.textContent = msg; el.hidden = false;
   clearTimeout(toast._t);
-  toast._t = setTimeout(()=>el.hidden=true, 3500);
+  toast._t = setTimeout(() => el.hidden = true, 3000);
 }
 function showMsg(msg, type="info"){
   const el = $("message");
   el.textContent = msg;
   el.className = "msg show " + type;
   clearTimeout(showMsg._t);
-  showMsg._t = setTimeout(()=>{ el.className = "msg"; }, 5000);
+  showMsg._t = setTimeout(() => { el.className = "msg"; }, 5000);
 }
 function hideMsg(){ $("message").className = "msg"; }
 
-/* ============ AUTH ============ */
+/* AUTH */
 async function isAdmin(user){
-  if(!user) return false;
+  if (!user) return false;
   const { data, error } = await db.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
-  if(error){ console.error("Admin check:", error); return false; }
+  if (error) { console.error("Admin check:", error); return false; }
   return !!data;
 }
 
 async function showSession(){
   const { data, error } = await db.auth.getSession();
-  if(error){ showMsg(error.message, "error"); return; }
-
+  if (error) { showMsg(error.message, "error"); return; }
   const user = data.session?.user || null;
   currentUser = user;
 
-  if(!user){
+  if (!user) {
     $("loginPanel").hidden = false;
     $("dashboard").hidden = true;
     $("logoutTop").hidden = true;
@@ -569,11 +490,12 @@ async function showSession(){
     return;
   }
 
-  if(!(await isAdmin(user))){
+  if (!(await isAdmin(user))) {
     await db.auth.signOut();
     currentUser = null;
     $("loginPanel").hidden = false;
     $("dashboard").hidden = true;
+    $("logoutTop").hidden = true;
     showMsg("This account is not an authorized admin.", "error");
     return;
   }
@@ -591,19 +513,19 @@ $("loginForm").addEventListener("submit", async e => {
   const btn = $("loginButton");
   btn.disabled = true;
   showMsg("Logging in…", "info");
-  try{
+  try {
     const { error } = await db.auth.signInWithPassword({
       email: $("email").value.trim(),
       password: $("password").value
     });
-    if(error) throw error;
+    if (error) throw error;
     await showSession();
-  }catch(err){
+  } catch (err) {
     showMsg(err.message || "Login failed.", "error");
-  }finally{ btn.disabled = false; }
+  } finally { btn.disabled = false; }
 });
 
-async function doLogout(){
+$("logoutTop").addEventListener("click", async () => {
   await db.auth.signOut();
   currentUser = null;
   $("dashboard").hidden = true;
@@ -611,10 +533,9 @@ async function doLogout(){
   $("logoutTop").hidden = true;
   $("topEmail").textContent = "";
   showMsg("Logged out.", "success");
-}
-$("logoutTop").addEventListener("click", doLogout);
+});
 
-/* ============ TABS ============ */
+/* TABS */
 document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -624,11 +545,11 @@ document.querySelectorAll(".tab").forEach(tab => {
   });
 });
 
-/* ============ FIRMS ============ */
+/* FIRMS */
 async function loadFirms(){
   $("firmsBody").innerHTML = `<tr><td colspan="6" class="table-empty">Loading firms…</td></tr>`;
   const { data, error } = await db.from("firms").select("*").order("created_at", { ascending: false });
-  if(error){
+  if (error) {
     $("firmsBody").innerHTML = `<tr><td colspan="6" class="table-empty">Error: ${esc(error.message)}</td></tr>`;
     return;
   }
@@ -662,23 +583,23 @@ function renderFirms(){
 
   let list = firmsCache.slice();
 
-  if(search){
+  if (search) {
     list = list.filter(f =>
       (f.name || "").toLowerCase().includes(search) ||
       (f.category || "").toLowerCase().includes(search) ||
       (f.tag || "").toLowerCase().includes(search)
     );
   }
-  if(status !== "all") list = list.filter(f => (f.status || "").toLowerCase() === status);
-  if(verified === "yes") list = list.filter(f => f.verified === true);
-  if(verified === "no") list = list.filter(f => !f.verified);
+  if (status !== "all") list = list.filter(f => (f.status || "").toLowerCase() === status);
+  if (verified === "yes") list = list.filter(f => f.verified === true);
+  if (verified === "no") list = list.filter(f => !f.verified);
 
-  if(sort === "oldest") list.sort((a,b) => new Date(a.created_at||0) - new Date(b.created_at||0));
-  else if(sort === "name") list.sort((a,b) => (a.name||"").localeCompare(b.name||""));
-  else if(sort === "rating") list.sort((a,b) => Number(b.rating||0) - Number(a.rating||0));
-  else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
+  if (sort === "oldest") list.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
+  else if (sort === "name") list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  else if (sort === "rating") list.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+  else list.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
 
-  if(!list.length){
+  if (!list.length) {
     $("firmsBody").innerHTML = `<tr><td colspan="6" class="table-empty">No firms match your filters.</td></tr>`;
     return;
   }
@@ -691,7 +612,7 @@ function renderFirms(){
       ? `<span class="badge green">Active</span>`
       : `<span class="badge grey">${esc(f.status || "unknown")}</span>`;
     const verifiedBadge = f.verified
-      ? `<span class="badge green">✓ Verified</span>`
+      ? `<span class="badge green">Verified</span>`
       : `<span class="badge grey">Unverified</span>`;
     const tagLine = f.tag ? `<span class="sub">${esc(f.tag)}</span>` : "";
 
@@ -719,6 +640,7 @@ $("firmStatusFilter").addEventListener("change", renderFirms);
 $("firmVerifiedFilter").addEventListener("change", renderFirms);
 $("firmSort").addEventListener("change", renderFirms);
 
+/* FIRM FORM */
 function clearFirmForm(){
   editingFirmId = null;
   $("firmForm").reset();
@@ -726,16 +648,16 @@ function clearFirmForm(){
   $("fStatus").value = "active";
   $("fCategory").value = "Forex / CFD";
   $("fVerified").checked = false;
-  $("modalEyebrow").textContent = "Create";
+  $("modalKicker").textContent = "Create";
   $("modalTitle").textContent = "Add a prop firm";
   $("saveFirmBtn").textContent = "Save firm";
 }
 
 async function openFirmModal(id){
   clearFirmForm();
-  if(id){
+  if (id) {
     const firm = firmsCache.find(f => String(f.id) === String(id));
-    if(!firm) return;
+    if (!firm) return;
     editingFirmId = firm.id;
     $("firmId").value = firm.id;
     $("fName").value = firm.name || "";
@@ -759,7 +681,7 @@ async function openFirmModal(id){
     $("fAffiliateLink").value = firm.affiliate_link || "";
     $("fStatus").value = firm.status || "active";
     $("fVerified").checked = Boolean(firm.verified);
-    $("modalEyebrow").textContent = "Edit";
+    $("modalKicker").textContent = "Edit";
     $("modalTitle").textContent = "Edit " + (firm.name || "firm");
     $("saveFirmBtn").textContent = "Update firm";
   }
@@ -774,17 +696,17 @@ function closeFirmModal(){
 $("modalClose").addEventListener("click", closeFirmModal);
 $("cancelFirmBtn").addEventListener("click", closeFirmModal);
 $("newFirmBtn").addEventListener("click", () => openFirmModal(null));
-$("firmModal").addEventListener("click", e => { if(e.target === $("firmModal")) closeFirmModal(); });
+$("firmModal").addEventListener("click", e => { if (e.target === $("firmModal")) closeFirmModal(); });
 
 $("firmForm").addEventListener("submit", async e => {
   e.preventDefault();
-  if(busy) return;
+  if (busy) return;
   busy = true;
   const btn = $("saveFirmBtn");
   btn.disabled = true;
   btn.textContent = "Saving…";
 
-  try{
+  try {
     const rating = $("fRating").value === "" ? null : Number($("fRating").value);
     const payload = {
       name: $("fName").value.trim(),
@@ -811,21 +733,21 @@ $("firmForm").addEventListener("submit", async e => {
       updated_at: new Date().toISOString()
     };
 
-    if(!payload.name){ throw new Error("Firm name is required."); }
+    if (!payload.name) throw new Error("Firm name is required.");
 
     const id = $("firmId").value;
     const result = id
       ? await db.from("firms").update(payload).eq("id", id)
       : await db.from("firms").insert(payload);
 
-    if(result.error) throw result.error;
+    if (result.error) throw result.error;
 
     toast(id ? "Firm updated" : "Firm added");
     closeFirmModal();
     await loadFirms();
-  }catch(err){
+  } catch (err) {
     toast("Error: " + err.message);
-  }finally{
+  } finally {
     busy = false;
     btn.disabled = false;
     btn.textContent = editingFirmId ? "Update firm" : "Save firm";
@@ -834,15 +756,15 @@ $("firmForm").addEventListener("submit", async e => {
 
 async function deleteFirm(id){
   const firm = firmsCache.find(f => String(f.id) === String(id));
-  if(!firm) return;
-  if(!confirm(`Delete "${firm.name}"? This cannot be undone.`)) return;
+  if (!firm) return;
+  if (!confirm(`Delete "${firm.name}"? This cannot be undone.`)) return;
   const { error } = await db.from("firms").delete().eq("id", id);
-  if(error){ toast("Delete failed: " + error.message); return; }
+  if (error) { toast("Delete failed: " + error.message); return; }
   toast("Firm deleted");
   await loadFirms();
 }
 
-/* ============ REVIEWS ============ */
+/* REVIEWS */
 async function loadReviews(){
   $("reviewsBody").innerHTML = `<tr><td colspan="6" class="table-empty">Loading reviews…</td></tr>`;
 
@@ -851,7 +773,7 @@ async function loadReviews(){
     db.from("firms").select("id,name")
   ]);
 
-  if(reviewRes.error){
+  if (reviewRes.error) {
     $("reviewsBody").innerHTML = `<tr><td colspan="6" class="table-empty">Error: ${esc(reviewRes.error.message)}</td></tr>`;
     return;
   }
@@ -867,8 +789,8 @@ function renderReviews(){
   const status = $("reviewStatusFilter").value;
 
   let list = reviewsCache.slice();
-  if(status !== "all") list = list.filter(r => String(r.status || "").toLowerCase() === status);
-  if(search){
+  if (status !== "all") list = list.filter(r => String(r.status || "").toLowerCase() === status);
+  if (search) {
     list = list.filter(r =>
       (r.reviewer_name || "").toLowerCase().includes(search) ||
       (r._firmName || "").toLowerCase().includes(search) ||
@@ -876,7 +798,7 @@ function renderReviews(){
     );
   }
 
-  if(!list.length){
+  if (!list.length) {
     $("reviewsBody").innerHTML = `<tr><td colspan="6" class="table-empty">No reviews match your filters.</td></tr>`;
     return;
   }
@@ -885,15 +807,15 @@ function renderReviews(){
     const s = String(r.status || "pending").toLowerCase();
     const badgeClass = s === "approved" ? "green" : s === "rejected" ? "red" : "amber";
     const stars = "★".repeat(Math.min(5, Number(r.rating) || 0)) + "☆".repeat(5 - Math.min(5, Number(r.rating) || 0));
-    const snippet = (r.review_text || "").slice(0, 120) + ((r.review_text || "").length > 120 ? "…" : "");
+    const snippet = (r.review_text || "").slice(0, 100) + ((r.review_text || "").length > 100 ? "…" : "");
     const showApprove = s !== "approved";
     const showReject = s !== "rejected";
 
     return `<tr>
       <td class="firm-name">${esc(r.reviewer_name || "Anonymous")}</td>
       <td>${esc(r._firmName)}</td>
-      <td>${esc(stars)}</td>
-      <td style="max-width:340px;color:var(--muted)">${esc(snippet)}</td>
+      <td style="color:var(--gold)">${esc(stars)}</td>
+      <td style="max-width:340px;color:var(--text-dim)">${esc(snippet)}</td>
       <td><span class="badge ${badgeClass}">${esc(s)}</span></td>
       <td>
         <div class="row-actions">
@@ -912,27 +834,27 @@ $("reviewSearch").addEventListener("input", renderReviews);
 $("reviewStatusFilter").addEventListener("change", renderReviews);
 
 async function moderateReview(id, status, btn){
-  if(busy) return;
+  if (busy) return;
   busy = true;
   btn.disabled = true;
-  try{
+  try {
     const { error } = await db.from("firm_reviews").update({ status }).eq("id", id);
-    if(error) throw error;
+    if (error) throw error;
     toast("Review " + status);
     await loadReviews();
-  }catch(err){
+  } catch (err) {
     toast("Error: " + err.message);
     btn.disabled = false;
-  }finally{ busy = false; }
+  } finally { busy = false; }
 }
 
-/* ============ REFRESH ============ */
+/* REFRESH */
 $("refreshAll").addEventListener("click", async () => {
   await Promise.all([loadFirms(), loadReviews()]);
   toast("Refreshed");
 });
 
-/* ============ INIT ============ */
+/* INIT */
 db.auth.onAuthStateChange(() => setTimeout(showSession, 0));
 showSession();
 </script>
