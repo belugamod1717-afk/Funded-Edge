@@ -3,588 +3,763 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FundedEdge — Compare Prop Trading Firms, Rules & Payouts</title>
-<meta name="description" content="Compare prop firms side by side. Browse account sizes, profit targets, drawdown rules, profit splits and payout policies. Find the right prop firm for your strategy.">
-<meta name="theme-color" content="#0a0f14">
+<title>FundedEdge — Compare Prop Trading Firms</title>
+<meta name="description" content="An independent directory of prop trading firms. Compare rules, pricing, profit splits, and payouts side by side.">
+<meta name="theme-color" content="#0b0e11">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FundedEdge">
 <meta property="og:title" content="FundedEdge — Compare Prop Trading Firms">
-<meta property="og:description" content="Compare rules, pricing, and payouts across prop firms in one place.">
+<meta property="og:description" content="An independent directory of prop trading firms.">
 <meta property="og:url" content="https://funded-edge-two.vercel.app/">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FundedEdge — Compare Prop Trading Firms">
-<meta name="twitter:description" content="Compare rules, pricing, and payouts across prop firms.">
-<meta name="twitter:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <link rel="preconnect" href="https://esm.sh">
 <link rel="preconnect" href="https://mvltzznwdglwaedfzxze.supabase.co">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0a0f14;
-  --panel:#10161c;
-  --panel2:#0d1419;
-  --border:rgba(120,170,220,.15);
-  --blue:#4a9eff;
-  --blue2:#2d7dd2;
-  --text:#f0f5fa;
-  --muted:#8fa3b8;
+  --bg:#0b0e11;
+  --surface:#131820;
+  --surface-2:#161c26;
+  --line:#242b35;
+  --line-2:#2f3846;
+  --text:#e6ebf0;
+  --text-dim:#a3aebd;
+  --text-mute:#6b7787;
+  --accent:#4a9eff;
+  --accent-dim:#2f5f8f;
+  --accent-bg:rgba(74,158,255,.08);
+  --success:#4ade80;
+  --gold:#e4b949;
 }
-
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:95px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{
-  margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:"DM Sans",sans-serif;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-size:15px;
   line-height:1.6;
-  overflow-x:hidden;
-  position:relative;
+  -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;text-decoration:none}
-button,input,select{font:inherit}
+button,input{font:inherit}
 
-/* ============ ANIMATIONS ============ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
-@keyframes shimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
-@keyframes gridMove{from{background-position:0 0}to{background-position:60px 60px}}
-@keyframes glowPulse{0%,100%{opacity:.55}50%{opacity:1}}
-@keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
-@keyframes orbit{from{transform:rotate(0deg) translateX(70px) rotate(0deg)}to{transform:rotate(360deg) translateX(70px) rotate(-360deg)}}
-@keyframes drawLine{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
-@keyframes dotTravel{0%{offset-distance:0%}100%{offset-distance:100%}}
-@keyframes bubbleRise{from{transform:translateY(0) scale(1);opacity:.7}to{transform:translateY(-400px) scale(1.6);opacity:0}}
+/* Container */
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
 
-/* ============ AMBIENT ============ */
-.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.ambient::before{content:"";position:absolute;top:-300px;left:-200px;width:900px;height:900px;background:radial-gradient(circle,rgba(74,158,255,.10),transparent 60%);animation:glowPulse 8s ease-in-out infinite}
-.ambient::after{content:"";position:absolute;bottom:-400px;right:-200px;width:800px;height:800px;background:radial-gradient(circle,rgba(45,125,210,.07),transparent 65%);animation:glowPulse 10s ease-in-out infinite reverse}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(74,158,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 30s linear infinite;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
-.cursor-glow{position:fixed;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(74,158,255,.14),transparent 60%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;will-change:transform}
-@media(hover:hover){.cursor-glow{opacity:1}}
-.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--blue);opacity:0;box-shadow:0 0 10px var(--blue);animation:bubbleRise 12s linear infinite}
-.container{width:min(1160px,91%);margin:auto;position:relative;z-index:1}
+/* Nav */
+.nav{
+  border-bottom:1px solid var(--line);
+  background:rgba(11,14,17,.92);
+  backdrop-filter:blur(12px);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+  gap:24px;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:17px;
+  letter-spacing:-.3px;
+  color:var(--text);
+}
+.logo-mark{
+  width:28px;
+  height:28px;
+  border-radius:6px;
+  background:var(--accent);
+  color:#0b0e11;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:14px;
+}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:28px;font-size:14px}
+.nav-links a{color:var(--text-dim);transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.btn-ghost{
+  padding:8px 14px;
+  border-radius:6px;
+  border:1px solid var(--line-2);
+  color:var(--text-dim);
+  font-size:13px;
+  font-weight:500;
+  transition:.15s;
+}
+.btn-ghost:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-primary{
+  padding:8px 14px;
+  border-radius:6px;
+  background:var(--accent);
+  color:#0b0e11;
+  font-size:13px;
+  font-weight:600;
+  transition:.15s;
+  border:1px solid var(--accent);
+}
+.btn-primary:hover{background:#5caaff;border-color:#5caaff}
 
-/* ============ NAV ============ */
-.nav{position:sticky;top:0;z-index:100;background:rgba(10,15,20,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);animation:fadeIn .5s ease}
-.nav-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{display:flex;align-items:center;gap:10px;font-family:Manrope,sans-serif;font-weight:800;font-size:22px;letter-spacing:-1px;flex-shrink:0;transition:.3s}
-.logo:hover{transform:translateY(-1px);text-shadow:0 0 24px rgba(74,158,255,.5)}
-.logo span{color:var(--blue)}
-.logo-mark{display:grid;place-items:center;width:37px;height:37px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;font-size:20px;font-weight:900;box-shadow:0 0 20px rgba(74,158,255,.35);transition:.4s cubic-bezier(.4,0,.2,1)}
-.logo:hover .logo-mark{transform:rotate(-8deg) scale(1.05)}
-.nav-links{display:flex;align-items:center;gap:24px;color:#bdcbd8;font-size:14px}
-.nav-links a{position:relative;transition:color .25s}
-.nav-links a::after{content:"";position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--blue);transition:width .3s cubic-bezier(.4,0,.2,1);border-radius:2px}
-.nav-links a:hover{color:var(--blue)}
-.nav-links a:hover::after{width:100%}
-.nav-cta{background:var(--blue);color:#061321;font-weight:700;border-radius:10px;padding:12px 18px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s cubic-bezier(.4,0,.2,1);border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden}
-.nav-cta::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%)}
-.nav-cta:hover::before{animation:shine .8s}
-.nav-cta:hover{background:#7db8ff;transform:translateY(-2px);box-shadow:0 10px 30px rgba(74,158,255,.3)}
-.fe-auth-area{display:flex;align-items:center;gap:10px}
-.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:.25s}
-.fe-auth-area .fe-auth-signin{background:transparent;color:#e0ecf3;border:1px solid #2a3f52}
-.fe-auth-area .fe-auth-signin:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
-.fe-auth-area .fe-auth-signup{background:var(--blue);color:#061321;border:1px solid var(--blue)}
-.fe-auth-area .fe-auth-signup:hover{background:#7db8ff;transform:translateY(-1px);box-shadow:0 8px 20px rgba(74,158,255,.3)}
-.fe-auth-area .fe-user-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #2a3f52;border-radius:10px;color:#e0ecf3;font-weight:600;font-size:13px;background:rgba(74,158,255,.08);transition:.25s}
-.fe-auth-area .fe-user-chip:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
-.fe-auth-area .fe-user-initial{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:var(--blue);color:#061321;font-weight:800;font-size:11px}
+/* Auth chip (logged-in state) */
+.user-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px 6px 6px;
+  border-radius:999px;
+  border:1px solid var(--line-2);
+  color:var(--text);
+  font-size:13px;
+  font-weight:500;
+  transition:.15s;
+}
+.user-chip:hover{border-color:var(--accent-dim)}
+.user-initial{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:var(--accent);
+  color:#0b0e11;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:11px;
+}
 
-/* ============ SCROLL REVEAL ============ */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
-.reveal.in{opacity:1;transform:translateY(0)}
-.reveal-stagger>*{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1)}
-.reveal-stagger.in>*{opacity:1;transform:translateY(0)}
-.reveal-stagger.in>*:nth-child(1){transition-delay:.05s}
-.reveal-stagger.in>*:nth-child(2){transition-delay:.13s}
-.reveal-stagger.in>*:nth-child(3){transition-delay:.21s}
-.reveal-stagger.in>*:nth-child(4){transition-delay:.29s}
-.reveal-stagger.in>*:nth-child(5){transition-delay:.37s}
-.reveal-stagger.in>*:nth-child(6){transition-delay:.45s}
-.reveal-stagger.in>*:nth-child(7){transition-delay:.53s}
-.reveal-stagger.in>*:nth-child(8){transition-delay:.61s}
+/* Hero */
+.hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:64px;
+  align-items:center;
+}
+.hero h1{
+  font-size:clamp(36px,4.5vw,52px);
+  line-height:1.1;
+  letter-spacing:-1.4px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:20px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--accent);
+}
+.hero .lead{
+  font-size:17px;
+  line-height:1.65;
+  color:var(--text-dim);
+  max-width:540px;
+  margin-bottom:32px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-lg{
+  padding:11px 20px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  transition:.15s;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-lg.primary{background:var(--accent);color:#0b0e11;border:1px solid var(--accent)}
+.btn-lg.primary:hover{background:#5caaff}
+.btn-lg.secondary{background:transparent;color:var(--text);border:1px solid var(--line-2)}
+.btn-lg.secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
 
-/* ============ HERO ============ */
-.hero{position:relative;overflow:hidden;padding:110px 0 90px;background:radial-gradient(ellipse at 78% 30%, rgba(45,100,180,.19), transparent 40%),radial-gradient(ellipse at 12% 5%, rgba(42,100,140,.12), transparent 42%)}
-.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
-@media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:40px}}
-.hero-copy>*{animation:fadeUp .8s ease both}
-.hero-copy>*:nth-child(1){animation-delay:.05s}
-.hero-copy>*:nth-child(2){animation-delay:.15s}
-.hero-copy>*:nth-child(3){animation-delay:.25s}
-.hero-copy>*:nth-child(4){animation-delay:.35s}
-.hero-copy>*:nth-child(5){animation-delay:.45s}
-.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:1.7px;text-transform:uppercase;border:1px solid #254058;border-radius:50px;padding:7px 14px;background:rgba(15,30,45,.6)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue);animation:pulse 2s ease-in-out infinite}
-h1,h2,h3{font-family:Manrope,sans-serif;letter-spacing:-1.3px}
-h1{font-size:clamp(40px,6.2vw,72px);line-height:1.05;max-width:760px;margin:25px 0 22px;font-weight:800;background:linear-gradient(180deg,#fff 0%,#c9d8e2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.gradient{background:linear-gradient(135deg,#4a9eff 0%,#2d7dd2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative}
-.gradient::after{content:"";position:absolute;bottom:-4px;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--blue),transparent);border-radius:2px}
-.hero p{color:#a8b8c8;max-width:600px;font-size:17px;line-height:1.8;margin:0}
-.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
-.primary-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#061321;font-weight:800;font-size:15px;transition:.3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;border:1px solid transparent;cursor:pointer}
-.primary-btn::before{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%)}
-.primary-btn:hover::before{animation:shine .8s}
-.primary-btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(74,158,255,.4)}
-.primary-btn .arrow{transition:transform .3s}
-.primary-btn:hover .arrow{transform:translateX(4px)}
-.secondary-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 24px;border:1px solid #2a4055;border-radius:12px;color:#e0ecf3;font-weight:600;font-size:15px;transition:.25s}
-.secondary-btn:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);background:rgba(74,158,255,.05)}
-.trust-line{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;color:#8fa3b8;font-size:12px}
-.trust-line span{display:inline-flex;align-items:center;gap:7px}
-.trust-line span::before{content:"✓";color:var(--blue);font-weight:bold}
+/* Hero side panel */
+.hero-panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:20px;
+}
+.hero-panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:16px;
+}
+.hero-panel-head h3{
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  color:var(--text-mute);
+}
+.stat-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:16px;
+}
+.stat-box{
+  padding:14px;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  border-radius:6px;
+}
+.stat-box .k{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.stat-box .v{font-size:18px;font-weight:600;color:var(--text)}
+.top-list{display:flex;flex-direction:column;gap:8px}
+.top-list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-size:13px;
+}
+.top-list-item .name{color:var(--text);font-weight:500}
+.top-list-item .val{color:var(--gold);font-weight:600}
 
-/* HERO VISUAL */
-.hero-visual{position:relative;height:440px;animation:fadeIn 1.1s ease .3s both}
-@media(max-width:900px){.hero-visual{height:360px}}
-.chart-panel{position:relative;width:100%;height:100%;background:linear-gradient(145deg,#0f161e,#091016);border:1px solid #2a4055;border-radius:22px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.03)}
-.chart-panel::before{content:"";position:absolute;inset:0;border-radius:22px;padding:1px;background:linear-gradient(135deg,rgba(74,158,255,.5),transparent 45%,transparent 55%,rgba(74,158,255,.3));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.chart-header{position:absolute;top:0;left:0;right:0;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(74,158,255,.1);z-index:2}
-.chart-header .title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.5px}
-.chart-header .live-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px var(--blue);animation:pulse 1.6s ease-in-out infinite}
-.chart-header .value{font-size:14px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
-.chart-svg{position:absolute;inset:44px 0 0 0;width:100%;height:calc(100% - 44px);z-index:1}
-.chart-line{fill:none;stroke:url(#lineGradient);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawLine 3s cubic-bezier(.4,0,.2,1) .5s forwards;filter:drop-shadow(0 0 12px rgba(74,158,255,.7))}
-.chart-area{fill:url(#areaGradient);opacity:0;animation:fadeIn 1.5s ease 2s forwards}
-.chart-grid line{stroke:rgba(74,158,255,.08);stroke-width:1}
-.travel-dot{fill:#fff;filter:drop-shadow(0 0 10px var(--blue)) drop-shadow(0 0 20px var(--blue));offset-path:path("M 20,180 C 80,160 120,140 180,120 S 300,60 380,40");animation:dotTravel 3s cubic-bezier(.4,0,.2,1) .5s forwards}
-.chart-badges{position:absolute;bottom:20px;left:20px;right:20px;display:flex;gap:10px;z-index:2}
-.chart-badge{flex:1;padding:12px 14px;background:rgba(5,16,25,.75);border:1px solid #1f3240;border-radius:12px;backdrop-filter:blur(8px);animation:fadeUp .8s ease both}
-.chart-badge:nth-child(1){animation-delay:2.3s}
-.chart-badge:nth-child(2){animation-delay:2.45s}
-.chart-badge:nth-child(3){animation-delay:2.6s}
-.chart-badge small{display:block;color:#7a8a99;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px}
-.chart-badge strong{display:block;font-size:15px;font-weight:800;color:#eaf0f5;font-variant-numeric:tabular-nums}
-.chart-badge strong.up::after{content:" ▲";color:var(--blue);font-size:10px}
-.orbit{position:absolute;top:50%;left:50%;width:0;height:0;animation:orbit 24s linear infinite;pointer-events:none}
-.orbit-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 16px var(--blue),0 0 32px rgba(74,158,255,.5)}
-.orbit-2{animation-duration:18s;animation-direction:reverse}
-.orbit-2 .orbit-dot{background:#7cc9f0;box-shadow:0 0 16px #7cc9f0}
-.orbit-3{animation-duration:30s}
-.orbit-3 .orbit-dot{background:#f5d77b;box-shadow:0 0 16px #f5d77b}
+/* Section */
+.section{padding:72px 0;border-bottom:1px solid var(--line)}
+.section-head{margin-bottom:40px;max-width:640px}
+.section-head .kicker{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  color:var(--text-mute);
+  margin-bottom:12px;
+}
+.section-head h2{
+  font-size:28px;
+  line-height:1.25;
+  letter-spacing:-.6px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:12px;
+}
+.section-head p{color:var(--text-dim);font-size:15px}
 
-/* STATS */
-.stats-band{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 0 60px}
-.stat{padding:26px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(140deg,#0e1a24,#0a1018);transition:.4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.stat::before{content:"";position:absolute;top:-50%;right:-50%;width:160px;height:160px;background:radial-gradient(circle,rgba(74,158,255,.18),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none}
-.stat::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.4,0,.2,1)}
-.stat:hover{transform:translateY(-8px);border-color:rgba(74,158,255,.5);box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.stat:hover::before{opacity:1}
-.stat:hover::after{transform:scaleX(1)}
-.stat .icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(74,158,255,.1);color:var(--blue);font-size:20px;font-weight:800;margin-bottom:16px;transition:.4s cubic-bezier(.4,0,.2,1)}
-.stat:hover .icon{transform:rotate(-10deg) scale(1.15);background:rgba(74,158,255,.2);box-shadow:0 0 25px rgba(74,158,255,.4)}
-.stat strong{display:block;font:800 22px Manrope,sans-serif;color:var(--text);margin-bottom:6px;letter-spacing:-.4px}
-.stat span{font-size:13px;color:var(--muted);line-height:1.5}
+/* Firm preview grid */
+.firm-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+.firm-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:18px;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+}
+.firm-card:hover{
+  border-color:var(--line-2);
+  background:var(--surface-2);
+}
+.firm-card-head{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
+.firm-logo{
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  font-size:14px;
+  font-weight:700;
+  color:var(--accent);
+}
+.firm-logo img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:6px;
+  background:#fff;
+}
+.firm-card-meta{flex:1;min-width:0}
+.firm-card-meta .cat{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--text-mute);
+  margin-bottom:4px;
+}
+.firm-card-meta h3{
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+  letter-spacing:-.2px;
+  overflow-wrap:anywhere;
+}
+.firm-card-rating{
+  font-size:12px;
+  font-weight:600;
+  color:var(--gold);
+  white-space:nowrap;
+}
+.firm-card-desc{
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:1.6;
+  margin-bottom:14px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.firm-card-rows{
+  border-top:1px solid var(--line);
+  padding-top:12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 12px;
+  margin-bottom:14px;
+}
+.firm-card-rows .row-k{font-size:11px;color:var(--text-mute);margin-bottom:2px}
+.firm-card-rows .row-v{font-size:13px;color:var(--text);font-weight:500;overflow-wrap:anywhere}
+.firm-card-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  margin-top:auto;
+  transition:.15s;
+}
+.firm-card-cta:hover{color:#5caaff}
 
-/* SECTION */
-.section{padding:50px 0 70px;scroll-margin-top:95px;position:relative}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:32px}
-.section-kicker{font-size:11px;color:var(--blue);font-weight:700;letter-spacing:1.8px;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px}
-.section-kicker::before{content:"";width:24px;height:1px;background:var(--blue)}
-h2{font-size:clamp(28px,4vw,42px);margin:10px 0 8px;line-height:1.15;background:linear-gradient(180deg,#fff 0%,#b8c8d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.section-head p{margin:0;color:var(--muted);font-size:14px}
-.section-note{font-size:12px;color:#8fa3b8;display:inline-flex;align-items:center;gap:6px}
-#firmsGrid{min-height:120px}
-#firmsGrid:empty:before{content:"Loading prop firms...";display:block;padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:14px;background:linear-gradient(90deg,transparent 0%,rgba(74,158,255,.06) 50%,transparent 100%),#0a1018;background-size:500px 100%;animation:shimmer 1.6s infinite linear}
+/* Features */
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.feature{
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface);
+}
+.feature-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:500;
+  color:var(--text-mute);
+  margin-bottom:14px;
+  letter-spacing:.5px;
+}
+.feature h3{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:8px;
+  letter-spacing:-.2px;
+}
+.feature p{font-size:14px;color:var(--text-dim);line-height:1.65}
 
-/* FILTERS */
-.fe-filters-toggle{display:none;align-items:center;justify-content:center;gap:8px;width:100%;margin:18px 0 0;padding:14px;border:1px solid #2c405a;border-radius:12px;background:linear-gradient(145deg,#101a24,#0a1018);color:#8fc7ff;font-weight:800;font-size:14px;cursor:pointer;transition:.2s}
-.fe-filters-toggle:hover{border-color:var(--blue);background:#173755}
-.fe-filters-toggle .fe-caret{display:inline-block;transition:transform .2s;font-size:11px}
-.fe-filters-toggle.is-open .fe-caret{transform:rotate(180deg)}
-.fe-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin:14px 0 24px;padding:20px;border:1px solid #22374d;border-radius:16px;background:linear-gradient(145deg,#101a24,#0a1018);box-shadow:0 12px 35px rgba(0,0,0,.12)}
-.fe-filters input,.fe-filters select{box-sizing:border-box;width:100%;min-width:0;padding:12px;border:1px solid #2c405a;border-radius:9px;background:#0a141c;color:#f1f7fa;font:inherit;outline:none;transition:.2s}
-.fe-filters input:focus,.fe-filters select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,158,255,.1)}
-.fe-filters input::placeholder{color:#8fa3b8}
-.fe-filter-label{display:block;margin-bottom:7px;color:#b6c8d8;font-size:12px;font-weight:600}
-.fe-filter-actions{display:flex;align-items:end}
-.fe-reset{width:100%;padding:12px;border:1px solid #2c405a;border-radius:9px;background:#173755;color:#8fc7ff;font-weight:700;cursor:pointer;transition:.2s}
-.fe-reset:hover{background:#1f4d7a;border-color:var(--blue)}
-.fe-results-count{margin:14px 0;color:#9eb4c4;font-size:13px}
-#firmsGrid .firm-card{box-sizing:border-box;position:relative;display:flex;flex-direction:column;min-width:0;padding:24px;overflow:hidden;border:1px solid #22394d;border-radius:18px;background:radial-gradient(ellipse at top right,rgba(57,133,182,.12),transparent 48%),linear-gradient(145deg,#101a24,#0a1018 80%);box-shadow:0 8px 26px rgba(0,0,0,.13);transition:transform .35s cubic-bezier(.4,0,.2,1),border-color .35s,box-shadow .35s}
-#firmsGrid .firm-card:hover{transform:translateY(-6px);border-color:#4a9eff;box-shadow:0 20px 45px rgba(0,0,0,.3),0 0 0 1px rgba(74,158,255,.15)}
-
-/* FEATURES */
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.feature{border:1px solid var(--border);border-radius:18px;background:linear-gradient(145deg,var(--panel),#0a1018);padding:26px;transition:.4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
-.feature::before{content:"";position:absolute;top:-40%;right:-40%;width:180px;height:180px;background:radial-gradient(circle,rgba(74,158,255,.12),transparent 70%);opacity:0;transition:opacity .4s}
-.feature:hover{border-color:rgba(74,158,255,.4);transform:translateY(-6px);box-shadow:0 24px 50px rgba(0,0,0,.35)}
-.feature:hover::before{opacity:1}
-.feature-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(74,158,255,.05));color:var(--blue);font-size:22px;margin-bottom:20px;border:1px solid rgba(74,158,255,.2);transition:.4s cubic-bezier(.4,0,.2,1)}
-.feature:hover .feature-icon{transform:rotate(-10deg) scale(1.1);box-shadow:0 0 25px rgba(74,158,255,.3)}
-.feature h3{font-size:17px;letter-spacing:-.4px;margin:0 0 10px;font-weight:800}
-.feature p{font-size:13.5px;line-height:1.75;color:var(--muted);margin:0}
-
-/* BOTTOM CTA */
-.bottom-cta{position:relative;padding:44px 40px;border:1px solid #2a4055;border-radius:22px;background:radial-gradient(ellipse at 90% 0%,#173d55,transparent 55%),radial-gradient(ellipse at 10% 100%,#123040,transparent 50%),#0d1a22;display:flex;align-items:center;justify-content:space-between;gap:30px;overflow:hidden}
-.bottom-cta::before{content:"";position:absolute;inset:0;padding:1px;border-radius:22px;background:linear-gradient(135deg,rgba(74,158,255,.5),transparent 40%,transparent 60%,rgba(74,158,255,.3));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.bottom-cta::after{content:"";position:absolute;top:-50%;left:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(74,158,255,.15),transparent 70%);animation:glowPulse 6s ease-in-out infinite;pointer-events:none}
-.bottom-cta h2{font-size:32px;margin:0 0 10px;letter-spacing:-.8px}
-.bottom-cta p{color:var(--muted);font-size:14.5px;margin:0;max-width:520px;line-height:1.7}
+/* CTA band */
+.cta-band{
+  padding:36px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.cta-band h3{font-size:20px;font-weight:600;letter-spacing:-.3px;margin-bottom:6px}
+.cta-band p{color:var(--text-dim);font-size:14px}
 
 /* FAQ */
-.faq-list{display:grid;gap:13px;max-width:900px;margin:36px auto 0}
-.faq-item{background:linear-gradient(145deg,#101a24,#0a1018);border:1px solid #22374d;border-radius:15px;overflow:hidden;transition:.35s cubic-bezier(.4,0,.2,1)}
-.faq-item:hover,.faq-item[open]{border-color:rgba(74,158,255,.5);box-shadow:0 12px 32px rgba(0,0,0,.2)}
-.faq-item:hover{transform:translateX(6px)}
-.faq-item summary{position:relative;padding:22px 60px 22px 24px;cursor:pointer;list-style:none;color:#f0f5fa;font-family:Manrope,sans-serif;font-size:15px;font-weight:700}
+.faq{max-width:760px;margin:0 auto}
+.faq-item{
+  border-bottom:1px solid var(--line);
+}
+.faq-item summary{
+  padding:20px 0;
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  font-size:15px;
+  font-weight:500;
+  color:var(--text);
+}
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);color:var(--blue);font-size:26px;font-weight:300;transition:transform .3s}
-.faq-item[open] summary::after{content:"−";transform:translateY(-50%) rotate(180deg)}
-.faq-answer{padding:0 24px 24px;color:#a8bcc8;font-size:14px;line-height:1.85;max-width:800px}
+.faq-item summary::after{
+  content:"+";
+  color:var(--text-mute);
+  font-size:18px;
+  font-weight:400;
+  transition:.15s;
+  flex-shrink:0;
+}
+.faq-item[open] summary::after{content:"−"}
+.faq-item p{
+  padding:0 0 20px;
+  color:var(--text-dim);
+  font-size:14px;
+  line-height:1.7;
+  max-width:640px;
+}
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:32px 0;margin-top:70px;position:relative;z-index:1}
-.footer-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:15px;color:#8fa3b8;font-size:12px}
-.footer-links{display:flex;gap:18px}
-.footer-links a{transition:color .2s}
-.footer-links a:hover{color:var(--blue)}
+/* Footer */
+footer{
+  padding:32px 0;
+  color:var(--text-mute);
+  font-size:13px;
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.footer-links{display:flex;gap:20px}
+.footer-links a:hover{color:var(--text-dim)}
 
-/* RESPONSIVE */
-@media(max-width:850px){
-  .hero-inner{grid-template-columns:1fr;gap:40px}
-  .hero-visual{height:340px}
+/* Responsive */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
   .features{grid-template-columns:1fr}
-  .bottom-cta{flex-direction:column;align-items:flex-start;padding:32px 26px}
-  .stats-band{grid-template-columns:1fr;gap:12px}
-  .fe-filters-toggle{display:flex}
-  .fe-filters{grid-template-columns:1fr;max-height:0;overflow:hidden;padding:0 20px;margin:0;border-width:0;opacity:0;transition:max-height .35s ease,padding .35s ease,opacity .25s ease,margin .35s ease,border-width .2s ease}
-  .fe-filters.is-open{max-height:900px;padding:20px;margin:12px 0 24px;border-width:1px;opacity:1}
+  .section{padding:56px 0}
+  .hero{padding:56px 0 40px}
 }
-@media(max-width:700px){
-  .nav-inner{min-height:66px}
-  .nav-links{gap:12px;font-size:12px}
+@media (max-width:700px){
+  .nav-links{gap:18px;font-size:13px}
   .nav-links .hide-mobile{display:none}
-  .nav-cta{padding:9px 11px;font-size:12px}
-  .fe-auth-area{gap:6px}
-  .fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup,.fe-auth-area .fe-user-chip{padding:8px 10px;font-size:12px}
-  .logo{font-size:19px}
-  .logo-mark{width:33px;height:33px}
-  .hero{padding:70px 0 50px}
-  .hero p{font-size:15px}
-  .stat{padding:18px 20px}
-  .section{padding:36px 0 50px}
-  .section-head{flex-direction:column;align-items:flex-start}
-  .faq-item summary{padding:18px 50px 18px 18px;font-size:14px}
-  .faq-answer{padding:0 18px 18px;font-size:13px}
-  .chart-badges{flex-direction:column;gap:8px;bottom:14px;left:14px;right:14px}
-  .chart-badge{padding:9px 12px}
-}
-@media(max-width:480px){
-  .hero h1{letter-spacing:-.7px}
-  .bottom-cta h2{font-size:24px}
-  .footer-inner{align-items:flex-start;flex-direction:column}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
-  .cursor-glow,.particles{display:none}
+  .container{padding:0 18px}
+  .cta-band{padding:24px;flex-direction:column;align-items:flex-start;gap:20px}
+  .hero h1{letter-spacing:-.8px}
 }
 </style>
 </head>
 
 <body>
-<div class="ambient"><div class="grid-bg"></div></div>
-<div class="cursor-glow" id="cursorGlow"></div>
-<div class="particles" id="particles"></div>
 
-<header class="nav">
+<nav class="nav">
   <div class="container nav-inner">
-    <a class="logo" href="/" aria-label="FundedEdge homepage">
-      <div class="logo-mark">F</div>
+    <a class="logo" href="/">
+      <span class="logo-mark">F</span>
       Funded<span>Edge</span>
     </a>
-    <nav class="nav-links">
-      <a href="directory.html">Directory</a>
-      <a class="hide-mobile" href="compare.html">Compare</a>
-      <a class="hide-mobile" href="#why-us">Why FundedEdge</a>
+    <div class="nav-links">
+      <a href="firms.html">Prop Firms</a>
+      <a class="hide-mobile" href="#how">How it works</a>
       <a class="hide-mobile" href="#faq">FAQ</a>
-      <div id="feAuthArea" class="fe-auth-area">
-        <a class="nav-cta fe-auth-signin" href="auth.html?mode=signin">Sign In</a>
-        <a class="nav-cta fe-auth-signup" href="auth.html?mode=signup">Sign Up</a>
-      </div>
-    </nav>
+    </div>
+    <div class="nav-actions" id="feAuthArea">
+      <a class="btn-ghost" href="auth.html?mode=signin">Sign in</a>
+      <a class="btn-primary" href="auth.html?mode=signup">Get started</a>
+    </div>
   </div>
-</header>
+</nav>
 
 <main>
+
+  <!-- HERO -->
   <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <div class="eyebrow"><span class="dot"></span>YOUR EDGE STARTS HERE</div>
-        <h1>Find the right prop firm.<br><span class="gradient">Trade with confidence.</span></h1>
-        <p>Compare proprietary trading firms in one place. Explore account sizes, trading rules, profit splits, and payout options to find a firm that fits your strategy.</p>
+    <div class="container hero-grid">
+      <div>
+        <h1>Compare prop firms, <em>side by side.</em></h1>
+        <p class="lead">An independent directory of proprietary trading firms. We collect the rules, pricing, and payout terms so you can make a more informed decision.</p>
         <div class="hero-actions">
-          <a class="primary-btn" href="#directory">Explore Prop Firms <span class="arrow">→</span></a>
-          <a class="secondary-btn" href="#why-us">How it works</a>
-        </div>
-        <div class="trust-line">
-          <span>Compare trading rules</span>
-          <span>Explore account options</span>
-          <span>Research before you buy</span>
+          <a class="btn-lg primary" href="firms.html">Browse firms →</a>
+          <a class="btn-lg secondary" href="#how">How it works</a>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="orbit"><div class="orbit-dot"></div></div>
-        <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
-        <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
-
-        <div class="chart-panel">
-          <div class="chart-header">
-            <div class="title"><span class="live-dot"></span>FTMO · PROGRESS</div>
-            <div class="value" id="chartValue">+94.2%</div>
+      <div class="hero-panel">
+        <div class="hero-panel-head">
+          <h3>Directory snapshot</h3>
+        </div>
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="k">Firms listed</div>
+            <div class="v" id="firmCount">—</div>
           </div>
-
-          <svg class="chart-svg" viewBox="0 0 400 220" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lineGradient" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0%" stop-color="#2d7dd2"/>
-                <stop offset="50%" stop-color="#4a9eff"/>
-                <stop offset="100%" stop-color="#8fc7ff"/>
-              </linearGradient>
-              <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stop-color="rgba(74,158,255,.35)"/>
-                <stop offset="100%" stop-color="rgba(74,158,255,0)"/>
-              </linearGradient>
-            </defs>
-            <g class="chart-grid" stroke-width="1">
-              <line x1="0" y1="55" x2="400" y2="55"/>
-              <line x1="0" y1="110" x2="400" y2="110"/>
-              <line x1="0" y1="165" x2="400" y2="165"/>
-              <line x1="100" y1="0" x2="100" y2="220"/>
-              <line x1="200" y1="0" x2="200" y2="220"/>
-              <line x1="300" y1="0" x2="300" y2="220"/>
-            </g>
-            <path class="chart-area" d="M 20,180 C 80,160 120,140 180,120 S 300,60 380,40 L 380,220 L 20,220 Z"/>
-            <path class="chart-line" d="M 20,180 C 80,160 120,140 180,120 S 300,60 380,40"/>
-            <circle class="travel-dot" r="5" cx="20" cy="180"/>
-          </svg>
-
-          <div class="chart-badges">
-            <div class="chart-badge"><small>Win rate</small><strong class="up">68%</strong></div>
-            <div class="chart-badge"><small>Avg payout</small><strong class="up">$4.2K</strong></div>
-            <div class="chart-badge"><small>Active firms</small><strong id="firmCount">—</strong></div>
+          <div class="stat-box">
+            <div class="k">Categories</div>
+            <div class="v" id="catCount">—</div>
+          </div>
+        </div>
+        <div class="top-list" id="topList">
+          <div class="top-list-item">
+            <span class="name" style="color:var(--text-mute)">Loading…</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="container">
-    <section class="stats-band reveal-stagger" aria-label="Platform highlights">
-      <div class="stat">
-        <div class="icon">⌕</div>
-        <strong>Compare</strong>
-        <span>Key firm rules side by side in one clean table</span>
-      </div>
-      <div class="stat">
-        <div class="icon">◇</div>
-        <strong>Discover</strong>
-        <span>Firms matched to your strategy and account size</span>
-      </div>
-      <div class="stat">
-        <div class="icon">↗</div>
-        <strong>Decide</strong>
-        <span>Research before you buy with verified data</span>
-      </div>
-    </section>
-
-    <section class="section reveal" id="directory">
+  <!-- FEATURED FIRMS -->
+  <section class="section">
+    <div class="container">
       <div class="section-head">
-        <div>
-          <div class="section-kicker">The directory</div>
-          <h2>Find your trading edge</h2>
-          <p>Search and compare firms based on the details that matter to you.</p>
+        <div class="kicker">Featured</div>
+        <h2>Some of the firms we track</h2>
+        <p>A small sample. The full directory has every active firm with filters by category, account size, and price.</p>
+      </div>
+      <div class="firm-grid" id="featuredGrid">
+        <div class="firm-card" style="grid-column:1/-1;text-align:center;color:var(--text-mute)">Loading…</div>
+      </div>
+      <div style="text-align:center;margin-top:32px">
+        <a class="btn-lg secondary" href="firms.html">View all firms →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">How it works</div>
+        <h2>Three steps to a better decision</h2>
+        <p>The information that matters, in one place — no marketing fluff.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-num">01</div>
+          <h3>Filter the list</h3>
+          <p>Narrow firms by account size, price, category, or profit split. See what matches your strategy.</p>
         </div>
-        <div class="section-note">Explore available firms ↓</div>
-      </div>
-      <div id="firmsGrid" class="firm-grid"></div>
-    </section>
-
-    <section class="section reveal" id="why-us">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Built for traders</div>
-          <h2>Research smarter. Choose carefully.</h2>
-          <p>The essential information, organized to make comparisons easier.</p>
+        <div class="feature">
+          <div class="feature-num">02</div>
+          <h3>Compare rules</h3>
+          <p>Drawdown limits, profit targets, and payout schedules side by side. Spot the differences quickly.</p>
         </div>
-      </div>
-      <div class="features reveal-stagger">
-        <article class="feature">
-          <div class="feature-icon">⌕</div>
-          <h3>Easy comparison</h3>
-          <p>Find firms and narrow your choices with search and filtering tools designed for speed.</p>
-        </article>
-        <article class="feature">
-          <div class="feature-icon">◇</div>
-          <h3>Rules at a glance</h3>
-          <p>Review drawdown limits, profit targets, account sizes, and payout details in one view.</p>
-        </article>
-        <article class="feature">
-          <div class="feature-icon">↗</div>
-          <h3>Direct firm links</h3>
-          <p>Visit a firm's website to confirm its latest terms before purchasing anything.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="bottom-cta reveal">
-      <div>
-        <h2>Your next step starts with research.</h2>
-        <p>Explore the directory and compare your options — no sign-up required to browse.</p>
-      </div>
-      <a class="primary-btn" href="#directory">Browse Directory <span class="arrow">→</span></a>
-    </section>
-
-    <section class="section reveal" id="faq">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Got questions?</div>
-          <h2>Frequently Asked Questions</h2>
-          <p>Everything you need to know about FundedEdge and prop firms.</p>
+        <div class="feature">
+          <div class="feature-num">03</div>
+          <h3>Visit the firm</h3>
+          <p>Every listing links to the firm's own website. Confirm the current terms before purchasing.</p>
         </div>
       </div>
-      <div class="faq-list reveal-stagger">
-        <details class="faq-item"><summary>What is FundedEdge?</summary><div class="faq-answer">FundedEdge is an independent directory that helps traders research and compare proprietary trading firms, their account options, trading rules, profit splits, and payout policies.</div></details>
-        <details class="faq-item"><summary>What is a prop trading firm?</summary><div class="faq-answer">A proprietary trading firm provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, traders may need to complete an evaluation or qualify for a particular account type.</div></details>
-        <details class="faq-item"><summary>How do I choose the right prop firm?</summary><div class="faq-answer">Compare account prices, drawdown limits, profit targets, payout conditions, trading restrictions, and the firm's reputation. Choose rules that suit your trading strategy and risk management.</div></details>
-        <details class="faq-item"><summary>Does FundedEdge sell funded accounts?</summary><div class="faq-answer">FundedEdge is a research and comparison directory. Visit the relevant firm's official website to review its current account options and purchase conditions.</div></details>
-        <details class="faq-item"><summary>Are prop firm rules and prices always up to date?</summary><div class="faq-answer">Prop firms can change their prices, rules, and payout policies. Always verify the latest terms on the firm's official website before making a purchase.</div></details>
-        <details class="faq-item"><summary>Does FundedEdge guarantee payouts or profits?</summary><div class="faq-answer">No. FundedEdge does not guarantee trading profits, account approval, or payouts. Trading involves risk, and each firm's terms and eligibility requirements apply.</div></details>
-        <details class="faq-item"><summary>How can I visit a prop firm's website?</summary><div class="faq-answer">Browse the directory, select a firm, and use its official website link where available. Check the firm's own website to confirm its rules, pricing, and eligibility requirements.</div></details>
-        <details class="faq-item"><summary>Is FundedEdge affiliated with every listed firm?</summary><div class="faq-answer">FundedEdge is intended as an independent research directory. A listing alone does not mean that a firm endorses or is affiliated with FundedEdge.</div></details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-band">
+        <div>
+          <h3>No account needed to browse</h3>
+          <p>Sign up only if you want to save favorites or write reviews.</p>
+        </div>
+        <a class="btn-lg primary" href="firms.html">Browse firms →</a>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head" style="text-align:center;margin-left:auto;margin-right:auto">
+        <div class="kicker">FAQ</div>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq">
+        <details class="faq-item">
+          <summary>What is FundedEdge?</summary>
+          <p>An independent directory that helps traders research and compare proprietary trading firms — account options, rules, profit splits, and payout policies in one place.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is a prop trading firm?</summary>
+          <p>A firm that provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, you may need to complete an evaluation or qualify for a particular account type.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do I choose the right firm?</summary>
+          <p>Compare account prices, drawdown limits, profit targets, payout conditions, and trading restrictions. Choose rules that match your strategy and risk tolerance.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does FundedEdge sell funded accounts?</summary>
+          <p>No. We're a research directory. To purchase an account, visit the firm's official website directly.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Are rules and prices always up to date?</summary>
+          <p>Prop firms change their terms without notice. Always verify the latest details on the firm's own website before making a purchase.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is FundedEdge affiliated with the firms listed?</summary>
+          <p>Not necessarily. A listing does not imply endorsement or partnership. We may earn affiliate commissions from some links.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
   <div class="container footer-inner">
-    <a class="logo" href="/" style="font-size:17px">
-      <div class="logo-mark" style="width:29px;height:29px;font-size:16px">F</div>
-      Funded<span>Edge</span>
-    </a>
-    <span>Independent research tool. Trading involves risk.</span>
+    <div>© FundedEdge. Independent research tool.</div>
     <div class="footer-links">
-      <a href="directory.html">Directory</a>
-      <a href="#why-us">About</a>
+      <a href="firms.html">Prop Firms</a>
+      <a href="#how">How it works</a>
       <a href="#faq">FAQ</a>
     </div>
   </div>
 </footer>
 
-<script>
-/* CURSOR GLOW */
-(function(){
-  const glow = document.getElementById("cursorGlow");
-  if (!glow || window.matchMedia("(hover: none)").matches) return;
-  let mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-  document.addEventListener("mousemove", e => { mouseX = e.clientX; mouseY = e.clientY; });
-  function animate(){
-    glowX += (mouseX - glowX) * 0.12;
-    glowY += (mouseY - glowY) * 0.12;
-    glow.style.transform = `translate(${glowX}px, ${glowY}px) translate(-50%, -50%)`;
-    requestAnimationFrame(animate);
-  }
-  animate();
-})();
+<script type="module">
+import { db } from "./supabase.js";
 
-/* PARTICLES */
-(function(){
-  const host = document.getElementById("particles");
-  if (!host) return;
-  const count = window.innerWidth < 700 ? 12 : 24;
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.bottom = "-20px";
-    p.style.animationDelay = (Math.random() * 12) + "s";
-    p.style.animationDuration = (10 + Math.random() * 8) + "s";
-    p.style.opacity = 0.3 + Math.random() * 0.6;
-    const size = 2 + Math.random() * 4;
-    p.style.width = size + "px";
-    p.style.height = size + "px";
-    host.appendChild(p);
-  }
-})();
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-/* SCROLL REVEAL */
-(function(){
-  const els = document.querySelectorAll(".reveal, .reveal-stagger");
-  if (!("IntersectionObserver" in window)) { els.forEach(e => e.classList.add("in")); return; }
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
-  els.forEach(el => io.observe(el));
-})();
+function getLogoDomain(firm){
+  const name = (firm.name || "").toLowerCase().trim();
+  const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
+  if (known[name]) return known[name];
+  try { const u = new URL(firm.official_website || ""); if (u.protocol === "https:" || u.protocol === "http:") return u.hostname; } catch(_) {}
+  return "";
+}
+function getInitials(name){
+  const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
+  return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0,2).toUpperCase();
+}
+function logoURL(firm){
+  const d = getLogoDomain(firm);
+  return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : "");
+}
 
-/* LIVE CHART VALUE */
-(function(){
-  const el = document.getElementById("chartValue");
-  if (!el) return;
-  let base = 94.2;
-  setInterval(() => {
-    base += (Math.random() - 0.5) * 0.6;
-    if (base < 88) base = 90;
-    if (base > 99) base = 97;
-    el.textContent = (base >= 0 ? "+" : "") + base.toFixed(1) + "%";
-  }, 2200);
-})();
+/* Load featured firms + directory stats */
+async function loadHomepage(){
+  const grid = document.getElementById("featuredGrid");
+  const firmCountEl = document.getElementById("firmCount");
+  const catCountEl = document.getElementById("catCount");
+  const topListEl = document.getElementById("topList");
 
-/* LIVE FIRM COUNT */
-(function(){
-  const el = document.getElementById("firmCount");
-  if (!el) return;
-  let tries = 0;
-  const t = setInterval(() => {
-    tries++;
-    if (window.allFirms && Array.isArray(window.allFirms) && window.allFirms.length) {
-      el.textContent = window.allFirms.length;
-      clearInterval(t);
-    } else if (tries > 20) {
-      el.textContent = "10+";
-      clearInterval(t);
+  try {
+    const { data, error } = await db.from("firms").select("*").eq("status","active").order("rating",{ascending:false});
+    if (error) throw error;
+    const firms = data || [];
+
+    if (firmCountEl) firmCountEl.textContent = firms.length;
+    if (catCountEl) {
+      const cats = new Set(firms.map(f => f.category).filter(Boolean));
+      catCountEl.textContent = cats.size;
     }
-  }, 300);
-})();
 
-/* 3D TILT */
-(function(){
-  if (window.matchMedia("(hover: none)").matches) return;
-  function attachTilt(el){
-    el.addEventListener("mousemove", e => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-6px)`;
-    });
-    el.addEventListener("mouseleave", () => { el.style.transform = ""; });
+    // Top list in hero panel
+    if (topListEl) {
+      const top = firms.slice(0, 5);
+      if (!top.length) {
+        topListEl.innerHTML = `<div class="top-list-item"><span class="name" style="color:var(--text-mute)">No firms yet</span></div>`;
+      } else {
+        topListEl.innerHTML = top.map(f => `
+          <div class="top-list-item">
+            <span class="name">${esc(f.name)}</span>
+            <span class="val">${f.rating ? "★ " + esc(f.rating) : "—"}</span>
+          </div>
+        `).join("");
+      }
+    }
+
+    // Featured grid — first 6
+    if (grid) {
+      const featured = firms.slice(0, 6);
+      if (!featured.length) {
+        grid.innerHTML = `<div class="firm-card" style="grid-column:1/-1;text-align:center;color:var(--text-mute)">No firms yet</div>`;
+      } else {
+        grid.innerHTML = featured.map(firm => {
+          const logo = logoURL(firm);
+          const initials = getInitials(firm.name);
+          return `<a class="firm-card" href="firm.html?id=${encodeURIComponent(firm.id)}">
+            <div class="firm-card-head">
+              <div class="firm-logo">
+                <span>${esc(initials)}</span>
+                ${logo ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
+              </div>
+              <div class="firm-card-meta">
+                <div class="cat">${esc(firm.category || "Prop Firm")}</div>
+                <h3>${esc(firm.name)}</h3>
+              </div>
+              <div class="firm-card-rating">${firm.rating ? "★ " + esc(firm.rating) : "—"}</div>
+            </div>
+            <p class="firm-card-desc">${esc(firm.description || "Trading conditions and account options.")}</p>
+            <div class="firm-card-rows">
+              <div><div class="row-k">Accounts</div><div class="row-v">${esc(firm.account_sizes || "—")}</div></div>
+              <div><div class="row-k">From</div><div class="row-v">${esc(firm.price || "—")}</div></div>
+              <div><div class="row-k">Target</div><div class="row-v">${esc(firm.profit_target || "—")}</div></div>
+              <div><div class="row-k">Split</div><div class="row-v">${esc(firm.profit_split || "—")}</div></div>
+            </div>
+            <span class="firm-card-cta">View details →</span>
+          </a>`;
+        }).join("");
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    if (grid) grid.innerHTML = `<div class="firm-card" style="grid-column:1/-1;text-align:center;color:var(--text-mute)">Could not load firms</div>`;
   }
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll(".stat, .feature").forEach(el => {
-      if (!el.dataset.tilt) { el.dataset.tilt = "1"; attachTilt(el); }
-    });
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
+}
+
+/* Auth-aware nav */
+async function syncAuthNav(){
+  const area = document.getElementById("feAuthArea");
+  if (!area) return;
+  try {
+    const { data } = await db.auth.getSession();
+    const user = data.session?.user;
+    if (user && user.email_confirmed_at) {
+      const name = user.user_metadata?.full_name || user.email || "Account";
+      const initial = String(name).trim().charAt(0).toUpperCase() || "U";
+      area.innerHTML = `<a class="user-chip" href="dashboard.html"><span class="user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+    }
+  } catch (err) { console.error("Auth nav failed:", err); }
+}
+
+syncAuthNav();
+db.auth.onAuthStateChange(() => syncAuthNav());
+loadHomepage();
 </script>
 
-<script src="app.js"></script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6acccb3374770f34c39b55ca/1k4nvjh14';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
 </body>
 </html>
