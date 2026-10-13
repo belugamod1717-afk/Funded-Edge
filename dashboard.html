@@ -22,6 +22,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+
 .topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
 .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
 .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
@@ -136,9 +137,9 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .field{display:grid;gap:6px}
 .field.full{grid-column:1/-1}
 .field label{font-size:12px;font-weight:600;color:var(--text-dim)}
-.field input,.field select,.field textarea{padding:9px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;}
+.field input,.field select,.field textarea{padding:9px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;font-family:inherit;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--surface-2)}
-.field textarea{min-height:80px;resize:vertical;font-family:inherit}
+.field textarea{min-height:80px;resize:vertical}
 .form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
 .list{display:grid;gap:8px}
 .item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;}
@@ -153,57 +154,65 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .neg{color:var(--danger)}
 .empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
 
-/* MODAL */
-.firm-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .15s ease;}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.firm-modal[hidden]{display:none}
-.firm-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
-.firm-modal-panel{position:relative;width:100%;max-width:900px;max-height:92vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:modalUp .2s ease;}
-@keyframes modalUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.firm-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:7px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text-dim);font-size:14px;z-index:2;transition:.15s;}
-.firm-modal-close:hover{border-color:var(--danger);color:var(--danger)}
-.modal-header{padding:28px 28px 20px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:flex-start;}
-.modal-logo{width:60px;height:60px;border-radius:10px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:20px;font-weight:700;color:var(--accent);}
-.modal-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:9px;background:#fff}
-.modal-meta{flex:1;min-width:0}
-.modal-meta .cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:6px;}
-.modal-meta h2{font-size:22px;font-weight:700;letter-spacing:-.5px;margin:0 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.modal-meta .desc{font-size:14px;color:var(--text-dim);line-height:1.6}
-.modal-body{padding:24px 28px}
-.modal-section{margin-bottom:24px}
-.modal-section:last-child{margin-bottom:0}
-.modal-section .k{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute);margin-bottom:12px;}
-.modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-.modal-cell{background:var(--surface);padding:14px}
-.modal-cell .ck{font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:5px;}
-.modal-cell .cv{font-size:14px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
-.modal-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--line);flex-wrap:wrap;}
-.modal-actions .btn{flex:1;min-width:0;justify-content:center}
-.modal-reviews-list{display:grid;gap:12px;margin-top:14px}
-.modal-rating-summary{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;padding:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;margin-top:12px}
-.modal-rating-big{text-align:center;padding-right:24px;border-right:1px solid var(--line)}
-.modal-rating-num{font-size:36px;font-weight:700;letter-spacing:-1.2px;line-height:1;margin-bottom:4px}
-.modal-rating-stars{color:var(--gold);font-size:13px;letter-spacing:1px;margin-bottom:3px}
-.modal-rating-count{font-size:11.5px;color:var(--text-mute)}
-.modal-rating-bars{display:grid;gap:6px}
-.modal-bar-row{display:grid;grid-template-columns:32px 1fr 38px;gap:10px;align-items:center;font-size:11.5px}
-.modal-bar-lbl{color:var(--text-dim);font-weight:500}
-.modal-bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
-.modal-bar span{display:block;height:100%;background:var(--accent);border-radius:3px}
-.modal-bar-pct{color:var(--text-mute);text-align:right;font-weight:500}
-.modal-review{padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
-.modal-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
-.modal-review-author{display:flex;align-items:center;gap:10px;min-width:0}
-.modal-review-avatar{width:32px;height:32px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-dim);flex-shrink:0;}
-.modal-review-name{font-size:13px;font-weight:600;color:var(--text)}
-.modal-review-date{font-size:11.5px;color:var(--text-mute);margin-top:1px}
-.modal-review-stars{color:var(--gold);font-size:12px;letter-spacing:1px;flex-shrink:0}
-.modal-review-text{font-size:13px;color:var(--text-dim);line-height:1.65;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
+/* FIRM DETAIL PAGE (inside dashboard) */
+.detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);background:transparent;border:0;padding:0;margin-bottom:16px;font-weight:500;}
+.detail-back:hover{color:var(--accent)}
+.detail-header{display:flex;gap:20px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap}
+.detail-logo{width:72px;height:72px;border-radius:12px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:22px;font-weight:700;color:var(--accent);}
+.detail-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:11px;background:#fff}
+.detail-header-meta{flex:1;min-width:0}
+.detail-cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:8px;}
+.detail-header-meta h1{font-size:28px;font-weight:700;letter-spacing:-.7px;margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.detail-header-meta .lead{font-size:14.5px;color:var(--text-dim);line-height:1.65;max-width:640px;margin-bottom:16px}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap}
+.detail-section{margin-bottom:32px}
+.detail-section .k{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-mute);margin-bottom:14px;}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+.detail-cell{background:var(--surface);padding:16px}
+.detail-cell .ck{font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:6px;}
+.detail-cell .cv{font-size:15px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
+.detail-note{font-size:12px;color:var(--text-mute);margin-top:14px;line-height:1.6}
+
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:20px;}
+.rating-big{text-align:center;padding-right:28px;border-right:1px solid var(--line)}
+.rating-num{font-size:44px;font-weight:700;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+.rating-stars{color:var(--gold);font-size:14px;letter-spacing:1px;margin-bottom:4px}
+.rating-count{font-size:12px;color:var(--text-mute)}
+.rating-bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:34px 1fr 40px;gap:12px;align-items:center;font-size:12px}
+.bar-lbl{color:var(--text-dim);font-weight:500}
+.bar-track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar-track span{display:block;height:100%;background:var(--accent);border-radius:3px}
+.bar-pct{color:var(--text-mute);text-align:right;font-weight:500}
+
+.review-row{padding:18px 0;border-bottom:1px solid var(--line)}
+.review-row:last-child{border-bottom:0}
+.review-row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.review-row-author{display:flex;align-items:center;gap:12px;min-width:0}
+.review-row-avatar{width:36px;height:36px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-dim);flex-shrink:0}
+.review-row-name{font-size:13.5px;font-weight:600}
+.review-row-date{font-size:11.5px;color:var(--text-mute);margin-top:2px}
+.review-row-stars{color:var(--gold);font-size:13px;letter-spacing:1px;flex-shrink:0}
+.review-row-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+
+.write-review-card{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:20px}
+.write-review-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.write-review-card .sub{font-size:13px;color:var(--text-mute);margin-bottom:20px}
+.star-picker{display:inline-flex;gap:8px;margin-top:4px;margin-bottom:6px}
+.star-picker button{background:transparent;border:0;font-size:32px;line-height:1;color:var(--line-2);padding:0;transition:.1s}
+.star-picker button:hover,.star-picker button.on{color:var(--gold)}
+.star-label{font-size:12.5px;color:var(--text-mute);margin-bottom:16px;display:block}
+.review-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+.review-message{display:none;margin-top:14px;padding:12px 14px;border-radius:8px;font-size:13px}
+.review-message.show{display:block}
+.review-message.success{background:rgba(74,222,128,.1);color:var(--success)}
+.review-message.error{background:rgba(255,107,107,.1);color:var(--danger)}
 
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300;}
 
 @media (max-width:900px){.sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow);}.sidebar.closed{margin-left:-240px}.topbar-search{display:none}}
-@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.modal-header{flex-direction:column}.modal-actions{flex-direction:column}.firm-modal{padding:0}.firm-modal-panel{max-height:100vh;border-radius:0;max-width:100%}.modal-rating-summary{grid-template-columns:1fr;gap:12px}.modal-rating-big{padding-right:0;padding-bottom:12px;border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.detail-header{flex-direction:column}.detail-header-meta h1{font-size:22px}.rating-summary{grid-template-columns:1fr;gap:16px}.rating-big{padding-right:0;padding-bottom:16px;border-right:0;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body>
@@ -253,7 +262,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
     </section>
 
     <section class="page" id="page-firms">
-      <div class="page-head"><div class="kicker">Research</div><h1>Prop Firms</h1><p>Click View to see full details without leaving the dashboard.</p></div>
+      <div class="page-head"><div class="kicker">Research</div><h1>Prop Firms</h1><p>Click View to open the full firm profile.</p></div>
       <div class="chips" id="firmChips">
         <button class="chip active" data-filter="all">All <span id="chipAllCount">0</span></button>
         <button class="chip" data-filter="Forex / CFD">Forex</button>
@@ -340,15 +349,12 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
         <div class="item"><div class="info"><div class="title">Theme</div><div class="sub" id="settingTheme">—</div></div><button class="btn small" id="themeToggle2">Change</button></div>
       </div></div>
     </section>
-  </main>
-</div>
 
-<div class="firm-modal" id="firmModal" hidden>
-  <div class="firm-modal-backdrop" data-close-modal></div>
-  <div class="firm-modal-panel">
-    <button class="firm-modal-close" data-close-modal aria-label="Close">✕</button>
-    <div id="firmModalContent"></div>
-  </div>
+    <!-- FIRM DETAIL PAGE (rendered inside dashboard) -->
+    <section class="page" id="page-firm">
+      <div id="firmDetailContent"></div>
+    </section>
+  </main>
 </div>
 
 <div id="toast" hidden></div>
@@ -370,6 +376,7 @@ import { db } from "./supabase.js";
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+/* THEME */
 const THEME_KEY = "fundededge-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); const s=$("settingTheme"); if(s) s.textContent = t === "dark" ? "Dark" : "Light"; }
@@ -382,6 +389,7 @@ let user = null, trades = [], toastTimer, firmsLoaded = false;
 let allFirmsCache = [], compareFirmsCache = [];
 const compareSlots = {1:null, 2:null, 3:null};
 let currentChip = "all";
+let previousPage = "firms";
 
 function toast(msg){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3000); }
 function emptyEl(id, msg){ const el = $(id); if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`; }
@@ -398,7 +406,7 @@ function logoURL(firm){ const d = getLogoDomain(firm); return firm.logo_url || (
 
 function go(page){
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + page));
-  document.querySelectorAll(".nav-item[data-page]").forEach(b => b.classList.toggle("active", b.dataset.page === page));
+  document.querySelectorAll(".nav-item[data-page]").forEach(b => b.classList.toggle("active", b.dataset.page === page && page !== "firm"));
   if (innerWidth <= 900) $("sidebar").classList.add("closed");
   if (page === "stats") updateStats();
   if (page === "compare") loadCompareCache();
@@ -411,6 +419,7 @@ $("toggleSidebar").onclick = () => $("sidebar").classList.toggle("closed");
 if (innerWidth <= 900) $("sidebar").classList.add("closed");
 $("logoutBtn").onclick = async () => { await db.auth.signOut(); location.replace("index.html"); };
 
+/* FIRM CARD */
 function firmCard(firm, savedIds){
   const isSaved = savedIds ? savedIds.has(String(firm.id)) : false;
   const rating = firm.rating ? `★ ${firm.rating}` : "—";
@@ -429,7 +438,7 @@ function firmCard(firm, savedIds){
       <div><div class="k">Split</div><div class="v">${esc(firm.profit_split || "—")}</div></div>
     </div>
     <div class="firm-actions">
-      <button class="btn primary" data-view-firm="${esc(firm.id)}">View</button>
+      <button class="btn primary" data-view-firm="${esc(firm.id)}">View full profile</button>
       <button class="btn" data-save-firm="${esc(firm.id)}" data-saved="${isSaved ? "1" : "0"}">${isSaved ? "Saved" : "Save"}</button>
     </div>
   </article>`;
@@ -450,12 +459,13 @@ function favCard(fav, firm){
       <div><div class="k">From</div><div class="v">${esc(f.price || "—")}</div></div>
     </div>
     <div class="firm-actions">
-      <button class="btn primary" data-view-firm="${esc(f.id)}">View</button>
+      <button class="btn primary" data-view-firm="${esc(f.id)}">View full profile</button>
       <button class="btn danger" data-remove-fav="${esc(fav.id)}">Remove</button>
     </div>
   </article>`;
 }
 
+/* SAVE */
 async function toggleSave(firmId, btn){
   if (!user) return;
   btn.disabled = true;
@@ -470,6 +480,7 @@ async function toggleSave(firmId, btn){
 }
 async function removeFav(id){ if (!user) return; await db.from("favorites").delete().eq("id", id).eq("user_id", user.id); toast("Removed"); await load(); }
 
+/* LOAD FIRMS */
 async function loadAllFirms(){
   const wrap = $("allFirms");
   wrap.innerHTML = `<div class="empty">Loading firms…</div>`;
@@ -506,6 +517,7 @@ document.querySelectorAll("#firmChips .chip").forEach(c => {
   };
 });
 
+/* COMPARE */
 async function loadCompareCache(){
   if (compareFirmsCache.length) { [1,2,3].forEach(updateSlotUI); return; }
   const { data } = await db.from("firms").select("*").eq("status","active").order("name",{ascending:true});
@@ -553,6 +565,7 @@ $("cmpRun").onclick = () => {
 };
 $("cmpClear").onclick = () => { compareSlots[1] = compareSlots[2] = compareSlots[3] = null; [1,2,3].forEach(n => { updateSlotUI(n); $("cmpResults" + n).classList.remove("show"); }); $("cmpResult").innerHTML = ""; };
 
+/* SEARCH */
 const gsInput = $("globalSearch"), gsResults = $("searchResults");
 async function ensureFirmsLoaded(){ if (allFirmsCache.length) return; const { data } = await db.from("firms").select("id,name,category,rating").eq("status","active").order("name"); allFirmsCache = data || []; }
 gsInput.addEventListener("focus", async () => {
@@ -562,30 +575,24 @@ gsInput.addEventListener("focus", async () => {
   if (!items.length) gsResults.innerHTML = `<div class="search-result empty">No firms found</div>`;
   else {
     gsResults.innerHTML = items.map(f => `<div class="search-result" data-fid="${esc(f.id)}"><span class="name">${esc(f.name)}</span><span class="cat">${esc(f.category || "—")}</span></div>`).join("");
-    gsResults.querySelectorAll("[data-fid]").forEach(r => r.onclick = () => { showFirmModal(r.dataset.fid); gsResults.classList.remove("show"); gsInput.value = ""; });
+    gsResults.querySelectorAll("[data-fid]").forEach(r => r.onclick = () => { openFirmDetail(r.dataset.fid); gsResults.classList.remove("show"); gsInput.value = ""; });
   }
   gsResults.classList.add("show");
 });
 gsInput.addEventListener("input", () => gsInput.dispatchEvent(new Event("focus")));
 document.addEventListener("click", e => { if (!e.target.closest(".topbar-search")) gsResults.classList.remove("show"); });
 
-/* ==================== FIRM DETAIL MODAL ==================== */
-const firmModal = $("firmModal");
-const firmModalContent = $("firmModalContent");
-function closeFirmModal(){ firmModal.hidden = true; document.body.style.overflow = ""; }
-function openFirmModal(){ firmModal.hidden = false; document.body.style.overflow = "hidden"; }
-firmModal.querySelectorAll("[data-close-modal]").forEach(el => el.addEventListener("click", closeFirmModal));
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !firmModal.hidden) closeFirmModal(); });
-
-async function showFirmModal(firmId){
-  firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Loading firm details…</div>`;
-  openFirmModal();
+/* ==================== FIRM DETAIL PAGE (inside dashboard) ==================== */
+async function openFirmDetail(firmId){
+  previousPage = document.querySelector(".page.active")?.id.replace("page-", "") || "firms";
+  const wrap = $("firmDetailContent");
+  wrap.innerHTML = `<div class="empty">Loading firm profile…</div>`;
+  go("firm");
 
   try {
     const { data, error } = await db.from("firms").select("*").eq("id", firmId).limit(1);
     if (error) throw error;
-    if (!data || !data.length) { firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Firm not found.</div>`; return; }
-
+    if (!data || !data.length) { wrap.innerHTML = `<div class="empty">Firm not found.</div>`; return; }
     const f = data[0];
     const logo = logoURL(f);
     const initials = getInitials(f.name);
@@ -606,17 +613,17 @@ async function showFirmModal(firmId){
       reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
       const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
 
-      ratingSummaryHTML = `<div class="modal-rating-summary"><div class="modal-rating-big"><div class="modal-rating-num">${avg.toFixed(1)}</div><div class="modal-rating-stars">${fullStars}</div><div class="modal-rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="modal-rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="modal-bar-row"><span class="modal-bar-lbl">${star} ★</span><div class="modal-bar"><span style="width:${pct}%"></span></div><span class="modal-bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
+      ratingSummaryHTML = `<div class="rating-summary"><div class="rating-big"><div class="rating-num">${avg.toFixed(1)}</div><div class="rating-stars">${fullStars}</div><div class="rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="bar-row"><span class="bar-lbl">${star} ★</span><div class="bar-track"><span style="width:${pct}%"></span></div><span class="bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
 
       reviewsHTML = reviews.map(r => {
         const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
         const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
         const name = r.reviewer_name || "Anonymous";
         const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
-        return `<div class="modal-review"><div class="modal-review-head"><div class="modal-review-author"><div class="modal-review-avatar">${esc(initialsR)}</div><div><div class="modal-review-name">${esc(name)}</div><div class="modal-review-date">${esc(date)}</div></div></div><div class="modal-review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="modal-review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
+        return `<div class="review-row"><div class="review-row-head"><div class="review-row-author"><div class="review-row-avatar">${esc(initialsR)}</div><div><div class="review-row-name">${esc(name)}</div><div class="review-row-date">${esc(date)}</div></div></div><div class="review-row-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="review-row-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
       }).join("");
     } else {
-      reviewsHTML = `<div style="padding:24px;text-align:center;color:var(--text-mute);font-size:13.5px;border:1px dashed var(--line-2);border-radius:8px">No reviews yet. Be the first to share your experience.</div>`;
+      reviewsHTML = `<div class="empty">No reviews yet. Be the first to share your experience.</div>`;
     }
 
     const rules = [
@@ -632,41 +639,67 @@ async function showFirmModal(firmId){
       ["Tag", f.tag],
       ["Best for", f.best_for]
     ].filter(([, v]) => v);
-    const rulesHTML = rules.map(([k, v]) => `<div class="modal-cell"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`).join("");
+    const rulesHTML = rules.map(([k, v]) => `<div class="detail-cell"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`).join("");
 
-    firmModalContent.innerHTML = `
-      <div class="modal-header">
-        <div class="modal-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
-        <div class="modal-meta">
-          <div class="cat">${esc(f.category || "Prop Firm")}</div>
-          <h2>${esc(f.name)} ${badge}</h2>
-          <p class="desc">${esc(f.description || "Trading conditions and account options.")}</p>
-        </div>
-      </div>
-      <div class="modal-body">
-        <div class="modal-section">
-          <div class="k">Trading rules & conditions</div>
-          <div class="modal-grid">${rulesHTML}</div>
-          <p style="font-size:12px;color:var(--text-mute);margin-top:12px;line-height:1.6">Rules and pricing change — verify on the firm's official website before purchasing.</p>
-        </div>
-        ${f.pros ? `<div class="modal-section"><div class="k">Pros</div><div style="font-size:13.5px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.pros)}</div></div>` : ""}
-        ${f.cons ? `<div class="modal-section"><div class="k">Cons</div><div style="font-size:13.5px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.cons)}</div></div>` : ""}
-        <div class="modal-section">
-          <div class="k" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-            <span>Reviews & ratings</span>
-            <button class="btn small primary" id="modalWriteReviewBtn" type="button">Write a review</button>
+    wrap.innerHTML = `
+      <button class="detail-back" id="detailBack">← Back to firms</button>
+
+      <div class="detail-header">
+        <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
+        <div class="detail-header-meta">
+          <div class="detail-cat">${esc(f.category || "Prop Firm")}</div>
+          <h1>${esc(f.name)} ${badge}</h1>
+          <p class="lead">${esc(f.description || "Trading conditions and account options.")}</p>
+          <div class="detail-actions">
+            <button class="btn" id="detailSaveBtn">${isSaved ? "Saved" : "Save firm"}</button>
+            ${official ? `<a class="btn primary" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Visit website ↗</a>` : ""}
+            ${affiliate ? `<a class="btn" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View offer</a>` : ""}
           </div>
-          ${ratingSummaryHTML}
-          <div class="modal-reviews-list">${reviewsHTML}</div>
         </div>
       </div>
-      <div class="modal-actions">
-        <button class="btn" id="modalSaveBtn">${isSaved ? "Saved" : "Save firm"}</button>
-        ${official ? `<a class="btn primary" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Visit website ↗</a>` : ""}
-        ${affiliate ? `<a class="btn" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View offer</a>` : ""}
-      </div>`;
 
-    const saveBtn = $("modalSaveBtn");
+      <div class="detail-section">
+        <div class="k">Trading rules & conditions</div>
+        <div class="detail-grid">${rulesHTML}</div>
+        <p class="detail-note">Rules and pricing change — verify on the firm's official website before purchasing.</p>
+      </div>
+
+      ${f.pros ? `<div class="detail-section"><div class="k">Pros</div><div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.pros)}</div></div>` : ""}
+      ${f.cons ? `<div class="detail-section"><div class="k">Cons</div><div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.cons)}</div></div>` : ""}
+
+      <div class="detail-section">
+        <div class="k">Reviews & ratings</div>
+        ${ratingSummaryHTML}
+
+        <div class="write-review-card">
+          <h3>Write a review</h3>
+          <p class="sub">Share your honest experience with ${esc(f.name)}.</p>
+          <form id="detailReviewForm">
+            <div class="field" style="margin-bottom:16px"><label>Your name</label><input id="dReviewName" type="text" maxlength="40" minlength="2" required placeholder="Display name"></div>
+            <div class="field" style="margin-bottom:16px">
+              <label>Your rating</label>
+              <div class="star-picker" id="dStarPicker">
+                <button type="button" data-star="1">★</button>
+                <button type="button" data-star="2">★</button>
+                <button type="button" data-star="3">★</button>
+                <button type="button" data-star="4">★</button>
+                <button type="button" data-star="5">★</button>
+              </div>
+              <span class="star-label" id="dStarLabel">Tap a star to rate</span>
+            </div>
+            <div class="field" style="margin-bottom:16px"><label>Your review</label><textarea id="dReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?"></textarea></div>
+            <div class="review-form-actions"><button class="btn primary" id="dReviewSubmit" type="submit">Publish review</button></div>
+            <div class="review-message" id="dReviewMsg"></div>
+          </form>
+        </div>
+
+        <div>${reviewsHTML}</div>
+      </div>
+    `;
+
+    $("detailBack").onclick = () => go(previousPage);
+
+    const saveBtn = $("detailSaveBtn");
     if (saveBtn) {
       saveBtn.onclick = async () => {
         saveBtn.disabled = true;
@@ -681,80 +714,70 @@ async function showFirmModal(firmId){
       };
     }
 
-    const writeBtn = $("modalWriteReviewBtn");
-    if (writeBtn) {
-      writeBtn.onclick = () => {
-        firmModalContent.innerHTML = `
-          <div class="modal-header">
-            <div class="modal-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="">` : ""}</div>
-            <div class="modal-meta">
-              <div class="cat">Write a review</div>
-              <h2>${esc(f.name)}</h2>
-              <p class="desc">Your honest feedback helps other traders choose the right firm.</p>
-            </div>
-          </div>
-          <div class="modal-body">
-            <form id="modalReviewForm">
-              <div class="field" style="margin-bottom:16px"><label>Your name</label><input id="mReviewName" type="text" maxlength="40" minlength="2" required placeholder="Display name"></div>
-              <div class="field" style="margin-bottom:16px">
-                <label>Your rating</label>
-                <div id="mStarPicker" style="display:inline-flex;gap:8px;margin-top:4px">
-                  <button type="button" data-star="1" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
-                  <button type="button" data-star="2" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
-                  <button type="button" data-star="3" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
-                  <button type="button" data-star="4" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
-                  <button type="button" data-star="5" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
-                </div>
-                <div id="mStarLabel" style="font-size:12.5px;color:var(--text-mute);margin-top:6px">Tap a star to rate</div>
-              </div>
-              <div class="field" style="margin-bottom:16px"><label>Your review</label><textarea id="mReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?" style="width:100%;min-height:120px;padding:10px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;resize:vertical"></textarea></div>
-              <div id="mReviewMsg" style="display:none;margin-bottom:14px;padding:12px;border-radius:8px;font-size:13px"></div>
-            </form>
-          </div>
-          <div class="modal-actions">
-            <button class="btn" id="mReviewCancel" type="button">Cancel</button>
-            <button class="btn primary" id="mReviewSubmit" type="button">Publish review</button>
-          </div>`;
+    let stars = 0;
+    const starBtns = wrap.querySelectorAll("#dStarPicker button");
+    const starLabel = $("dStarLabel");
+    const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
+    function setStars(n){ stars = n; starBtns.forEach(b => b.classList.toggle("on", Number(b.dataset.star) <= n)); starLabel.textContent = n ? `${n} / 5 · ${ratingLabels[n]}` : "Tap a star to rate"; }
+    starBtns.forEach(b => b.onclick = () => setStars(Number(b.dataset.star)));
 
-        let stars = 0;
-        const starBtns = firmModalContent.querySelectorAll("#mStarPicker button");
-        const starLabel = $("mStarLabel");
-        const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
-        function setStars(n){ stars = n; starBtns.forEach(b => { b.style.color = Number(b.dataset.star) <= n ? "var(--gold)" : "var(--line-2)"; }); starLabel.textContent = n ? `${n} / 5 · ${ratingLabels[n]}` : "Tap a star to rate"; }
-        starBtns.forEach(b => b.onclick = () => setStars(Number(b.dataset.star)));
+    // Prefill name
+    const nameField = $("dReviewName");
+    if (nameField) nameField.value = user.user_metadata?.full_name || user.email?.split("@")[0] || "";
 
-        $("mReviewCancel").onclick = () => showFirmModal(firmId);
-        $("mReviewSubmit").onclick = async () => {
-          const name = $("mReviewName").value.trim();
-          const text = $("mReviewText").value.trim();
-          const msg = $("mReviewMsg");
-          msg.style.display = "none";
-          if (name.length < 2) { msg.textContent = "Please enter your name."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
-          if (stars < 1) { msg.textContent = "Please select a rating."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
-          if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
-          const submitBtn = $("mReviewSubmit");
-          submitBtn.disabled = true; submitBtn.textContent = "Submitting…";
-          const { error: reviewErr } = await db.from("firm_reviews").insert({ firm_id: f.id, user_id: user.id, reviewer_name: name, rating: stars, review_text: text, status: "pending" });
-          if (reviewErr) { msg.textContent = "Error: " + reviewErr.message; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; submitBtn.disabled = false; submitBtn.textContent = "Publish review"; return; }
-          msg.textContent = "Thank you! Your review is awaiting approval."; msg.style.background = "rgba(74,222,128,.1)"; msg.style.color = "var(--success)"; msg.style.display = "block";
-          submitBtn.textContent = "Submitted";
-          setTimeout(() => showFirmModal(firmId), 1800);
-        };
-      };
-    }
+    $("detailReviewForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const msg = $("dReviewMsg");
+      msg.className = "review-message";
+      const name = $("dReviewName").value.trim();
+      const text = $("dReviewText").value.trim();
+      if (name.length < 2) { msg.textContent = "Please enter your name."; msg.classList.add("show", "error"); return; }
+      if (stars < 1) { msg.textContent = "Please select a rating."; msg.classList.add("show", "error"); return; }
+      if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.classList.add("show", "error"); return; }
+
+      const submitBtn = $("dReviewSubmit");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting…";
+
+      const { error: err } = await db.from("firm_reviews").insert({
+        firm_id: f.id,
+        user_id: user.id,
+        reviewer_name: name,
+        rating: stars,
+        review_text: text,
+        status: "pending"
+      });
+
+      if (err) {
+        msg.textContent = "Error: " + err.message;
+        msg.classList.add("show", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publish review";
+        return;
+      }
+      msg.textContent = "Thank you! Your review is awaiting approval.";
+      msg.classList.add("show", "success");
+      submitBtn.textContent = "Submitted";
+      $("dReviewText").value = "";
+      setStars(0);
+    };
   } catch (err) {
     console.error(err);
-    firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Could not load firm.</div>`;
+    wrap.innerHTML = `<div class="empty">Could not load firm profile.</div>`;
   }
 }
 
+/* Delegate view/save/remove buttons */
 document.addEventListener("click", e => {
-  const btn = e.target.closest("[data-view-firm]"); if (btn) showFirmModal(btn.dataset.viewFirm);
-  const removeBtn = e.target.closest("[data-remove-fav]"); if (removeBtn) removeFav(removeBtn.dataset.removeFav);
-  const saveBtn = e.target.closest("[data-save-firm]"); if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
+  const viewBtn = e.target.closest("[data-view-firm]");
+  if (viewBtn) openFirmDetail(viewBtn.dataset.viewFirm);
+  const removeBtn = e.target.closest("[data-remove-fav]");
+  if (removeBtn) removeFav(removeBtn.dataset.removeFav);
+  const saveBtn = e.target.closest("[data-save-firm]");
+  if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
 });
 
-/* ==================== JOURNAL ==================== */
+/* JOURNAL */
 const val = id => $(id).value === "" ? null : $(id).value;
 function resetForm(){ $("tradeForm").reset(); $("tradeId").value = ""; $("tradeDate").value = new Date().toISOString().slice(0,10); $("formTitle").textContent = "Add a trade"; $("saveTrade").textContent = "Save trade"; $("cancelEdit").hidden = true; }
 $("cancelEdit").onclick = resetForm;
