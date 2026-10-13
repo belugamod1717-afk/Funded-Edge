@@ -600,7 +600,11 @@ gsInput.addEventListener("input", () => gsInput.dispatchEvent(new Event("focus")
 document.addEventListener("click", e => { if (!e.target.closest(".topbar-search")) gsResults.classList.remove("show"); });
 
 /* ==================== FIRM DETAIL PAGES ==================== */
-async function openFirmDetail(firmId){
+async function openFirmDetail(firmId){// Save view in URL so refresh keeps you here
+const url = new URL(location.href);
+url.searchParams.set("view", "firm");
+url.searchParams.set("id", firmId);
+history.replaceState({}, "", url);
   previousPage = document.querySelector(".page.active")?.id.replace("page-", "") || "firms";
   const wrap = $("firmDetailContent");
   wrap.innerHTML = `<div class="empty">Loading firm profile…</div>`;
