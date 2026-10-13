@@ -153,7 +153,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .neg{color:var(--danger)}
 .empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
 
-/* FIRM DETAIL PAGES */
+/* FIRM DETAIL */
 .detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);background:transparent;border:0;padding:0;margin-bottom:16px;font-weight:500;cursor:pointer;}
 .detail-back:hover{color:var(--accent)}
 .detail-header{display:flex;gap:20px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap}
@@ -172,27 +172,48 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .detail-cell .cv{font-size:15px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
 .detail-note{font-size:12px;color:var(--text-mute);margin-top:14px;line-height:1.6}
 
-.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:20px;}
-.rating-big{text-align:center;padding-right:28px;border-right:1px solid var(--line)}
-.rating-num{font-size:44px;font-weight:700;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
-.rating-stars{color:var(--gold);font-size:14px;letter-spacing:1px;margin-bottom:4px}
-.rating-count{font-size:12px;color:var(--text-mute)}
-.rating-bars{display:grid;gap:8px}
-.bar-row{display:grid;grid-template-columns:34px 1fr 40px;gap:12px;align-items:center;font-size:12px}
-.bar-lbl{color:var(--text-dim);font-weight:500}
-.bar-track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
-.bar-track span{display:block;height:100%;background:var(--accent);border-radius:3px}
-.bar-pct{color:var(--text-mute);text-align:right;font-weight:500}
-
-.review-row{padding:18px 0;border-bottom:1px solid var(--line)}
-.review-row:last-child{border-bottom:0}
-.review-row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
-.review-row-author{display:flex;align-items:center;gap:12px;min-width:0}
-.review-row-avatar{width:36px;height:36px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-dim);flex-shrink:0}
-.review-row-name{font-size:13.5px;font-weight:600}
-.review-row-date{font-size:11.5px;color:var(--text-mute);margin-top:2px}
-.review-row-stars{color:var(--gold);font-size:13px;letter-spacing:1px;flex-shrink:0}
-.review-row-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+/* TRUSTPILOT REVIEWS */
+.tp-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:24px;}
+@media (max-width:640px){.tp-summary{grid-template-columns:1fr;gap:20px}}
+.tp-summary-left{text-align:center;padding-right:32px;border-right:1px solid var(--line);}
+@media (max-width:640px){.tp-summary-left{padding-right:0;padding-bottom:20px;border-right:0;border-bottom:1px solid var(--line)}}
+.tp-avg{font-size:52px;font-weight:700;letter-spacing:-2px;line-height:1;margin-bottom:8px;color:var(--text);}
+.tp-stars{color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:6px}
+.tp-count{font-size:12.5px;color:var(--text-mute)}
+.tp-summary-right{display:grid;gap:6px}
+.tp-bar-row{display:grid;grid-template-columns:40px 1fr 44px;gap:12px;align-items:center;padding:4px 6px;background:transparent;border:0;cursor:pointer;text-align:left;transition:.15s;border-radius:6px;}
+.tp-bar-row:hover{background:var(--surface-2)}
+.tp-bar-row.active{background:var(--accent-bg)}
+.tp-bar-lbl{font-size:12px;color:var(--text-dim);font-weight:500}
+.tp-bar-track{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;}
+.tp-bar-track span{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .3s;}
+.tp-bar-count{font-size:12px;color:var(--text-mute);text-align:right;font-weight:500}
+.tp-countries{margin-bottom:20px}
+.tp-countries-label{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;}
+.tp-country-chips{display:flex;gap:8px;flex-wrap:wrap}
+.tp-country-chip{padding:7px 12px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px;}
+.tp-country-chip:hover{border-color:var(--accent-dim);color:var(--text)}
+.tp-country-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tp-country-chip span{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:999px;background:var(--surface-3);color:var(--text-mute);}
+.tp-country-chip.active span{background:rgba(255,255,255,.2);color:#fff}
+.tp-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:18px;}
+.tp-toolbar-left{font-size:13px;color:var(--text-mute);font-weight:500}
+.tp-toolbar-right{display:flex;align-items:center;gap:8px}
+.tp-sort-label{font-size:12.5px;color:var(--text-mute);font-weight:500}
+.tp-sort-select{padding:6px 10px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:12.5px;font-weight:500;outline:none;cursor:pointer;}
+.tp-sort-select:focus{border-color:var(--accent)}
+.tp-review-list{display:grid;gap:12px}
+.tp-review-card{padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;transition:.15s;}
+.tp-review-card:hover{border-color:var(--line-2)}
+.tp-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px;flex-wrap:wrap;}
+.tp-review-author{display:flex;align-items:center;gap:12px;min-width:0;flex:1;}
+.tp-review-avatar{width:44px;height:44px;border-radius:50%;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;border:1px solid var(--accent-dim);}
+.tp-review-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.3;}
+.tp-review-date{font-size:12px;color:var(--text-mute);margin-top:3px}
+.tp-review-corner{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.tp-review-country-badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--text-dim);padding:4px 10px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap;}
+.tp-review-stars{color:var(--gold);font-size:14px;letter-spacing:1px;line-height:1;}
+.tp-review-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
 
 .star-picker{display:inline-flex;gap:8px;margin-top:4px;margin-bottom:6px}
 .star-picker button{background:transparent;border:0;font-size:32px;line-height:1;color:var(--line-2);padding:0;transition:.1s}
@@ -207,7 +228,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300;}
 
 @media (max-width:900px){.sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow);}.sidebar.closed{margin-left:-240px}.topbar-search{display:none}}
-@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.detail-header{flex-direction:column}.detail-header-meta h1{font-size:22px}.rating-summary{grid-template-columns:1fr;gap:16px}.rating-big{padding-right:0;padding-bottom:16px;border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.detail-header{flex-direction:column}.detail-header-meta h1{font-size:22px}}
 </style>
 </head>
 <body>
@@ -345,7 +366,6 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
       </div></div>
     </section>
 
-    <!-- FIRM DETAIL (sub-pages inside dashboard) -->
     <section class="page" id="page-firm">
       <div id="firmDetailContent"></div>
     </section>
@@ -370,6 +390,14 @@ s0.parentNode.insertBefore(s1,s0);
 import { db } from "./supabase.js";
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const COUNTRY_NAMES = {AF:"Afghanistan",AL:"Albania",DZ:"Algeria",AD:"Andorra",AO:"Angola",AR:"Argentina",AM:"Armenia",AU:"Australia",AT:"Austria",AZ:"Azerbaijan",BH:"Bahrain",BD:"Bangladesh",BY:"Belarus",BE:"Belgium",BZ:"Belize",BJ:"Benin",BT:"Bhutan",BO:"Bolivia",BA:"Bosnia and Herzegovina",BW:"Botswana",BR:"Brazil",BN:"Brunei",BG:"Bulgaria",BF:"Burkina Faso",BI:"Burundi",KH:"Cambodia",CM:"Cameroon",CA:"Canada",CV:"Cape Verde",CF:"Central African Republic",TD:"Chad",CL:"Chile",CN:"China",CO:"Colombia",KM:"Comoros",CG:"Congo",CD:"Congo (DRC)",CR:"Costa Rica",CI:"Côte d'Ivoire",HR:"Croatia",CU:"Cuba",CY:"Cyprus",CZ:"Czechia",DK:"Denmark",DJ:"Djibouti",DM:"Dominica",DO:"Dominican Republic",EC:"Ecuador",EG:"Egypt",SV:"El Salvador",GQ:"Equatorial Guinea",ER:"Eritrea",EE:"Estonia",SZ:"Eswatini",ET:"Ethiopia",FJ:"Fiji",FI:"Finland",FR:"France",GA:"Gabon",GM:"Gambia",GE:"Georgia",DE:"Germany",GH:"Ghana",GR:"Greece",GD:"Grenada",GT:"Guatemala",GN:"Guinea",GW:"Guinea-Bissau",GY:"Guyana",HT:"Haiti",HN:"Honduras",HK:"Hong Kong",HU:"Hungary",IS:"Iceland",IN:"India",ID:"Indonesia",IR:"Iran",IQ:"Iraq",IE:"Ireland",IL:"Israel",IT:"Italy",JM:"Jamaica",JP:"Japan",JO:"Jordan",KZ:"Kazakhstan",KE:"Kenya",KI:"Kiribati",KW:"Kuwait",KG:"Kyrgyzstan",LA:"Laos",LV:"Latvia",LB:"Lebanon",LS:"Lesotho",LR:"Liberia",LY:"Libya",LI:"Liechtenstein",LT:"Lithuania",LU:"Luxembourg",MO:"Macau",MG:"Madagascar",MW:"Malawi",MY:"Malaysia",MV:"Maldives",ML:"Mali",MT:"Malta",MH:"Marshall Islands",MR:"Mauritania",MU:"Mauritius",MX:"Mexico",FM:"Micronesia",MD:"Moldova",MC:"Monaco",MN:"Mongolia",ME:"Montenegro",MA:"Morocco",MZ:"Mozambique",MM:"Myanmar",NA:"Namibia",NR:"Nauru",NP:"Nepal",NL:"Netherlands",NZ:"New Zealand",NI:"Nicaragua",NE:"Niger",NG:"Nigeria",KP:"North Korea",MK:"North Macedonia",NO:"Norway",OM:"Oman",PK:"Pakistan",PW:"Palau",PS:"Palestine",PA:"Panama",PG:"Papua New Guinea",PY:"Paraguay",PE:"Peru",PH:"Philippines",PL:"Poland",PT:"Portugal",QA:"Qatar",RO:"Romania",RU:"Russia",RW:"Rwanda",KN:"Saint Kitts and Nevis",LC:"Saint Lucia",VC:"Saint Vincent and the Grenadines",WS:"Samoa",SM:"San Marino",ST:"São Tomé and Príncipe",SA:"Saudi Arabia",SN:"Senegal",RS:"Serbia",SC:"Seychelles",SL:"Sierra Leone",SG:"Singapore",SK:"Slovakia",SI:"Slovenia",SB:"Solomon Islands",SO:"Somalia",ZA:"South Africa",KR:"South Korea",SS:"South Sudan",ES:"Spain",LK:"Sri Lanka",SD:"Sudan",SR:"Suriname",SE:"Sweden",CH:"Switzerland",SY:"Syria",TW:"Taiwan",TJ:"Tajikistan",TZ:"Tanzania",TH:"Thailand",TL:"Timor-Leste",TG:"Togo",TO:"Tonga",TT:"Trinidad and Tobago",TN:"Tunisia",TR:"Turkey",TM:"Turkmenistan",TV:"Tuvalu",UG:"Uganda",UA:"Ukraine",AE:"United Arab Emirates",GB:"United Kingdom",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VU:"Vanuatu",VA:"Vatican City",VE:"Venezuela",VN:"Vietnam",YE:"Yemen",ZM:"Zambia",ZW:"Zimbabwe"};
+
+function countryFlag(code){
+  if (!code || code.length !== 2) return "";
+  const A = 0x1F1E6;
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+}
 
 /* THEME */
 const THEME_KEY = "fundededge-theme";
@@ -612,7 +640,6 @@ async function openFirmDetail(firmId){
 
     wrap.innerHTML = `
       <button class="detail-back" id="detailBack">← Back</button>
-
       <div class="detail-header">
         <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
         <div class="detail-header-meta">
@@ -626,16 +653,13 @@ async function openFirmDetail(firmId){
           </div>
         </div>
       </div>
-
       <div class="detail-section">
         <div class="k">Trading rules & conditions</div>
         <div class="detail-grid">${rulesHTML}</div>
         <p class="detail-note">Rules and pricing change — verify on the firm's official website before purchasing.</p>
       </div>
-
       ${f.pros ? `<div class="detail-section"><div class="k">Pros</div><div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.pros)}</div></div>` : ""}
       ${f.cons ? `<div class="detail-section"><div class="k">Cons</div><div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.cons)}</div></div>` : ""}
-
       <div class="detail-section">
         <div class="k">Reviews</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -685,34 +709,23 @@ async function showFirmReviews(firmId){
     const initials = getInitials(f.name);
 
     const { data: reviews, error } = await db.from("firm_reviews")
-      .select("reviewer_name,rating,review_text,created_at")
+      .select("reviewer_name,rating,review_text,created_at,country")
       .eq("firm_id", firmId)
       .eq("status", "approved")
       .order("created_at", { ascending: false });
     if (error) throw error;
 
-    let summaryHTML = "";
-    let reviewsHTML = "";
-    if (reviews && reviews.length) {
-      const total = reviews.length;
-      const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
-      const counts = [0,0,0,0,0];
-      reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
-      const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
-      summaryHTML = `<div class="rating-summary"><div class="rating-big"><div class="rating-num">${avg.toFixed(1)}</div><div class="rating-stars">${fullStars}</div><div class="rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="bar-row"><span class="bar-lbl">${star} ★</span><div class="bar-track"><span style="width:${pct}%"></span></div><span class="bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
+    wrap.innerHTML = renderReviewsPage(f, reviews || [], initials, logo);
+    wireReviewsPage(firmId, f, reviews || []);
+  } catch (err) {
+    console.error(err);
+    wrap.innerHTML = `<div class="empty">Could not load reviews.</div>`;
+  }
+}
 
-      reviewsHTML = reviews.map(r => {
-        const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
-        const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
-        const name = r.reviewer_name || "Anonymous";
-        const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
-        return `<div class="review-row"><div class="review-row-head"><div class="review-row-author"><div class="review-row-avatar">${esc(initialsR)}</div><div><div class="review-row-name">${esc(name)}</div><div class="review-row-date">${esc(date)}</div></div></div><div class="review-row-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="review-row-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
-      }).join("");
-    } else {
-      reviewsHTML = `<div class="empty">No reviews yet. Be the first to share your experience.</div>`;
-    }
-
-    wrap.innerHTML = `
+function renderReviewsPage(f, reviews, initials, logo){
+  if (!reviews.length) {
+    return `
       <button class="detail-back" id="reviewsBack">← Back to ${esc(f.name)}</button>
       <div class="detail-header">
         <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
@@ -720,23 +733,179 @@ async function showFirmReviews(firmId){
           <div class="detail-cat">Reviews</div>
           <h1>${esc(f.name)}</h1>
           <p class="lead">Read what other traders say about this firm.</p>
-          <div class="detail-actions">
-            <button class="btn primary" id="reviewsWriteBtn">Write a review</button>
-          </div>
         </div>
       </div>
-      <div class="detail-section">
-        ${summaryHTML}
-        <div>${reviewsHTML}</div>
+      <div class="empty" style="padding:60px 20px">
+        <div style="font-size:32px;margin-bottom:12px;opacity:.5">☆</div>
+        <strong style="display:block;color:var(--text);margin-bottom:6px;font-size:15px">No reviews yet</strong>
+        Be the first to share your experience with this firm.
+        <div style="margin-top:20px">
+          <button class="btn primary" id="reviewsWriteBtn">Write the first review</button>
+        </div>
       </div>
     `;
-
-    $("reviewsBack").onclick = () => openFirmDetail(firmId);
-    $("reviewsWriteBtn").onclick = () => showWriteReview(firmId);
-  } catch (err) {
-    console.error(err);
-    wrap.innerHTML = `<div class="empty">Could not load reviews.</div>`;
   }
+
+  const total = reviews.length;
+  const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
+  const counts = [0,0,0,0,0];
+  reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+  const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+
+  const countryCounts = {};
+  reviews.forEach(r => { const c = r.country; if (c) countryCounts[c] = (countryCounts[c] || 0) + 1; });
+  const topCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+  const countryChips = topCountries.map(([code, count]) => {
+    const name = COUNTRY_NAMES[code] || code;
+    const flag = countryFlag(code);
+    return `<button class="tp-country-chip" data-country="${code}">${flag} ${name} <span>${count}</span></button>`;
+  }).join("");
+
+  return `
+    <button class="detail-back" id="reviewsBack">← Back to ${esc(f.name)}</button>
+    <div class="detail-header">
+      <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
+      <div class="detail-header-meta">
+        <div class="detail-cat">Reviews</div>
+        <h1>${esc(f.name)}</h1>
+        <p class="lead">Read what other traders say about this firm.</p>
+        <div class="detail-actions">
+          <button class="btn primary" id="reviewsWriteBtn">Write a review</button>
+        </div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="tp-summary">
+        <div class="tp-summary-left">
+          <div class="tp-avg">${avg.toFixed(1)}</div>
+          <div class="tp-stars">${fullStars}</div>
+          <div class="tp-count">${total} review${total === 1 ? "" : "s"}</div>
+        </div>
+        <div class="tp-summary-right">
+          ${[5,4,3,2,1].map(star => {
+            const c = counts[star-1];
+            const pct = Math.round((c/total) * 100);
+            return `<button class="tp-bar-row" data-rating="${star}">
+              <span class="tp-bar-lbl">${star} ★</span>
+              <div class="tp-bar-track"><span style="width:${pct}%"></span></div>
+              <span class="tp-bar-count">${c}</span>
+            </button>`;
+          }).join("")}
+        </div>
+      </div>
+      ${topCountries.length ? `
+        <div class="tp-countries">
+          <div class="tp-countries-label">Filter by country</div>
+          <div class="tp-country-chips" id="tpCountryChips">
+            <button class="tp-country-chip active" data-country="all">All countries</button>
+            ${countryChips}
+          </div>
+        </div>
+      ` : ""}
+      <div class="tp-toolbar">
+        <div class="tp-toolbar-left" id="tpResultCount">Showing ${total} review${total === 1 ? "" : "s"}</div>
+        <div class="tp-toolbar-right">
+          <label for="tpSort" class="tp-sort-label">Sort:</label>
+          <select id="tpSort" class="tp-sort-select">
+            <option value="newest">Newest</option>
+            <option value="highest">Highest rated</option>
+            <option value="lowest">Lowest rated</option>
+          </select>
+        </div>
+      </div>
+      <div id="tpReviewList" class="tp-review-list">
+        ${reviews.map(r => renderReviewCard(r)).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderReviewCard(r){
+  const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+  const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
+  const name = r.reviewer_name || "Anonymous";
+  const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+  const countryName = r.country ? (COUNTRY_NAMES[r.country] || r.country) : "";
+  const flag = r.country ? countryFlag(r.country) : "";
+
+  return `<div class="tp-review-card">
+    <div class="tp-review-head">
+      <div class="tp-review-author">
+        <div class="tp-review-avatar">${esc(initialsR)}</div>
+        <div>
+          <div class="tp-review-name">${esc(name)}</div>
+          <div class="tp-review-date">${esc(date)}</div>
+        </div>
+      </div>
+      <div class="tp-review-corner">
+        ${r.country ? `<span class="tp-review-country-badge">${flag} ${esc(countryName)}</span>` : ""}
+        <div class="tp-review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
+      </div>
+    </div>
+    <p class="tp-review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p>
+  </div>`;
+}
+
+function wireReviewsPage(firmId, f, allReviews){
+  $("reviewsBack").onclick = () => openFirmDetail(firmId);
+  const writeBtn = $("reviewsWriteBtn");
+  if (writeBtn) writeBtn.onclick = () => showWriteReview(firmId);
+
+  let filter = { country: "all", rating: null, sort: "newest" };
+
+  function apply(){
+    let list = allReviews.slice();
+    if (filter.country !== "all") list = list.filter(r => r.country === filter.country);
+    if (filter.rating) list = list.filter(r => Math.round(Number(r.rating) || 0) === filter.rating);
+
+    if (filter.sort === "newest") list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
+    else if (filter.sort === "highest") list.sort((a,b) => Number(b.rating||0) - Number(a.rating||0));
+    else if (filter.sort === "lowest") list.sort((a,b) => Number(a.rating||0) - Number(b.rating||0));
+
+    const listEl = $("tpReviewList");
+    const countEl = $("tpResultCount");
+    if (!list.length) {
+      listEl.innerHTML = `<div class="empty">No reviews match this filter.</div>`;
+      countEl.textContent = "No reviews match";
+    } else {
+      listEl.innerHTML = list.map(r => renderReviewCard(r)).join("");
+      countEl.textContent = `Showing ${list.length} of ${allReviews.length} review${allReviews.length === 1 ? "" : "s"}`;
+    }
+  }
+
+  document.querySelectorAll("#tpCountryChips .tp-country-chip").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll("#tpCountryChips .tp-country-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      filter.country = btn.dataset.country;
+      filter.rating = null;
+      document.querySelectorAll(".tp-bar-row").forEach(b => b.classList.remove("active"));
+      apply();
+    };
+  });
+
+  document.querySelectorAll(".tp-bar-row").forEach(btn => {
+    btn.onclick = () => {
+      const r = Number(btn.dataset.rating);
+      const wasActive = btn.classList.contains("active");
+      document.querySelectorAll(".tp-bar-row").forEach(b => b.classList.remove("active"));
+      if (wasActive) {
+        filter.rating = null;
+      } else {
+        btn.classList.add("active");
+        filter.rating = r;
+        filter.country = "all";
+        document.querySelectorAll("#tpCountryChips .tp-country-chip").forEach(b => b.classList.remove("active"));
+        const allChip = document.querySelector('#tpCountryChips .tp-country-chip[data-country="all"]');
+        if (allChip) allChip.classList.add("active");
+      }
+      apply();
+    };
+  });
+
+  const sortSel = $("tpSort");
+  if (sortSel) sortSel.onchange = () => { filter.sort = sortSel.value; apply(); };
 }
 
 async function showWriteReview(firmId){
@@ -816,10 +985,13 @@ async function showWriteReview(firmId){
       btn.disabled = true;
       btn.textContent = "Submitting…";
 
+      const countryCode = user.user_metadata?.country || null;
+
       const { error: err } = await db.from("firm_reviews").insert({
         firm_id: f.id, user_id: user.id,
         reviewer_name: name, rating: stars,
-        review_text: text, status: "pending"
+        review_text: text, status: "pending",
+        country: countryCode
       });
 
       if (err) {
@@ -851,7 +1023,6 @@ document.addEventListener("click", e => {
   if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
 });
 
-/* JOURNAL */
 const val = id => $(id).value === "" ? null : $(id).value;
 function resetForm(){ $("tradeForm").reset(); $("tradeId").value = ""; $("tradeDate").value = new Date().toISOString().slice(0,10); $("formTitle").textContent = "Add a trade"; $("saveTrade").textContent = "Save trade"; $("cancelEdit").hidden = true; }
 $("cancelEdit").onclick = resetForm;
@@ -901,8 +1072,7 @@ async function load(){
   $("settingEmail").textContent = u.email || "—";
   $("settingName").textContent = name;
   const cc = u.user_metadata?.country;
-  const names = {US:"United States",GB:"United Kingdom",NP:"Nepal",IN:"India",AU:"Australia",CA:"Canada",DE:"Germany",FR:"France",ES:"Spain",IT:"Italy",BR:"Brazil",JP:"Japan",CN:"China",AE:"United Arab Emirates",SA:"Saudi Arabia",PK:"Pakistan",BD:"Bangladesh",NG:"Nigeria",ZA:"South Africa",RU:"Russia",MX:"Mexico",ID:"Indonesia",PH:"Philippines",VN:"Vietnam",TH:"Thailand",MY:"Malaysia",SG:"Singapore",KR:"South Korea",TR:"Turkey",EG:"Egypt",PL:"Poland",NL:"Netherlands",SE:"Sweden",NO:"Norway",DK:"Denmark",FI:"Finland",IE:"Ireland",PT:"Portugal",GR:"Greece",CZ:"Czechia",AT:"Austria",CH:"Switzerland",BE:"Belgium"};
-  $("settingCountry").textContent = cc ? (names[cc] || cc) + " (" + cc + ")" : "Not set";
+  $("settingCountry").textContent = cc ? (COUNTRY_NAMES[cc] || cc) + " (" + cc + ")" : "Not set";
 
   const [fr, cr, rr] = await Promise.all([
     db.from("favorites").select("id,firm_id,created_at").eq("user_id", u.id).order("created_at", { ascending: false }),
