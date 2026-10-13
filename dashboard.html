@@ -22,7 +22,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
-
 .topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
 .logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
 .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
@@ -154,8 +153,8 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .neg{color:var(--danger)}
 .empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
 
-/* FIRM DETAIL PAGE (inside dashboard) */
-.detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);background:transparent;border:0;padding:0;margin-bottom:16px;font-weight:500;}
+/* FIRM DETAIL PAGES */
+.detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);background:transparent;border:0;padding:0;margin-bottom:16px;font-weight:500;cursor:pointer;}
 .detail-back:hover{color:var(--accent)}
 .detail-header{display:flex;gap:20px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap}
 .detail-logo{width:72px;height:72px;border-radius:12px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:22px;font-weight:700;color:var(--accent);}
@@ -195,15 +194,11 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .review-row-stars{color:var(--gold);font-size:13px;letter-spacing:1px;flex-shrink:0}
 .review-row-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 
-.write-review-card{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:20px}
-.write-review-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
-.write-review-card .sub{font-size:13px;color:var(--text-mute);margin-bottom:20px}
 .star-picker{display:inline-flex;gap:8px;margin-top:4px;margin-bottom:6px}
 .star-picker button{background:transparent;border:0;font-size:32px;line-height:1;color:var(--line-2);padding:0;transition:.1s}
 .star-picker button:hover,.star-picker button.on{color:var(--gold)}
 .star-label{font-size:12.5px;color:var(--text-mute);margin-bottom:16px;display:block}
 .review-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-
 .review-message{display:none;margin-top:14px;padding:12px 14px;border-radius:8px;font-size:13px}
 .review-message.show{display:block}
 .review-message.success{background:rgba(74,222,128,.1);color:var(--success)}
@@ -350,7 +345,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
       </div></div>
     </section>
 
-    <!-- FIRM DETAIL PAGE (rendered inside dashboard) -->
+    <!-- FIRM DETAIL (sub-pages inside dashboard) -->
     <section class="page" id="page-firm">
       <div id="firmDetailContent"></div>
     </section>
@@ -390,6 +385,7 @@ let allFirmsCache = [], compareFirmsCache = [];
 const compareSlots = {1:null, 2:null, 3:null};
 let currentChip = "all";
 let previousPage = "firms";
+let currentFirmCache = null;
 
 function toast(msg){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3000); }
 function emptyEl(id, msg){ const el = $(id); if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`; }
@@ -419,7 +415,6 @@ $("toggleSidebar").onclick = () => $("sidebar").classList.toggle("closed");
 if (innerWidth <= 900) $("sidebar").classList.add("closed");
 $("logoutBtn").onclick = async () => { await db.auth.signOut(); location.replace("index.html"); };
 
-/* FIRM CARD */
 function firmCard(firm, savedIds){
   const isSaved = savedIds ? savedIds.has(String(firm.id)) : false;
   const rating = firm.rating ? `★ ${firm.rating}` : "—";
@@ -438,7 +433,7 @@ function firmCard(firm, savedIds){
       <div><div class="k">Split</div><div class="v">${esc(firm.profit_split || "—")}</div></div>
     </div>
     <div class="firm-actions">
-      <button class="btn primary" data-view-firm="${esc(firm.id)}">View full profile</button>
+      <button class="btn primary" data-view-firm="${esc(firm.id)}">View</button>
       <button class="btn" data-save-firm="${esc(firm.id)}" data-saved="${isSaved ? "1" : "0"}">${isSaved ? "Saved" : "Save"}</button>
     </div>
   </article>`;
@@ -459,13 +454,12 @@ function favCard(fav, firm){
       <div><div class="k">From</div><div class="v">${esc(f.price || "—")}</div></div>
     </div>
     <div class="firm-actions">
-      <button class="btn primary" data-view-firm="${esc(f.id)}">View full profile</button>
+      <button class="btn primary" data-view-firm="${esc(f.id)}">View</button>
       <button class="btn danger" data-remove-fav="${esc(fav.id)}">Remove</button>
     </div>
   </article>`;
 }
 
-/* SAVE */
 async function toggleSave(firmId, btn){
   if (!user) return;
   btn.disabled = true;
@@ -480,7 +474,6 @@ async function toggleSave(firmId, btn){
 }
 async function removeFav(id){ if (!user) return; await db.from("favorites").delete().eq("id", id).eq("user_id", user.id); toast("Removed"); await load(); }
 
-/* LOAD FIRMS */
 async function loadAllFirms(){
   const wrap = $("allFirms");
   wrap.innerHTML = `<div class="empty">Loading firms…</div>`;
@@ -495,7 +488,6 @@ async function loadAllFirms(){
     renderFiltered(savedIds);
   } catch (err) { console.error(err); wrap.innerHTML = `<div class="empty">Could not load firms.</div>`; }
 }
-
 function renderFiltered(savedIds){
   let list = allFirmsCache;
   if (currentChip === "top") list = list.filter(f => Number(f.rating) >= 4.5);
@@ -505,7 +497,6 @@ function renderFiltered(savedIds){
   if (!list.length) { wrap.innerHTML = `<div class="empty">No firms match this filter.</div>`; return; }
   wrap.innerHTML = list.map(f => firmCard(f, savedIds)).join("");
 }
-
 document.querySelectorAll("#firmChips .chip").forEach(c => {
   c.onclick = async () => {
     document.querySelectorAll("#firmChips .chip").forEach(x => x.classList.remove("active"));
@@ -517,7 +508,6 @@ document.querySelectorAll("#firmChips .chip").forEach(c => {
   };
 });
 
-/* COMPARE */
 async function loadCompareCache(){
   if (compareFirmsCache.length) { [1,2,3].forEach(updateSlotUI); return; }
   const { data } = await db.from("firms").select("*").eq("status","active").order("name",{ascending:true});
@@ -565,7 +555,6 @@ $("cmpRun").onclick = () => {
 };
 $("cmpClear").onclick = () => { compareSlots[1] = compareSlots[2] = compareSlots[3] = null; [1,2,3].forEach(n => { updateSlotUI(n); $("cmpResults" + n).classList.remove("show"); }); $("cmpResult").innerHTML = ""; };
 
-/* SEARCH */
 const gsInput = $("globalSearch"), gsResults = $("searchResults");
 async function ensureFirmsLoaded(){ if (allFirmsCache.length) return; const { data } = await db.from("firms").select("id,name,category,rating").eq("status","active").order("name"); allFirmsCache = data || []; }
 gsInput.addEventListener("focus", async () => {
@@ -582,7 +571,7 @@ gsInput.addEventListener("focus", async () => {
 gsInput.addEventListener("input", () => gsInput.dispatchEvent(new Event("focus")));
 document.addEventListener("click", e => { if (!e.target.closest(".topbar-search")) gsResults.classList.remove("show"); });
 
-/* ==================== FIRM DETAIL PAGE (inside dashboard) ==================== */
+/* ==================== FIRM DETAIL PAGES ==================== */
 async function openFirmDetail(firmId){
   previousPage = document.querySelector(".page.active")?.id.replace("page-", "") || "firms";
   const wrap = $("firmDetailContent");
@@ -594,6 +583,8 @@ async function openFirmDetail(firmId){
     if (error) throw error;
     if (!data || !data.length) { wrap.innerHTML = `<div class="empty">Firm not found.</div>`; return; }
     const f = data[0];
+    currentFirmCache = f;
+
     const logo = logoURL(f);
     const initials = getInitials(f.name);
     const official = f.official_website || "";
@@ -602,29 +593,7 @@ async function openFirmDetail(firmId){
     const { data: existingFav } = await db.from("favorites").select("id").eq("user_id", user.id).eq("firm_id", f.id).maybeSingle();
     const isSaved = !!existingFav;
 
-    const { data: reviews } = await db.from("firm_reviews").select("reviewer_name,rating,review_text,created_at").eq("firm_id", f.id).eq("status", "approved").order("created_at", { ascending: false });
-
-    let ratingSummaryHTML = "";
-    let reviewsHTML = "";
-    if (reviews && reviews.length) {
-      const total = reviews.length;
-      const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
-      const counts = [0,0,0,0,0];
-      reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
-      const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
-
-      ratingSummaryHTML = `<div class="rating-summary"><div class="rating-big"><div class="rating-num">${avg.toFixed(1)}</div><div class="rating-stars">${fullStars}</div><div class="rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="bar-row"><span class="bar-lbl">${star} ★</span><div class="bar-track"><span style="width:${pct}%"></span></div><span class="bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
-
-      reviewsHTML = reviews.map(r => {
-        const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
-        const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
-        const name = r.reviewer_name || "Anonymous";
-        const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
-        return `<div class="review-row"><div class="review-row-head"><div class="review-row-author"><div class="review-row-avatar">${esc(initialsR)}</div><div><div class="review-row-name">${esc(name)}</div><div class="review-row-date">${esc(date)}</div></div></div><div class="review-row-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="review-row-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
-      }).join("");
-    } else {
-      reviewsHTML = `<div class="empty">No reviews yet. Be the first to share your experience.</div>`;
-    }
+    const { count: reviewCount } = await db.from("firm_reviews").select("id", { count: "exact", head: true }).eq("firm_id", f.id).eq("status", "approved");
 
     const rules = [
       ["Account sizes", f.account_sizes],
@@ -642,7 +611,7 @@ async function openFirmDetail(firmId){
     const rulesHTML = rules.map(([k, v]) => `<div class="detail-cell"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`).join("");
 
     wrap.innerHTML = `
-      <button class="detail-back" id="detailBack">← Back to firms</button>
+      <button class="detail-back" id="detailBack">← Back</button>
 
       <div class="detail-header">
         <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
@@ -668,32 +637,11 @@ async function openFirmDetail(firmId){
       ${f.cons ? `<div class="detail-section"><div class="k">Cons</div><div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.cons)}</div></div>` : ""}
 
       <div class="detail-section">
-        <div class="k">Reviews & ratings</div>
-        ${ratingSummaryHTML}
-
-        <div class="write-review-card">
-          <h3>Write a review</h3>
-          <p class="sub">Share your honest experience with ${esc(f.name)}.</p>
-          <form id="detailReviewForm">
-            <div class="field" style="margin-bottom:16px"><label>Your name</label><input id="dReviewName" type="text" maxlength="40" minlength="2" required placeholder="Display name"></div>
-            <div class="field" style="margin-bottom:16px">
-              <label>Your rating</label>
-              <div class="star-picker" id="dStarPicker">
-                <button type="button" data-star="1">★</button>
-                <button type="button" data-star="2">★</button>
-                <button type="button" data-star="3">★</button>
-                <button type="button" data-star="4">★</button>
-                <button type="button" data-star="5">★</button>
-              </div>
-              <span class="star-label" id="dStarLabel">Tap a star to rate</span>
-            </div>
-            <div class="field" style="margin-bottom:16px"><label>Your review</label><textarea id="dReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?"></textarea></div>
-            <div class="review-form-actions"><button class="btn primary" id="dReviewSubmit" type="submit">Publish review</button></div>
-            <div class="review-message" id="dReviewMsg"></div>
-          </form>
+        <div class="k">Reviews</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="viewReviewsBtn">View reviews${reviewCount ? " (" + reviewCount + ")" : ""}</button>
+          <button class="btn primary" id="writeReviewBtn">Write a review</button>
         </div>
-
-        <div>${reviewsHTML}</div>
       </div>
     `;
 
@@ -714,60 +662,186 @@ async function openFirmDetail(firmId){
       };
     }
 
-    let stars = 0;
-    const starBtns = wrap.querySelectorAll("#dStarPicker button");
-    const starLabel = $("dStarLabel");
-    const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
-    function setStars(n){ stars = n; starBtns.forEach(b => b.classList.toggle("on", Number(b.dataset.star) <= n)); starLabel.textContent = n ? `${n} / 5 · ${ratingLabels[n]}` : "Tap a star to rate"; }
-    starBtns.forEach(b => b.onclick = () => setStars(Number(b.dataset.star)));
-
-    // Prefill name
-    const nameField = $("dReviewName");
-    if (nameField) nameField.value = user.user_metadata?.full_name || user.email?.split("@")[0] || "";
-
-    $("detailReviewForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const msg = $("dReviewMsg");
-      msg.className = "review-message";
-      const name = $("dReviewName").value.trim();
-      const text = $("dReviewText").value.trim();
-      if (name.length < 2) { msg.textContent = "Please enter your name."; msg.classList.add("show", "error"); return; }
-      if (stars < 1) { msg.textContent = "Please select a rating."; msg.classList.add("show", "error"); return; }
-      if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.classList.add("show", "error"); return; }
-
-      const submitBtn = $("dReviewSubmit");
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting…";
-
-      const { error: err } = await db.from("firm_reviews").insert({
-        firm_id: f.id,
-        user_id: user.id,
-        reviewer_name: name,
-        rating: stars,
-        review_text: text,
-        status: "pending"
-      });
-
-      if (err) {
-        msg.textContent = "Error: " + err.message;
-        msg.classList.add("show", "error");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Publish review";
-        return;
-      }
-      msg.textContent = "Thank you! Your review is awaiting approval.";
-      msg.classList.add("show", "success");
-      submitBtn.textContent = "Submitted";
-      $("dReviewText").value = "";
-      setStars(0);
-    };
+    $("viewReviewsBtn").onclick = () => showFirmReviews(firmId);
+    $("writeReviewBtn").onclick = () => showWriteReview(firmId);
   } catch (err) {
     console.error(err);
     wrap.innerHTML = `<div class="empty">Could not load firm profile.</div>`;
   }
 }
 
-/* Delegate view/save/remove buttons */
+async function showFirmReviews(firmId){
+  const wrap = $("firmDetailContent");
+  wrap.innerHTML = `<div class="empty">Loading reviews…</div>`;
+  go("firm");
+
+  try {
+    const f = currentFirmCache && currentFirmCache.id === firmId
+      ? currentFirmCache
+      : (await db.from("firms").select("*").eq("id", firmId).limit(1)).data[0];
+    currentFirmCache = f;
+
+    const logo = logoURL(f);
+    const initials = getInitials(f.name);
+
+    const { data: reviews, error } = await db.from("firm_reviews")
+      .select("reviewer_name,rating,review_text,created_at")
+      .eq("firm_id", firmId)
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+
+    let summaryHTML = "";
+    let reviewsHTML = "";
+    if (reviews && reviews.length) {
+      const total = reviews.length;
+      const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
+      const counts = [0,0,0,0,0];
+      reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+      const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+      summaryHTML = `<div class="rating-summary"><div class="rating-big"><div class="rating-num">${avg.toFixed(1)}</div><div class="rating-stars">${fullStars}</div><div class="rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="bar-row"><span class="bar-lbl">${star} ★</span><div class="bar-track"><span style="width:${pct}%"></span></div><span class="bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
+
+      reviewsHTML = reviews.map(r => {
+        const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+        const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
+        const name = r.reviewer_name || "Anonymous";
+        const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+        return `<div class="review-row"><div class="review-row-head"><div class="review-row-author"><div class="review-row-avatar">${esc(initialsR)}</div><div><div class="review-row-name">${esc(name)}</div><div class="review-row-date">${esc(date)}</div></div></div><div class="review-row-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="review-row-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
+      }).join("");
+    } else {
+      reviewsHTML = `<div class="empty">No reviews yet. Be the first to share your experience.</div>`;
+    }
+
+    wrap.innerHTML = `
+      <button class="detail-back" id="reviewsBack">← Back to ${esc(f.name)}</button>
+      <div class="detail-header">
+        <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
+        <div class="detail-header-meta">
+          <div class="detail-cat">Reviews</div>
+          <h1>${esc(f.name)}</h1>
+          <p class="lead">Read what other traders say about this firm.</p>
+          <div class="detail-actions">
+            <button class="btn primary" id="reviewsWriteBtn">Write a review</button>
+          </div>
+        </div>
+      </div>
+      <div class="detail-section">
+        ${summaryHTML}
+        <div>${reviewsHTML}</div>
+      </div>
+    `;
+
+    $("reviewsBack").onclick = () => openFirmDetail(firmId);
+    $("reviewsWriteBtn").onclick = () => showWriteReview(firmId);
+  } catch (err) {
+    console.error(err);
+    wrap.innerHTML = `<div class="empty">Could not load reviews.</div>`;
+  }
+}
+
+async function showWriteReview(firmId){
+  const wrap = $("firmDetailContent");
+  wrap.innerHTML = `<div class="empty">Loading…</div>`;
+  go("firm");
+
+  try {
+    const f = currentFirmCache && currentFirmCache.id === firmId
+      ? currentFirmCache
+      : (await db.from("firms").select("*").eq("id", firmId).limit(1)).data[0];
+    currentFirmCache = f;
+
+    const logo = logoURL(f);
+    const initials = getInitials(f.name);
+    const defaultName = user.user_metadata?.full_name || user.email?.split("@")[0] || "";
+
+    wrap.innerHTML = `
+      <button class="detail-back" id="writeBack">← Back to ${esc(f.name)}</button>
+      <div class="detail-header">
+        <div class="detail-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
+        <div class="detail-header-meta">
+          <div class="detail-cat">Write a review</div>
+          <h1>${esc(f.name)}</h1>
+          <p class="lead">Your honest feedback helps other traders choose the right firm.</p>
+        </div>
+      </div>
+      <div class="detail-section">
+        <form id="writeReviewForm">
+          <div class="field" style="margin-bottom:16px">
+            <label>Your name</label>
+            <input id="wReviewName" type="text" maxlength="40" minlength="2" required value="${esc(defaultName)}" placeholder="Display name">
+          </div>
+          <div class="field" style="margin-bottom:16px">
+            <label>Your rating</label>
+            <div class="star-picker" id="wStarPicker">
+              <button type="button" data-star="1">★</button>
+              <button type="button" data-star="2">★</button>
+              <button type="button" data-star="3">★</button>
+              <button type="button" data-star="4">★</button>
+              <button type="button" data-star="5">★</button>
+            </div>
+            <span class="star-label" id="wStarLabel">Tap a star to rate</span>
+          </div>
+          <div class="field" style="margin-bottom:16px">
+            <label>Your review</label>
+            <textarea id="wReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?"></textarea>
+          </div>
+          <div class="review-form-actions">
+            <button class="btn primary" id="wReviewSubmit" type="submit">Publish review</button>
+          </div>
+          <div class="review-message" id="wReviewMsg"></div>
+        </form>
+      </div>
+    `;
+
+    $("writeBack").onclick = () => openFirmDetail(firmId);
+
+    let stars = 0;
+    const starBtns = wrap.querySelectorAll("#wStarPicker button");
+    const starLabel = $("wStarLabel");
+    const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
+    function setStars(n){ stars = n; starBtns.forEach(b => b.classList.toggle("on", Number(b.dataset.star) <= n)); starLabel.textContent = n ? `${n} / 5 · ${ratingLabels[n]}` : "Tap a star to rate"; }
+    starBtns.forEach(b => b.onclick = () => setStars(Number(b.dataset.star)));
+
+    $("writeReviewForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const msg = $("wReviewMsg");
+      msg.className = "review-message";
+      const name = $("wReviewName").value.trim();
+      const text = $("wReviewText").value.trim();
+      if (name.length < 2) { msg.textContent = "Please enter your name."; msg.classList.add("show", "error"); return; }
+      if (stars < 1) { msg.textContent = "Please select a rating."; msg.classList.add("show", "error"); return; }
+      if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.classList.add("show", "error"); return; }
+
+      const btn = $("wReviewSubmit");
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      const { error: err } = await db.from("firm_reviews").insert({
+        firm_id: f.id, user_id: user.id,
+        reviewer_name: name, rating: stars,
+        review_text: text, status: "pending"
+      });
+
+      if (err) {
+        msg.textContent = "Error: " + err.message;
+        msg.classList.add("show", "error");
+        btn.disabled = false;
+        btn.textContent = "Publish review";
+        return;
+      }
+      msg.textContent = "Thank you! Your review is awaiting approval.";
+      msg.classList.add("show", "success");
+      btn.textContent = "Submitted";
+      $("wReviewText").value = "";
+      setStars(0);
+      setTimeout(() => showFirmReviews(firmId), 1800);
+    };
+  } catch (err) {
+    console.error(err);
+    wrap.innerHTML = `<div class="empty">Could not load form.</div>`;
+  }
+}
+
 document.addEventListener("click", e => {
   const viewBtn = e.target.closest("[data-view-firm]");
   if (viewBtn) openFirmDetail(viewBtn.dataset.viewFirm);
