@@ -152,8 +152,6 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .pos{color:var(--success)}
 .neg{color:var(--danger)}
 .empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
-
-/* FIRM DETAIL */
 .detail-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);background:transparent;border:0;padding:0;margin-bottom:16px;font-weight:500;cursor:pointer;}
 .detail-back:hover{color:var(--accent)}
 .detail-header{display:flex;gap:20px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap}
@@ -171,8 +169,6 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .detail-cell .ck{font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:6px;}
 .detail-cell .cv{font-size:15px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
 .detail-note{font-size:12px;color:var(--text-mute);margin-top:14px;line-height:1.6}
-
-/* REVIEWS */
 .tp-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:24px;}
 @media (max-width:640px){.tp-summary{grid-template-columns:1fr;gap:20px}}
 .tp-summary-left{text-align:center;padding-right:32px;border-right:1px solid var(--line);}
@@ -181,13 +177,13 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .tp-stars{color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:6px;}
 .tp-count{font-size:12.5px;color:var(--text-mute);}
 .tp-summary-right{display:grid;gap:6px;}
-.tp-bar-row{display:grid;grid-template-columns:40px 1fr 44px;gap:12px;align-items:center;padding:4px 6px;background:transparent;border:0;cursor:pointer;text-align:left;transition:.15s;border-radius:6px;}
+.tp-bar-row{display:grid;grid-template-columns:40px 1fr 44px;gap:12px;align-items:center;padding:4px 6px;background:transparent;border:0;cursor:pointer;text-align:left;transition:.15s;border-radius:6px;font-size:12px;}
 .tp-bar-row:hover{background:var(--surface-2)}
 .tp-bar-row.active{background:var(--accent-bg)}
-.tp-bar-lbl{font-size:12px;color:var(--text-dim);font-weight:500}
+.tp-bar-lbl{color:var(--text-dim);font-weight:500}
 .tp-bar-track{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;}
 .tp-bar-track span{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .3s;}
-.tp-bar-count{font-size:12px;color:var(--text-mute);text-align:right;font-weight:500}
+.tp-bar-count{color:var(--text-mute);text-align:right;font-weight:500}
 .tp-countries{margin-bottom:20px}
 .tp-countries-label{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;}
 .tp-country-chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -214,7 +210,6 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .tp-review-country-badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--text-dim);padding:4px 10px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap;}
 .tp-review-stars{color:var(--gold);font-size:14px;letter-spacing:1px;line-height:1;}
 .tp-review-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
-
 .star-picker{display:inline-flex;gap:8px;margin-top:4px;margin-bottom:6px}
 .star-picker button{background:transparent;border:0;font-size:32px;line-height:1;color:var(--line-2);padding:0;transition:.1s}
 .star-picker button:hover,.star-picker button.on{color:var(--gold)}
@@ -224,18 +219,16 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .review-message.show{display:block}
 .review-message.success{background:rgba(74,222,128,.1);color:var(--success)}
 .review-message.error{background:rgba(255,107,107,.1);color:var(--danger)}
-
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300;}
-
 @media (max-width:900px){.sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow);}.sidebar.closed{margin-left:-240px}.topbar-search{display:none}}
-@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.detail-header{flex-direction:column}.detail-header-meta h1{font-size:22px}.rating-summary{grid-template-columns:1fr;gap:16px}.rating-big{padding-right:0;padding-bottom:16px;border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.detail-header{flex-direction:column}.detail-header-meta h1{font-size:22px}}
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <button class="topbar-btn" id="toggleSidebar" aria-label="Menu">☰</button>
-  <a class="logo" href="dashboard.html" style="cursor:default"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
+  <a class="logo" href="dashboard.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
   <div class="topbar-spacer"></div>
   <div class="topbar-search">
     <span class="s-ico">🔍</span>
@@ -393,9 +386,12 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 
 const COUNTRY_NAMES = {AF:"Afghanistan",AL:"Albania",DZ:"Algeria",AD:"Andorra",AO:"Angola",AR:"Argentina",AM:"Armenia",AU:"Australia",AT:"Austria",AZ:"Azerbaijan",BH:"Bahrain",BD:"Bangladesh",BY:"Belarus",BE:"Belgium",BZ:"Belize",BJ:"Benin",BT:"Bhutan",BO:"Bolivia",BA:"Bosnia and Herzegovina",BW:"Botswana",BR:"Brazil",BN:"Brunei",BG:"Bulgaria",BF:"Burkina Faso",BI:"Burundi",KH:"Cambodia",CM:"Cameroon",CA:"Canada",CV:"Cape Verde",CF:"Central African Republic",TD:"Chad",CL:"Chile",CN:"China",CO:"Colombia",KM:"Comoros",CG:"Congo",CD:"Congo (DRC)",CR:"Costa Rica",CI:"Côte d'Ivoire",HR:"Croatia",CU:"Cuba",CY:"Cyprus",CZ:"Czechia",DK:"Denmark",DJ:"Djibouti",DM:"Dominica",DO:"Dominican Republic",EC:"Ecuador",EG:"Egypt",SV:"El Salvador",GQ:"Equatorial Guinea",ER:"Eritrea",EE:"Estonia",SZ:"Eswatini",ET:"Ethiopia",FJ:"Fiji",FI:"Finland",FR:"France",GA:"Gabon",GM:"Gambia",GE:"Georgia",DE:"Germany",GH:"Ghana",GR:"Greece",GD:"Grenada",GT:"Guatemala",GN:"Guinea",GW:"Guinea-Bissau",GY:"Guyana",HT:"Haiti",HN:"Honduras",HK:"Hong Kong",HU:"Hungary",IS:"Iceland",IN:"India",ID:"Indonesia",IR:"Iran",IQ:"Iraq",IE:"Ireland",IL:"Israel",IT:"Italy",JM:"Jamaica",JP:"Japan",JO:"Jordan",KZ:"Kazakhstan",KE:"Kenya",KI:"Kiribati",KW:"Kuwait",KG:"Kyrgyzstan",LA:"Laos",LV:"Latvia",LB:"Lebanon",LS:"Lesotho",LR:"Liberia",LY:"Libya",LI:"Liechtenstein",LT:"Lithuania",LU:"Luxembourg",MO:"Macau",MG:"Madagascar",MW:"Malawi",MY:"Malaysia",MV:"Maldives",ML:"Mali",MT:"Malta",MH:"Marshall Islands",MR:"Mauritania",MU:"Mauritius",MX:"Mexico",FM:"Micronesia",MD:"Moldova",MC:"Monaco",MN:"Mongolia",ME:"Montenegro",MA:"Morocco",MZ:"Mozambique",MM:"Myanmar",NA:"Namibia",NR:"Nauru",NP:"Nepal",NL:"Netherlands",NZ:"New Zealand",NI:"Nicaragua",NE:"Niger",NG:"Nigeria",KP:"North Korea",MK:"North Macedonia",NO:"Norway",OM:"Oman",PK:"Pakistan",PW:"Palau",PS:"Palestine",PA:"Panama",PG:"Papua New Guinea",PY:"Paraguay",PE:"Peru",PH:"Philippines",PL:"Poland",PT:"Portugal",QA:"Qatar",RO:"Romania",RU:"Russia",RW:"Rwanda",KN:"Saint Kitts and Nevis",LC:"Saint Lucia",VC:"Saint Vincent and the Grenadines",WS:"Samoa",SM:"San Marino",ST:"São Tomé and Príncipe",SA:"Saudi Arabia",SN:"Senegal",RS:"Serbia",SC:"Seychelles",SL:"Sierra Leone",SG:"Singapore",SK:"Slovakia",SI:"Slovenia",SB:"Solomon Islands",SO:"Somalia",ZA:"South Africa",KR:"South Korea",SS:"South Sudan",ES:"Spain",LK:"Sri Lanka",SD:"Sudan",SR:"Suriname",SE:"Sweden",CH:"Switzerland",SY:"Syria",TW:"Taiwan",TJ:"Tajikistan",TZ:"Tanzania",TH:"Thailand",TL:"Timor-Leste",TG:"Togo",TO:"Tonga",TT:"Trinidad and Tobago",TN:"Tunisia",TR:"Turkey",TM:"Turkmenistan",TV:"Tuvalu",UG:"Uganda",UA:"Ukraine",AE:"United Arab Emirates",GB:"United Kingdom",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VU:"Vanuatu",VA:"Vatican City",VE:"Venezuela",VN:"Vietnam",YE:"Yemen",ZM:"Zambia",ZW:"Zimbabwe"};
 
-function countryFlag(code){ if (!code || code.length !== 2) return ""; const A = 0x1F1E6; return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65); }
+function countryFlag(code){
+  if (!code || code.length !== 2) return "";
+  const A = 0x1F1E6;
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+}
 
-/* THEME */
 const THEME_KEY = "fundededge-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); const s=$("settingTheme"); if(s) s.textContent = t === "dark" ? "Dark" : "Light"; }
@@ -408,7 +404,9 @@ let user = null, trades = [], toastTimer, firmsLoaded = false;
 let allFirmsCache = [], compareFirmsCache = [];
 const compareSlots = {1:null, 2:null, 3:null};
 let currentChip = "all";
+let previousPage = "firms";
 let currentFirmCache = null;
+let currentFirmView = null; // "firm" | "reviews" | "write"
 
 function toast(msg){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3000); }
 function emptyEl(id, msg){ const el = $(id); if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`; }
@@ -423,24 +421,36 @@ function getLogoDomain(firm){
 function getInitials(name){ const words = String(name || "PF").trim().split(/\s+/).filter(Boolean); return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0,2).toUpperCase(); }
 function logoURL(firm){ const d = getLogoDomain(firm); return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : ""); }
 
-/* URL STATE — so refresh keeps you on the same view */
-function pushState(view, id){
+/* URL helpers */
+function pushUrl(params){
   const url = new URL(location.href);
-  if (view) url.searchParams.set("view", view); else url.searchParams.delete("view");
-  if (id) url.searchParams.set("id", id); else url.searchParams.delete("id");
-  history.replaceState({}, "", url);
+  url.search = "";
+  for (const [k,v] of Object.entries(params)) {
+    if (v) url.searchParams.set(k, v);
+  }
+  history.pushState(params, "", url);
+}
+function replaceUrl(params){
+  const url = new URL(location.href);
+  url.search = "";
+  for (const [k,v] of Object.entries(params)) {
+    if (v) url.searchParams.set(k, v);
+  }
+  history.replaceState(params, "", url);
 }
 
-function go(page, opts){
-  opts = opts || {};
+function go(page){
+  if (page !== "firm") {
+    currentFirmView = null;
+    replaceUrl(page === "home" ? {} : { page: page });
+  }
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + page));
   document.querySelectorAll(".nav-item[data-page]").forEach(b => b.classList.toggle("active", b.dataset.page === page && page !== "firm"));
   if (innerWidth <= 900) $("sidebar").classList.add("closed");
   if (page === "stats") updateStats();
   if (page === "compare") loadCompareCache();
   if (page === "firms" && !firmsLoaded) { firmsLoaded = true; loadAllFirms(); }
-  if (!opts.skipUrl) pushState(page === "firm" ? null : page, null);
-  if (!opts.skipScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 document.querySelectorAll(".nav-item[data-page]").forEach(b => b.onclick = () => go(b.dataset.page));
 document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
@@ -605,11 +615,13 @@ gsInput.addEventListener("input", () => gsInput.dispatchEvent(new Event("focus")
 document.addEventListener("click", e => { if (!e.target.closest(".topbar-search")) gsResults.classList.remove("show"); });
 
 /* ==================== FIRM DETAIL PAGES ==================== */
-async function openFirmDetail(firmId){
-  pushState("firm", firmId);
+async function openFirmDetail(firmId, skipHistory){
+  currentFirmView = { view: "firm", id: firmId };
+  if (!skipHistory) pushUrl({ view: "firm", id: firmId });
+  previousPage = previousPage || "firms";
   const wrap = $("firmDetailContent");
   wrap.innerHTML = `<div class="empty">Loading firm profile…</div>`;
-  go("firm", { skipUrl: true, skipScroll: true });
+  go("firm");
 
   try {
     const { data, error } = await db.from("firms").select("*").eq("id", firmId).limit(1);
@@ -625,21 +637,13 @@ async function openFirmDetail(firmId){
     const badge = f.verified ? `<span class="badge badge-verified">Verified</span>` : `<span class="badge badge-unverified">Unverified</span>`;
     const { data: existingFav } = await db.from("favorites").select("id").eq("user_id", user.id).eq("firm_id", f.id).maybeSingle();
     const isSaved = !!existingFav;
-
     const { count: reviewCount } = await db.from("firm_reviews").select("id", { count: "exact", head: true }).eq("firm_id", f.id).eq("status", "approved");
 
     const rules = [
-      ["Account sizes", f.account_sizes],
-      ["Starting price", f.price],
-      ["Profit target", f.profit_target],
-      ["Daily drawdown", f.daily_drawdown],
-      ["Maximum drawdown", f.max_drawdown],
-      ["Profit split", f.profit_split],
-      ["Payout", f.payout],
-      ["Platforms", f.platforms],
-      ["Rating", f.rating ? "★ " + f.rating + " / 5" : null],
-      ["Tag", f.tag],
-      ["Best for", f.best_for]
+      ["Account sizes", f.account_sizes],["Starting price", f.price],["Profit target", f.profit_target],
+      ["Daily drawdown", f.daily_drawdown],["Maximum drawdown", f.max_drawdown],["Profit split", f.profit_split],
+      ["Payout", f.payout],["Platforms", f.platforms],["Rating", f.rating ? "★ " + f.rating + " / 5" : null],
+      ["Tag", f.tag],["Best for", f.best_for]
     ].filter(([, v]) => v);
     const rulesHTML = rules.map(([k, v]) => `<div class="detail-cell"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`).join("");
 
@@ -674,7 +678,7 @@ async function openFirmDetail(firmId){
       </div>
     `;
 
-    $("detailBack").onclick = () => go("firms");
+    $("detailBack").onclick = () => history.back();
 
     const saveBtn = $("detailSaveBtn");
     if (saveBtn) {
@@ -690,7 +694,6 @@ async function openFirmDetail(firmId){
         finally { saveBtn.disabled = false; }
       };
     }
-
     $("viewReviewsBtn").onclick = () => showFirmReviews(firmId);
     $("writeReviewBtn").onclick = () => showWriteReview(firmId);
   } catch (err) {
@@ -699,11 +702,12 @@ async function openFirmDetail(firmId){
   }
 }
 
-async function showFirmReviews(firmId){
-  pushState("reviews", firmId);
+async function showFirmReviews(firmId, skipHistory){
+  currentFirmView = { view: "reviews", id: firmId };
+  if (!skipHistory) pushUrl({ view: "reviews", id: firmId });
   const wrap = $("firmDetailContent");
   wrap.innerHTML = `<div class="empty">Loading reviews…</div>`;
-  go("firm", { skipUrl: true, skipScroll: true });
+  go("firm");
 
   try {
     const f = currentFirmCache && currentFirmCache.id === firmId
@@ -751,19 +755,23 @@ function renderReviewsPage(f, reviews, initials, logo){
       </div>
     `;
   }
+
   const total = reviews.length;
   const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
   const counts = [0,0,0,0,0];
   reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
   const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+
   const countryCounts = {};
-  reviews.forEach(r => { if (r.country) countryCounts[r.country] = (countryCounts[r.country] || 0) + 1; });
+  reviews.forEach(r => { const c = r.country; if (c) countryCounts[c] = (countryCounts[c] || 0) + 1; });
   const topCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
   const countryChips = topCountries.map(([code, count]) => {
     const name = COUNTRY_NAMES[code] || code;
     const flag = countryFlag(code);
     return `<button class="tp-country-chip" data-country="${code}">${flag} ${name} <span>${count}</span></button>`;
   }).join("");
+
   return `
     <button class="detail-back" id="reviewsBack">← Back to ${esc(f.name)}</button>
     <div class="detail-header">
@@ -786,8 +794,13 @@ function renderReviewsPage(f, reviews, initials, logo){
         </div>
         <div class="tp-summary-right">
           ${[5,4,3,2,1].map(star => {
-            const c = counts[star-1]; const pct = Math.round((c/total) * 100);
-            return `<button class="tp-bar-row" data-rating="${star}"><span class="tp-bar-lbl">${star} ★</span><div class="tp-bar-track"><span style="width:${pct}%"></span></div><span class="tp-bar-count">${c}</span></button>`;
+            const c = counts[star-1];
+            const pct = Math.round((c/total) * 100);
+            return `<button class="tp-bar-row" data-rating="${star}">
+              <span class="tp-bar-lbl">${star} ★</span>
+              <div class="tp-bar-track"><span style="width:${pct}%"></span></div>
+              <span class="tp-bar-count">${c}</span>
+            </button>`;
           }).join("")}
         </div>
       </div>
@@ -798,7 +811,8 @@ function renderReviewsPage(f, reviews, initials, logo){
             <button class="tp-country-chip active" data-country="all">All countries</button>
             ${countryChips}
           </div>
-        </div>` : ""}
+        </div>
+      ` : ""}
       <div class="tp-toolbar">
         <div class="tp-toolbar-left" id="tpResultCount">Showing ${total} review${total === 1 ? "" : "s"}</div>
         <div class="tp-toolbar-right">
@@ -810,7 +824,9 @@ function renderReviewsPage(f, reviews, initials, logo){
           </select>
         </div>
       </div>
-      <div id="tpReviewList" class="tp-review-list">${reviews.map(r => renderReviewCard(r)).join("")}</div>
+      <div id="tpReviewList" class="tp-review-list">
+        ${reviews.map(r => renderReviewCard(r)).join("")}
+      </div>
     </div>
   `;
 }
@@ -841,11 +857,12 @@ function renderReviewCard(r){
 }
 
 function wireReviewsPage(firmId, f, allReviews){
-  $("reviewsBack").onclick = () => openFirmDetail(firmId);
+  $("reviewsBack").onclick = () => history.back();
   const writeBtn = $("reviewsWriteBtn");
   if (writeBtn) writeBtn.onclick = () => showWriteReview(firmId);
 
   let filter = { country: "all", rating: null, sort: "newest" };
+
   function apply(){
     let list = allReviews.slice();
     if (filter.country !== "all") list = list.filter(r => r.country === filter.country);
@@ -853,10 +870,18 @@ function wireReviewsPage(firmId, f, allReviews){
     if (filter.sort === "newest") list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
     else if (filter.sort === "highest") list.sort((a,b) => Number(b.rating||0) - Number(a.rating||0));
     else if (filter.sort === "lowest") list.sort((a,b) => Number(a.rating||0) - Number(b.rating||0));
-    const listEl = $("tpReviewList"); const countEl = $("tpResultCount");
-    if (!list.length) { listEl.innerHTML = `<div class="empty">No reviews match this filter.</div>`; countEl.textContent = "No reviews match"; }
-    else { listEl.innerHTML = list.map(r => renderReviewCard(r)).join(""); countEl.textContent = `Showing ${list.length} of ${allReviews.length} review${allReviews.length === 1 ? "" : "s"}`; }
+
+    const listEl = $("tpReviewList");
+    const countEl = $("tpResultCount");
+    if (!list.length) {
+      listEl.innerHTML = `<div class="empty">No reviews match this filter.</div>`;
+      countEl.textContent = "No reviews match";
+    } else {
+      listEl.innerHTML = list.map(r => renderReviewCard(r)).join("");
+      countEl.textContent = `Showing ${list.length} of ${allReviews.length} review${allReviews.length === 1 ? "" : "s"}`;
+    }
   }
+
   document.querySelectorAll("#tpCountryChips .tp-country-chip").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll("#tpCountryChips .tp-country-chip").forEach(b => b.classList.remove("active"));
@@ -867,6 +892,7 @@ function wireReviewsPage(firmId, f, allReviews){
       apply();
     };
   });
+
   document.querySelectorAll(".tp-bar-row").forEach(btn => {
     btn.onclick = () => {
       const r = Number(btn.dataset.rating);
@@ -884,15 +910,17 @@ function wireReviewsPage(firmId, f, allReviews){
       apply();
     };
   });
+
   const sortSel = $("tpSort");
   if (sortSel) sortSel.onchange = () => { filter.sort = sortSel.value; apply(); };
 }
 
-async function showWriteReview(firmId){
-  pushState("write", firmId);
+async function showWriteReview(firmId, skipHistory){
+  currentFirmView = { view: "write", id: firmId };
+  if (!skipHistory) pushUrl({ view: "write", id: firmId });
   const wrap = $("firmDetailContent");
   wrap.innerHTML = `<div class="empty">Loading…</div>`;
-  go("firm", { skipUrl: true, skipScroll: true });
+  go("firm");
 
   try {
     const f = currentFirmCache && currentFirmCache.id === firmId
@@ -916,7 +944,10 @@ async function showWriteReview(firmId){
       </div>
       <div class="detail-section">
         <form id="writeReviewForm">
-          <div class="field" style="margin-bottom:16px"><label>Your name</label><input id="wReviewName" type="text" maxlength="40" minlength="2" required value="${esc(defaultName)}" placeholder="Display name"></div>
+          <div class="field" style="margin-bottom:16px">
+            <label>Your name</label>
+            <input id="wReviewName" type="text" maxlength="40" minlength="2" required value="${esc(defaultName)}" placeholder="Display name">
+          </div>
           <div class="field" style="margin-bottom:16px">
             <label>Your rating</label>
             <div class="star-picker" id="wStarPicker">
@@ -928,14 +959,19 @@ async function showWriteReview(firmId){
             </div>
             <span class="star-label" id="wStarLabel">Tap a star to rate</span>
           </div>
-          <div class="field" style="margin-bottom:16px"><label>Your review</label><textarea id="wReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?"></textarea></div>
-          <div class="review-form-actions"><button class="btn primary" id="wReviewSubmit" type="submit">Publish review</button></div>
+          <div class="field" style="margin-bottom:16px">
+            <label>Your review</label>
+            <textarea id="wReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?"></textarea>
+          </div>
+          <div class="review-form-actions">
+            <button class="btn primary" id="wReviewSubmit" type="submit">Publish review</button>
+          </div>
           <div class="review-message" id="wReviewMsg"></div>
         </form>
       </div>
     `;
 
-    $("writeBack").onclick = () => openFirmDetail(firmId);
+    $("writeBack").onclick = () => history.back();
 
     let stars = 0;
     const starBtns = wrap.querySelectorAll("#wStarPicker button");
@@ -953,15 +989,31 @@ async function showWriteReview(firmId){
       if (name.length < 2) { msg.textContent = "Please enter your name."; msg.classList.add("show", "error"); return; }
       if (stars < 1) { msg.textContent = "Please select a rating."; msg.classList.add("show", "error"); return; }
       if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.classList.add("show", "error"); return; }
-      const btn = $("wReviewSubmit"); btn.disabled = true; btn.textContent = "Submitting…";
+
+      const btn = $("wReviewSubmit");
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
       const countryCode = user.user_metadata?.country || null;
+
       const { error: err } = await db.from("firm_reviews").insert({
-        firm_id: f.id, user_id: user.id, reviewer_name: name, rating: stars,
-        review_text: text, status: "pending", country: countryCode
+        firm_id: f.id, user_id: user.id,
+        reviewer_name: name, rating: stars,
+        review_text: text, status: "pending",
+        country: countryCode
       });
-      if (err) { msg.textContent = "Error: " + err.message; msg.classList.add("show", "error"); btn.disabled = false; btn.textContent = "Publish review"; return; }
-      msg.textContent = "Thank you! Your review is awaiting approval."; msg.classList.add("show", "success");
-      btn.textContent = "Submitted"; $("wReviewText").value = ""; setStars(0);
+
+      if (err) {
+        msg.textContent = "Error: " + err.message;
+        msg.classList.add("show", "error");
+        btn.disabled = false;
+        btn.textContent = "Publish review";
+        return;
+      }
+      msg.textContent = "Thank you! Your review is awaiting approval.";
+      msg.classList.add("show", "success");
+      btn.textContent = "Submitted";
+      $("wReviewText").value = "";
+      setStars(0);
       setTimeout(() => showFirmReviews(firmId), 1800);
     };
   } catch (err) {
@@ -979,6 +1031,7 @@ document.addEventListener("click", e => {
   if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
 });
 
+/* JOURNAL */
 const val = id => $(id).value === "" ? null : $(id).value;
 function resetForm(){ $("tradeForm").reset(); $("tradeId").value = ""; $("tradeDate").value = new Date().toISOString().slice(0,10); $("formTitle").textContent = "Add a trade"; $("saveTrade").textContent = "Save trade"; $("cancelEdit").hidden = true; }
 $("cancelEdit").onclick = resetForm;
@@ -1052,23 +1105,30 @@ async function load(){
 
   await loadTrades();
 
-  // ---- RESTORE VIEW FROM URL ----
+  // Restore view from URL
   const params = new URLSearchParams(location.search);
   const view = params.get("view");
-  const viewId = params.get("id");
-
-  if (view === "firm" && viewId) {
-    openFirmDetail(viewId);
-  } else if (view === "reviews" && viewId) {
-    showFirmReviews(viewId);
-  } else if (view === "write" && viewId) {
-    showWriteReview(viewId);
-  } else if (view && ["home","firms","favorites","compare","journal","stats","reviews","settings"].includes(view)) {
-    go(view, { skipUrl: true });
-  } else {
-    go("home", { skipUrl: true });
-  }
+  const page = params.get("page");
+  const id = params.get("id");
+  if (view === "firm" && id) openFirmDetail(id, true);
+  else if (view === "reviews" && id) showFirmReviews(id, true);
+  else if (view === "write" && id) showWriteReview(id, true);
+  else if (page && page !== "home") go(page);
 }
+
+/* Back button handling */
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(location.search);
+  const view = params.get("view");
+  const page = params.get("page");
+  const id = params.get("id");
+
+  if (view === "firm" && id) openFirmDetail(id, true);
+  else if (view === "reviews" && id) showFirmReviews(id, true);
+  else if (view === "write" && id) showWriteReview(id, true);
+  else if (page && page !== "home") go(page);
+  else go("home");
+});
 
 await db.auth.getSession();
 const bootUser = await getUser();
