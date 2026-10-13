@@ -2,447 +2,404 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Write a Review | FundedEdge</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#07110e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e11">
+<title>Reviews — FundedEdge</title>
+<meta name="description" content="Read trader reviews of prop firms. Real experiences, ratings, and country breakdowns.">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
+<link rel="preconnect" href="https://esm.sh">
+<link rel="preconnect" href="https://mvltzznwdglwaedfzxze.supabase.co">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#07110e;color:#edf7f0;font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55;min-height:100vh;position:relative;overflow-x:hidden}
-body::before{content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(84,227,154,.08),transparent 60%);pointer-events:none;z-index:0}
-main,header{position:relative;z-index:1}
+:root[data-theme="dark"]{
+  --bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--surface-3:#1a2029;
+  --line:#242b35;--line-2:#2f3846;
+  --text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;
+  --accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);
+  --success:#4ade80;--gold:#e4b949;--danger:#ff6b6b;
+  --shadow:0 8px 24px rgba(0,0,0,.4);
+}
+:root[data-theme="light"]{
+  --bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--surface-3:#e9ecf0;
+  --line:#e1e5eb;--line-2:#d1d7de;
+  --text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;
+  --accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);
+  --success:#16a34a;--gold:#c99b1e;--danger:#dc2626;
+  --shadow:0 4px 12px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s;}
 a{color:inherit;text-decoration:none}
-button,input,textarea{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
 
-header{
-  padding:18px 6%;border-bottom:1px solid #20372c;
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  background:rgba(7,17,14,.85);backdrop-filter:blur(14px);
-  position:sticky;top:0;z-index:10;
-}
-header .brand{color:#54e39a;font-size:23px;font-weight:800;letter-spacing:-.5px;transition:.3s}
-header .brand:hover{text-shadow:0 0 20px rgba(84,227,154,.5)}
-header nav{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-header nav a{color:#cfe3d6;font-size:14px;transition:color .2s}
-header nav a:hover{color:#54e39a}
+/* NAV */
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo span{color:var(--accent)}
+.topbar-spacer{flex:1}
+.topbar-links{display:flex;gap:22px;font-size:13.5px;color:var(--text-dim)}
+.topbar-links a:hover{color:var(--text)}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;}
+.topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-ghost{padding:7px 12px;border-radius:7px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;transition:.15s;text-decoration:none;}
+.btn-ghost:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-primary{padding:7px 14px;border-radius:7px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:600;border:1px solid var(--accent);transition:.15s;text-decoration:none;}
+.btn-primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+.user-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:999px;border:1px solid var(--line-2);font-size:12.5px;font-weight:500;color:var(--text);transition:.15s;text-decoration:none;}
+.user-chip:hover{border-color:var(--accent-dim)}
+.user-initial{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;}
 
-.fe-auth-area{display:flex;align-items:center;gap:10px}
-.fe-auth-area .fe-auth-signin,.fe-auth-area .fe-auth-signup{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
-  text-decoration:none;transition:.2s;
-}
-.fe-auth-area .fe-auth-signin{background:transparent;color:#e0ece3;border:1px solid #2a4534}
-.fe-auth-area .fe-auth-signin:hover{border-color:#54e39a;color:#54e39a}
-.fe-auth-area .fe-auth-signup{background:#54e39a;color:#07110e;border:1px solid #54e39a}
-.fe-auth-area .fe-auth-signup:hover{background:#7ff0b6}
-.fe-auth-area .fe-user-chip{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:9px 14px;border:1px solid #2a4534;border-radius:10px;
-  color:#e0ece3;font-weight:600;font-size:13px;
-  background:rgba(84,227,154,.08);transition:.2s;
-}
-.fe-auth-area .fe-user-chip:hover{border-color:#54e39a;color:#54e39a}
-.fe-auth-area .fe-user-initial{
-  width:22px;height:22px;display:grid;place-items:center;
-  border-radius:50%;background:#54e39a;color:#07110e;
-  font-weight:800;font-size:11px;
-}
+/* MAIN */
+main{max-width:820px;margin:0 auto;padding:32px 20px 60px;}
 
-main{max-width:720px;margin:36px auto;padding:20px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-dim);margin-bottom:20px;transition:.15s;}
+.back:hover{color:var(--accent)}
 
-.back{
-  display:inline-flex;align-items:center;gap:6px;
-  color:#65e5a1;font-size:13px;margin-bottom:20px;transition:.2s;
-}
-.back:hover{gap:10px}
+/* FIRM HEADER */
+.firm-header{display:flex;gap:18px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap;}
+.firm-logo{width:64px;height:64px;border-radius:12px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:20px;font-weight:700;color:var(--accent);}
+.firm-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10px;background:#fff;}
+.firm-meta{flex:1;min-width:0;}
+.firm-cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:6px;}
+.firm-meta h1{font-size:26px;font-weight:700;letter-spacing:-.6px;margin:0 0 8px;}
+.firm-meta .lead{font-size:14px;color:var(--text-dim);line-height:1.6;}
 
-.firm-header{
-  padding:26px;
-  background:linear-gradient(145deg,#101e17,#0a1510);
-  border:1px solid #294535;
-  border-radius:18px;
-  margin-bottom:22px;
-  animation:fadeUp .5s ease both;
-}
-.firm-header .eyebrow{
-  font-size:11px;font-weight:800;letter-spacing:1.6px;
-  color:#54e39a;text-transform:uppercase;margin-bottom:8px;
-}
-.firm-header h1{font-size:26px;margin:0 0 4px;letter-spacing:-.6px}
-.firm-header p{margin:0;color:#a6b9ad;font-size:13.5px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:7px;border:1px solid var(--line-2);background:transparent;color:var(--text);font-size:13px;font-weight:500;transition:.15s;text-decoration:none;white-space:nowrap;}
+.btn:hover{border-color:var(--accent-dim);background:var(--accent-bg);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#fff}
+.btn.lg{padding:11px 20px;font-size:14px}
 
-.review-card{
-  padding:28px;
-  background:linear-gradient(145deg,#0c1813,#0a1510);
-  border:1px solid #294535;
-  border-radius:18px;
-  animation:fadeUp .6s ease .1s both;
-}
-.review-card h2{margin:0 0 4px;font-size:20px;letter-spacing:-.4px}
-.review-card .sub{margin:0 0 22px;color:#8a9a90;font-size:13px;line-height:1.7}
+/* SUMMARY */
+.tp-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:24px;}
+@media (max-width:640px){.tp-summary{grid-template-columns:1fr;gap:20px}}
+.tp-summary-left{text-align:center;padding-right:32px;border-right:1px solid var(--line);}
+@media (max-width:640px){.tp-summary-left{padding-right:0;padding-bottom:20px;border-right:0;border-bottom:1px solid var(--line)}}
+.tp-avg{font-size:52px;font-weight:700;letter-spacing:-2px;line-height:1;margin-bottom:8px;}
+.tp-stars{color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:6px;}
+.tp-count{font-size:12.5px;color:var(--text-mute);}
+.tp-summary-right{display:grid;gap:6px;}
+.tp-bar-row{display:grid;grid-template-columns:40px 1fr 44px;gap:12px;align-items:center;font-size:12px;}
+.tp-bar-lbl{color:var(--text-dim);font-weight:500}
+.tp-bar-track{height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden;}
+.tp-bar-track span{display:block;height:100%;background:var(--gold);border-radius:4px;}
+.tp-bar-count{color:var(--text-mute);text-align:right;font-weight:500}
 
-.field{display:grid;gap:8px;margin-bottom:18px}
-.field label{font-size:12.5px;font-weight:750;color:#dbe9e0}
-.field input,.field textarea{
-  width:100%;padding:14px 16px;
-  border:1px solid #2e4438;border-radius:12px;
-  background:#0a1410;color:#edf7f0;
-  font-size:14px;outline:none;transition:.2s;
-  font-family:inherit;
-}
-.field input:focus,.field textarea:focus{
-  border-color:#54e39a;
-  box-shadow:0 0 0 3px rgba(84,227,154,.12);
-  background:#0b1712;
-}
-.field textarea{min-height:150px;resize:vertical}
+/* REVIEW LIST */
+.reviews-list{display:grid;gap:12px;margin-bottom:24px;}
+.review-card{padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;}
+.review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.review-author{display:flex;align-items:center;gap:12px;min-width:0;flex:1;}
+.review-avatar{width:44px;height:44px;border-radius:50%;background:var(--accent-bg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;border:1px solid var(--accent-dim);}
+.review-name{font-size:15px;font-weight:600;line-height:1.3;}
+.review-date{font-size:12px;color:var(--text-mute);margin-top:3px;}
+.review-corner{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.review-country-badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--text-dim);padding:4px 10px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap;}
+.review-stars{color:var(--gold);font-size:14px;letter-spacing:1px;line-height:1;}
+.review-text{font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
 
-.star-picker{display:inline-flex;gap:8px;margin:4px 0 6px}
-.star-picker button{
-  background:transparent;border:0;padding:0;
-  font-size:38px;line-height:1;color:#2b3a33;
-  cursor:pointer;transition:color .15s,transform .2s;
-}
-.star-picker button:hover,.star-picker button.on{
-  color:#f5d77b;
-  text-shadow:0 0 14px rgba(245,215,123,.5);
-}
-.star-picker button:hover{transform:scale(1.18) translateY(-2px)}
-.star-picker-label{display:block;font-size:13px;color:#8a9a90;font-weight:600;min-height:18px}
+/* CTA + SIGNUP BANNER */
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+.signup-banner{margin-top:24px;padding:28px;background:linear-gradient(145deg,#12203a,#0c1626);border:1px solid var(--accent-dim);border-radius:12px;text-align:center;position:relative;overflow:hidden;}
+.signup-banner::before{content:"";position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(74,158,255,.15),transparent 70%);pointer-events:none;}
+.signup-banner-inner{position:relative;z-index:1;}
+.signup-banner h3{font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px;}
+.signup-banner p{font-size:13.5px;color:var(--text-dim);max-width:440px;margin:0 auto 20px;line-height:1.6;}
+.signup-banner .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 
-.char-count{
-  text-align:right;font-size:11.5px;
-  color:#6e7d74;margin-top:-10px;
-}
+.empty{padding:50px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
+.loading{padding:50px 20px;text-align:center;color:var(--text-mute);font-size:13.5px;}
 
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:14px 24px;border-radius:11px;
-  background:#54e39a;color:#07110e;
-  font-weight:800;font-size:14px;
-  border:1px solid transparent;cursor:pointer;
-  transition:.2s;position:relative;overflow:hidden;
-  text-decoration:none;
-}
-.btn::before{
-  content:"";position:absolute;top:0;left:0;
-  width:40%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-  transform:translateX(-100%);transition:transform .6s;
-}
-.btn:hover::before{transform:translateX(250%)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(84,227,154,.28)}
-.btn:disabled{opacity:.6;cursor:wait;transform:none}
-.btn.secondary{
-  background:transparent;color:#cfe3d6;
-  border:1px solid #2a4534;
-}
-.btn.secondary:hover{border-color:#54e39a;color:#54e39a;box-shadow:none}
+/* COUNTRY FILTERS (chips) */
+.chips-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;}
+.chip:hover{border-color:var(--accent-dim);color:var(--text)}
+.chip span{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:999px;background:var(--surface-3);color:var(--text-mute);}
 
-#message{
-  display:none;margin-top:18px;padding:14px 16px;
-  border-radius:11px;font-size:13.5px;line-height:1.5;
-}
-#message.show{display:block;animation:fadeUp .3s ease}
-#message.success{background:#153729;color:#8df0bd;border:1px solid #235c3b}
-#message.error{background:#3a2020;color:#ffb7bb;border:1px solid #5a2a2f}
-
-.auth-prompt{
-  padding:32px;text-align:center;
-  background:linear-gradient(145deg,#0c1813,#0a1510);
-  border:1px solid #294535;border-radius:18px;
-  animation:fadeUp .5s ease both;
-}
-.auth-prompt .icon{font-size:42px;margin-bottom:14px;opacity:.5}
-.auth-prompt strong{display:block;font-size:17px;margin-bottom:8px;color:#edf7f0}
-.auth-prompt p{color:#8a9a90;font-size:13.5px;margin:0 0 20px;line-height:1.7}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-@media(max-width:600px){
-  header{padding:14px 5%}
-  main{padding:14px;margin-top:20px}
-  .review-card{padding:22px}
-  .firm-header{padding:20px}
-  .star-picker button{font-size:34px}
+@media (max-width:600px){
+  main{padding:20px 14px 40px;}
+  .topbar{padding:0 12px;gap:8px;}
+  .topbar-links{display:none;}
+  .firm-meta h1{font-size:22px;}
+  .review-head{flex-direction:column;align-items:flex-start;}
+  .review-corner{flex-direction:row;align-items:center;width:100%;justify-content:space-between;}
+  .cta-row{flex-direction:column;}
+  .cta-row .btn{width:100%;justify-content:center;}
 }
 </style>
 </head>
 <body>
-<header>
-  <a class="brand" href="/">FundedEdge</a>
-  <nav>
-    <a href="/directory.html">Prop Firms</a>
-    <a href="/compare.html">Compare</a>
-    <div id="feAuthArea" class="fe-auth-area">
-      <a class="fe-auth-signin" href="/auth.html?mode=signin">Sign In</a>
-      <a class="fe-auth-signup" href="/auth.html?mode=signup">Sign Up</a>
-    </div>
-  </nav>
+
+<header class="topbar">
+  <a class="logo" href="index.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
+  <div class="topbar-links">
+    <a href="firms.html">Prop Firms</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#faq">FAQ</a>
+  </div>
+  <div class="topbar-spacer"></div>
+  <button class="topbar-btn" id="themeToggle" title="Toggle theme">◐</button>
+  <div id="authArea">
+    <a class="btn-ghost" href="auth.html?mode=signin">Sign in</a>
+    <a class="btn-primary" href="auth.html?mode=signup">Get started</a>
+  </div>
 </header>
 
 <main>
-  <a class="back" id="backLink" href="/directory.html">← Back</a>
+  <a class="back" id="backLink" href="firms.html">← Back to firms</a>
 
-  <div class="firm-header" id="firmHeader" hidden>
-    <div class="eyebrow">Share your experience</div>
-    <h1 id="firmName">Loading…</h1>
-    <p>Your honest feedback helps other traders choose the right firm.</p>
+  <div id="content">
+    <div class="loading">Loading reviews…</div>
   </div>
-
-  <div class="auth-prompt" id="authPrompt" hidden>
-    <div class="icon">☆</div>
-    <strong>Sign in to write a review</strong>
-    <p>You need an account with a verified email to submit a review. It takes 20 seconds to create one.</p>
-    <a class="btn" id="signInBtn" href="/auth.html">Sign In / Create Account</a>
-  </div>
-
-  <form class="review-card" id="reviewForm" hidden>
-    <h2>Write your review</h2>
-    <p class="sub">Be honest and respectful. Your review is published after a quick admin check.</p>
-
-    <div class="field">
-      <label for="reviewerName">Your name</label>
-      <input id="reviewerName" type="text" maxlength="40" minlength="2" required placeholder="Enter your display name">
-    </div>
-
-    <div class="field">
-      <label>Your rating <span style="color:#54e39a">*</span></label>
-      <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Star rating">
-        <button type="button" data-star="1" aria-label="1 star">★</button>
-        <button type="button" data-star="2" aria-label="2 stars">★</button>
-        <button type="button" data-star="3" aria-label="3 stars">★</button>
-        <button type="button" data-star="4" aria-label="4 stars">★</button>
-        <button type="button" data-star="5" aria-label="5 stars">★</button>
-      </div>
-      <span class="star-picker-label" id="starPickerLabel">Tap a star to rate</span>
-    </div>
-
-    <div class="field">
-      <label for="reviewText">Your review</label>
-      <textarea id="reviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm? What stood out — the rules, payouts, platform, support?"></textarea>
-      <div class="char-count"><span id="charCount">0</span> / 1000</div>
-    </div>
-
-    <div class="actions">
-      <button class="btn" id="submitBtn" type="submit">Publish Review</button>
-      <a class="btn secondary" id="cancelBtn" href="/directory.html">Cancel</a>
-    </div>
-
-    <div id="message" role="status"></div>
-  </form>
 </main>
 
+<!-- Tawk.to -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6acccb3374770f34c39b55ca/1k4nvjh14';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,ss0||s0);
+})();
+</script>
+
 <script type="module">
-import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
+import { db } from "./supabase.js";
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const firmId = params.get("id");
 
-const firmHeader = $("firmHeader");
-const firmName = $("firmName");
-const authPrompt = $("authPrompt");
-const reviewForm = $("reviewForm");
-const backLink = $("backLink");
-const cancelBtn = $("cancelBtn");
-const signInBtn = $("signInBtn");
-const message = $("message");
-const submitBtn = $("submitBtn");
-const reviewerName = $("reviewerName");
-const reviewText = $("reviewText");
-const charCount = $("charCount");
-const starPicker = $("starPicker");
-const starPickerLabel = $("starPickerLabel");
-const authArea = $("feAuthArea");
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+const COUNTRY_NAMES = {AF:"Afghanistan",AL:"Albania",DZ:"Algeria",AD:"Andorra",AO:"Angola",AR:"Argentina",AM:"Armenia",AU:"Australia",AT:"Austria",AZ:"Azerbaijan",BH:"Bahrain",BD:"Bangladesh",BY:"Belarus",BE:"Belgium",BZ:"Belize",BJ:"Benin",BT:"Bhutan",BO:"Bolivia",BA:"Bosnia and Herzegovina",BW:"Botswana",BR:"Brazil",BN:"Brunei",BG:"Bulgaria",BF:"Burkina Faso",BI:"Burundi",KH:"Cambodia",CM:"Cameroon",CA:"Canada",CV:"Cape Verde",CF:"Central African Republic",TD:"Chad",CL:"Chile",CN:"China",CO:"Colombia",KM:"Comoros",CG:"Congo",CD:"Congo (DRC)",CR:"Costa Rica",CI:"Côte d'Ivoire",HR:"Croatia",CU:"Cuba",CY:"Cyprus",CZ:"Czechia",DK:"Denmark",DJ:"Djibouti",DM:"Dominica",DO:"Dominican Republic",EC:"Ecuador",EG:"Egypt",SV:"El Salvador",GQ:"Equatorial Guinea",ER:"Eritrea",EE:"Estonia",SZ:"Eswatini",ET:"Ethiopia",FJ:"Fiji",FI:"Finland",FR:"France",GA:"Gabon",GM:"Gambia",GE:"Georgia",DE:"Germany",GH:"Ghana",GR:"Greece",GD:"Grenada",GT:"Guatemala",GN:"Guinea",GW:"Guinea-Bissau",GY:"Guyana",HT:"Haiti",HN:"Honduras",HK:"Hong Kong",HU:"Hungary",IS:"Iceland",IN:"India",ID:"Indonesia",IR:"Iran",IQ:"Iraq",IE:"Ireland",IL:"Israel",IT:"Italy",JM:"Jamaica",JP:"Japan",JO:"Jordan",KZ:"Kazakhstan",KE:"Kenya",KI:"Kiribati",KW:"Kuwait",KG:"Kyrgyzstan",LA:"Laos",LV:"Latvia",LB:"Lebanon",LS:"Lesotho",LR:"Liberia",LY:"Libya",LI:"Liechtenstein",LT:"Lithuania",LU:"Luxembourg",MO:"Macau",MG:"Madagascar",MW:"Malawi",MY:"Malaysia",MV:"Maldives",ML:"Mali",MT:"Malta",MH:"Marshall Islands",MR:"Mauritania",MU:"Mauritius",MX:"Mexico",FM:"Micronesia",MD:"Moldova",MC:"Monaco",MN:"Mongolia",ME:"Montenegro",MA:"Morocco",MZ:"Mozambique",MM:"Myanmar",NA:"Namibia",NR:"Nauru",NP:"Nepal",NL:"Netherlands",NZ:"New Zealand",NI:"Nicaragua",NE:"Niger",NG:"Nigeria",KP:"North Korea",MK:"North Macedonia",NO:"Norway",OM:"Oman",PK:"Pakistan",PW:"Palau",PS:"Palestine",PA:"Panama",PG:"Papua New Guinea",PY:"Paraguay",PE:"Peru",PH:"Philippines",PL:"Poland",PT:"Portugal",QA:"Qatar",RO:"Romania",RU:"Russia",RW:"Rwanda",KN:"Saint Kitts and Nevis",LC:"Saint Lucia",VC:"Saint Vincent and the Grenadines",WS:"Samoa",SM:"San Marino",ST:"São Tomé and Príncipe",SA:"Saudi Arabia",SN:"Senegal",RS:"Serbia",SC:"Seychelles",SL:"Sierra Leone",SG:"Singapore",SK:"Slovakia",SI:"Slovenia",SB:"Solomon Islands",SO:"Somalia",ZA:"South Africa",KR:"South Korea",SS:"South Sudan",ES:"Spain",LK:"Sri Lanka",SD:"Sudan",SR:"Suriname",SE:"Sweden",CH:"Switzerland",SY:"Syria",TW:"Taiwan",TJ:"Tajikistan",TZ:"Tanzania",TH:"Thailand",TL:"Timor-Leste",TG:"Togo",TO:"Tonga",TT:"Trinidad and Tobago",TN:"Tunisia",TR:"Turkey",TM:"Turkmenistan",TV:"Tuvalu",UG:"Uganda",UA:"Ukraine",AE:"United Arab Emirates",GB:"United Kingdom",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VU:"Vanuatu",VA:"Vatican City",VE:"Venezuela",VN:"Vietnam",YE:"Yemen",ZM:"Zambia",ZW:"Zimbabwe"};
+
+function countryFlag(code){
+  if (!code || code.length !== 2) return "";
+  const A = 0x1F1E6;
+  return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
+}
+
+/* THEME */
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+$("themeToggle").addEventListener("click", toggleTheme);
+
+/* LOGO */
+function getLogoDomain(firm){
+  const name = (firm.name || "").toLowerCase().trim();
+  const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
+  if (known[name]) return known[name];
+  try { const u = new URL(firm.official_website || ""); if (u.protocol === "https:" || u.protocol === "http:") return u.hostname; } catch(_) {}
+  return "";
+}
+function getInitials(name){ const words = String(name || "PF").trim().split(/\s+/).filter(Boolean); return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0,2).toUpperCase(); }
+function logoURL(firm){ const d = getLogoDomain(firm); return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : ""); }
+
+/* AUTH NAV */
 let currentUser = null;
-let selectedStars = 0;
-let firmData = null;
-
-function esc(v) {
-  return String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
+async function syncAuthNav(){
+  const area = $("authArea");
+  if (!area) return;
+  try {
+    const { data } = await db.auth.getSession();
+    currentUser = data.session?.user && data.session.user.email_confirmed_at ? data.session.user : null;
+    if (currentUser) {
+      const name = currentUser.user_metadata?.full_name || currentUser.email || "Account";
+      const initial = String(name).trim().charAt(0).toUpperCase() || "U";
+      area.innerHTML = `<a class="user-chip" href="dashboard.html"><span class="user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+    }
+  } catch (err) { console.error(err); }
 }
 
-function showMessage(text, type = "success") {
-  message.textContent = text;
-  message.className = "show " + type;
+/* RENDER */
+function renderReviewCard(r){
+  const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+  const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
+  const name = r.reviewer_name || "Anonymous";
+  const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+  const countryName = r.country ? (COUNTRY_NAMES[r.country] || r.country) : "";
+  const flag = r.country ? countryFlag(r.country) : "";
+  return `<div class="review-card">
+    <div class="review-head">
+      <div class="review-author">
+        <div class="review-avatar">${esc(initialsR)}</div>
+        <div>
+          <div class="review-name">${esc(name)}</div>
+          <div class="review-date">${esc(date)}</div>
+        </div>
+      </div>
+      <div class="review-corner">
+        ${r.country ? `<span class="review-country-badge">${flag} ${esc(countryName)}</span>` : ""}
+        <div class="review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
+      </div>
+    </div>
+    <p class="review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p>
+  </div>`;
 }
 
-function authUrl(mode) {
-  const next = location.pathname + location.search;
-  const q = `?next=${encodeURIComponent(next)}`;
-  return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
-}
+async function loadPage(){
+  const wrap = $("content");
 
-function renderAuthArea() {
-  if (!authArea) return;
-  if (currentUser) {
-    const name = currentUser.user_metadata?.full_name || currentUser.email || "Account";
-    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
-    authArea.innerHTML = `<a class="fe-user-chip" href="/dashboard.html"><span class="fe-user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
-  } else {
-    authArea.innerHTML = `<a class="fe-auth-signin" href="${authUrl("signin")}">Sign In</a><a class="fe-auth-signup" href="${authUrl("signup")}">Sign Up</a>`;
-  }
-}
-
-function setStars(n) {
-  selectedStars = n;
-  starPicker.querySelectorAll("button").forEach(b => {
-    b.classList.toggle("on", Number(b.dataset.star) <= n);
-  });
-  const labels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
-  starPickerLabel.textContent = n ? `${n} / 5 · ${labels[n]}` : "Tap a star to rate";
-}
-
-starPicker.querySelectorAll("button").forEach(btn => {
-  btn.addEventListener("click", () => setStars(Number(btn.dataset.star)));
-  btn.addEventListener("mouseenter", () => {
-    const n = Number(btn.dataset.star);
-    starPicker.querySelectorAll("button").forEach(b => {
-      b.classList.toggle("on", Number(b.dataset.star) <= n);
-    });
-  });
-});
-starPicker.addEventListener("mouseleave", () => setStars(selectedStars));
-
-reviewText.addEventListener("input", () => {
-  charCount.textContent = reviewText.value.length;
-});
-
-async function loadFirm() {
   if (!firmId) {
-    firmName.textContent = "Firm not selected";
-    firmHeader.hidden = false;
+    wrap.innerHTML = `<div class="empty">No firm selected. <a href="firms.html" style="color:var(--accent);font-weight:600">Browse firms →</a></div>`;
     return;
   }
 
   try {
-    const { data, error } = await db
-      .from("firms")
-      .select("id,name")
-      .eq("id", firmId)
-      .eq("status", "active")
-      .limit(1);
-
-    if (error) throw error;
-
-    if (!data || !data.length) {
-      firmName.textContent = "Firm not found";
-      firmHeader.hidden = false;
+    const { data: firmArr, error: firmErr } = await db.from("firms").select("*").eq("id", firmId).limit(1);
+    if (firmErr) throw firmErr;
+    if (!firmArr || !firmArr.length) {
+      wrap.innerHTML = `<div class="empty">Firm not found.</div>`;
       return;
     }
+    const firm = firmArr[0];
 
-    firmData = data[0];
-    firmName.textContent = firmData.name;
-    firmHeader.hidden = false;
+    $("backLink").href = `/firm.html?id=${encodeURIComponent(firm.id)}`;
+    $("backLink").textContent = `← Back to ${firm.name}`;
 
-    const backUrl = `/firm.html?id=${encodeURIComponent(firmData.id)}`;
-    backLink.href = backUrl;
-    backLink.textContent = `← Back to ${firmData.name}`;
-    cancelBtn.href = backUrl;
-  } catch (err) {
-    console.error(err);
-    firmName.textContent = "Could not load firm";
-    firmHeader.hidden = false;
-  }
-}
-
-async function checkUser() {
-  try {
-    const { data: { user }, error } = await db.auth.getUser();
-    if (error) currentUser = null;
-    else if (user && user.email_confirmed_at) currentUser = user;
-    else currentUser = null;
-  } catch {
-    currentUser = null;
-  }
-
-  renderAuthArea();
-
-  if (currentUser) {
-    reviewForm.hidden = false;
-    authPrompt.hidden = true;
-    if (!reviewerName.value) {
-      reviewerName.value =
-        currentUser.user_metadata?.full_name ||
-        currentUser.email?.split("@")[0] ||
-        "";
-    }
-  } else {
-    reviewForm.hidden = true;
-    authPrompt.hidden = false;
-    signInBtn.href = authUrl("signin");
-  }
-}
-
-reviewForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!firmId) return;
-
-  submitBtn.disabled = true;
-  showMessage("Checking your account…", "success");
-
-  try {
-    const { data: { user }, error: userErr } = await db.auth.getUser();
-    if (userErr || !user || !user.email_confirmed_at) {
-      currentUser = null;
-      await checkUser();
-      throw new Error("Please sign in with a verified email.");
-    }
-    currentUser = user;
-
-    const name = reviewerName.value.trim();
-    const rating = selectedStars;
-    const text = reviewText.value.trim();
-
-    if (name.length < 2) throw new Error("Please enter your name (2+ characters).");
-    if (rating < 1 || rating > 5) throw new Error("Please select a star rating.");
-    if (text.length < 10 || text.length > 1000) throw new Error("Review must be 10–1000 characters.");
-
-    showMessage("Submitting your review…", "success");
-
-    const { error } = await db.from("firm_reviews").insert({
-      firm_id: firmId,
-      user_id: user.id,
-      reviewer_name: name,
-      rating,
-      review_text: text,
-      status: "pending"
-    });
-
+    // Load ALL approved reviews
+    const { data: reviews, error } = await db.from("firm_reviews")
+      .select("reviewer_name,rating,review_text,created_at,country")
+      .eq("firm_id", firmId)
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
     if (error) throw error;
 
-    showMessage("Thank you! Your review is awaiting admin approval. Redirecting…", "success");
+    const allReviews = reviews || [];
+    const total = allReviews.length;
+    const top5 = allReviews.slice(0, 5);
 
-    setTimeout(() => {
-      location.href = `/firm.html?id=${encodeURIComponent(firmId)}`;
-    }, 1800);
+    const logo = logoURL(firm);
+    const initials = getInitials(firm.name);
+
+    // Rating summary
+    let summaryHTML = "";
+    if (total > 0) {
+      const avg = allReviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
+      const counts = [0,0,0,0,0];
+      allReviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+      const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+      summaryHTML = `<div class="tp-summary">
+        <div class="tp-summary-left">
+          <div class="tp-avg">${avg.toFixed(1)}</div>
+          <div class="tp-stars">${fullStars}</div>
+          <div class="tp-count">${total} review${total === 1 ? "" : "s"}</div>
+        </div>
+        <div class="tp-summary-right">
+          ${[5,4,3,2,1].map(star => {
+            const c = counts[star-1];
+            const pct = Math.round((c/total) * 100);
+            return `<div class="tp-bar-row">
+              <span class="tp-bar-lbl">${star} ★</span>
+              <div class="tp-bar-track"><span style="width:${pct}%"></span></div>
+              <span class="tp-bar-count">${c}</span>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>`;
+    }
+
+    // Country chips (top 6 countries)
+    let countryChipsHTML = "";
+    if (total > 0) {
+      const countryCounts = {};
+      allReviews.forEach(r => { if (r.country) countryCounts[r.country] = (countryCounts[r.country] || 0) + 1; });
+      const top = Object.entries(countryCounts).sort((a,b) => b[1] - a[1]).slice(0, 6);
+      if (top.length) {
+        countryChipsHTML = `<div class="chips-row">
+          ${top.map(([code, count]) => `<span class="chip">${countryFlag(code)} ${esc(COUNTRY_NAMES[code] || code)} <span>${count}</span></span>`).join("")}
+        </div>`;
+      }
+    }
+
+    // Reviews preview
+    let previewHTML = "";
+    if (top5.length) {
+      previewHTML = `<div class="reviews-list">${top5.map(renderReviewCard).join("")}</div>`;
+    } else {
+      previewHTML = `<div class="empty" style="padding:40px 20px">
+        <div style="font-size:28px;margin-bottom:10px;opacity:.5">☆</div>
+        <strong style="display:block;color:var(--text);margin-bottom:6px;font-size:15px">No reviews yet</strong>
+        Be the first to share your experience with this firm.
+      </div>`;
+    }
+
+    // CTAs
+    const remaining = total - top5.length;
+    const ctaHTML = total > 0
+      ? `<div class="cta-row">
+          ${currentUser
+            ? `<a class="btn primary lg" href="dashboard.html">View all ${total} reviews →</a>
+               <a class="btn lg" href="dashboard.html">Write a review</a>`
+            : `<a class="btn primary lg" href="auth.html?mode=signup">View all ${total} reviews →</a>
+               <a class="btn lg" href="auth.html?mode=signup">Write a review</a>`}
+        </div>`
+      : `<div class="cta-row">
+          ${currentUser
+            ? `<a class="btn primary lg" href="dashboard.html">Write the first review</a>`
+            : `<a class="btn primary lg" href="auth.html?mode=signup">Sign up to write a review</a>`}
+        </div>`;
+
+    // Signup banner (only for logged-out users with 5+ reviews to hide)
+    const showBanner = !currentUser && remaining > 0;
+    const bannerHTML = showBanner
+      ? `<div class="signup-banner">
+          <div class="signup-banner-inner">
+            <h3>Sign up to see more reviews</h3>
+            <p>${remaining} more review${remaining === 1 ? "" : "s"} from traders worldwide. Create a free account to read them all, save favorites, and share your own experience.</p>
+            <div class="btn-row">
+              <a class="btn primary lg" href="auth.html?mode=signup">Create free account →</a>
+              <a class="btn lg" href="auth.html?mode=signin">Sign in</a>
+            </div>
+          </div>
+        </div>`
+      : "";
+
+    wrap.innerHTML = `
+      <div class="firm-header">
+        <div class="firm-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
+        <div class="firm-meta">
+          <div class="firm-cat">${esc(firm.category || "Prop Firm")}</div>
+          <h1>${esc(firm.name)} Reviews</h1>
+          <p class="lead">What traders say about this firm.</p>
+        </div>
+      </div>
+      ${summaryHTML}
+      ${countryChipsHTML}
+      ${previewHTML}
+      ${ctaHTML}
+      ${bannerHTML}
+    `;
+
+    // Lazy-load full review list if logged in and no banner
+    if (!showBanner && total > 5) {
+      // optional: append all reviews
+      // Keeping top 5 only for now on public page
+    }
   } catch (err) {
     console.error(err);
-    showMessage(err.message || "Could not submit review.", "error");
-    submitBtn.disabled = false;
+    wrap.innerHTML = `<div class="empty">Could not load reviews.</div>`;
   }
-});
+}
 
-db.auth.onAuthStateChange(async (_e, session) => {
-  const user = session?.user;
-  currentUser = user?.email_confirmed_at ? user : null;
-  renderAuthArea();
-  await checkUser();
-});
-
-renderAuthArea();
-await loadFirm();
-await checkUser();
+syncAuthNav();
+db.auth.onAuthStateChange(() => syncAuthNav());
+loadPage();
 </script>
 </body>
 </html>
