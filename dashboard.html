@@ -13,92 +13,57 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root[data-theme="dark"]{
-  --bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--surface-3:#1a2029;
-  --line:#242b35;--line-2:#2f3846;
-  --text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;
-  --accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);
-  --success:#4ade80;--gold:#e4b949;--danger:#ff6b6b;
-  --shadow:0 8px 24px rgba(0,0,0,.4);
-}
-:root[data-theme="light"]{
-  --bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--surface-3:#e9ecf0;
-  --line:#e1e5eb;--line-2:#d1d7de;
-  --text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;
-  --accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);
-  --success:#16a34a;--gold:#c99b1e;--danger:#dc2626;
-  --shadow:0 4px 12px rgba(0,0,0,.06);
-}
+:root[data-theme="dark"]{--bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--surface-3:#1a2029;--line:#242b35;--line-2:#2f3846;--text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;--accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);--success:#4ade80;--gold:#e4b949;--danger:#ff6b6b;--shadow:0 8px 24px rgba(0,0,0,.4);}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--surface-3:#e9ecf0;--line:#e1e5eb;--line-2:#d1d7de;--text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;--accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);--success:#16a34a;--gold:#c99b1e;--danger:#dc2626;--shadow:0 4px 12px rgba(0,0,0,.06);}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
-  font-size:14.5px;line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-  transition:background .2s,color .2s;
-}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s;}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
-
-/* TOP BAR */
-.topbar{
-  height:56px;border-bottom:1px solid var(--line);background:var(--surface);
-  display:flex;align-items:center;padding:0 20px;gap:16px;
-  position:sticky;top:0;z-index:40;
-}
-.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0}
-.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
 .logo span{color:var(--accent)}
 .topbar-spacer{flex:1}
 .topbar-search{position:relative;width:min(420px,40vw)}
-.topbar-search input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s}
+.topbar-search input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;}
 .topbar-search input:focus{border-color:var(--accent);background:var(--surface-2)}
-.topbar-search .s-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px;pointer-events:none}
-.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;max-height:340px;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:var(--shadow);display:none;z-index:60}
+.topbar-search .s-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px;pointer-events:none;}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;max-height:340px;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:var(--shadow);display:none;z-index:60;}
 .search-results.show{display:block}
-.search-result{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13.5px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:.1s}
+.search-result{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13.5px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:.1s;}
 .search-result:last-child{border-bottom:0}
 .search-result:hover{background:var(--surface-2)}
 .search-result .name{font-weight:500}
-.search-result .cat{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px}
+.search-result .cat{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px;}
 .search-result.empty{justify-content:center;color:var(--text-mute);cursor:default}
-.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;}
 .topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
-.user-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:999px;border:1px solid var(--line-2);font-size:12.5px;font-weight:500;color:var(--text);transition:.15s}
+.user-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:999px;border:1px solid var(--line-2);font-size:12.5px;font-weight:500;color:var(--text);transition:.15s;}
 .user-chip:hover{border-color:var(--accent-dim)}
-.user-initial{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px}
-
-/* LAYOUT */
+.user-initial{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;}
 .layout{display:flex;min-height:calc(100vh - 56px)}
-
-/* SIDEBAR */
-.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;transition:margin .2s ease}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;transition:margin .2s ease;}
 .sidebar.closed{margin-left:-220px}
-.nav-group{padding:14px 10px 6px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute)}
-.nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;background:transparent;color:var(--text-dim);text-align:left;font-size:13.5px;font-weight:500;border-radius:6px;margin:1px 0;transition:.12s}
+.nav-group{padding:14px 10px 6px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:0;background:transparent;color:var(--text-dim);text-align:left;font-size:13.5px;font-weight:500;border-radius:6px;margin:1px 0;transition:.12s;}
 .nav-item:hover{background:var(--surface-2);color:var(--text)}
 .nav-item.active{background:var(--accent-bg);color:var(--accent)}
 .nav-item .ico{width:18px;text-align:center;font-size:14px;flex-shrink:0}
 .nav-item .label{flex:1;min-width:0}
-.nav-item .count{font-size:11px;font-weight:600;padding:1px 6px;border-radius:999px;background:var(--surface-3);color:var(--text-mute)}
+.nav-item .count{font-size:11px;font-weight:600;padding:1px 6px;border-radius:999px;background:var(--surface-3);color:var(--text-mute);}
 .nav-item.active .count{background:var(--accent);color:#fff}
 .nav-item.logout{margin-top:12px;color:var(--danger)}
-
-/* MAIN */
 main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .page{display:none}
 .page.active{display:block}
 .page-head{margin-bottom:24px}
-.page-head .kicker{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px}
-.page-head h1{font-size:26px;font-weight:700;letter-spacing:-.6px;margin-bottom:6px}
+.page-head .kicker{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px;}
+.page-head h1{font-size:26px;font-weight:700;letter-spacing:-.6px;margin-bottom:6px;}
 .page-head p{color:var(--text-dim);font-size:14px}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:6px;border:1px solid var(--line-2);background:transparent;color:var(--text);font-size:13px;font-weight:500;transition:.15s;text-decoration:none;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:6px;border:1px solid var(--line-2);background:transparent;color:var(--text);font-size:13px;font-weight:500;transition:.15s;text-decoration:none;white-space:nowrap;}
 .btn:hover{border-color:var(--accent-dim);background:var(--accent-bg);color:var(--accent)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .btn.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#fff}
@@ -106,170 +71,143 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .btn.danger:hover{background:rgba(255,107,107,.1);border-color:var(--danger);color:var(--danger)}
 .btn.small{padding:5px 10px;font-size:12px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-
-/* Panels */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px;}
 .stat-card{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-.stat-card .k{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px}
-.stat-card .v{font-size:24px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:2px}
+.stat-card .k{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px;}
+.stat-card .v{font-size:24px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:2px;}
 .stat-card .sub{font-size:12px;color:var(--text-mute)}
-
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:24px 0 14px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:24px 0 14px;}
 .section-head h2{font-size:16px;font-weight:600;letter-spacing:-.2px}
 .section-head .more{font-size:13px;color:var(--accent);font-weight:500;cursor:pointer}
 .section-head .more:hover{text-decoration:underline}
-
-/* Firm cards */
-.firm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.firm-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;transition:.15s;display:flex;flex-direction:column}
+.firm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.firm-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;transition:.15s;display:flex;flex-direction:column;}
 .firm-card:hover{border-color:var(--line-2);background:var(--surface-2)}
 .firm-card-head{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
-.firm-logo{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:13px;font-weight:700;color:var(--accent)}
+.firm-logo{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:13px;font-weight:700;color:var(--accent);}
 .firm-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:5px;background:#fff}
 .firm-meta{flex:1;min-width:0}
-.firm-meta .cat{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-mute);margin-bottom:3px}
-.firm-meta h3{font-size:14.5px;font-weight:600;color:var(--text);overflow-wrap:anywhere;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:4px}
-.badge-verified{background:rgba(74,222,128,.12);color:var(--success);border:1px solid rgba(74,222,128,.25)}
-.badge-unverified{background:transparent;color:var(--text-mute);border:1px solid var(--line-2)}
+.firm-meta .cat{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--text-mute);margin-bottom:3px;}
+.firm-meta h3{font-size:14.5px;font-weight:600;color:var(--text);overflow-wrap:anywhere;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.badge{font-size:10px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:4px;}
+.badge-verified{background:rgba(74,222,128,.12);color:var(--success);border:1px solid rgba(74,222,128,.25);}
+.badge-unverified{background:transparent;color:var(--text-mute);border:1px solid var(--line-2);}
 .firm-rating{font-size:11.5px;font-weight:600;color:var(--gold);flex-shrink:0}
-.firm-desc{font-size:12.5px;color:var(--text-dim);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.firm-rows{border-top:1px solid var(--line);padding-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:12px}
-.firm-rows .k{font-size:10px;color:var(--text-mute);margin-bottom:2px;letter-spacing:.3px;text-transform:uppercase}
+.firm-desc{font-size:12.5px;color:var(--text-dim);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.firm-rows{border-top:1px solid var(--line);padding-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-bottom:12px;}
+.firm-rows .k{font-size:10px;color:var(--text-mute);margin-bottom:2px;letter-spacing:.3px;text-transform:uppercase;}
 .firm-rows .v{font-size:12.5px;color:var(--text);font-weight:500;overflow-wrap:anywhere}
-.firm-actions{display:flex;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.firm-actions{display:flex;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);}
 .firm-actions .btn{flex:1;justify-content:center}
-
-/* Chips */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;cursor:pointer;transition:.15s}
+.chip{padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;cursor:pointer;transition:.15s;}
 .chip:hover{border-color:var(--accent-dim);color:var(--text)}
 .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* Compare */
-.cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:16px}
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:16px;}
 .cmp-slot{position:relative;padding:14px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px}
 .cmp-slot.filled{border-color:var(--accent);background:var(--accent-bg)}
-.cmp-slot-label{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px}
-.cmp-slot-label .clear-x{background:transparent;border:0;color:var(--danger);font-size:14px;padding:0 4px;display:none;cursor:pointer}
+.cmp-slot-label{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;}
+.cmp-slot-label .clear-x{background:transparent;border:0;color:var(--danger);font-size:14px;padding:0 4px;display:none;cursor:pointer;}
 .cmp-slot.filled .clear-x{display:inline-block}
 .cmp-search-wrap{position:relative}
-.cmp-search{width:100%;padding:9px 34px 9px 12px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;outline:none;transition:.15s}
+.cmp-search{width:100%;padding:9px 34px 9px 12px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--text);font-size:13px;outline:none;transition:.15s;}
 .cmp-search:focus{border-color:var(--accent)}
-.cmp-search-ico{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px;pointer-events:none}
-.cmp-results{position:absolute;top:calc(100% + 4px);left:0;right:0;max-height:260px;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:var(--shadow);display:none;z-index:30}
+.cmp-search-ico{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:13px;pointer-events:none;}
+.cmp-results{position:absolute;top:calc(100% + 4px);left:0;right:0;max-height:260px;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:var(--shadow);display:none;z-index:30;}
 .cmp-results.show{display:block}
-.cmp-result{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:8px;transition:.1s}
+.cmp-result{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:8px;transition:.1s;}
 .cmp-result:last-child{border-bottom:0}
 .cmp-result:hover{background:var(--surface-2)}
 .cmp-result .r-name{font-weight:500}
-.cmp-result .r-cat{font-size:10.5px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px}
+.cmp-result .r-cat{font-size:10.5px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px;}
 .cmp-result.empty{justify-content:center;color:var(--text-mute);cursor:default}
 .cmp-chosen{margin-top:8px;font-size:12.5px;font-weight:500;color:var(--accent);display:none}
 .cmp-slot.filled .cmp-chosen{display:block}
-.cmp-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:16px}
+.cmp-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:16px;}
 .cmp-table{width:100%;min-width:520px;border-collapse:collapse;background:var(--surface)}
-.cmp-table th,.cmp-table td{padding:12px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top}
-.cmp-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text-mute);background:var(--surface-2);white-space:nowrap}
-.cmp-table th.head{color:var(--text);font-size:13px;text-transform:none;letter-spacing:0}
-.cmp-table td:first-child{color:var(--text-mute);font-weight:500;background:var(--surface-2);white-space:nowrap}
+.cmp-table th,.cmp-table td{padding:12px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top;}
+.cmp-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text-mute);background:var(--surface-2);white-space:nowrap;}
+.cmp-table th.head{color:var(--text);font-size:13px;text-transform:none;letter-spacing:0;}
+.cmp-table td:first-child{color:var(--text-mute);font-weight:500;background:var(--surface-2);white-space:nowrap;}
 .cmp-table tr:last-child td{border-bottom:0}
 .cmp-table .better{color:var(--success);font-weight:600}
-
-/* Forms */
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .field{display:grid;gap:6px}
 .field.full{grid-column:1/-1}
 .field label{font-size:12px;font-weight:600;color:var(--text-dim)}
-.field input,.field select,.field textarea{padding:9px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s}
+.field input,.field select,.field textarea{padding:9px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-size:13.5px;outline:none;transition:.15s;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--surface-2)}
 .field textarea{min-height:80px;resize:vertical;font-family:inherit}
 .form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-
-/* List */
 .list{display:grid;gap:8px}
-.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;}
 .item .info{min-width:0;flex:1}
 .item .title{font-size:13.5px;font-weight:600}
 .item .sub{font-size:12px;color:var(--text-mute);margin-top:2px}
-.status{font-size:10.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--surface-3);color:var(--text-mute)}
+.status{font-size:10.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--surface-3);color:var(--text-mute);}
 .status.approved{background:rgba(74,222,128,.12);color:var(--success)}
 .status.pending{background:rgba(228,185,73,.12);color:var(--gold)}
 .status.rejected{background:rgba(255,107,107,.12);color:var(--danger)}
 .pos{color:var(--success)}
 .neg{color:var(--danger)}
+.empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px;}
 
-.empty{padding:36px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:13.5px}
-
-/* Modal */
-.firm-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .15s ease}
+/* MODAL */
+.firm-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .15s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .firm-modal[hidden]{display:none}
-.firm-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
-.firm-modal-panel{position:relative;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:modalUp .2s ease}
+.firm-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
+.firm-modal-panel{position:relative;width:100%;max-width:900px;max-height:92vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:modalUp .2s ease;}
 @keyframes modalUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.firm-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:7px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text-dim);font-size:14px;z-index:2;transition:.15s}
+.firm-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:7px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--text-dim);font-size:14px;z-index:2;transition:.15s;}
 .firm-modal-close:hover{border-color:var(--danger);color:var(--danger)}
-.modal-header{padding:28px 28px 20px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:flex-start}
-.modal-logo{width:60px;height:60px;border-radius:10px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:20px;font-weight:700;color:var(--accent)}
+.modal-header{padding:28px 28px 20px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:flex-start;}
+.modal-logo{width:60px;height:60px;border-radius:10px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:20px;font-weight:700;color:var(--accent);}
 .modal-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:9px;background:#fff}
 .modal-meta{flex:1;min-width:0}
-.modal-meta .cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:6px}
-.modal-meta h2{font-size:22px;font-weight:700;letter-spacing:-.5px;margin:0 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.modal-meta .cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:6px;}
+.modal-meta h2{font-size:22px;font-weight:700;letter-spacing:-.5px;margin:0 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .modal-meta .desc{font-size:14px;color:var(--text-dim);line-height:1.6}
 .modal-body{padding:24px 28px}
 .modal-section{margin-bottom:24px}
 .modal-section:last-child{margin-bottom:0}
-.modal-section .k{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute);margin-bottom:12px}
-.modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.modal-section .k{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute);margin-bottom:12px;}
+.modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
 .modal-cell{background:var(--surface);padding:14px}
-.modal-cell .ck{font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:5px}
+.modal-cell .ck{font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:5px;}
 .modal-cell .cv{font-size:14px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
-.modal-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--line);flex-wrap:wrap}
+.modal-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--line);flex-wrap:wrap;}
 .modal-actions .btn{flex:1;min-width:0;justify-content:center}
-
-/* Toast */
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300}
-
-@media (max-width:900px){
-  .sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow)}
-  .sidebar.closed{margin-left:-240px}
-  .topbar-search{display:none}
-}
-@media (max-width:600px){
-  .topbar{padding:0 12px;gap:10px}
-  .logo{font-size:14px}
-  .logo-mark{width:22px;height:22px;font-size:11px}
-  .user-chip span:last-child{display:none}
-  main{padding:20px 14px 40px}
-  .page-head h1{font-size:20px}
-  .firm-grid{grid-template-columns:1fr;gap:10px}
-  .cmp-grid{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
-  .modal-header{flex-direction:column}
-  .modal-actions{flex-direction:column}
-}
+.modal-reviews-list{display:grid;gap:12px}
+.modal-review{padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
+.modal-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+.modal-review-author{display:flex;align-items:center;gap:10px;min-width:0}
+.modal-review-avatar{width:32px;height:32px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text-dim);flex-shrink:0;}
+.modal-review-name{font-size:13px;font-weight:600;color:var(--text)}
+.modal-review-date{font-size:11.5px;color:var(--text-mute);margin-top:1px}
+.modal-review-stars{color:var(--gold);font-size:12px;letter-spacing:1px;flex-shrink:0}
+.modal-review-text{font-size:13px;color:var(--text-dim);line-height:1.65;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300;}
+@media (max-width:900px){.sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow);}.sidebar.closed{margin-left:-240px}.topbar-search{display:none}}
+@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.modal-header{flex-direction:column}.modal-actions{flex-direction:column}.firm-modal{padding:0}.firm-modal-panel{max-height:100vh;border-radius:0;max-width:100%}}
 </style>
 </head>
-
 <body>
 
 <header class="topbar">
   <button class="topbar-btn" id="toggleSidebar" aria-label="Menu">☰</button>
-  <a class="logo" id="brandLogo" href="dashboard.html">
+  <a class="logo" href="dashboard.html" style="cursor:default">
     <span class="logo-mark">F</span>
     Funded<span>Edge</span>
   </a>
   <div class="topbar-spacer"></div>
-
   <div class="topbar-search">
     <span class="s-ico">🔍</span>
     <input id="globalSearch" type="text" placeholder="Search firms…" autocomplete="off">
     <div class="search-results" id="searchResults"></div>
   </div>
-
-  <button class="topbar-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">◐</button>
+  <button class="topbar-btn" id="themeToggle" title="Toggle theme">◐</button>
   <a class="user-chip" href="dashboard.html" id="userChip">
     <span class="user-initial" id="userInitial">?</span>
     <span id="userName">Loading…</span>
@@ -283,11 +221,9 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
     <button class="nav-item" data-page="firms"><span class="ico">▤</span><span class="label">Prop Firms</span><span class="count" id="navFirmsCount">—</span></button>
     <button class="nav-item" data-page="favorites"><span class="ico">♡</span><span class="label">Favorites</span><span class="count" id="navFavCount">0</span></button>
     <button class="nav-item" data-page="compare"><span class="ico">⇄</span><span class="label">Compare</span></button>
-
     <div class="nav-group">Trading</div>
     <button class="nav-item" data-page="journal"><span class="ico">✎</span><span class="label">Journal</span></button>
     <button class="nav-item" data-page="stats"><span class="ico">▥</span><span class="label">Statistics</span></button>
-
     <div class="nav-group">Account</div>
     <button class="nav-item" data-page="reviews"><span class="ico">☆</span><span class="label">My Reviews</span></button>
     <button class="nav-item" data-page="settings"><span class="ico">⚙</span><span class="label">Settings</span></button>
@@ -295,35 +231,26 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
   </aside>
 
   <main>
-
     <section class="page active" id="page-home">
       <div class="page-head">
         <div class="kicker">Dashboard</div>
         <h1>Welcome back, <span id="memberName">Trader</span></h1>
         <p>Your prop firm research and trading workspace.</p>
       </div>
-
       <div class="stats-grid">
         <div class="stat-card"><div class="k">Favorites</div><div class="v" id="favoriteCount">0</div><div class="sub">Saved firms</div></div>
         <div class="stat-card"><div class="k">Comparisons</div><div class="v" id="comparisonCount">0</div><div class="sub">Saved comparisons</div></div>
         <div class="stat-card"><div class="k">Journal trades</div><div class="v" id="tradeCount">0</div><div class="sub">Recorded trades</div></div>
         <div class="stat-card"><div class="k">My reviews</div><div class="v" id="reviewCount">0</div><div class="sub">Submitted reviews</div></div>
       </div>
-
       <div class="section-head"><h2>Your favorites</h2><span class="more" data-go="favorites">View all →</span></div>
       <div class="firm-grid" id="homeFavorites"></div>
-
       <div class="section-head"><h2>Recent journal entries</h2><span class="more" data-go="journal">Open journal →</span></div>
       <div class="list" id="recentTrades"></div>
     </section>
 
     <section class="page" id="page-firms">
-      <div class="page-head">
-        <div class="kicker">Research</div>
-        <h1>Prop Firms</h1>
-        <p>All active firms with their key details. Click View to see them without leaving the dashboard.</p>
-      </div>
-
+      <div class="page-head"><div class="kicker">Research</div><h1>Prop Firms</h1><p>Click View to see full details without leaving the dashboard.</p></div>
       <div class="chips" id="firmChips">
         <button class="chip active" data-filter="all">All <span id="chipAllCount">0</span></button>
         <button class="chip" data-filter="Forex / CFD">Forex</button>
@@ -332,71 +259,29 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
         <button class="chip" data-filter="top">Top rated</button>
         <button class="chip" data-filter="verified">Verified</button>
       </div>
-
       <div class="firm-grid" id="allFirms"></div>
     </section>
 
     <section class="page" id="page-favorites">
-      <div class="page-head">
-        <div class="kicker">Shortlist</div>
-        <h1>Favorites</h1>
-        <p>Firms you've saved to review later.</p>
-      </div>
+      <div class="page-head"><div class="kicker">Shortlist</div><h1>Favorites</h1><p>Firms you've saved to review later.</p></div>
       <div class="firm-grid" id="favoritesList"></div>
     </section>
 
     <section class="page" id="page-compare">
-      <div class="page-head">
-        <div class="kicker">Tool</div>
-        <h1>Compare firms</h1>
-        <p>Pick up to 3 firms to compare rules side by side.</p>
-      </div>
-
+      <div class="page-head"><div class="kicker">Tool</div><h1>Compare firms</h1><p>Pick up to 3 firms to compare rules side by side.</p></div>
       <div class="panel">
         <div class="cmp-grid">
-          <div class="cmp-slot" id="cmpSlot1">
-            <div class="cmp-slot-label"><span>Firm 1</span><button class="clear-x" data-clear="1">✕</button></div>
-            <div class="cmp-search-wrap">
-              <input class="cmp-search" id="cmpSearch1" placeholder="Search…" autocomplete="off">
-              <span class="cmp-search-ico">🔍</span>
-              <div class="cmp-results" id="cmpResults1"></div>
-            </div>
-            <div class="cmp-chosen" id="cmpChosen1">—</div>
-          </div>
-          <div class="cmp-slot" id="cmpSlot2">
-            <div class="cmp-slot-label"><span>Firm 2</span><button class="clear-x" data-clear="2">✕</button></div>
-            <div class="cmp-search-wrap">
-              <input class="cmp-search" id="cmpSearch2" placeholder="Search…" autocomplete="off">
-              <span class="cmp-search-ico">🔍</span>
-              <div class="cmp-results" id="cmpResults2"></div>
-            </div>
-            <div class="cmp-chosen" id="cmpChosen2">—</div>
-          </div>
-          <div class="cmp-slot" id="cmpSlot3">
-            <div class="cmp-slot-label"><span>Firm 3</span><button class="clear-x" data-clear="3">✕</button></div>
-            <div class="cmp-search-wrap">
-              <input class="cmp-search" id="cmpSearch3" placeholder="Search…" autocomplete="off">
-              <span class="cmp-search-ico">🔍</span>
-              <div class="cmp-results" id="cmpResults3"></div>
-            </div>
-            <div class="cmp-chosen" id="cmpChosen3">—</div>
-          </div>
+          <div class="cmp-slot" id="cmpSlot1"><div class="cmp-slot-label"><span>Firm 1</span><button class="clear-x" data-clear="1">✕</button></div><div class="cmp-search-wrap"><input class="cmp-search" id="cmpSearch1" placeholder="Search…" autocomplete="off"><span class="cmp-search-ico">🔍</span><div class="cmp-results" id="cmpResults1"></div></div><div class="cmp-chosen" id="cmpChosen1">—</div></div>
+          <div class="cmp-slot" id="cmpSlot2"><div class="cmp-slot-label"><span>Firm 2</span><button class="clear-x" data-clear="2">✕</button></div><div class="cmp-search-wrap"><input class="cmp-search" id="cmpSearch2" placeholder="Search…" autocomplete="off"><span class="cmp-search-ico">🔍</span><div class="cmp-results" id="cmpResults2"></div></div><div class="cmp-chosen" id="cmpChosen2">—</div></div>
+          <div class="cmp-slot" id="cmpSlot3"><div class="cmp-slot-label"><span>Firm 3</span><button class="clear-x" data-clear="3">✕</button></div><div class="cmp-search-wrap"><input class="cmp-search" id="cmpSearch3" placeholder="Search…" autocomplete="off"><span class="cmp-search-ico">🔍</span><div class="cmp-results" id="cmpResults3"></div></div><div class="cmp-chosen" id="cmpChosen3">—</div></div>
         </div>
-        <div class="form-actions">
-          <button class="btn primary" id="cmpRun">Compare</button>
-          <button class="btn" id="cmpClear">Clear all</button>
-        </div>
+        <div class="form-actions"><button class="btn primary" id="cmpRun">Compare</button><button class="btn" id="cmpClear">Clear all</button></div>
         <div id="cmpResult"></div>
       </div>
     </section>
 
     <section class="page" id="page-journal">
-      <div class="page-head">
-        <div class="kicker">Trading</div>
-        <h1>Journal</h1>
-        <p>Record trades and track your execution.</p>
-      </div>
-
+      <div class="page-head"><div class="kicker">Trading</div><h1>Journal</h1><p>Record trades and track your execution.</p></div>
       <div class="panel" style="margin-bottom:20px">
         <div class="section-head" style="margin:0 0 14px"><h2 id="formTitle">Add a trade</h2></div>
         <form id="tradeForm">
@@ -416,79 +301,55 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
             <div class="field"><label>Mindset</label><select id="emotion"><option value="">Choose</option><option>Focused</option><option>Confident</option><option>Patient</option><option>Fearful</option><option>Greedy</option><option>Revenge trading</option><option>Distracted</option></select></div>
             <div class="field full"><label>Notes</label><textarea id="notes" maxlength="5000" placeholder="Why did you take this trade?"></textarea></div>
           </div>
-          <div class="form-actions">
-            <button class="btn primary" id="saveTrade" type="submit">Save trade</button>
-            <button class="btn" type="button" id="cancelEdit" hidden>Cancel edit</button>
-          </div>
+          <div class="form-actions"><button class="btn primary" id="saveTrade" type="submit">Save trade</button><button class="btn" type="button" id="cancelEdit" hidden>Cancel edit</button></div>
         </form>
       </div>
-
       <div class="section-head"><h2>History</h2></div>
       <div class="list" id="tradeList"></div>
     </section>
 
     <section class="page" id="page-stats">
-      <div class="page-head">
-        <div class="kicker">Performance</div>
-        <h1>Journal statistics</h1>
-        <p>A summary of trades recorded in your journal.</p>
-      </div>
+      <div class="page-head"><div class="kicker">Performance</div><h1>Journal statistics</h1><p>A summary of trades recorded in your journal.</p></div>
       <div class="stats-grid">
         <div class="stat-card"><div class="k">Win rate</div><div class="v" id="winRate">0%</div></div>
         <div class="stat-card"><div class="k">Net P/L</div><div class="v" id="netPnl">$0.00</div></div>
         <div class="stat-card"><div class="k">Avg trade</div><div class="v" id="avgPnl">$0.00</div></div>
       </div>
-      <div class="panel">
-        <div class="list">
-          <div class="item"><span class="title">Winning trades</span><b id="wins">0</b></div>
-          <div class="item"><span class="title">Losing trades</span><b id="losses">0</b></div>
-          <div class="item"><span class="title">Breakeven trades</span><b id="breakevens">0</b></div>
-          <div class="item"><span class="title">Total trades</span><b id="totalTrades">0</b></div>
-        </div>
-      </div>
+      <div class="panel"><div class="list">
+        <div class="item"><span class="title">Winning trades</span><b id="wins">0</b></div>
+        <div class="item"><span class="title">Losing trades</span><b id="losses">0</b></div>
+        <div class="item"><span class="title">Breakeven trades</span><b id="breakevens">0</b></div>
+        <div class="item"><span class="title">Total trades</span><b id="totalTrades">0</b></div>
+      </div></div>
     </section>
 
     <section class="page" id="page-reviews">
-      <div class="page-head">
-        <div class="kicker">Community</div>
-        <h1>My reviews</h1>
-        <p>Reviews you've submitted and their status.</p>
-      </div>
+      <div class="page-head"><div class="kicker">Community</div><h1>My reviews</h1><p>Reviews you've submitted and their status.</p></div>
       <div class="list" id="reviewsList"></div>
     </section>
 
     <section class="page" id="page-settings">
-      <div class="page-head">
-        <div class="kicker">Account</div>
-        <h1>Settings</h1>
-      </div>
-      <div class="panel">
-        <div class="list">
-          <div class="item"><div class="info"><div class="title">Email</div><div class="sub" id="settingEmail">—</div></div><span class="status approved">Confirmed</span></div>
-          <div class="item"><div class="info"><div class="title">Display name</div><div class="sub" id="settingName">—</div></div></div>
-          <div class="item"><div class="info"><div class="title">Country</div><div class="sub" id="settingCountry">—</div></div></div>
-          <div class="item"><div class="info"><div class="title">Theme</div><div class="sub" id="settingTheme">—</div></div><button class="btn small" id="themeToggle2">Change</button></div>
-        </div>
-      </div>
+      <div class="page-head"><div class="kicker">Account</div><h1>Settings</h1></div>
+      <div class="panel"><div class="list">
+        <div class="item"><div class="info"><div class="title">Email</div><div class="sub" id="settingEmail">—</div></div><span class="status approved">Confirmed</span></div>
+        <div class="item"><div class="info"><div class="title">Display name</div><div class="sub" id="settingName">—</div></div></div>
+        <div class="item"><div class="info"><div class="title">Country</div><div class="sub" id="settingCountry">—</div></div></div>
+        <div class="item"><div class="info"><div class="title">Theme</div><div class="sub" id="settingTheme">—</div></div><button class="btn small" id="themeToggle2">Change</button></div>
+      </div></div>
     </section>
-
   </main>
 </div>
 
-<!-- Firm detail modal -->
 <div class="firm-modal" id="firmModal" hidden>
   <div class="firm-modal-backdrop" data-close-modal></div>
   <div class="firm-modal-panel">
     <button class="firm-modal-close" data-close-modal aria-label="Close">✕</button>
-    <div id="firmModalContent">
-      <div style="padding:40px;text-align:center;color:var(--text-mute)">Loading…</div>
-    </div>
+    <div id="firmModalContent"></div>
   </div>
 </div>
 
 <div id="toast" hidden></div>
 
-<!-- Tawk.to Support -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -504,52 +365,29 @@ s0.parentNode.insertBefore(s1,s0);
 <script type="module">
 import { db } from "./supabase.js";
 const $ = id => document.getElementById(id);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-/* ============================================================
-   THEME
-   ============================================================ */
 const THEME_KEY = "fundededge-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
-function applyTheme(t){
-  document.documentElement.setAttribute("data-theme", t);
-  localStorage.setItem(THEME_KEY, t);
-  const st = $("settingTheme");
-  if (st) st.textContent = t === "dark" ? "Dark" : "Light";
-}
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); const s=$("settingTheme"); if(s) s.textContent = t === "dark" ? "Dark" : "Light"; }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
 applyTheme(getStoredTheme());
 $("themeToggle").addEventListener("click", toggleTheme);
 $("themeToggle2").addEventListener("click", toggleTheme);
 
-/* ============================================================
-   STATE
-   ============================================================ */
-let user = null;
-let trades = [];
-let toastTimer;
-let firmsLoaded = false;
-let allFirmsCache = [];
-let compareFirmsCache = [];
+let user = null, trades = [], toastTimer, firmsLoaded = false;
+let allFirmsCache = [], compareFirmsCache = [];
 const compareSlots = {1:null, 2:null, 3:null};
 let currentChip = "all";
 
-const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
 function toast(msg){
   const el = $("toast");
-  el.textContent = msg;
-  el.hidden = false;
+  el.textContent = msg; el.hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.hidden = true, 3000);
 }
-function emptyEl(id, msg){
-  const el = $(id);
-  if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`;
-}
+function emptyEl(id, msg){ const el = $(id); if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`; }
 
-/* ============================================================
-   LOGO HELPERS
-   ============================================================ */
 function getLogoDomain(firm){
   const name = (firm.name || "").toLowerCase().trim();
   const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
@@ -566,9 +404,6 @@ function logoURL(firm){
   return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : "");
 }
 
-/* ============================================================
-   NAV
-   ============================================================ */
 function go(page){
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + page));
   document.querySelectorAll(".nav-item[data-page]").forEach(b => b.classList.toggle("active", b.dataset.page === page));
@@ -582,35 +417,16 @@ document.querySelectorAll(".nav-item[data-page]").forEach(b => b.onclick = () =>
 document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
 $("toggleSidebar").onclick = () => $("sidebar").classList.toggle("closed");
 if (innerWidth <= 900) $("sidebar").classList.add("closed");
+$("logoutBtn").onclick = async () => { await db.auth.signOut(); location.replace("index.html"); };
 
-/* ============================================================
-   LOGOUT
-   ============================================================ */
-async function logout(){
-  await db.auth.signOut();
-  location.replace("index.html");
-}
-$("logoutBtn").onclick = logout;
-
-/* ============================================================
-   FIRM CARD
-   ============================================================ */
 function firmCard(firm, savedIds){
   const isSaved = savedIds ? savedIds.has(String(firm.id)) : false;
   const rating = firm.rating ? `★ ${firm.rating}` : "—";
-  const badge = firm.verified
-    ? `<span class="badge badge-verified">Verified</span>`
-    : `<span class="badge badge-unverified">Unverified</span>`;
+  const badge = firm.verified ? `<span class="badge badge-verified">Verified</span>` : `<span class="badge badge-unverified">Unverified</span>`;
   return `<article class="firm-card">
     <div class="firm-card-head">
-      <div class="firm-logo">
-        <span>${esc(getInitials(firm.name))}</span>
-        ${logoURL(firm) ? `<img src="${esc(logoURL(firm))}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
-      </div>
-      <div class="firm-meta">
-        <div class="cat">${esc(firm.category || "Prop Firm")}</div>
-        <h3>${esc(firm.name)} ${badge}</h3>
-      </div>
+      <div class="firm-logo"><span>${esc(getInitials(firm.name))}</span>${logoURL(firm) ? `<img src="${esc(logoURL(firm))}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}</div>
+      <div class="firm-meta"><div class="cat">${esc(firm.category || "Prop Firm")}</div><h3>${esc(firm.name)} ${badge}</h3></div>
       <div class="firm-rating">${esc(rating)}</div>
     </div>
     <p class="firm-desc">${esc(firm.description || "Trading conditions and account options.")}</p>
@@ -630,19 +446,11 @@ function firmCard(firm, savedIds){
 function favCard(fav, firm){
   const f = firm || {};
   const rating = f.rating ? `★ ${f.rating}` : "—";
-  const badge = f.verified
-    ? `<span class="badge badge-verified">Verified</span>`
-    : `<span class="badge badge-unverified">Unverified</span>`;
+  const badge = f.verified ? `<span class="badge badge-verified">Verified</span>` : `<span class="badge badge-unverified">Unverified</span>`;
   return `<article class="firm-card">
     <div class="firm-card-head">
-      <div class="firm-logo">
-        <span>${esc(getInitials(f.name))}</span>
-        ${logoURL(f) ? `<img src="${esc(logoURL(f))}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
-      </div>
-      <div class="firm-meta">
-        <div class="cat">${esc(f.category || "Prop Firm")}</div>
-        <h3>${esc(f.name || "Prop firm")} ${badge}</h3>
-      </div>
+      <div class="firm-logo"><span>${esc(getInitials(f.name))}</span>${logoURL(f) ? `<img src="${esc(logoURL(f))}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}</div>
+      <div class="firm-meta"><div class="cat">${esc(f.category || "Prop Firm")}</div><h3>${esc(f.name || "Prop firm")} ${badge}</h3></div>
       <div class="firm-rating">${esc(rating)}</div>
     </div>
     <div class="firm-rows">
@@ -656,9 +464,6 @@ function favCard(fav, firm){
   </article>`;
 }
 
-/* ============================================================
-   SAVE / REMOVE
-   ============================================================ */
 async function toggleSave(firmId, btn){
   if (!user) return;
   btn.disabled = true;
@@ -666,31 +471,22 @@ async function toggleSave(firmId, btn){
   try {
     if (saved) {
       await db.from("favorites").delete().eq("user_id", user.id).eq("firm_id", firmId);
-      btn.dataset.saved = "0"; btn.textContent = "Save";
-      toast("Removed");
+      btn.dataset.saved = "0"; btn.textContent = "Save"; toast("Removed");
     } else {
       await db.from("favorites").insert({ user_id: user.id, firm_id: firmId });
-      btn.dataset.saved = "1"; btn.textContent = "Saved";
-      toast("Saved");
+      btn.dataset.saved = "1"; btn.textContent = "Saved"; toast("Saved");
     }
     const { count } = await db.from("favorites").select("id", { count: "exact", head: true }).eq("user_id", user.id);
-    if (typeof count === "number") {
-      $("favoriteCount").textContent = count;
-      $("navFavCount").textContent = count;
-    }
+    if (typeof count === "number") { $("favoriteCount").textContent = count; $("navFavCount").textContent = count; }
   } catch (err) { console.error(err); toast("Could not update"); }
   finally { btn.disabled = false; }
 }
 async function removeFav(id){
   if (!user) return;
   await db.from("favorites").delete().eq("id", id).eq("user_id", user.id);
-  toast("Removed");
-  await load();
+  toast("Removed"); await load();
 }
 
-/* ============================================================
-   LOAD ALL FIRMS
-   ============================================================ */
 async function loadAllFirms(){
   const wrap = $("allFirms");
   wrap.innerHTML = `<div class="empty">Loading firms…</div>`;
@@ -703,10 +499,7 @@ async function loadAllFirms(){
     const { data: favRows } = await db.from("favorites").select("firm_id").eq("user_id", user.id);
     const savedIds = new Set((favRows || []).map(r => String(r.firm_id)));
     renderFiltered(savedIds);
-  } catch (err) {
-    console.error(err);
-    wrap.innerHTML = `<div class="empty">Could not load firms.</div>`;
-  }
+  } catch (err) { console.error(err); wrap.innerHTML = `<div class="empty">Could not load firms.</div>`; }
 }
 
 function renderFiltered(savedIds){
@@ -714,11 +507,9 @@ function renderFiltered(savedIds){
   if (currentChip === "top") list = list.filter(f => Number(f.rating) >= 4.5);
   else if (currentChip === "verified") list = list.filter(f => f.verified);
   else if (currentChip !== "all") list = list.filter(f => f.category === currentChip);
-
   const wrap = $("allFirms");
   if (!list.length) { wrap.innerHTML = `<div class="empty">No firms match this filter.</div>`; return; }
   wrap.innerHTML = list.map(f => firmCard(f, savedIds)).join("");
-  wrap.querySelectorAll("[data-save-firm]").forEach(b => b.onclick = () => toggleSave(b.dataset.saveFirm, b));
 }
 
 document.querySelectorAll("#firmChips .chip").forEach(c => {
@@ -732,9 +523,6 @@ document.querySelectorAll("#firmChips .chip").forEach(c => {
   };
 });
 
-/* ============================================================
-   COMPARE
-   ============================================================ */
 async function loadCompareCache(){
   if (compareFirmsCache.length) { [1,2,3].forEach(updateSlotUI); return; }
   const { data } = await db.from("firms").select("*").eq("status","active").order("name",{ascending:true});
@@ -763,9 +551,7 @@ function showResults(n, items){
     r.onclick = () => {
       const firm = compareFirmsCache.find(x => String(x.id) === String(r.dataset.fid));
       if (!firm) return;
-      compareSlots[n] = firm;
-      updateSlotUI(n);
-      box.classList.remove("show");
+      compareSlots[n] = firm; updateSlotUI(n); box.classList.remove("show");
     };
   });
   box.classList.add("show");
@@ -777,9 +563,7 @@ function showResults(n, items){
     showResults(n, searchList(input.value, taken));
   });
   input.addEventListener("input", () => {
-    if (compareSlots[n] && input.value !== compareSlots[n].name) {
-      compareSlots[n] = null; slot.classList.remove("filled"); $("cmpChosen" + n).textContent = "—";
-    }
+    if (compareSlots[n] && input.value !== compareSlots[n].name) { compareSlots[n] = null; slot.classList.remove("filled"); $("cmpChosen" + n).textContent = "—"; }
     const taken = new Set([1,2,3].filter(x => x !== n).map(x => compareSlots[x]?.id).filter(Boolean).map(String));
     showResults(n, searchList(input.value, taken));
   });
@@ -790,22 +574,14 @@ document.addEventListener("click", e => { if (!e.target.closest(".cmp-search-wra
 
 function parseNums(str){
   const m = String(str || "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || [];
-  return m.map(x => {
-    const c = x.replace(/,/g,"").replace(/\s/g,"");
-    const mult = /m$/i.test(c) ? 1e6 : /k$/i.test(c) ? 1e3 : 1;
-    return parseFloat(c.replace(/[kKmM]$/,"")) * mult;
-  }).filter(Number.isFinite);
+  return m.map(x => { const c = x.replace(/,/g,"").replace(/\s/g,""); const mult = /m$/i.test(c) ? 1e6 : /k$/i.test(c) ? 1e3 : 1; return parseFloat(c.replace(/[kKmM]$/,"")) * mult; }).filter(Number.isFinite);
 }
 
 $("cmpRun").onclick = () => {
   const selected = [1,2,3].map(n => compareSlots[n]).filter(Boolean);
   const wrap = $("cmpResult");
   if (!selected.length) { wrap.innerHTML = `<div class="empty" style="margin-top:16px">Pick at least one firm.</div>`; return; }
-  const fields = [
-    ["Category",["category"]],["Account sizes",["account_sizes"]],["Starting price",["price"]],
-    ["Profit target",["profit_target"]],["Daily drawdown",["daily_drawdown"]],["Max drawdown",["max_drawdown"]],
-    ["Profit split",["profit_split"]],["Payout",["payout"]],["Platforms",["platforms"]],["Rating",["rating"]]
-  ];
+  const fields = [["Category",["category"]],["Account sizes",["account_sizes"]],["Starting price",["price"]],["Profit target",["profit_target"]],["Daily drawdown",["daily_drawdown"]],["Max drawdown",["max_drawdown"]],["Profit split",["profit_split"]],["Payout",["payout"]],["Platforms",["platforms"]],["Rating",["rating"]]];
   const get = (f, keys) => { for (const k of keys) { if (f[k] !== undefined && f[k] !== null && f[k] !== "") return String(f[k]); } return "—"; };
   const bestRating = Math.max(...selected.map(f => Number(f.rating) || 0));
   const bestSplit = Math.max(...selected.map(f => { const n = String(f.profit_split || "").match(/\d+/g)?.map(Number) || [0]; return Math.max(...n); }));
@@ -818,20 +594,10 @@ $("cmpRun").onclick = () => {
     if (label === "Starting price") { const n = parseNums(f.price); const v = n.length ? Math.min(...n) : null; if (v !== null && v === bestPrice) return "better"; }
     return "";
   };
-  wrap.innerHTML = `<div class="cmp-table-wrap"><table class="cmp-table">
-    <thead><tr><th>Feature</th>${selected.map(f => `<th class="head">${esc(f.name)}</th>`).join("")}</tr></thead>
-    <tbody>${fields.map(([label, keys]) => `<tr><td>${esc(label)}</td>${selected.map(f => `<td class="${cls(label, f)}">${esc(get(f, keys))}</td>`).join("")}</tr>`).join("")}</tbody>
-  </table></div>`;
+  wrap.innerHTML = `<div class="cmp-table-wrap"><table class="cmp-table"><thead><tr><th>Feature</th>${selected.map(f => `<th class="head">${esc(f.name)}</th>`).join("")}</tr></thead><tbody>${fields.map(([label, keys]) => `<tr><td>${esc(label)}</td>${selected.map(f => `<td class="${cls(label, f)}">${esc(get(f, keys))}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 };
-$("cmpClear").onclick = () => {
-  compareSlots[1] = compareSlots[2] = compareSlots[3] = null;
-  [1,2,3].forEach(n => { updateSlotUI(n); $("cmpResults" + n).classList.remove("show"); });
-  $("cmpResult").innerHTML = "";
-};
+$("cmpClear").onclick = () => { compareSlots[1] = compareSlots[2] = compareSlots[3] = null; [1,2,3].forEach(n => { updateSlotUI(n); $("cmpResults" + n).classList.remove("show"); }); $("cmpResult").innerHTML = ""; };
 
-/* ============================================================
-   GLOBAL SEARCH
-   ============================================================ */
 const gsInput = $("globalSearch"), gsResults = $("searchResults");
 async function ensureFirmsLoaded(){
   if (allFirmsCache.length) return;
@@ -852,20 +618,12 @@ gsInput.addEventListener("focus", async () => {
 gsInput.addEventListener("input", () => gsInput.dispatchEvent(new Event("focus")));
 document.addEventListener("click", e => { if (!e.target.closest(".topbar-search")) gsResults.classList.remove("show"); });
 
-/* ============================================================
-   FIRM DETAIL MODAL
-   ============================================================ */
+/* ==================== FIRM DETAIL MODAL ==================== */
 const firmModal = $("firmModal");
 const firmModalContent = $("firmModalContent");
 
-function closeFirmModal(){
-  firmModal.hidden = true;
-  document.body.style.overflow = "";
-}
-function openFirmModal(){
-  firmModal.hidden = false;
-  document.body.style.overflow = "hidden";
-}
+function closeFirmModal(){ firmModal.hidden = true; document.body.style.overflow = ""; }
+function openFirmModal(){ firmModal.hidden = false; document.body.style.overflow = "hidden"; }
 firmModal.querySelectorAll("[data-close-modal]").forEach(el => el.addEventListener("click", closeFirmModal));
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !firmModal.hidden) closeFirmModal(); });
 
@@ -876,38 +634,41 @@ async function showFirmModal(firmId){
   try {
     const { data, error } = await db.from("firms").select("*").eq("id", firmId).limit(1);
     if (error) throw error;
-    if (!data || !data.length) {
-      firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Firm not found.</div>`;
-      return;
-    }
+    if (!data || !data.length) { firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Firm not found.</div>`; return; }
 
     const f = data[0];
     const logo = logoURL(f);
     const initials = getInitials(f.name);
     const official = f.official_website || "";
     const affiliate = f.affiliate_link || "";
-    const badge = f.verified
-      ? `<span class="badge badge-verified">Verified</span>`
-      : `<span class="badge badge-unverified">Unverified</span>`;
+    const badge = f.verified ? `<span class="badge badge-verified">Verified</span>` : `<span class="badge badge-unverified">Unverified</span>`;
     const { data: existingFav } = await db.from("favorites").select("id").eq("user_id", user.id).eq("firm_id", f.id).maybeSingle();
     const isSaved = !!existingFav;
 
+    const { data: reviews } = await db.from("firm_reviews").select("reviewer_name,rating,review_text,created_at").eq("firm_id", f.id).eq("status", "approved").order("created_at", { ascending: false }).limit(5);
+
+    const reviewList = (reviews && reviews.length)
+      ? reviews.map(r => {
+          const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+          const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
+          const name = r.reviewer_name || "Anonymous";
+          const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+          return `<div class="modal-review"><div class="modal-review-head"><div class="modal-review-author"><div class="modal-review-avatar">${esc(initialsR)}</div><div><div class="modal-review-name">${esc(name)}</div><div class="modal-review-date">${esc(date)}</div></div></div><div class="modal-review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="modal-review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
+        }).join("")
+      : `<div style="padding:24px;text-align:center;color:var(--text-mute);font-size:13.5px;border:1px dashed var(--line-2);border-radius:8px">No reviews yet.</div>`;
+
     firmModalContent.innerHTML = `
       <div class="modal-header">
-        <div class="modal-logo">
-          <span>${esc(initials)}</span>
-          ${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}
-        </div>
+        <div class="modal-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="" onerror="this.style.display='none'">` : ""}</div>
         <div class="modal-meta">
           <div class="cat">${esc(f.category || "Prop Firm")}</div>
           <h2>${esc(f.name)} ${badge}</h2>
           <p class="desc">${esc(f.description || "Trading conditions and account options.")}</p>
         </div>
       </div>
-
       <div class="modal-body">
         <div class="modal-section">
-          <div class="k">Account details</div>
+          <div class="k">Trading rules & conditions</div>
           <div class="modal-grid">
             <div class="modal-cell"><div class="ck">Account sizes</div><div class="cv">${esc(f.account_sizes || "—")}</div></div>
             <div class="modal-cell"><div class="ck">Starting price</div><div class="cv">${esc(f.price || "—")}</div></div>
@@ -917,24 +678,24 @@ async function showFirmModal(firmId){
             <div class="modal-cell"><div class="ck">Profit split</div><div class="cv">${esc(f.profit_split || "—")}</div></div>
             <div class="modal-cell"><div class="ck">Payout</div><div class="cv">${esc(f.payout || "—")}</div></div>
             <div class="modal-cell"><div class="ck">Platforms</div><div class="cv">${esc(f.platforms || "—")}</div></div>
+            ${f.tag ? `<div class="modal-cell"><div class="ck">Tag</div><div class="cv">${esc(f.tag)}</div></div>` : ""}
+            ${f.best_for ? `<div class="modal-cell"><div class="ck">Best for</div><div class="cv">${esc(f.best_for)}</div></div>` : ""}
+            <div class="modal-cell"><div class="ck">Rating</div><div class="cv">${f.rating ? "★ " + esc(f.rating) + " / 5" : "Not rated"}</div></div>
           </div>
+          <p style="font-size:12px;color:var(--text-mute);margin-top:12px;line-height:1.6">Rules and pricing change — verify on the firm's official website before purchasing.</p>
         </div>
-
+        ${f.pros ? `<div class="modal-section"><div class="k">Pros</div><div style="font-size:13.5px;color:var(--text);line-height:1.7">${esc(f.pros)}</div></div>` : ""}
+        ${f.cons ? `<div class="modal-section"><div class="k">Cons</div><div style="font-size:13.5px;color:var(--text);line-height:1.7">${esc(f.cons)}</div></div>` : ""}
         <div class="modal-section">
-          <div class="k">Rating</div>
-          <div class="modal-cell" style="border:1px solid var(--line);border-radius:8px">
-            <div class="cv">${f.rating ? "★ " + esc(f.rating) + " / 5" : "Not rated"}</div>
-          </div>
+          <div class="k">Recent reviews</div>
+          <div class="modal-reviews-list">${reviewList}</div>
         </div>
       </div>
-
       <div class="modal-actions">
         <button class="btn" id="modalSaveBtn">${isSaved ? "Saved" : "Save firm"}</button>
         ${official ? `<a class="btn primary" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Visit website ↗</a>` : ""}
         ${affiliate ? `<a class="btn" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View offer</a>` : ""}
-        <a class="btn" href="firm.html?id=${encodeURIComponent(f.id)}">Open full page</a>
-      </div>
-    `;
+      </div>`;
 
     const saveBtn = $("modalSaveBtn");
     if (saveBtn) {
@@ -942,20 +703,10 @@ async function showFirmModal(firmId){
         saveBtn.disabled = true;
         const nowSaved = saveBtn.textContent === "Saved";
         try {
-          if (nowSaved) {
-            await db.from("favorites").delete().eq("user_id", user.id).eq("firm_id", f.id);
-            saveBtn.textContent = "Save firm";
-            toast("Removed");
-          } else {
-            await db.from("favorites").insert({ user_id: user.id, firm_id: f.id });
-            saveBtn.textContent = "Saved";
-            toast("Saved");
-          }
+          if (nowSaved) { await db.from("favorites").delete().eq("user_id", user.id).eq("firm_id", f.id); saveBtn.textContent = "Save firm"; toast("Removed"); }
+          else { await db.from("favorites").insert({ user_id: user.id, firm_id: f.id }); saveBtn.textContent = "Saved"; toast("Saved"); }
           const { count } = await db.from("favorites").select("id", { count: "exact", head: true }).eq("user_id", user.id);
-          if (typeof count === "number") {
-            $("favoriteCount").textContent = count;
-            $("navFavCount").textContent = count;
-          }
+          if (typeof count === "number") { $("favoriteCount").textContent = count; $("navFavCount").textContent = count; }
         } catch (err) { toast("Could not update"); }
         finally { saveBtn.disabled = false; }
       };
@@ -966,7 +717,6 @@ async function showFirmModal(firmId){
   }
 }
 
-/* Delegate view clicks */
 document.addEventListener("click", e => {
   const btn = e.target.closest("[data-view-firm]");
   if (btn) showFirmModal(btn.dataset.viewFirm);
@@ -976,134 +726,60 @@ document.addEventListener("click", e => {
   if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
 });
 
-/* ============================================================
-   JOURNAL
-   ============================================================ */
+/* ==================== JOURNAL ==================== */
 const val = id => $(id).value === "" ? null : $(id).value;
-function resetForm(){
-  $("tradeForm").reset();
-  $("tradeId").value = "";
-  $("tradeDate").value = new Date().toISOString().slice(0,10);
-  $("formTitle").textContent = "Add a trade";
-  $("saveTrade").textContent = "Save trade";
-  $("cancelEdit").hidden = true;
-}
+function resetForm(){ $("tradeForm").reset(); $("tradeId").value = ""; $("tradeDate").value = new Date().toISOString().slice(0,10); $("formTitle").textContent = "Add a trade"; $("saveTrade").textContent = "Save trade"; $("cancelEdit").hidden = true; }
 $("cancelEdit").onclick = resetForm;
 $("tradeDate").value = new Date().toISOString().slice(0,10);
-
 $("tradeForm").onsubmit = async e => {
   e.preventDefault();
   if (!user) return;
   const id = $("tradeId").value;
-  const row = {
-    user_id: user.id,
-    trade_date: $("tradeDate").value,
-    symbol: $("symbol").value.trim().toUpperCase(),
-    direction: $("direction").value,
-    result: $("result").value,
-    entry_price: val("entry"), exit_price: val("exit"),
-    stop_loss: val("sl"), take_profit: val("tp"),
-    risk_amount: val("risk"), pnl: val("pnl"),
-    strategy: $("strategy").value.trim() || null,
-    emotion: $("emotion").value || null,
-    notes: $("notes").value.trim() || null
-  };
+  const row = { user_id: user.id, trade_date: $("tradeDate").value, symbol: $("symbol").value.trim().toUpperCase(), direction: $("direction").value, result: $("result").value, entry_price: val("entry"), exit_price: val("exit"), stop_loss: val("sl"), take_profit: val("tp"), risk_amount: val("risk"), pnl: val("pnl"), strategy: $("strategy").value.trim() || null, emotion: $("emotion").value || null, notes: $("notes").value.trim() || null };
   $("saveTrade").disabled = true;
-  const res = id
-    ? await db.from("trading_journal").update(row).eq("id", id).eq("user_id", user.id)
-    : await db.from("trading_journal").insert(row);
+  const res = id ? await db.from("trading_journal").update(row).eq("id", id).eq("user_id", user.id) : await db.from("trading_journal").insert(row);
   $("saveTrade").disabled = false;
   if (res.error) { toast("Error: " + res.error.message); return; }
-  toast(id ? "Updated" : "Saved");
-  resetForm();
-  await loadTrades();
+  toast(id ? "Updated" : "Saved"); resetForm(); await loadTrades();
 };
 
 async function loadTrades(){
   if (!user) return;
   const { data, error } = await db.from("trading_journal").select("*").eq("user_id", user.id).order("trade_date",{ascending:false}).order("created_at",{ascending:false});
-  if (error) {
-    trades = []; $("tradeCount").textContent = "0";
-    emptyEl("tradeList", "Journal not connected yet.");
-    emptyEl("recentTrades", "Set up the journal table to start recording trades.");
-    updateStats();
-    return;
-  }
+  if (error) { trades = []; $("tradeCount").textContent = "0"; emptyEl("tradeList", "Journal not connected yet."); emptyEl("recentTrades", "Set up the journal table to start recording trades."); updateStats(); return; }
   trades = data || [];
   $("tradeCount").textContent = trades.length;
   updateStats();
-  if (!trades.length) {
-    emptyEl("tradeList", "No trades yet. Add your first trade above.");
-    emptyEl("recentTrades", "Your latest trades will appear here.");
-    return;
-  }
-  const renderTrade = t => {
-    const p = Number(t.pnl) || 0;
-    const cls = p > 0 ? "pos" : p < 0 ? "neg" : "";
-    const statusCls = t.result === "Win" ? "approved" : t.result === "Loss" ? "rejected" : "pending";
-    return `<div class="item">
-      <div class="info">
-        <div class="title">${esc(t.symbol)} · ${esc(t.direction)} <span class="status ${statusCls}">${esc(t.result)}</span></div>
-        <div class="sub">${esc(t.trade_date)} · ${esc(t.strategy || "No strategy")} · ${esc(t.emotion || "No mindset")}</div>
-        <div class="sub">${esc(t.notes || "No notes")}</div>
-      </div>
-      <div style="text-align:right;flex-shrink:0">
-        <b class="${cls}">${p < 0 ? "−" : "+"}$${Math.abs(p).toFixed(2)}</b>
-        <div style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end">
-          <button class="btn small" data-edit="${esc(t.id)}">Edit</button>
-          <button class="btn small danger" data-del="${esc(t.id)}">Delete</button>
-        </div>
-      </div>
-    </div>`;
-  };
+  if (!trades.length) { emptyEl("tradeList", "No trades yet. Add your first trade above."); emptyEl("recentTrades", "Your latest trades will appear here."); return; }
+  const renderTrade = t => { const p = Number(t.pnl) || 0; const cls = p > 0 ? "pos" : p < 0 ? "neg" : ""; const statusCls = t.result === "Win" ? "approved" : t.result === "Loss" ? "rejected" : "pending"; return `<div class="item"><div class="info"><div class="title">${esc(t.symbol)} · ${esc(t.direction)} <span class="status ${statusCls}">${esc(t.result)}</span></div><div class="sub">${esc(t.trade_date)} · ${esc(t.strategy || "No strategy")} · ${esc(t.emotion || "No mindset")}</div><div class="sub">${esc(t.notes || "No notes")}</div></div><div style="text-align:right;flex-shrink:0"><b class="${cls}">${p < 0 ? "−" : "+"}$${Math.abs(p).toFixed(2)}</b><div style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end"><button class="btn small" data-edit="${esc(t.id)}">Edit</button><button class="btn small danger" data-del="${esc(t.id)}">Delete</button></div></div></div>`; };
   $("tradeList").innerHTML = trades.map(renderTrade).join("");
-  $("recentTrades").innerHTML = trades.slice(0,3).map(t => `<div class="item">
-    <div class="info"><div class="title">${esc(t.symbol)} · ${esc(t.result)}</div><div class="sub">${esc(t.trade_date)} · ${esc(t.strategy || "No strategy")}</div></div>
-    <b class="${Number(t.pnl)>0?"pos":Number(t.pnl)<0?"neg":""}">$${Number(t.pnl||0).toFixed(2)}</b>
-  </div>`).join("");
+  $("recentTrades").innerHTML = trades.slice(0,3).map(t => `<div class="item"><div class="info"><div class="title">${esc(t.symbol)} · ${esc(t.result)}</div><div class="sub">${esc(t.trade_date)} · ${esc(t.strategy || "No strategy")}</div></div><b class="${Number(t.pnl)>0?"pos":Number(t.pnl)<0?"neg":""}">$${Number(t.pnl||0).toFixed(2)}</b></div>`).join("");
   document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => editTrade(b.dataset.edit));
   document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => deleteTrade(b.dataset.del));
 }
-
 function editTrade(id){
-  const t = trades.find(x => x.id === id);
-  if (!t) return;
+  const t = trades.find(x => x.id === id); if (!t) return;
   const map = {tradeDate:"trade_date",symbol:"symbol",direction:"direction",result:"result",entry:"entry_price",exit:"exit_price",sl:"stop_loss",tp:"take_profit",risk:"risk_amount",pnl:"pnl",strategy:"strategy",emotion:"emotion",notes:"notes"};
   for (const [el, k] of Object.entries(map)) $(el).value = t[k] ?? "";
-  $("tradeId").value = t.id;
-  $("formTitle").textContent = "Edit trade";
-  $("saveTrade").textContent = "Update trade";
-  $("cancelEdit").hidden = false;
-  go("journal");
-  $("tradeForm").scrollIntoView({ behavior: "smooth" });
+  $("tradeId").value = t.id; $("formTitle").textContent = "Edit trade"; $("saveTrade").textContent = "Update trade"; $("cancelEdit").hidden = false;
+  go("journal"); $("tradeForm").scrollIntoView({ behavior: "smooth" });
 }
-
 async function deleteTrade(id){
   if (!confirm("Delete this journal entry?")) return;
   await db.from("trading_journal").delete().eq("id", id).eq("user_id", user.id);
-  toast("Deleted");
-  await loadTrades();
+  toast("Deleted"); await loadTrades();
 }
-
 function updateStats(){
-  const n = trades.length, w = trades.filter(t => t.result === "Win").length,
-        l = trades.filter(t => t.result === "Loss").length,
-        b = trades.filter(t => t.result === "Breakeven").length;
+  const n = trades.length, w = trades.filter(t => t.result === "Win").length, l = trades.filter(t => t.result === "Loss").length, b = trades.filter(t => t.result === "Breakeven").length;
   const net = trades.reduce((s, t) => s + (Number(t.pnl) || 0), 0);
   const dec = w + l, avg = n ? net / n : 0;
   $("winRate").textContent = (dec ? (w / dec * 100).toFixed(1) : 0) + "%";
   $("netPnl").textContent = (net < 0 ? "−" : "+") + "$" + Math.abs(net).toFixed(2);
   $("netPnl").className = "v " + (net > 0 ? "pos" : net < 0 ? "neg" : "");
   $("avgPnl").textContent = (avg < 0 ? "−" : "+") + "$" + Math.abs(avg).toFixed(2);
-  $("wins").textContent = w;
-  $("losses").textContent = l;
-  $("breakevens").textContent = b;
-  $("totalTrades").textContent = n;
+  $("wins").textContent = w; $("losses").textContent = l; $("breakevens").textContent = b; $("totalTrades").textContent = n;
 }
 
-/* ============================================================
-   MAIN LOAD
-   ============================================================ */
 async function getUser(){
   try { const { data, error } = await db.auth.getUser(); if (!error && data?.user?.email_confirmed_at) return data.user; } catch(e) {}
   try { const { data } = await db.auth.getSession(); if (data?.session?.user?.email_confirmed_at) return data.session.user; } catch(e) {}
@@ -1114,36 +790,27 @@ async function load(){
   const u = await getUser();
   if (!u) { location.replace("auth.html?next=" + encodeURIComponent("dashboard.html")); return; }
   user = u;
-
   const name = u.user_metadata?.full_name || u.email?.split("@")[0] || "Trader";
-  $("memberName").textContent = name;
-  $("userName").textContent = name;
+  $("memberName").textContent = name; $("userName").textContent = name;
   $("userInitial").textContent = (name.trim().charAt(0) || "U").toUpperCase();
   $("settingEmail").textContent = u.email || "—";
   $("settingName").textContent = name;
-
-  const countryCode = u.user_metadata?.country;
+  const cc = u.user_metadata?.country;
   const names = {US:"United States",GB:"United Kingdom",NP:"Nepal",IN:"India",AU:"Australia",CA:"Canada",DE:"Germany",FR:"France",ES:"Spain",IT:"Italy",BR:"Brazil",JP:"Japan",CN:"China",AE:"United Arab Emirates",SA:"Saudi Arabia",PK:"Pakistan",BD:"Bangladesh",NG:"Nigeria",ZA:"South Africa",RU:"Russia",MX:"Mexico",ID:"Indonesia",PH:"Philippines",VN:"Vietnam",TH:"Thailand",MY:"Malaysia",SG:"Singapore",KR:"South Korea",TR:"Turkey",EG:"Egypt",PL:"Poland",NL:"Netherlands",SE:"Sweden",NO:"Norway",DK:"Denmark",FI:"Finland",IE:"Ireland",PT:"Portugal",GR:"Greece",CZ:"Czechia",AT:"Austria",CH:"Switzerland",BE:"Belgium"};
-  $("settingCountry").textContent = countryCode ? (names[countryCode] || countryCode) + " (" + countryCode + ")" : "Not set";
+  $("settingCountry").textContent = cc ? (names[cc] || cc) + " (" + cc + ")" : "Not set";
 
   const [fr, cr, rr] = await Promise.all([
     db.from("favorites").select("id,firm_id,created_at").eq("user_id", u.id).order("created_at", { ascending: false }),
     db.from("saved_comparisons").select("id").eq("user_id", u.id),
     db.from("firm_reviews").select("id,firm_id,rating,review_text,status,created_at").eq("user_id", u.id).order("created_at", { ascending: false })
   ]);
-
   const fav = fr.data || [], comps = cr.data || [], reviews = rr.data || [];
-  $("favoriteCount").textContent = fav.length;
-  $("navFavCount").textContent = fav.length;
-  $("comparisonCount").textContent = comps.length;
-  $("reviewCount").textContent = reviews.length;
+  $("favoriteCount").textContent = fav.length; $("navFavCount").textContent = fav.length;
+  $("comparisonCount").textContent = comps.length; $("reviewCount").textContent = reviews.length;
 
   const ids = [...new Set([...fav.map(x => x.firm_id), ...reviews.map(x => x.firm_id)].filter(Boolean))];
   let firms = {};
-  if (ids.length) {
-    const { data } = await db.from("firms").select("*").in("id", ids);
-    for (const f of data || []) firms[f.id] = f;
-  }
+  if (ids.length) { const { data } = await db.from("firms").select("*").in("id", ids); for (const f of data || []) firms[f.id] = f; }
 
   function renderFavs(targetId, items){
     const el = $(targetId);
@@ -1156,13 +823,7 @@ async function load(){
   if (!reviews.length) emptyEl("reviewsList", "You haven't submitted a review yet.");
   else $("reviewsList").innerHTML = reviews.map(r => {
     const s = String(r.status || "pending").toLowerCase();
-    return `<div class="item">
-      <div class="info">
-        <div class="title">${esc(firms[r.firm_id]?.name || "Prop firm")}</div>
-        <div class="sub">${esc((r.review_text || "").slice(0, 100))}${(r.review_text || "").length > 100 ? "…" : ""}</div>
-      </div>
-      <span class="status ${s}">${esc(s)}</span>
-    </div>`;
+    return `<div class="item"><div class="info"><div class="title">${esc(firms[r.firm_id]?.name || "Prop firm")}</div><div class="sub">${esc((r.review_text || "").slice(0, 100))}${(r.review_text || "").length > 100 ? "…" : ""}</div></div><span class="status ${s}">${esc(s)}</span></div>`;
   }).join("");
 
   await loadTrades();
@@ -1172,7 +833,6 @@ await db.auth.getSession();
 const bootUser = await getUser();
 if (!bootUser) location.replace("auth.html?next=" + encodeURIComponent("dashboard.html"));
 else await load();
-
 db.auth.onAuthStateChange((event, s) => { if (event === "SIGNED_OUT" || !s) location.replace("index.html"); });
 </script>
 </body>
