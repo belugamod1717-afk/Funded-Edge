@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e11">
+<title>Blog — FundedEdge</title>
+<meta name="description" content="Guides, comparisons, and tips for prop firm traders. Learn about rules, payouts, and how to choose the right firm.">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{--bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--line:#242b35;--line-2:#2f3846;--text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;--accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);--shadow:0 8px 24px rgba(0,0,0,.4);}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--line:#e1e5eb;--line-2:#d1d7de;--text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;--accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);--shadow:0 4px 12px rgba(0,0,0,.06);}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo span{color:var(--accent)}
+.topbar-spacer{flex:1}
+.topbar-links{display:flex;gap:22px;font-size:13.5px;color:var(--text-dim)}
+.topbar-links a:hover{color:var(--text)}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;}
+.topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-ghost{padding:7px 12px;border-radius:7px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:12.5px;font-weight:500;transition:.15s;text-decoration:none;}
+.btn-ghost:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-primary{padding:7px 14px;border-radius:7px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:600;border:1px solid var(--accent);transition:.15s;text-decoration:none;}
+.btn-primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+main{max-width:820px;margin:0 auto;padding:48px 20px 80px;}
+h1{font-size:clamp(32px,5vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:14px;}
+.lead{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:600px;margin-bottom:40px;}
+.posts{display:grid;gap:16px;}
+.post-card{display:block;padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:12px;transition:.15s;}
+.post-card:hover{border-color:var(--accent-dim);background:var(--surface-2);transform:translateY(-2px);}
+.post-card .meta{font-size:12px;color:var(--text-mute);margin-bottom:8px;}
+.post-card h2{font-size:19px;font-weight:600;letter-spacing:-.3px;margin-bottom:8px;line-height:1.3;}
+.post-card p{color:var(--text-dim);font-size:14px;line-height:1.6;margin:0;}
+.post-card .read{display:inline-block;margin-top:12px;color:var(--accent);font-size:13px;font-weight:600;}
+.empty{padding:40px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:12px;color:var(--text-dim);}
+footer{border-top:1px solid var(--line);padding:28px 20px;color:var(--text-mute);font-size:12.5px;text-align:center;margin-top:60px;}
+@media (max-width:600px){
+  .topbar{padding:0 12px;gap:8px;}
+  .topbar-links{display:none;}
+  main{padding:32px 16px 60px;}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="index.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
+  <div class="topbar-links">
+    <a href="firms.html">Prop Firms</a>
+    <a href="blog.html">Blog</a>
+  </div>
+  <div class="topbar-spacer"></div>
+  <button class="topbar-btn" id="themeToggle" title="Toggle theme">◐</button>
+  <div id="authArea">
+    <a class="btn-ghost" href="auth.html?mode=signin">Sign in</a>
+    <a class="btn-primary" href="auth.html?mode=signup">Get started</a>
+  </div>
+</header>
+
+<main>
+  <h1>FundedEdge Blog</h1>
+  <p class="lead">Guides, comparisons, and tips for prop firm traders.</p>
+
+  <div class="posts" id="posts">
+
+    <a class="post-card" href="blog/best-prop-firms-beginners.html">
+      <div class="meta">Guide · 8 min read</div>
+      <h2>The Best Prop Firms for Beginners in 2026</h2>
+      <p>New to prop trading? Here are the firms with the lowest entry costs, friendliest rules, and best support for first-time traders.</p>
+      <span class="read">Read article →</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>© FundedEdge · Independent research tool</footer>
+
+<script>
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+</script>
+
+</body>
+</html>
