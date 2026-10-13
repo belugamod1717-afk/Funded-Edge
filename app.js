@@ -1,539 +1,305 @@
-import { db as feSupabase, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
-let allFirms = [];
-let feSupabase = null;
-let feCurrentUser = null;
-let feMemberInitPromise = null;
+// FundedEdge — homepage/directory script
+// Renders firm cards into #firmsGrid if it exists on the page.
 
+import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
+
+let allFirms = [];
+let currentUser = null;
+let initPromise = null;
+
+/* ---------- HELPERS ---------- */
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
   })[char]);
 }
 
 function getNumbers(value) {
   const matches = String(value ?? "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || [];
-
   return matches.map(item => {
     const cleaned = item.replace(/,/g, "").replace(/\s/g, "");
-    const multiplier = /m$/i.test(cleaned) ? 1000000 :
-      /k$/i.test(cleaned) ? 1000 : 1;
-
+    const multiplier = /m$/i.test(cleaned) ? 1000000 : /k$/i.test(cleaned) ? 1000 : 1;
     return parseFloat(cleaned.replace(/[kKmM]$/, "")) * multiplier;
   }).filter(Number.isFinite);
 }
 
-/* MEMBER SESSION */
-
-async function initMemberFeatures() {
-  if (feMemberInitPromise) return feMemberInitPromise;
-
-  feMemberInitPromise = (async () => {
-        // feSupabase is imported at the top of this file
-
-    const { data, error } = await feSupabase.auth.getSession();
-    if (error) throw error;
-
-    feCurrentUser = data.session?.user || null;
-
-    renderAuthArea();
-  })().catch(error => {
-    console.error("Member features initialization failed:", error);
-    renderAuthArea();
-  });
-
-  return feMemberInitPromise;
+function getLogoDomain(firm) {
+  const name = (firm.name || "").toLowerCase().trim();
+  const known = {
+    "ftmo": "ftmo.com",
+    "the5ers": "the5ers.com",
+    "the 5ers": "the5ers.com",
+    "topstep": "topstep.com",
+    "apex trader funding": "apextraderfunding.com"
+  };
+  if (known[name]) return known[name];
+  try {
+    const u = new URL(firm.official_website || "");
+    if (u.protocol === "https:" || u.protocol === "http:") return u.hostname;
+  } catch (_) {}
+  return "";
 }
 
-/* AUTH NAV */
-
-function getDashboardUrl() {
-  return "dashboard.html";
+function getInitials(name) {
+  const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
+  return words.length > 1
+    ? (words[0][0] + words[1][0]).toUpperCase()
+    : (words[0] || "PF").slice(0, 2).toUpperCase();
 }
 
-function getAuthUrl(mode) {
-  const page = window.location.pathname.split("/").pop() || "index.html";
-  const next = encodeURIComponent(page + window.location.search);
-  return `auth.html?mode=${mode}&next=${next}`;
+function logoURL(firm) {
+  const domain = getLogoDomain(firm);
+  return firm.logo_url ||
+    (domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : "");
 }
 
-function renderAuthArea() {
-  const area = document.getElementById("feAuthArea");
-  if (!area) return;
-
-  if (feCurrentUser) {
-    const name =
-      feCurrentUser.user_metadata?.full_name ||
-      feCurrentUser.user_metadata?.name ||
-      feCurrentUser.email ||
-      "Account";
-    const initial = String(name).trim().charAt(0).toUpperCase() || "U";
-
-    area.innerHTML = `
-      <a class="fe-user-chip" href="${getDashboardUrl()}">
-        <span class="fe-user-initial">${escapeHTML(initial)}</span>
-        <span>Dashboard</span>
-      </a>
-    `;
-  } else {
-    area.innerHTML = `
-      <a class="nav-cta fe-auth-signin" href="${getAuthUrl("signin")}">Sign In</a>
-      <a class="nav-cta fe-auth-signup" href="${getAuthUrl("signup")}">Sign Up</a>
-    `;
-  }
-}
-
-/* PREMIUM DIRECTORY STYLES */
-
-function injectDirectoryStyles() {
-  if (document.getElementById("fe-directory-styles")) return;
-
+/* ---------- STYLES ---------- */
+function injectStyles() {
+  if (document.getElementById("fe-firm-styles")) return;
   const style = document.createElement("style");
-  style.id = "fe-directory-styles";
-
+  style.id = "fe-firm-styles";
   style.textContent = `
     #firmsGrid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      align-items: stretch;
-    }
-
-    /* Mobile filter toggle button (hidden on desktop) */
-    .fe-filters-toggle {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      margin: 18px 0 0;
-      padding: 14px;
-      border: 1px solid #315343;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #102219, #0a1510);
-      color: #8ff4b5;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .fe-filters-toggle:hover {
-      border-color: #72f0a8;
-      background: #183b27;
-    }
-
-    .fe-filters-toggle .fe-caret {
-      display: inline-block;
-      transition: transform .2s;
-      font-size: 11px;
-    }
-
-    .fe-filters-toggle.is-open .fe-caret {
-      transform: rotate(180deg);
-    }
-
-    .fe-filters {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-      gap: 12px;
-      margin: 14px 0 24px;
-      padding: 20px;
-      border: 1px solid #254634;
-      border-radius: 16px;
-      background: linear-gradient(145deg, #102219, #0a1510);
-      box-shadow: 0 12px 35px rgba(0,0,0,.12);
-    }
-
-    .fe-filters input,
-    .fe-filters select {
-      box-sizing: border-box;
-      width: 100%;
-      min-width: 0;
-      padding: 12px;
-      border: 1px solid #315343;
-      border-radius: 9px;
-      background: #0a1710;
-      color: #f1f7f3;
-      font: inherit;
-      outline: none;
-    }
-
-    .fe-filters input:focus,
-    .fe-filters select:focus {
-      border-color: #72f0a8;
-      box-shadow: 0 0 0 3px rgba(114,240,168,.1);
-    }
-
-    .fe-filters input::placeholder { color: #91a99a; }
-
-    .fe-filter-label {
-      display: block;
-      margin-bottom: 7px;
-      color: #b6cabb;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .fe-filter-actions {
-      display: flex;
-      align-items: end;
-    }
-
-    .fe-reset {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #315343;
-      border-radius: 9px;
-      background: #183b27;
-      color: #8ff4b5;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .fe-reset:hover {
-      background: #214b32;
-      border-color: #72f0a8;
-    }
-
-    .fe-results-count {
-      margin: 14px 0;
-      color: #9eb4a4;
-      font-size: 13px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
     }
 
     #firmsGrid .firm-card {
-      box-sizing: border-box;
-      position: relative;
       display: flex;
       flex-direction: column;
+      padding: 18px;
+      background: var(--surface, #131820);
+      border: 1px solid var(--line, #242b35);
+      border-radius: 10px;
+      transition: border-color .15s, background .15s;
       min-width: 0;
-      padding: 23px;
-      overflow: hidden;
-      border: 1px solid #274735;
-      border-radius: 17px;
-      background:
-        radial-gradient(ellipse at top right, rgba(57,133,82,.12), transparent 48%),
-        linear-gradient(145deg, #112219, #0b1510 80%);
-      box-shadow: 0 8px 26px rgba(0,0,0,.13);
-      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
     }
-
     #firmsGrid .firm-card:hover {
-      transform: translateY(-4px);
-      border-color: #4e9166;
-      box-shadow: 0 16px 36px rgba(0,0,0,.24);
+      border-color: var(--line-2, #2f3846);
+      background: var(--surface-2, #161c26);
     }
 
-    #firmsGrid .firm-card-top {
+    #firmsGrid .firm-head {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
       gap: 12px;
-      padding-bottom: 17px;
-      border-bottom: 1px solid rgba(126,166,137,.16);
+      align-items: flex-start;
+      margin-bottom: 12px;
     }
-
-    #firmsGrid .firm-card-top > div:first-child { min-width: 0; }
-
-    #firmsGrid .firm-brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      min-width: 0;
-    }
-
     #firmsGrid .firm-logo {
       position: relative;
-      display: flex;
+      width: 44px; height: 44px;
       flex-shrink: 0;
+      border-radius: 8px;
+      border: 1px solid var(--line, #242b35);
+      background: #fff;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 54px;
-      height: 54px;
       overflow: hidden;
-      border: 1px solid #315440;
-      border-radius: 13px;
-      background: linear-gradient(145deg,#1a3825,#0b1710);
-      color: #82edaa;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -1px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent, #4a9eff);
+      isolation: isolate;
+      contain: paint;
     }
-
     #firmsGrid .firm-logo img {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      padding: 9px;
-      box-sizing: border-box;
+      width: 100%; height: 100%;
       object-fit: contain;
-      background: #f7faf7;
+      padding: 6px;
+      background: #fff;
+      z-index: 1;
     }
-
-    #firmsGrid .firm-brand-info { min-width: 0; }
-
-    #firmsGrid .firm-tag {
-      display: inline-block;
-      max-width: 100%;
-      margin-bottom: 9px;
-      padding: 5px 9px;
-      border: 1px solid #28583a;
-      border-radius: 6px;
-      background: rgba(41,102,61,.18);
-      color: #82edaa;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      overflow-wrap: anywhere;
+    #firmsGrid .firm-meta { flex: 1; min-width: 0; }
+    #firmsGrid .firm-cat {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text-mute, #6b7787);
+      margin-bottom: 3px;
     }
-
-    #firmsGrid .firm-card h3 {
+    #firmsGrid .firm-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text, #e6ebf0);
       margin: 0;
-      color: #f0f8f2;
-      font-family: "Manrope","DM Sans",Arial,sans-serif;
-      font-size: 21px;
-      font-weight: 800;
-      line-height: 1.35;
-      letter-spacing: -.6px;
       overflow-wrap: anywhere;
     }
-
     #firmsGrid .firm-rating {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold, #e4b949);
       flex-shrink: 0;
-      padding: 6px 9px;
-      border: 1px solid #4b4327;
-      border-radius: 8px;
-      background: #211f13;
-      color: #f5d77b;
-      font-size: 13px;
-      font-weight: 800;
     }
 
-    #firmsGrid .firm-description {
-      min-height: 48px;
-      margin: 15px 0 20px;
-      color: #a7bbae;
+    #firmsGrid .firm-desc {
       font-size: 13px;
-      line-height: 1.75;
-      overflow-wrap: anywhere;
+      color: var(--text-dim, #a3aebd);
+      line-height: 1.6;
+      margin: 0 0 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    #firmsGrid .firm-stats {
+    #firmsGrid .firm-rows {
       display: grid;
-      grid-template-columns: repeat(2,minmax(0,1fr));
-      gap: 10px;
-      margin-bottom: 22px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line, #242b35);
+      margin-bottom: 14px;
     }
-
-    #firmsGrid .firm-stats > div {
-      min-width: 0;
-      padding: 13px;
-      border: 1px solid rgba(100,145,112,.16);
-      border-radius: 10px;
-      background: rgba(5,16,10,.55);
+    #firmsGrid .firm-rows .k {
+      font-size: 10.5px;
+      color: var(--text-mute, #6b7787);
+      margin-bottom: 2px;
+      letter-spacing: .3px;
+      text-transform: uppercase;
     }
-
-    #firmsGrid .firm-stats small {
-      display: block;
-      margin-bottom: 6px;
-      color: #91a99a;
-      font-size: 11px;
-      line-height: 1.4;
-    }
-
-    #firmsGrid .firm-stats strong {
-      display: block;
-      color: #eaf5ed;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-
-    #firmsGrid .firm-stats > div:first-child strong,
-    #firmsGrid .firm-stats > div:last-child strong { color: #80eaaa; }
-
-    #firmsGrid .firm-card-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: auto;
-      padding-top: 17px;
-      border-top: 1px solid rgba(126,166,137,.16);
-    }
-
-    #firmsGrid .firm-price {
-      color: #f0f8f2;
-      font-size: 17px;
-      font-weight: 800;
+    #firmsGrid .firm-rows .v {
+      font-size: 12.5px;
+      color: var(--text, #e6ebf0);
+      font-weight: 500;
       overflow-wrap: anywhere;
     }
 
-    #firmsGrid .firm-card-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    #firmsGrid .firm-button {
+    #firmsGrid .firm-cta {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      padding: 11px 15px;
-      border: 1px solid #72f0a8;
-      border-radius: 9px;
-      background: #72f0a8;
-      color: #07150d;
-      font-size: 12px;
-      font-weight: 800;
+      gap: 6px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line, #242b35);
+      margin-top: auto;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent, #4a9eff);
       text-decoration: none;
-      transition: .2s;
+      transition: color .15s;
     }
-
-    #firmsGrid .firm-button::after { content: " ↗"; margin-left: 4px; }
-
-    #firmsGrid .firm-button:hover {
-      border-color: #a4ffc5;
-      background: #a4ffc5;
-      transform: translateY(-1px);
-    }
+    #firmsGrid .firm-cta:hover { color: #7db8ff; }
 
     #firmsGrid .fe-no-results {
       grid-column: 1 / -1;
-      padding: 35px 20px;
-      border: 1px dashed #315343;
-      border-radius: 14px;
-      background: #0d1b15;
-      color: #dce9df;
+      padding: 40px 20px;
       text-align: center;
-    }
-
-    #firmsGrid .fe-no-results h3 { margin-top: 0; }
-    #firmsGrid .fe-no-results p { color: #a7bbae; overflow-wrap: anywhere; }
-
-    @media (max-width:760px) {
-      #firmsGrid { grid-template-columns: 1fr; gap: 15px; }
-      #firmsGrid .firm-card { padding: 20px; }
-      #firmsGrid .firm-description { min-height: 0; }
-
-      /* Show the toggle button on mobile */
-      .fe-filters-toggle { display: flex; }
-
-      /* Collapse filters by default on mobile */
-      .fe-filters {
-        grid-template-columns: 1fr;
-        max-height: 0;
-        overflow: hidden;
-        padding: 0 20px;
-        margin: 0;
-        border-width: 0;
-        opacity: 0;
-        transition:
-          max-height .35s ease,
-          padding .3s ease,
-          opacity .25s ease,
-          margin .3s ease,
-          border-width .2s ease;
-      }
-
-      .fe-filters.is-open {
-        max-height: 1200px;
-        padding: 20px;
-        margin: 12px 0 24px;
-        border-width: 1px;
-        opacity: 1;
-      }
-    }
-
-    @media (max-width:480px) {
-      #firmsGrid .firm-card { padding: 17px; border-radius: 14px; }
-      #firmsGrid .firm-card h3 { font-size: 19px; }
-      #firmsGrid .firm-logo { width: 46px; height: 46px; border-radius: 11px; }
-      #firmsGrid .firm-stats { gap: 8px; }
-      #firmsGrid .firm-stats > div { padding: 11px; }
-      #firmsGrid .firm-stats strong { font-size: 13px; }
-      #firmsGrid .firm-price { font-size: 15px; }
-      #firmsGrid .firm-button { padding: 10px 11px; }
+      border: 1px dashed var(--line-2, #2f3846);
+      border-radius: 10px;
+      color: var(--text-dim, #a3aebd);
+      font-size: 13.5px;
     }
   `;
-
   document.head.appendChild(style);
 }
 
+/* ---------- LOAD SESSION ---------- */
+async function initSession() {
+  if (initPromise) return initPromise;
+  initPromise = (async () => {
+    const { data } = await db.auth.getSession();
+    currentUser = data.session?.user || null;
+  })().catch(err => console.error("Session init failed:", err));
+  return initPromise;
+}
+
+/* ---------- RENDER ---------- */
+function renderFirms() {
+  const grid = document.getElementById("firmsGrid");
+  if (!grid) return;
+
+  const search = (document.getElementById("feSearch")?.value || "").trim().toLowerCase();
+  const category = document.getElementById("feCategory")?.value || "";
+  const minAccount = Number(document.getElementById("feAccount")?.value || 0);
+  const maxPrice = Number(document.getElementById("fePrice")?.value || 999999);
+  const sort = document.getElementById("feSort")?.value || "rating";
+
+  let firms = allFirms.filter(firm => {
+    const searchable = [firm.name, firm.category, firm.description, firm.tag, firm.platforms]
+      .join(" ").toLowerCase();
+    const accountNumbers = getNumbers(firm.account_sizes);
+    const maxAccountSize = accountNumbers.length ? Math.max(...accountNumbers) : 0;
+    const prices = getNumbers(firm.price);
+    const startingPrice = prices.length ? Math.min(...prices) : null;
+
+    return searchable.includes(search) &&
+      (!category || firm.category === category) &&
+      (!minAccount || maxAccountSize >= minAccount) &&
+      (maxPrice === 999999 || (startingPrice !== null && startingPrice <= maxPrice));
+  });
+
+  firms.sort((a, b) => {
+    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
+    if (sort === "price") {
+      const pa = getNumbers(a.price), pb = getNumbers(b.price);
+      return (pa.length ? Math.min(...pa) : Infinity) - (pb.length ? Math.min(...pb) : Infinity);
+    }
+    return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+  });
+
+  if (!firms.length) {
+    grid.innerHTML = `<div class="fe-no-results">No firms match your search.</div>`;
+    return;
+  }
+
+  grid.innerHTML = firms.map(firm => {
+    const logo = logoURL(firm);
+    const rating = firm.rating ? `★ ${firm.rating}` : "—";
+    return `<article class="firm-card">
+      <div class="firm-head">
+        <div class="firm-logo">
+          <span>${escapeHTML(getInitials(firm.name))}</span>
+          ${logo ? `<img src="${escapeHTML(logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
+        </div>
+        <div class="firm-meta">
+          <div class="firm-cat">${escapeHTML(firm.category || "Prop Firm")}</div>
+          <h3 class="firm-name">${escapeHTML(firm.name)}</h3>
+        </div>
+        <div class="firm-rating">${escapeHTML(rating)}</div>
+      </div>
+      <p class="firm-desc">${escapeHTML(firm.description || "Trading conditions and account options.")}</p>
+      <div class="firm-rows">
+        <div><div class="k">Accounts</div><div class="v">${escapeHTML(firm.account_sizes || "—")}</div></div>
+        <div><div class="k">From</div><div class="v">${escapeHTML(firm.price || "—")}</div></div>
+        <div><div class="k">Target</div><div class="v">${escapeHTML(firm.profit_target || "—")}</div></div>
+        <div><div class="k">Split</div><div class="v">${escapeHTML(firm.profit_split || "—")}</div></div>
+      </div>
+      <a class="firm-cta" href="firm.html?id=${encodeURIComponent(firm.id)}">View details →</a>
+    </article>`;
+  }).join("");
+}
+
+/* ---------- FILTERS ---------- */
 function createFilters(grid) {
   if (document.getElementById("feFilters")) return;
 
   const wrapper = document.createElement("section");
   wrapper.innerHTML = `
-    <button class="fe-filters-toggle" id="feFiltersToggle" type="button" aria-expanded="false" aria-controls="feFilters">
-      <span>🔍 Filters</span>
+    <button class="fe-filters-toggle" id="feFiltersToggle" type="button" aria-expanded="false">
+      <span>Filters</span>
       <span class="fe-caret">▼</span>
     </button>
     <div class="fe-filters" id="feFilters">
-      <div>
-        <label class="fe-filter-label" for="feSearch">Search firms</label>
-        <input id="feSearch" type="search" placeholder="Search by name..." />
-      </div>
-      <div>
-        <label class="fe-filter-label" for="feCategory">Firm category</label>
-        <select id="feCategory"><option value="">All categories</option></select>
-      </div>
-      <div>
-        <label class="fe-filter-label" for="feAccount">Minimum account size</label>
-        <select id="feAccount">
-          <option value="0">Any account size</option>
-          <option value="10000">$10,000+</option>
-          <option value="25000">$25,000+</option>
-          <option value="50000">$50,000+</option>
-          <option value="100000">$100,000+</option>
-        </select>
-      </div>
-      <div>
-        <label class="fe-filter-label" for="fePrice">Maximum starting price</label>
-        <select id="fePrice">
-          <option value="999999">Any price</option>
-          <option value="50">Up to $50</option>
-          <option value="100">Up to $100</option>
-          <option value="200">Up to $200</option>
-        </select>
-      </div>
-      <div>
-        <label class="fe-filter-label" for="feSort">Sort results</label>
-        <select id="feSort">
-          <option value="rating">Highest rated</option>
-          <option value="name">Name: A to Z</option>
-          <option value="price">Lowest starting price</option>
-        </select>
-      </div>
-      <div class="fe-filter-actions">
-        <button class="fe-reset" id="feReset" type="button">Reset filters</button>
-      </div>
+      <div><label class="fe-filter-label" for="feSearch">Search</label><input id="feSearch" type="search" placeholder="Search by name..."></div>
+      <div><label class="fe-filter-label" for="feCategory">Category</label><select id="feCategory"><option value="">All categories</option></select></div>
+      <div><label class="fe-filter-label" for="feAccount">Min account</label><select id="feAccount"><option value="0">Any</option><option value="10000">$10K+</option><option value="25000">$25K+</option><option value="50000">$50K+</option><option value="100000">$100K+</option></select></div>
+      <div><label class="fe-filter-label" for="fePrice">Max price</label><select id="fePrice"><option value="999999">Any</option><option value="50">Up to $50</option><option value="100">Up to $100</option><option value="200">Up to $200</option></select></div>
+      <div><label class="fe-filter-label" for="feSort">Sort by</label><select id="feSort"><option value="rating">Highest rated</option><option value="name">Name A–Z</option><option value="price">Lowest price</option></select></div>
+      <div class="fe-filter-actions"><button class="fe-reset" id="feReset" type="button">Reset</button></div>
     </div>
-    <p class="fe-results-count" id="feResultsCount" aria-live="polite"></p>
+    <p class="fe-results-count" id="feResultsCount"></p>
   `;
-
   grid.parentNode.insertBefore(wrapper, grid);
 
   const categories = [...new Set(allFirms.map(f => f.category).filter(Boolean))].sort();
-  const categorySelect = wrapper.querySelector("#feCategory");
-
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    categorySelect.appendChild(option);
+  const catSelect = wrapper.querySelector("#feCategory");
+  categories.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat; opt.textContent = cat;
+    catSelect.appendChild(opt);
   });
 
   wrapper.querySelectorAll("input,select").forEach(control => {
@@ -550,180 +316,36 @@ function createFilters(grid) {
     renderFirms();
   });
 
-  /* Collapsible filter toggle (mobile only) */
   const toggleBtn = wrapper.querySelector("#feFiltersToggle");
-  const filtersPanel = wrapper.querySelector("#feFilters");
-
+  const panel = wrapper.querySelector("#feFilters");
   toggleBtn.addEventListener("click", () => {
-    const isOpen = filtersPanel.classList.toggle("is-open");
+    const isOpen = panel.classList.toggle("is-open");
     toggleBtn.classList.toggle("is-open", isOpen);
     toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-
-    const label = toggleBtn.querySelector("span");
-    if (label) label.textContent = isOpen ? "✕ Hide filters" : "🔍 Filters";
+    toggleBtn.querySelector("span").textContent = isOpen ? "Hide filters" : "Filters";
   });
 }
 
-function renderFirms() {
+/* ---------- LOAD ---------- */
+async function loadFirms() {
   const grid = document.getElementById("firmsGrid");
   if (!grid) return;
 
-  const search = (document.getElementById("feSearch")?.value || "").trim().toLowerCase();
-  const category = document.getElementById("feCategory")?.value || "";
-  const minAccount = Number(document.getElementById("feAccount")?.value || 0);
-  const maxPrice = Number(document.getElementById("fePrice")?.value || 999999);
-  const sort = document.getElementById("feSort")?.value || "rating";
+  injectStyles();
+  grid.innerHTML = `<div class="fe-no-results">Loading firms…</div>`;
 
-  let firms = allFirms.filter(firm => {
-    const searchable = [
-      firm.name, firm.category, firm.description, firm.tag, firm.platforms
-    ].join(" ").toLowerCase();
-
-    const accountNumbers = getNumbers(firm.account_sizes);
-    const maxAccountSize = accountNumbers.length ? Math.max(...accountNumbers) : 0;
-    const prices = getNumbers(firm.price);
-    const startingPrice = prices.length ? Math.min(...prices) : null;
-
-    return searchable.includes(search) &&
-      (!category || firm.category === category) &&
-      (!minAccount || maxAccountSize >= minAccount) &&
-      (maxPrice === 999999 || (startingPrice !== null && startingPrice <= maxPrice));
-  });
-
-  firms.sort((a, b) => {
-    if (sort === "name") return (a.name || "").localeCompare(b.name || "");
-
-    if (sort === "price") {
-      const pa = getNumbers(a.price);
-      const pb = getNumbers(b.price);
-      return (pa.length ? Math.min(...pa) : Infinity) -
-        (pb.length ? Math.min(...pb) : Infinity);
-    }
-
-    return (Number(b.rating) || 0) - (Number(a.rating) || 0);
-  });
-
-  const count = document.getElementById("feResultsCount");
-  if (count) count.textContent = `Showing ${firms.length} of ${allFirms.length} prop firms`;
-
-  if (!firms.length) {
-    grid.innerHTML = `
-      <div class="fe-no-results">
-        <h3>No matching firms found</h3>
-        <p>Try changing your search or resetting the filters.</p>
-      </div>`;
-    return;
-  }
-
-  function getLogoDomain(firm) {
-    const name = (firm.name || "").toLowerCase().trim();
-    const knownDomains = {
-      "ftmo": "ftmo.com",
-      "the5ers": "the5ers.com",
-      "the 5ers": "the5ers.com",
-      "topstep": "topstep.com",
-      "apex trader funding": "apextraderfunding.com"
-    };
-
-    if (knownDomains[name]) return knownDomains[name];
-
-    try {
-      const url = new URL(firm.official_website || "");
-      if (url.protocol === "https:" || url.protocol === "http:") return url.hostname;
-    } catch (_) {}
-
-    return "";
-  }
-
-  function getInitials(name) {
-    const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
-    return words.length > 1
-      ? (words[0][0] + words[1][0]).toUpperCase()
-      : (words[0] || "PF").slice(0, 2).toUpperCase();
-  }
-
-  grid.innerHTML = firms.map(firm => {
-    const domain = getLogoDomain(firm);
-    const initials = getInitials(firm.name);
-
-    const logo = domain
-      ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128"
-              alt="${escapeHTML(firm.name)} website icon"
-              loading="lazy"
-              onerror="this.style.display='none'">`
-      : "";
-
-    return `
-      <article class="firm-card">
-        <div class="firm-card-top">
-          <div class="firm-brand">
-            <div class="firm-logo">
-              <span>${escapeHTML(initials)}</span>
-              ${logo}
-            </div>
-            <div class="firm-brand-info">
-              <span class="firm-tag">${escapeHTML(firm.tag || firm.category || "PROP FIRM")}</span>
-              <h3>${escapeHTML(firm.name)}</h3>
-            </div>
-          </div>
-          <div class="firm-rating">★ ${escapeHTML(firm.rating ?? "—")}</div>
-        </div>
-
-        <p class="firm-description">
-          ${escapeHTML(firm.description || "Explore this firm's trading conditions.")}
-        </p>
-
-        <div class="firm-stats">
-          <div><small>Account Sizes</small><strong>${escapeHTML(firm.account_sizes || "—")}</strong></div>
-          <div><small>Profit Target</small><strong>${escapeHTML(firm.profit_target || "—")}</strong></div>
-          <div><small>Max Drawdown</small><strong>${escapeHTML(firm.max_drawdown || "—")}</strong></div>
-          <div><small>Profit Split</small><strong>${escapeHTML(firm.profit_split || "—")}</strong></div>
-        </div>
-
-        <div class="firm-card-bottom">
-          <span class="firm-price">${escapeHTML(firm.price || "See details")}</span>
-          <div class="firm-card-actions">
-            <a class="firm-button" href="firm.html?id=${encodeURIComponent(firm.id)}">View Firm</a>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-async function loadFirms() {
-  const grid = document.getElementById("firmsGrid");
-  if (!grid) {
-    console.error("Cannot find #firmsGrid");
-    return;
-  }
-
-  injectDirectoryStyles();
-  grid.innerHTML = "<p>Loading prop firms...</p>";
-
-  renderAuthArea();
-  await initMemberFeatures();
+  await initSession();
 
   try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/firms?select=*&status=eq.active&order=rating.desc`,
-      { headers: { apikey: SUPABASE_KEY } }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Supabase ${response.status}: ${await response.text()}`);
-    }
-
-    allFirms = await response.json();
+    const { data, error } = await db.from("firms").select("*").eq("status", "active").order("rating", { ascending: false });
+    if (error) throw error;
+    allFirms = data || [];
+    window.allFirms = allFirms;
     createFilters(grid);
     renderFirms();
   } catch (error) {
     console.error("FundedEdge error:", error);
-    grid.innerHTML = `
-      <div class="fe-no-results">
-        <h3>Couldn't load prop firms</h3>
-        <p>${escapeHTML(error.message)}</p>
-      </div>`;
+    grid.innerHTML = `<div class="fe-no-results">Couldn't load prop firms.</div>`;
   }
 }
 
