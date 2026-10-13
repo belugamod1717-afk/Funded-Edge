@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Prop Firms — FundedEdge</title>
-<meta name="description" content="Browse every prop firm on FundedEdge. Filter by category, account size, price, and profit split.">
+<title>Prop Firm Details — FundedEdge</title>
+<meta name="description" content="Full details on this prop firm: rules, pricing, account sizes, and trader reviews.">
 <meta name="theme-color" content="#0b0e11">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="All Prop Firms — FundedEdge">
-<meta property="og:description" content="Browse every prop firm on FundedEdge.">
-<meta property="og:url" content="https://funded-edge-two.vercel.app/firms.html">
+<meta property="og:title" content="Prop Firm Details — FundedEdge">
+<meta property="og:description" content="Full details: rules, pricing, and trader reviews.">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://esm.sh">
@@ -48,8 +47,8 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;text-decoration:none}
-button,input,select{font:inherit}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
+button,input,select,textarea{font:inherit}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
 
 /* Nav */
 .nav{
@@ -65,7 +64,6 @@ button,input,select{font:inherit}
 .nav-links{display:flex;align-items:center;gap:28px;font-size:14px}
 .nav-links a{color:var(--text-dim);transition:color .15s}
 .nav-links a:hover{color:var(--text)}
-.nav-links a.active{color:var(--text)}
 .nav-actions{display:flex;align-items:center;gap:10px}
 .btn-ghost{padding:8px 14px;border-radius:6px;border:1px solid var(--line-2);color:var(--text-dim);font-size:13px;font-weight:500;transition:.15s}
 .btn-ghost:hover{border-color:var(--accent-dim);color:var(--text)}
@@ -75,153 +73,115 @@ button,input,select{font:inherit}
 .user-chip:hover{border-color:var(--accent-dim)}
 .user-initial{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#0b0e11;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
 
-/* Page head */
-.page-head{padding:48px 0 32px;border-bottom:1px solid var(--line)}
-.page-head h1{font-size:32px;line-height:1.2;letter-spacing:-.8px;font-weight:700;margin-bottom:10px}
-.page-head p{color:var(--text-dim);font-size:15px;max-width:600px}
+/* Breadcrumb */
+.breadcrumb{padding:20px 0 0;font-size:13px;color:var(--text-mute)}
+.breadcrumb a{color:var(--text-mute);transition:color .15s}
+.breadcrumb a:hover{color:var(--text-dim)}
+.breadcrumb span{margin:0 8px;opacity:.5}
 
-/* Filters */
-.filters{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr auto;
-  gap:12px;
-  padding:16px;
-  background:var(--surface);
-  border:1px solid var(--line);
+/* Firm header */
+.firm-header{padding:32px 0 32px;border-bottom:1px solid var(--line)}
+.firm-header-inner{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.firm-logo-lg{
+  width:72px;height:72px;
   border-radius:10px;
-  margin:28px 0 20px;
-}
-.filter-field{min-width:0}
-.filter-field label{display:block;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute);margin-bottom:6px}
-.filter-field input,
-.filter-field select{
-  width:100%;
-  padding:9px 12px;
-  border:1px solid var(--line-2);
-  border-radius:6px;
-  background:var(--bg);
-  color:var(--text);
-  font-size:13.5px;
-  outline:none;
-  transition:.15s;
-  -webkit-appearance:none;
-  appearance:none;
-}
-.filter-field input:focus,
-.filter-field select:focus{border-color:var(--accent-dim);background:var(--surface-2)}
-.filter-field input::placeholder{color:var(--text-mute)}
-.filter-reset{
-  align-self:end;
-  padding:9px 16px;
-  border:1px solid var(--line-2);
-  border-radius:6px;
-  background:transparent;
-  color:var(--text-dim);
-  font-size:13px;
-  font-weight:500;
-  cursor:pointer;
-  transition:.15s;
-  white-space:nowrap;
-}
-.filter-reset:hover{border-color:var(--accent-dim);color:var(--text)}
-
-/* Chips */
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.chip{
-  padding:6px 12px;
-  border-radius:999px;
-  border:1px solid var(--line-2);
-  background:transparent;
-  color:var(--text-dim);
-  font-size:12.5px;
-  font-weight:500;
-  cursor:pointer;
-  transition:.15s;
-}
-.chip:hover{border-color:var(--accent-dim);color:var(--text)}
-.chip.active{background:var(--accent);border-color:var(--accent);color:#0b0e11}
-
-/* Results bar */
-.results-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px;flex-wrap:wrap}
-.results-count{font-size:13.5px;color:var(--text-dim)}
-.results-count strong{color:var(--text);font-weight:600}
-
-/* Grid */
-.firm-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:16px;
-  padding-bottom:60px;
-  min-height:300px;
-}
-
-/* Firm card */
-.firm-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:18px;
-  transition:.15s;
-  display:flex;
-  flex-direction:column;
-}
-.firm-card:hover{border-color:var(--line-2);background:var(--surface-2)}
-.firm-card-head{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
-.firm-logo{
-  width:44px;height:44px;
-  border-radius:8px;
   border:1px solid var(--line);
   background:#fff;
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
   position:relative;
   overflow:hidden;
-  font-size:14px;font-weight:700;color:var(--accent);
+  font-size:22px;font-weight:700;color:var(--accent);
+  letter-spacing:-.5px;
 }
-.firm-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff}
-.firm-meta{flex:1;min-width:0}
-.firm-meta .cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:4px}
-.firm-meta h3{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.2px;overflow-wrap:anywhere}
-.firm-badges{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
-.badge-verified{background:rgba(74,222,128,.12);color:var(--success);border:1px solid rgba(74,222,128,.25)}
-.badge-unverified{background:transparent;color:var(--text-mute);border:1px solid var(--line-2)}
-.firm-rating{font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
-.firm-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.firm-rows{border-top:1px solid var(--line);padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-bottom:14px}
-.row-k{font-size:11px;color:var(--text-mute);margin-bottom:2px}
-.row-v{font-size:13px;color:var(--text);font-weight:500;overflow-wrap:anywhere}
-.firm-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);padding-top:12px;border-top:1px solid var(--line);margin-top:auto}
-.firm-cta:hover{color:#5caaff}
+.firm-logo-lg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10px;background:#fff}
+.firm-header-info{flex:1;min-width:0}
+.firm-header-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-dim)}
+.tag-neutral{background:transparent;color:var(--text-dim);border:1px solid var(--line-2)}
+.firm-header-info h1{font-size:28px;line-height:1.15;letter-spacing:-.7px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-verified{font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(74,222,128,.12);color:var(--success);border:1px solid rgba(74,222,128,.25)}
+.badge-unverified{font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:transparent;color:var(--text-mute);border:1px solid var(--line-2)}
+.firm-header-info p{color:var(--text-dim);font-size:14.5px;line-height:1.65;max-width:640px}
 
-/* Empty / loading */
-.empty-state{padding:60px 24px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);grid-column:1/-1}
-.empty-state h3{color:var(--text);font-size:18px;margin-bottom:8px;font-weight:600}
-.empty-state p{margin-bottom:20px;font-size:14px}
-.empty-state button{padding:9px 18px;border:1px solid var(--line-2);border-radius:6px;background:transparent;color:var(--text);font-weight:500;cursor:pointer;transition:.15s}
-.empty-state button:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
-.loading-state{padding:60px 24px;text-align:center;color:var(--text-mute);font-size:14px;grid-column:1/-1}
+/* Actions row */
+.actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn-lg{padding:10px 18px;border-radius:6px;font-size:14px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:1px solid transparent}
+.btn-lg.primary{background:var(--accent);color:#0b0e11;border-color:var(--accent)}
+.btn-lg.primary:hover{background:#5caaff;border-color:#5caaff}
+.btn-lg.secondary{background:transparent;color:var(--text);border-color:var(--line-2)}
+.btn-lg.secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
+.btn-lg.save-active{background:var(--accent-bg);border-color:var(--accent-dim);color:var(--accent)}
+.btn-lg:disabled{opacity:.5;cursor:wait}
+
+/* Sections */
+.section{padding:40px 0;border-bottom:1px solid var(--line)}
+.section-head{margin-bottom:24px}
+.section-head .kicker{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px}
+.section-head h2{font-size:20px;font-weight:600;letter-spacing:-.3px}
+
+/* Rules grid */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.rule-cell{background:var(--surface);padding:16px}
+.rule-k{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text-mute);margin-bottom:6px}
+.rule-v{font-size:15px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
+
+/* Ratings summary */
+.rating-summary{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:24px}
+@media (max-width:600px){.rating-summary{grid-template-columns:1fr;gap:20px;text-align:center}}
+.rating-big{padding-right:32px;border-right:1px solid var(--line)}
+@media (max-width:600px){.rating-big{padding:0 0 20px;border-right:0;border-bottom:1px solid var(--line)}}
+.rating-big .num{font-size:44px;font-weight:700;letter-spacing:-1.5px;line-height:1;color:var(--text);margin-bottom:6px}
+.rating-big .stars{color:var(--gold);font-size:14px;letter-spacing:1px;margin-bottom:4px}
+.rating-big .count{font-size:12px;color:var(--text-mute)}
+.rating-bars{display:grid;gap:8px}
+.bar-row{display:grid;grid-template-columns:32px 1fr 40px;gap:12px;align-items:center;font-size:12px}
+.bar-row .lbl{color:var(--text-dim);font-weight:500}
+.bar-row .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar-row .bar span{display:block;height:100%;background:var(--accent);border-radius:3px}
+.bar-row .pct{color:var(--text-mute);text-align:right;font-weight:500}
+
+/* Review item */
+.review-item{padding:20px 0;border-bottom:1px solid var(--line)}
+.review-item:last-child{border-bottom:0}
+.review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.review-author{display:flex;align-items:center;gap:12px;min-width:0}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--text-dim);flex-shrink:0}
+.review-author-name{font-size:14px;font-weight:600;color:var(--text)}
+.review-author-date{font-size:12px;color:var(--text-mute);margin-top:2px}
+.review-stars{color:var(--gold);font-size:13px;letter-spacing:1px;flex-shrink:0}
+.review-text{font-size:14px;color:var(--text-dim);line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Empty state */
+.empty-block{padding:40px 20px;text-align:center;border:1px dashed var(--line-2);border-radius:10px;color:var(--text-dim);font-size:14px}
+.empty-block .icon{font-size:28px;margin-bottom:12px;opacity:.4}
+.empty-block strong{display:block;color:var(--text);font-size:15px;margin-bottom:6px;font-weight:600}
+
+/* Reviews actions */
+.reviews-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.reviews-actions .btn-lg{flex:0 0 auto}
+
+/* Loading */
+.loading-block{padding:60px 20px;text-align:center;color:var(--text-mute);font-size:14px}
+
+/* Info line */
+.info-line{padding-top:20px;color:var(--text-mute);font-size:12.5px;line-height:1.6}
 
 /* Footer */
-footer{border-top:1px solid var(--line);padding:32px 0;color:var(--text-mute);font-size:13px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--text-mute);font-size:13px;margin-top:60px}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .footer-links{display:flex;gap:20px}
 .footer-links a:hover{color:var(--text-dim)}
 
 /* Responsive */
-@media (max-width:900px){
-  .filters{grid-template-columns:1fr 1fr;padding:14px}
-  .filters .filter-field:nth-child(1){grid-column:1/-1}
-  .filters .filter-reset{grid-column:1/-1}
-}
-@media (max-width:640px){
+@media (max-width:700px){
   .nav-links{gap:16px;font-size:13px}
   .nav-links .hide-mobile{display:none}
   .container{padding:0 18px}
-  .filters{grid-template-columns:1fr}
-  .firm-grid{grid-template-columns:1fr;gap:14px}
-  .page-head{padding:32px 0 24px}
-  .page-head h1{font-size:24px}
+  .firm-header-info h1{font-size:22px}
+  .firm-logo-lg{width:60px;height:60px;font-size:18px}
+  .firm-logo-lg img{padding:8px}
+  .section{padding:32px 0}
 }
 </style>
 </head>
@@ -235,7 +195,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--text-mute);fo
       Funded<span>Edge</span>
     </a>
     <div class="nav-links">
-      <a href="firms.html" class="active">Prop Firms</a>
+      <a href="firms.html">Prop Firms</a>
       <a class="hide-mobile" href="index.html#how">How it works</a>
       <a class="hide-mobile" href="index.html#faq">FAQ</a>
     </div>
@@ -246,63 +206,15 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--text-mute);fo
   </div>
 </nav>
 
-<main>
-  <div class="container">
-    <div class="page-head">
-      <h1>All prop firms</h1>
-      <p>Every active firm we track. Filter by category, account size, price, or profit split.</p>
-    </div>
-
-    <div class="filters">
-      <div class="filter-field">
-        <label for="fSearch">Search</label>
-        <input id="fSearch" type="search" placeholder="Name, category, or platform…" autocomplete="off">
-      </div>
-      <div class="filter-field">
-        <label for="fCategory">Category</label>
-        <select id="fCategory"><option value="">All categories</option></select>
-      </div>
-      <div class="filter-field">
-        <label for="fAccount">Min account</label>
-        <select id="fAccount">
-          <option value="0">Any</option>
-          <option value="10000">$10K+</option>
-          <option value="25000">$25K+</option>
-          <option value="50000">$50K+</option>
-          <option value="100000">$100K+</option>
-        </select>
-      </div>
-      <div class="filter-field">
-        <label for="fPrice">Max price</label>
-        <select id="fPrice">
-          <option value="999999">Any</option>
-          <option value="50">$50</option>
-          <option value="100">$100</option>
-          <option value="200">$200</option>
-        </select>
-      </div>
-      <button class="filter-reset" id="fReset" type="button">Reset</button>
-    </div>
-
-    <div class="chips" id="chipsRow">
-      <button class="chip active" data-filter="all">All firms</button>
-      <button class="chip" data-filter="verified">Verified</button>
-      <button class="chip" data-filter="top">Top rated</button>
-      <button class="chip" data-filter="cheap">Under $100</button>
-      <button class="chip" data-filter="Forex / CFD">Forex</button>
-      <button class="chip" data-filter="Futures">Futures</button>
-      <button class="chip" data-filter="Crypto">Crypto</button>
-    </div>
-
-    <div class="results-bar">
-      <div class="results-count" id="resultsCount">Loading firms…</div>
-    </div>
-
-    <div class="firm-grid" id="firmGrid">
-      <div class="loading-state">Loading…</div>
-    </div>
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="firms.html">Prop Firms</a><span>/</span><span id="crumbFirm">Loading…</span>
   </div>
-</main>
+</div>
+
+<div class="container" id="mainContent">
+  <div class="loading-block">Loading firm details…</div>
+</div>
 
 <footer>
   <div class="container footer-inner">
@@ -332,12 +244,19 @@ s0.parentNode.insertBefore(s1,s0);
 <script type="module">
 import { db } from "./supabase.js";
 
-const $ = id => document.getElementById(id);
-let allFirms = [];
-let currentChip = "all";
+const mainContent = document.getElementById("mainContent");
+const crumbFirm = document.getElementById("crumbFirm");
+const authArea = document.getElementById("feAuthArea");
+
+let currentFirmId = null;
+let currentUser = null;
+let isFavorited = false;
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+function safeUrl(value){
+  try { const u = new URL(value); return ["http:","https:"].includes(u.protocol) ? u.href : ""; } catch { return ""; }
+}
 function getLogoDomain(firm){
   const name = (firm.name || "").toLowerCase().trim();
   const known = {"ftmo":"ftmo.com","the5ers":"the5ers.com","the 5ers":"the5ers.com","topstep":"topstep.com","apex trader funding":"apextraderfunding.com"};
@@ -353,169 +272,262 @@ function logoURL(firm){
   const d = getLogoDomain(firm);
   return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : "");
 }
-function getNumbers(value){
-  const matches = String(value ?? "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || [];
-  return matches.map(item => {
-    const cleaned = item.replace(/,/g,"").replace(/\s/g,"");
-    const mult = /m$/i.test(cleaned) ? 1e6 : /k$/i.test(cleaned) ? 1e3 : 1;
-    return parseFloat(cleaned.replace(/[kKmM]$/,"")) * mult;
-  }).filter(Number.isFinite);
+function authUrl(mode){
+  const next = location.pathname + location.search;
+  const q = `?next=${encodeURIComponent(next)}`;
+  return mode ? `/auth.html${q}&mode=${mode}` : `/auth.html${q}`;
+}
+
+let toastTimer;
+function toast(msg){
+  let el = document.getElementById("feToast");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "feToast";
+    el.style.cssText = "position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#131820;border:1px solid #242b35;color:#e6ebf0;padding:11px 16px;border-radius:8px;font-size:13.5px;z-index:9999;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.4)";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.remove(), 3000);
 }
 
 async function syncAuthNav(){
-  const area = $("feAuthArea");
-  if (!area) return;
+  if (!authArea) return;
   try {
     const { data } = await db.auth.getSession();
     const user = data.session?.user;
     if (user && user.email_confirmed_at) {
       const name = user.user_metadata?.full_name || user.email || "Account";
       const initial = String(name).trim().charAt(0).toUpperCase() || "U";
-      area.innerHTML = `<a class="user-chip" href="dashboard.html"><span class="user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+      authArea.innerHTML = `<a class="user-chip" href="dashboard.html"><span class="user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+    } else {
+      authArea.innerHTML = `<a class="btn-ghost" href="${authUrl("signin")}">Sign in</a><a class="btn-primary" href="${authUrl("signup")}">Get started</a>`;
     }
   } catch (err) { console.error(err); }
 }
 
-function buildCategoryDropdown(){
-  const sel = $("fCategory");
-  const cats = [...new Set(allFirms.map(f => f.category).filter(Boolean))].sort();
-  cats.forEach(cat => {
-    const opt = document.createElement("option");
-    opt.value = cat;
-    opt.textContent = cat;
-    sel.appendChild(opt);
-  });
+async function checkIfFavorited(){
+  if (!currentUser || !currentFirmId) return false;
+  const { data } = await db.from("favorites").select("id").eq("user_id", currentUser.id).eq("firm_id", currentFirmId).maybeSingle();
+  return !!data;
+}
+function updateSaveButton(){
+  const btn = document.getElementById("saveBtn");
+  if (!btn) return;
+  if (!currentUser) { btn.classList.remove("save-active"); btn.textContent = "Sign in to save"; }
+  else if (isFavorited) { btn.classList.add("save-active"); btn.textContent = "Saved"; }
+  else { btn.classList.remove("save-active"); btn.textContent = "Save firm"; }
+}
+async function toggleSave(){
+  const btn = document.getElementById("saveBtn");
+  if (!btn) return;
+  if (!currentUser) { location.assign(authUrl("signin")); return; }
+  btn.disabled = true;
+  try {
+    if (isFavorited) {
+      const { error } = await db.from("favorites").delete().eq("user_id", currentUser.id).eq("firm_id", currentFirmId);
+      if (error) throw error;
+      isFavorited = false;
+      toast("Removed from favorites");
+    } else {
+      const { error } = await db.from("favorites").insert({ user_id: currentUser.id, firm_id: currentFirmId });
+      if (error) throw error;
+      isFavorited = true;
+      toast("Saved to favorites");
+    }
+    updateSaveButton();
+  } catch (err) { console.error(err); toast("Could not update favorites"); }
+  finally { btn.disabled = false; }
 }
 
-document.querySelectorAll(".chip").forEach(c => {
-  c.onclick = () => {
-    document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
-    c.classList.add("active");
-    currentChip = c.dataset.filter;
-    renderFirms();
-  };
-});
+async function loadUser(){
+  try {
+    const { data: { user }, error } = await db.auth.getUser();
+    if (error) currentUser = null;
+    else if (user && user.email_confirmed_at) currentUser = user;
+    else currentUser = null;
+  } catch { currentUser = null; }
+}
 
-function renderFirms(){
-  const grid = $("firmGrid");
-  const search = ($("fSearch").value || "").toLowerCase().trim();
-  const category = $("fCategory").value;
-  const minAccount = Number($("fAccount").value || 0);
-  const maxPrice = Number($("fPrice").value || 999999);
-
-  let list = allFirms.slice();
-
-  if (currentChip === "verified") list = list.filter(f => f.verified);
-  else if (currentChip === "top") list = list.filter(f => Number(f.rating) >= 4.5);
-  else if (currentChip === "cheap") list = list.filter(f => {
-    const n = getNumbers(f.price);
-    return n.length && Math.min(...n) <= 100;
-  });
-  else if (currentChip !== "all") list = list.filter(f => f.category === currentChip);
-
-  if (search) {
-    list = list.filter(f => {
-      const haystack = [f.name, f.category, f.description, f.tag, f.platforms].join(" ").toLowerCase();
-      return haystack.includes(search);
-    });
-  }
-  if (category) list = list.filter(f => f.category === category);
-  if (minAccount) {
-    list = list.filter(f => {
-      const sizes = getNumbers(f.account_sizes);
-      const max = sizes.length ? Math.max(...sizes) : 0;
-      return max >= minAccount;
-    });
-  }
-  if (maxPrice !== 999999) {
-    list = list.filter(f => {
-      const prices = getNumbers(f.price);
-      const start = prices.length ? Math.min(...prices) : null;
-      return start !== null && start <= maxPrice;
-    });
-  }
-
-  list.sort((a,b) => (Number(b.rating) || 0) - (Number(a.rating) || 0));
-
-  $("resultsCount").innerHTML = `Showing <strong>${list.length}</strong> of ${allFirms.length} firms`;
-
-  if (!list.length) {
-    grid.innerHTML = `<div class="empty-state">
-      <h3>No firms match your filters</h3>
-      <p>Try widening your search or resetting the filters.</p>
-      <button id="emptyReset" type="button">Reset filters</button>
-    </div>`;
-    const btn = document.getElementById("emptyReset");
-    if (btn) btn.onclick = resetFilters;
+async function loadFirm(){
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) {
+    mainContent.innerHTML = `<div class="empty-block"><strong>Firm not selected</strong>Return to the firms page and pick a firm.<br><br><a class="btn-lg secondary" href="firms.html" style="display:inline-flex">Back to firms</a></div>`;
     return;
   }
 
-  grid.innerHTML = list.map(firm => {
-    const logo = logoURL(firm);
-    const initials = getInitials(firm.name);
-    const rating = firm.rating ? `★ ${firm.rating}` : "—";
-    const badge = firm.verified
-      ? `<span class="badge badge-verified">Verified</span>`
-      : `<span class="badge badge-unverified">Unverified</span>`;
-
-    return `<a class="firm-card" href="firm.html?id=${encodeURIComponent(firm.id)}">
-      <div class="firm-card-head">
-        <div class="firm-logo">
-          <span>${esc(initials)}</span>
-          ${logo ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
-        </div>
-        <div class="firm-meta">
-          <div class="cat">${esc(firm.category || "Prop Firm")}</div>
-          <h3>${esc(firm.name)}</h3>
-          <div class="firm-badges">${badge}</div>
-        </div>
-        <div class="firm-rating">${esc(rating)}</div>
-      </div>
-      <p class="firm-desc">${esc(firm.description || "Trading conditions and account options.")}</p>
-      <div class="firm-rows">
-        <div><div class="row-k">Accounts</div><div class="row-v">${esc(firm.account_sizes || "—")}</div></div>
-        <div><div class="row-k">From</div><div class="row-v">${esc(firm.price || "—")}</div></div>
-        <div><div class="row-k">Target</div><div class="row-v">${esc(firm.profit_target || "—")}</div></div>
-        <div><div class="row-k">Split</div><div class="row-v">${esc(firm.profit_split || "—")}</div></div>
-      </div>
-      <span class="firm-cta">View details →</span>
-    </a>`;
-  }).join("");
-}
-
-function resetFilters(){
-  $("fSearch").value = "";
-  $("fCategory").value = "";
-  $("fAccount").value = "0";
-  $("fPrice").value = "999999";
-  document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
-  document.querySelector('.chip[data-filter="all"]').classList.add("active");
-  currentChip = "all";
-  renderFirms();
-}
-
-async function loadFirms(){
   try {
-    const { data, error } = await db.from("firms").select("*").eq("status","active").order("rating",{ascending:false});
+    const { data: firms, error } = await db.from("firms").select("*").eq("id", id).eq("status", "active").limit(1);
     if (error) throw error;
-    allFirms = data || [];
-    buildCategoryDropdown();
-    renderFirms();
+    if (!firms || !firms.length) {
+      mainContent.innerHTML = `<div class="empty-block"><strong>Firm not found</strong>This firm may be inactive or unavailable.<br><br><a class="btn-lg secondary" href="firms.html" style="display:inline-flex">Back to firms</a></div>`;
+      return;
+    }
+
+    const f = firms[0];
+    currentFirmId = f.id;
+    crumbFirm.textContent = f.name;
+
+    document.title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", (f.description || `Full details on ${f.name}`).slice(0, 160));
+
+    const logo = logoURL(f);
+    const initials = getInitials(f.name);
+    const official = safeUrl(f.official_website);
+    const affiliate = safeUrl(f.affiliate_link);
+
+    const verifiedBadge = f.verified
+      ? `<span class="badge-verified">Verified</span>`
+      : `<span class="badge-unverified">Unverified</span>`;
+
+    mainContent.innerHTML = `
+      <!-- Firm header -->
+      <section class="firm-header">
+        <div class="firm-header-inner">
+          <div class="firm-logo-lg">
+            <span>${esc(initials)}</span>
+            ${logo ? `<img src="${esc(logo)}" alt="${esc(f.name)} logo" onerror="this.style.display='none'">` : ""}
+          </div>
+          <div class="firm-header-info">
+            <div class="firm-header-tags">
+              <span class="tag">${esc(f.category || "Prop Firm")}</span>
+              ${f.tag ? `<span class="tag tag-neutral">${esc(f.tag)}</span>` : ""}
+            </div>
+            <h1>${esc(f.name)} ${verifiedBadge}</h1>
+            <p>${esc(f.description || "Trading conditions and account options.")}</p>
+
+            <div class="actions-row">
+              <button class="btn-lg secondary" id="saveBtn" type="button">Save firm</button>
+              ${official ? `<a class="btn-lg primary" href="${esc(official)}" target="_blank" rel="noopener noreferrer">Visit ${esc(f.name)} →</a>` : ""}
+              ${affiliate ? `<a class="btn-lg secondary" href="${esc(affiliate)}" target="_blank" rel="noopener noreferrer">View offer</a>` : ""}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trading rules -->
+      <section class="section">
+        <div class="section-head">
+          <div class="kicker">Account details</div>
+          <h2>Trading rules &amp; conditions</h2>
+        </div>
+        <div class="rules-grid">
+          <div class="rule-cell"><div class="rule-k">Account sizes</div><div class="rule-v">${esc(f.account_sizes || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Starting price</div><div class="rule-v">${esc(f.price || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Profit target</div><div class="rule-v">${esc(f.profit_target || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Daily drawdown</div><div class="rule-v">${esc(f.daily_drawdown || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Maximum drawdown</div><div class="rule-v">${esc(f.max_drawdown || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Profit split</div><div class="rule-v">${esc(f.profit_split || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Payout</div><div class="rule-v">${esc(f.payout || "—")}</div></div>
+          <div class="rule-cell"><div class="rule-k">Platforms</div><div class="rule-v">${esc(f.platforms || "—")}</div></div>
+        </div>
+        <p class="info-line">Rules and pricing change — always verify on the firm's official website before purchasing.</p>
+      </section>
+
+      <!-- Reviews -->
+      <section class="section" id="reviewsSection">
+        <div class="section-head">
+          <div class="kicker">Community</div>
+          <h2>Reviews &amp; ratings</h2>
+        </div>
+        <div id="ratingSummary"></div>
+        <div id="reviewsList"></div>
+        <div class="reviews-actions">
+          <a class="btn-lg secondary" id="viewAllReviewsBtn" href="#">View all reviews</a>
+          <a class="btn-lg primary" id="writeReviewBtn" href="#">Write a review</a>
+        </div>
+      </section>
+    `;
+
+    document.getElementById("saveBtn").addEventListener("click", toggleSave);
+    document.getElementById("viewAllReviewsBtn").href = `/reviews.html?id=${encodeURIComponent(f.id)}`;
+    document.getElementById("writeReviewBtn").href = `/review.html?id=${encodeURIComponent(f.id)}`;
+
+    await loadUser();
+    isFavorited = await checkIfFavorited();
+    updateSaveButton();
+
+    await loadReviews();
   } catch (err) {
     console.error(err);
-    $("firmGrid").innerHTML = `<div class="empty-state"><h3>Could not load firms</h3><p>${esc(err.message)}</p></div>`;
-    $("resultsCount").textContent = "Error loading firms";
+    mainContent.innerHTML = `<div class="empty-block"><strong>Could not load firm</strong>${esc(err.message)}</div>`;
   }
 }
 
-$("fSearch").addEventListener("input", renderFirms);
-$("fCategory").addEventListener("change", renderFirms);
-$("fAccount").addEventListener("change", renderFirms);
-$("fPrice").addEventListener("change", renderFirms);
-$("fReset").addEventListener("click", resetFilters);
+async function loadReviews(){
+  const ratingWrap = document.getElementById("ratingSummary");
+  const listWrap = document.getElementById("reviewsList");
+  if (!ratingWrap || !listWrap) return;
+
+  try {
+    const { data: reviews, error } = await db
+      .from("firm_reviews")
+      .select("reviewer_name,rating,review_text,created_at")
+      .eq("firm_id", currentFirmId)
+      .eq("status", "approved")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+
+    if (!reviews || !reviews.length) {
+      ratingWrap.innerHTML = "";
+      listWrap.innerHTML = `<div class="empty-block"><div class="icon">☆</div><strong>No reviews yet</strong>Be the first to share your experience with this firm.</div>`;
+      return;
+    }
+
+    const total = reviews.length;
+    const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
+    const counts = [0,0,0,0,0];
+    reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+    const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+
+    ratingWrap.innerHTML = `
+      <div class="rating-summary">
+        <div class="rating-big">
+          <div class="num">${avg.toFixed(1)}</div>
+          <div class="stars">${fullStars}</div>
+          <div class="count">${total} review${total === 1 ? "" : "s"}</div>
+        </div>
+        <div class="rating-bars">
+          ${[5,4,3,2,1].map(star => {
+            const c = counts[star-1];
+            const pct = Math.round((c/total) * 100);
+            return `<div class="bar-row"><span class="lbl">${star} ★</span><div class="bar"><span style="width:${pct}%"></span></div><span class="pct">${pct}%</span></div>`;
+          }).join("")}
+        </div>
+      </div>`;
+
+    const top3 = reviews.slice(0, 3);
+    listWrap.innerHTML = top3.map(review => {
+      const date = new Date(review.created_at);
+      const dateText = Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      const rating = Math.max(1, Math.min(5, Number(review.rating) || 1));
+      const name = review.reviewer_name || "Anonymous";
+      const initials = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+      return `<article class="review-item">
+        <div class="review-head">
+          <div class="review-author">
+            <div class="review-avatar">${esc(initials || "?")}</div>
+            <div>
+              <div class="review-author-name">${esc(name)}</div>
+              <div class="review-author-date">${esc(dateText)}</div>
+            </div>
+          </div>
+          <div class="review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
+        </div>
+        <p class="review-text">${esc(review.review_text).replace(/\n/g, "<br>")}</p>
+      </article>`;
+    }).join("");
+  } catch (err) {
+    console.error(err);
+    listWrap.innerHTML = `<div class="empty-block">Reviews could not be loaded.</div>`;
+  }
+}
 
 syncAuthNav();
-loadFirms();
+db.auth.onAuthStateChange(() => syncAuthNav());
+loadFirm();
 </script>
 </body>
 </html>
