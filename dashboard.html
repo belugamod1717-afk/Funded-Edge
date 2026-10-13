@@ -179,7 +179,18 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .modal-cell .cv{font-size:14px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
 .modal-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--line);flex-wrap:wrap;}
 .modal-actions .btn{flex:1;min-width:0;justify-content:center}
-.modal-reviews-list{display:grid;gap:12px}
+.modal-reviews-list{display:grid;gap:12px;margin-top:14px}
+.modal-rating-summary{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;padding:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;margin-top:12px}
+.modal-rating-big{text-align:center;padding-right:24px;border-right:1px solid var(--line)}
+.modal-rating-num{font-size:36px;font-weight:700;letter-spacing:-1.2px;line-height:1;margin-bottom:4px}
+.modal-rating-stars{color:var(--gold);font-size:13px;letter-spacing:1px;margin-bottom:3px}
+.modal-rating-count{font-size:11.5px;color:var(--text-mute)}
+.modal-rating-bars{display:grid;gap:6px}
+.modal-bar-row{display:grid;grid-template-columns:32px 1fr 38px;gap:10px;align-items:center;font-size:11.5px}
+.modal-bar-lbl{color:var(--text-dim);font-weight:500}
+.modal-bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+.modal-bar span{display:block;height:100%;background:var(--accent);border-radius:3px}
+.modal-bar-pct{color:var(--text-mute);text-align:right;font-weight:500}
 .modal-review{padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px}
 .modal-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
 .modal-review-author{display:flex;align-items:center;gap:10px;min-width:0}
@@ -188,19 +199,18 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 .modal-review-date{font-size:11.5px;color:var(--text-mute);margin-top:1px}
 .modal-review-stars{color:var(--gold);font-size:12px;letter-spacing:1px;flex-shrink:0}
 .modal-review-text{font-size:13px;color:var(--text-dim);line-height:1.65;margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
+
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface);color:var(--text);border:1px solid var(--line-2);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow);z-index:300;}
+
 @media (max-width:900px){.sidebar{position:fixed;top:56px;bottom:0;height:auto;z-index:30;box-shadow:var(--shadow);}.sidebar.closed{margin-left:-240px}.topbar-search{display:none}}
-@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.modal-header{flex-direction:column}.modal-actions{flex-direction:column}.firm-modal{padding:0}.firm-modal-panel{max-height:100vh;border-radius:0;max-width:100%}}
+@media (max-width:600px){.topbar{padding:0 12px;gap:10px}.logo{font-size:14px}.logo-mark{width:22px;height:22px;font-size:11px}.user-chip span:last-child{display:none}main{padding:20px 14px 40px}.page-head h1{font-size:20px}.firm-grid{grid-template-columns:1fr;gap:10px}.cmp-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.modal-header{flex-direction:column}.modal-actions{flex-direction:column}.firm-modal{padding:0}.firm-modal-panel{max-height:100vh;border-radius:0;max-width:100%}.modal-rating-summary{grid-template-columns:1fr;gap:12px}.modal-rating-big{padding-right:0;padding-bottom:12px;border-right:0;border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <button class="topbar-btn" id="toggleSidebar" aria-label="Menu">☰</button>
-  <a class="logo" href="dashboard.html" style="cursor:default">
-    <span class="logo-mark">F</span>
-    Funded<span>Edge</span>
-  </a>
+  <a class="logo" href="dashboard.html" style="cursor:default"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
   <div class="topbar-spacer"></div>
   <div class="topbar-search">
     <span class="s-ico">🔍</span>
@@ -208,10 +218,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
     <div class="search-results" id="searchResults"></div>
   </div>
   <button class="topbar-btn" id="themeToggle" title="Toggle theme">◐</button>
-  <a class="user-chip" href="dashboard.html" id="userChip">
-    <span class="user-initial" id="userInitial">?</span>
-    <span id="userName">Loading…</span>
-  </a>
+  <a class="user-chip" href="dashboard.html" id="userChip"><span class="user-initial" id="userInitial">?</span><span id="userName">Loading…</span></a>
 </header>
 
 <div class="layout">
@@ -232,11 +239,7 @@ main{flex:1;padding:28px clamp(16px,3vw,36px) 60px;min-width:0;max-width:1280px}
 
   <main>
     <section class="page active" id="page-home">
-      <div class="page-head">
-        <div class="kicker">Dashboard</div>
-        <h1>Welcome back, <span id="memberName">Trader</span></h1>
-        <p>Your prop firm research and trading workspace.</p>
-      </div>
+      <div class="page-head"><div class="kicker">Dashboard</div><h1>Welcome back, <span id="memberName">Trader</span></h1><p>Your prop firm research and trading workspace.</p></div>
       <div class="stats-grid">
         <div class="stat-card"><div class="k">Favorites</div><div class="v" id="favoriteCount">0</div><div class="sub">Saved firms</div></div>
         <div class="stat-card"><div class="k">Comparisons</div><div class="v" id="comparisonCount">0</div><div class="sub">Saved comparisons</div></div>
@@ -380,12 +383,7 @@ let allFirmsCache = [], compareFirmsCache = [];
 const compareSlots = {1:null, 2:null, 3:null};
 let currentChip = "all";
 
-function toast(msg){
-  const el = $("toast");
-  el.textContent = msg; el.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.hidden = true, 3000);
-}
+function toast(msg){ const el = $("toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3000); }
 function emptyEl(id, msg){ const el = $(id); if (el) el.innerHTML = `<div class="empty">${esc(msg)}</div>`; }
 
 function getLogoDomain(firm){
@@ -395,14 +393,8 @@ function getLogoDomain(firm){
   try { const u = new URL(firm.official_website || ""); if (u.protocol === "https:" || u.protocol === "http:") return u.hostname; } catch(_) {}
   return "";
 }
-function getInitials(name){
-  const words = String(name || "PF").trim().split(/\s+/).filter(Boolean);
-  return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0,2).toUpperCase();
-}
-function logoURL(firm){
-  const d = getLogoDomain(firm);
-  return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : "");
-}
+function getInitials(name){ const words = String(name || "PF").trim().split(/\s+/).filter(Boolean); return words.length > 1 ? (words[0][0] + words[1][0]).toUpperCase() : (words[0] || "PF").slice(0,2).toUpperCase(); }
+function logoURL(firm){ const d = getLogoDomain(firm); return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : ""); }
 
 function go(page){
   document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + page));
@@ -469,23 +461,14 @@ async function toggleSave(firmId, btn){
   btn.disabled = true;
   const saved = btn.dataset.saved === "1";
   try {
-    if (saved) {
-      await db.from("favorites").delete().eq("user_id", user.id).eq("firm_id", firmId);
-      btn.dataset.saved = "0"; btn.textContent = "Save"; toast("Removed");
-    } else {
-      await db.from("favorites").insert({ user_id: user.id, firm_id: firmId });
-      btn.dataset.saved = "1"; btn.textContent = "Saved"; toast("Saved");
-    }
+    if (saved) { await db.from("favorites").delete().eq("user_id", user.id).eq("firm_id", firmId); btn.dataset.saved = "0"; btn.textContent = "Save"; toast("Removed"); }
+    else { await db.from("favorites").insert({ user_id: user.id, firm_id: firmId }); btn.dataset.saved = "1"; btn.textContent = "Saved"; toast("Saved"); }
     const { count } = await db.from("favorites").select("id", { count: "exact", head: true }).eq("user_id", user.id);
     if (typeof count === "number") { $("favoriteCount").textContent = count; $("navFavCount").textContent = count; }
   } catch (err) { console.error(err); toast("Could not update"); }
   finally { btn.disabled = false; }
 }
-async function removeFav(id){
-  if (!user) return;
-  await db.from("favorites").delete().eq("id", id).eq("user_id", user.id);
-  toast("Removed"); await load();
-}
+async function removeFav(id){ if (!user) return; await db.from("favorites").delete().eq("id", id).eq("user_id", user.id); toast("Removed"); await load(); }
 
 async function loadAllFirms(){
   const wrap = $("allFirms");
@@ -529,53 +512,25 @@ async function loadCompareCache(){
   compareFirmsCache = data || [];
   [1,2,3].forEach(updateSlotUI);
 }
-function updateSlotUI(n){
-  const slot = $("cmpSlot" + n), chosen = $("cmpChosen" + n), search = $("cmpSearch" + n);
-  const firm = compareSlots[n];
-  if (firm) { slot.classList.add("filled"); chosen.textContent = firm.name; search.value = firm.name; }
-  else { slot.classList.remove("filled"); chosen.textContent = "—"; search.value = ""; }
-}
-function searchList(q, exclude){
-  q = (q || "").toLowerCase().trim();
-  return compareFirmsCache.filter(f => {
-    if (exclude.has(String(f.id))) return false;
-    if (!q) return true;
-    return (f.name || "").toLowerCase().includes(q) || (f.category || "").toLowerCase().includes(q);
-  }).slice(0, 15);
-}
+function updateSlotUI(n){ const slot = $("cmpSlot" + n), chosen = $("cmpChosen" + n), search = $("cmpSearch" + n); const firm = compareSlots[n]; if (firm) { slot.classList.add("filled"); chosen.textContent = firm.name; search.value = firm.name; } else { slot.classList.remove("filled"); chosen.textContent = "—"; search.value = ""; } }
+function searchList(q, exclude){ q = (q || "").toLowerCase().trim(); return compareFirmsCache.filter(f => { if (exclude.has(String(f.id))) return false; if (!q) return true; return (f.name || "").toLowerCase().includes(q) || (f.category || "").toLowerCase().includes(q); }).slice(0, 15); }
 function showResults(n, items){
   const box = $("cmpResults" + n);
   if (!items.length) { box.innerHTML = `<div class="cmp-result empty">No firms found</div>`; box.classList.add("show"); return; }
   box.innerHTML = items.map(f => `<div class="cmp-result" data-fid="${esc(f.id)}"><span class="r-name">${esc(f.name)}</span><span class="r-cat">${esc(f.category || "—")}</span></div>`).join("");
-  box.querySelectorAll("[data-fid]").forEach(r => {
-    r.onclick = () => {
-      const firm = compareFirmsCache.find(x => String(x.id) === String(r.dataset.fid));
-      if (!firm) return;
-      compareSlots[n] = firm; updateSlotUI(n); box.classList.remove("show");
-    };
-  });
+  box.querySelectorAll("[data-fid]").forEach(r => { r.onclick = () => { const firm = compareFirmsCache.find(x => String(x.id) === String(r.dataset.fid)); if (!firm) return; compareSlots[n] = firm; updateSlotUI(n); box.classList.remove("show"); }; });
   box.classList.add("show");
 }
 [1,2,3].forEach(n => {
   const input = $("cmpSearch" + n), box = $("cmpResults" + n), slot = $("cmpSlot" + n), clearBtn = slot.querySelector("[data-clear]");
-  input.addEventListener("focus", () => {
-    const taken = new Set([1,2,3].filter(x => x !== n).map(x => compareSlots[x]?.id).filter(Boolean).map(String));
-    showResults(n, searchList(input.value, taken));
-  });
-  input.addEventListener("input", () => {
-    if (compareSlots[n] && input.value !== compareSlots[n].name) { compareSlots[n] = null; slot.classList.remove("filled"); $("cmpChosen" + n).textContent = "—"; }
-    const taken = new Set([1,2,3].filter(x => x !== n).map(x => compareSlots[x]?.id).filter(Boolean).map(String));
-    showResults(n, searchList(input.value, taken));
-  });
+  input.addEventListener("focus", () => { const taken = new Set([1,2,3].filter(x => x !== n).map(x => compareSlots[x]?.id).filter(Boolean).map(String)); showResults(n, searchList(input.value, taken)); });
+  input.addEventListener("input", () => { if (compareSlots[n] && input.value !== compareSlots[n].name) { compareSlots[n] = null; slot.classList.remove("filled"); $("cmpChosen" + n).textContent = "—"; } const taken = new Set([1,2,3].filter(x => x !== n).map(x => compareSlots[x]?.id).filter(Boolean).map(String)); showResults(n, searchList(input.value, taken)); });
   input.addEventListener("blur", () => setTimeout(() => box.classList.remove("show"), 180));
   clearBtn.onclick = () => { compareSlots[n] = null; updateSlotUI(n); box.classList.remove("show"); };
 });
 document.addEventListener("click", e => { if (!e.target.closest(".cmp-search-wrap")) [1,2,3].forEach(n => $("cmpResults" + n).classList.remove("show")); });
 
-function parseNums(str){
-  const m = String(str || "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || [];
-  return m.map(x => { const c = x.replace(/,/g,"").replace(/\s/g,""); const mult = /m$/i.test(c) ? 1e6 : /k$/i.test(c) ? 1e3 : 1; return parseFloat(c.replace(/[kKmM]$/,"")) * mult; }).filter(Number.isFinite);
-}
+function parseNums(str){ const m = String(str || "").match(/\d[\d,]*(?:\.\d+)?\s*[kKmM]?/g) || []; return m.map(x => { const c = x.replace(/,/g,"").replace(/\s/g,""); const mult = /m$/i.test(c) ? 1e6 : /k$/i.test(c) ? 1e3 : 1; return parseFloat(c.replace(/[kKmM]$/,"")) * mult; }).filter(Number.isFinite); }
 
 $("cmpRun").onclick = () => {
   const selected = [1,2,3].map(n => compareSlots[n]).filter(Boolean);
@@ -599,11 +554,7 @@ $("cmpRun").onclick = () => {
 $("cmpClear").onclick = () => { compareSlots[1] = compareSlots[2] = compareSlots[3] = null; [1,2,3].forEach(n => { updateSlotUI(n); $("cmpResults" + n).classList.remove("show"); }); $("cmpResult").innerHTML = ""; };
 
 const gsInput = $("globalSearch"), gsResults = $("searchResults");
-async function ensureFirmsLoaded(){
-  if (allFirmsCache.length) return;
-  const { data } = await db.from("firms").select("id,name,category,rating").eq("status","active").order("name");
-  allFirmsCache = data || [];
-}
+async function ensureFirmsLoaded(){ if (allFirmsCache.length) return; const { data } = await db.from("firms").select("id,name,category,rating").eq("status","active").order("name"); allFirmsCache = data || []; }
 gsInput.addEventListener("focus", async () => {
   await ensureFirmsLoaded();
   const q = gsInput.value.toLowerCase().trim();
@@ -621,7 +572,6 @@ document.addEventListener("click", e => { if (!e.target.closest(".topbar-search"
 /* ==================== FIRM DETAIL MODAL ==================== */
 const firmModal = $("firmModal");
 const firmModalContent = $("firmModalContent");
-
 function closeFirmModal(){ firmModal.hidden = true; document.body.style.overflow = ""; }
 function openFirmModal(){ firmModal.hidden = false; document.body.style.overflow = "hidden"; }
 firmModal.querySelectorAll("[data-close-modal]").forEach(el => el.addEventListener("click", closeFirmModal));
@@ -645,17 +595,44 @@ async function showFirmModal(firmId){
     const { data: existingFav } = await db.from("favorites").select("id").eq("user_id", user.id).eq("firm_id", f.id).maybeSingle();
     const isSaved = !!existingFav;
 
-    const { data: reviews } = await db.from("firm_reviews").select("reviewer_name,rating,review_text,created_at").eq("firm_id", f.id).eq("status", "approved").order("created_at", { ascending: false }).limit(5);
+    const { data: reviews } = await db.from("firm_reviews").select("reviewer_name,rating,review_text,created_at").eq("firm_id", f.id).eq("status", "approved").order("created_at", { ascending: false });
 
-    const reviewList = (reviews && reviews.length)
-      ? reviews.map(r => {
-          const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
-          const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
-          const name = r.reviewer_name || "Anonymous";
-          const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
-          return `<div class="modal-review"><div class="modal-review-head"><div class="modal-review-author"><div class="modal-review-avatar">${esc(initialsR)}</div><div><div class="modal-review-name">${esc(name)}</div><div class="modal-review-date">${esc(date)}</div></div></div><div class="modal-review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="modal-review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
-        }).join("")
-      : `<div style="padding:24px;text-align:center;color:var(--text-mute);font-size:13.5px;border:1px dashed var(--line-2);border-radius:8px">No reviews yet.</div>`;
+    let ratingSummaryHTML = "";
+    let reviewsHTML = "";
+    if (reviews && reviews.length) {
+      const total = reviews.length;
+      const avg = reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total;
+      const counts = [0,0,0,0,0];
+      reviews.forEach(r => { const n = Math.max(1, Math.min(5, Number(r.rating) || 0)); counts[n-1]++; });
+      const fullStars = "★".repeat(Math.round(avg)) + "☆".repeat(5 - Math.round(avg));
+
+      ratingSummaryHTML = `<div class="modal-rating-summary"><div class="modal-rating-big"><div class="modal-rating-num">${avg.toFixed(1)}</div><div class="modal-rating-stars">${fullStars}</div><div class="modal-rating-count">${total} review${total === 1 ? "" : "s"}</div></div><div class="modal-rating-bars">${[5,4,3,2,1].map(star => { const c = counts[star-1]; const pct = Math.round((c/total) * 100); return `<div class="modal-bar-row"><span class="modal-bar-lbl">${star} ★</span><div class="modal-bar"><span style="width:${pct}%"></span></div><span class="modal-bar-pct">${pct}%</span></div>`; }).join("")}</div></div>`;
+
+      reviewsHTML = reviews.map(r => {
+        const date = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+        const rating = Math.max(1, Math.min(5, Number(r.rating) || 0));
+        const name = r.reviewer_name || "Anonymous";
+        const initialsR = name.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+        return `<div class="modal-review"><div class="modal-review-head"><div class="modal-review-author"><div class="modal-review-avatar">${esc(initialsR)}</div><div><div class="modal-review-name">${esc(name)}</div><div class="modal-review-date">${esc(date)}</div></div></div><div class="modal-review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div></div><p class="modal-review-text">${esc(r.review_text || "").replace(/\n/g, "<br>")}</p></div>`;
+      }).join("");
+    } else {
+      reviewsHTML = `<div style="padding:24px;text-align:center;color:var(--text-mute);font-size:13.5px;border:1px dashed var(--line-2);border-radius:8px">No reviews yet. Be the first to share your experience.</div>`;
+    }
+
+    const rules = [
+      ["Account sizes", f.account_sizes],
+      ["Starting price", f.price],
+      ["Profit target", f.profit_target],
+      ["Daily drawdown", f.daily_drawdown],
+      ["Maximum drawdown", f.max_drawdown],
+      ["Profit split", f.profit_split],
+      ["Payout", f.payout],
+      ["Platforms", f.platforms],
+      ["Rating", f.rating ? "★ " + f.rating + " / 5" : null],
+      ["Tag", f.tag],
+      ["Best for", f.best_for]
+    ].filter(([, v]) => v);
+    const rulesHTML = rules.map(([k, v]) => `<div class="modal-cell"><div class="ck">${esc(k)}</div><div class="cv">${esc(v)}</div></div>`).join("");
 
     firmModalContent.innerHTML = `
       <div class="modal-header">
@@ -669,26 +646,18 @@ async function showFirmModal(firmId){
       <div class="modal-body">
         <div class="modal-section">
           <div class="k">Trading rules & conditions</div>
-          <div class="modal-grid">
-            <div class="modal-cell"><div class="ck">Account sizes</div><div class="cv">${esc(f.account_sizes || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Starting price</div><div class="cv">${esc(f.price || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Profit target</div><div class="cv">${esc(f.profit_target || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Daily drawdown</div><div class="cv">${esc(f.daily_drawdown || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Max drawdown</div><div class="cv">${esc(f.max_drawdown || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Profit split</div><div class="cv">${esc(f.profit_split || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Payout</div><div class="cv">${esc(f.payout || "—")}</div></div>
-            <div class="modal-cell"><div class="ck">Platforms</div><div class="cv">${esc(f.platforms || "—")}</div></div>
-            ${f.tag ? `<div class="modal-cell"><div class="ck">Tag</div><div class="cv">${esc(f.tag)}</div></div>` : ""}
-            ${f.best_for ? `<div class="modal-cell"><div class="ck">Best for</div><div class="cv">${esc(f.best_for)}</div></div>` : ""}
-            <div class="modal-cell"><div class="ck">Rating</div><div class="cv">${f.rating ? "★ " + esc(f.rating) + " / 5" : "Not rated"}</div></div>
-          </div>
+          <div class="modal-grid">${rulesHTML}</div>
           <p style="font-size:12px;color:var(--text-mute);margin-top:12px;line-height:1.6">Rules and pricing change — verify on the firm's official website before purchasing.</p>
         </div>
-        ${f.pros ? `<div class="modal-section"><div class="k">Pros</div><div style="font-size:13.5px;color:var(--text);line-height:1.7">${esc(f.pros)}</div></div>` : ""}
-        ${f.cons ? `<div class="modal-section"><div class="k">Cons</div><div style="font-size:13.5px;color:var(--text);line-height:1.7">${esc(f.cons)}</div></div>` : ""}
+        ${f.pros ? `<div class="modal-section"><div class="k">Pros</div><div style="font-size:13.5px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.pros)}</div></div>` : ""}
+        ${f.cons ? `<div class="modal-section"><div class="k">Cons</div><div style="font-size:13.5px;color:var(--text);line-height:1.75;white-space:pre-wrap">${esc(f.cons)}</div></div>` : ""}
         <div class="modal-section">
-          <div class="k">Recent reviews</div>
-          <div class="modal-reviews-list">${reviewList}</div>
+          <div class="k" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+            <span>Reviews & ratings</span>
+            <button class="btn small primary" id="modalWriteReviewBtn" type="button">Write a review</button>
+          </div>
+          ${ratingSummaryHTML}
+          <div class="modal-reviews-list">${reviewsHTML}</div>
         </div>
       </div>
       <div class="modal-actions">
@@ -711,6 +680,68 @@ async function showFirmModal(firmId){
         finally { saveBtn.disabled = false; }
       };
     }
+
+    const writeBtn = $("modalWriteReviewBtn");
+    if (writeBtn) {
+      writeBtn.onclick = () => {
+        firmModalContent.innerHTML = `
+          <div class="modal-header">
+            <div class="modal-logo"><span>${esc(initials)}</span>${logo ? `<img src="${esc(logo)}" alt="">` : ""}</div>
+            <div class="modal-meta">
+              <div class="cat">Write a review</div>
+              <h2>${esc(f.name)}</h2>
+              <p class="desc">Your honest feedback helps other traders choose the right firm.</p>
+            </div>
+          </div>
+          <div class="modal-body">
+            <form id="modalReviewForm">
+              <div class="field" style="margin-bottom:16px"><label>Your name</label><input id="mReviewName" type="text" maxlength="40" minlength="2" required placeholder="Display name"></div>
+              <div class="field" style="margin-bottom:16px">
+                <label>Your rating</label>
+                <div id="mStarPicker" style="display:inline-flex;gap:8px;margin-top:4px">
+                  <button type="button" data-star="1" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
+                  <button type="button" data-star="2" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
+                  <button type="button" data-star="3" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
+                  <button type="button" data-star="4" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
+                  <button type="button" data-star="5" style="background:transparent;border:0;font-size:34px;line-height:1;color:var(--line-2);padding:0;cursor:pointer">★</button>
+                </div>
+                <div id="mStarLabel" style="font-size:12.5px;color:var(--text-mute);margin-top:6px">Tap a star to rate</div>
+              </div>
+              <div class="field" style="margin-bottom:16px"><label>Your review</label><textarea id="mReviewText" minlength="10" maxlength="1000" required placeholder="What was your experience with this firm?" style="width:100%;min-height:120px;padding:10px;border:1px solid var(--line-2);border-radius:6px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;resize:vertical"></textarea></div>
+              <div id="mReviewMsg" style="display:none;margin-bottom:14px;padding:12px;border-radius:8px;font-size:13px"></div>
+            </form>
+          </div>
+          <div class="modal-actions">
+            <button class="btn" id="mReviewCancel" type="button">Cancel</button>
+            <button class="btn primary" id="mReviewSubmit" type="button">Publish review</button>
+          </div>`;
+
+        let stars = 0;
+        const starBtns = firmModalContent.querySelectorAll("#mStarPicker button");
+        const starLabel = $("mStarLabel");
+        const ratingLabels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
+        function setStars(n){ stars = n; starBtns.forEach(b => { b.style.color = Number(b.dataset.star) <= n ? "var(--gold)" : "var(--line-2)"; }); starLabel.textContent = n ? `${n} / 5 · ${ratingLabels[n]}` : "Tap a star to rate"; }
+        starBtns.forEach(b => b.onclick = () => setStars(Number(b.dataset.star)));
+
+        $("mReviewCancel").onclick = () => showFirmModal(firmId);
+        $("mReviewSubmit").onclick = async () => {
+          const name = $("mReviewName").value.trim();
+          const text = $("mReviewText").value.trim();
+          const msg = $("mReviewMsg");
+          msg.style.display = "none";
+          if (name.length < 2) { msg.textContent = "Please enter your name."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
+          if (stars < 1) { msg.textContent = "Please select a rating."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
+          if (text.length < 10) { msg.textContent = "Review must be at least 10 characters."; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; return; }
+          const submitBtn = $("mReviewSubmit");
+          submitBtn.disabled = true; submitBtn.textContent = "Submitting…";
+          const { error: reviewErr } = await db.from("firm_reviews").insert({ firm_id: f.id, user_id: user.id, reviewer_name: name, rating: stars, review_text: text, status: "pending" });
+          if (reviewErr) { msg.textContent = "Error: " + reviewErr.message; msg.style.background = "rgba(255,107,107,.1)"; msg.style.color = "var(--danger)"; msg.style.display = "block"; submitBtn.disabled = false; submitBtn.textContent = "Publish review"; return; }
+          msg.textContent = "Thank you! Your review is awaiting approval."; msg.style.background = "rgba(74,222,128,.1)"; msg.style.color = "var(--success)"; msg.style.display = "block";
+          submitBtn.textContent = "Submitted";
+          setTimeout(() => showFirmModal(firmId), 1800);
+        };
+      };
+    }
   } catch (err) {
     console.error(err);
     firmModalContent.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-mute)">Could not load firm.</div>`;
@@ -718,12 +749,9 @@ async function showFirmModal(firmId){
 }
 
 document.addEventListener("click", e => {
-  const btn = e.target.closest("[data-view-firm]");
-  if (btn) showFirmModal(btn.dataset.viewFirm);
-  const removeBtn = e.target.closest("[data-remove-fav]");
-  if (removeBtn) removeFav(removeBtn.dataset.removeFav);
-  const saveBtn = e.target.closest("[data-save-firm]");
-  if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
+  const btn = e.target.closest("[data-view-firm]"); if (btn) showFirmModal(btn.dataset.viewFirm);
+  const removeBtn = e.target.closest("[data-remove-fav]"); if (removeBtn) removeFav(removeBtn.dataset.removeFav);
+  const saveBtn = e.target.closest("[data-save-firm]"); if (saveBtn) toggleSave(saveBtn.dataset.saveFirm, saveBtn);
 });
 
 /* ==================== JOURNAL ==================== */
@@ -732,8 +760,7 @@ function resetForm(){ $("tradeForm").reset(); $("tradeId").value = ""; $("tradeD
 $("cancelEdit").onclick = resetForm;
 $("tradeDate").value = new Date().toISOString().slice(0,10);
 $("tradeForm").onsubmit = async e => {
-  e.preventDefault();
-  if (!user) return;
+  e.preventDefault(); if (!user) return;
   const id = $("tradeId").value;
   const row = { user_id: user.id, trade_date: $("tradeDate").value, symbol: $("symbol").value.trim().toUpperCase(), direction: $("direction").value, result: $("result").value, entry_price: val("entry"), exit_price: val("exit"), stop_loss: val("sl"), take_profit: val("tp"), risk_amount: val("risk"), pnl: val("pnl"), strategy: $("strategy").value.trim() || null, emotion: $("emotion").value || null, notes: $("notes").value.trim() || null };
   $("saveTrade").disabled = true;
@@ -757,28 +784,9 @@ async function loadTrades(){
   document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => editTrade(b.dataset.edit));
   document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => deleteTrade(b.dataset.del));
 }
-function editTrade(id){
-  const t = trades.find(x => x.id === id); if (!t) return;
-  const map = {tradeDate:"trade_date",symbol:"symbol",direction:"direction",result:"result",entry:"entry_price",exit:"exit_price",sl:"stop_loss",tp:"take_profit",risk:"risk_amount",pnl:"pnl",strategy:"strategy",emotion:"emotion",notes:"notes"};
-  for (const [el, k] of Object.entries(map)) $(el).value = t[k] ?? "";
-  $("tradeId").value = t.id; $("formTitle").textContent = "Edit trade"; $("saveTrade").textContent = "Update trade"; $("cancelEdit").hidden = false;
-  go("journal"); $("tradeForm").scrollIntoView({ behavior: "smooth" });
-}
-async function deleteTrade(id){
-  if (!confirm("Delete this journal entry?")) return;
-  await db.from("trading_journal").delete().eq("id", id).eq("user_id", user.id);
-  toast("Deleted"); await loadTrades();
-}
-function updateStats(){
-  const n = trades.length, w = trades.filter(t => t.result === "Win").length, l = trades.filter(t => t.result === "Loss").length, b = trades.filter(t => t.result === "Breakeven").length;
-  const net = trades.reduce((s, t) => s + (Number(t.pnl) || 0), 0);
-  const dec = w + l, avg = n ? net / n : 0;
-  $("winRate").textContent = (dec ? (w / dec * 100).toFixed(1) : 0) + "%";
-  $("netPnl").textContent = (net < 0 ? "−" : "+") + "$" + Math.abs(net).toFixed(2);
-  $("netPnl").className = "v " + (net > 0 ? "pos" : net < 0 ? "neg" : "");
-  $("avgPnl").textContent = (avg < 0 ? "−" : "+") + "$" + Math.abs(avg).toFixed(2);
-  $("wins").textContent = w; $("losses").textContent = l; $("breakevens").textContent = b; $("totalTrades").textContent = n;
-}
+function editTrade(id){ const t = trades.find(x => x.id === id); if (!t) return; const map = {tradeDate:"trade_date",symbol:"symbol",direction:"direction",result:"result",entry:"entry_price",exit:"exit_price",sl:"stop_loss",tp:"take_profit",risk:"risk_amount",pnl:"pnl",strategy:"strategy",emotion:"emotion",notes:"notes"}; for (const [el, k] of Object.entries(map)) $(el).value = t[k] ?? ""; $("tradeId").value = t.id; $("formTitle").textContent = "Edit trade"; $("saveTrade").textContent = "Update trade"; $("cancelEdit").hidden = false; go("journal"); $("tradeForm").scrollIntoView({ behavior: "smooth" }); }
+async function deleteTrade(id){ if (!confirm("Delete this journal entry?")) return; await db.from("trading_journal").delete().eq("id", id).eq("user_id", user.id); toast("Deleted"); await loadTrades(); }
+function updateStats(){ const n = trades.length, w = trades.filter(t => t.result === "Win").length, l = trades.filter(t => t.result === "Loss").length, b = trades.filter(t => t.result === "Breakeven").length; const net = trades.reduce((s, t) => s + (Number(t.pnl) || 0), 0); const dec = w + l, avg = n ? net / n : 0; $("winRate").textContent = (dec ? (w / dec * 100).toFixed(1) : 0) + "%"; $("netPnl").textContent = (net < 0 ? "−" : "+") + "$" + Math.abs(net).toFixed(2); $("netPnl").className = "v " + (net > 0 ? "pos" : net < 0 ? "neg" : ""); $("avgPnl").textContent = (avg < 0 ? "−" : "+") + "$" + Math.abs(avg).toFixed(2); $("wins").textContent = w; $("losses").textContent = l; $("breakevens").textContent = b; $("totalTrades").textContent = n; }
 
 async function getUser(){
   try { const { data, error } = await db.auth.getUser(); if (!error && data?.user?.email_confirmed_at) return data.user; } catch(e) {}
@@ -812,19 +820,12 @@ async function load(){
   let firms = {};
   if (ids.length) { const { data } = await db.from("firms").select("*").in("id", ids); for (const f of data || []) firms[f.id] = f; }
 
-  function renderFavs(targetId, items){
-    const el = $(targetId);
-    if (!items.length) { el.innerHTML = `<div class="empty">No favorites yet. Browse firms and save the ones you want to review later.</div>`; return; }
-    el.innerHTML = items.map(f => favCard(f, firms[f.firm_id])).join("");
-  }
+  function renderFavs(targetId, items){ const el = $(targetId); if (!items.length) { el.innerHTML = `<div class="empty">No favorites yet. Browse firms and save the ones you want to review later.</div>`; return; } el.innerHTML = items.map(f => favCard(f, firms[f.firm_id])).join(""); }
   renderFavs("favoritesList", fav);
   renderFavs("homeFavorites", fav.slice(0,3));
 
   if (!reviews.length) emptyEl("reviewsList", "You haven't submitted a review yet.");
-  else $("reviewsList").innerHTML = reviews.map(r => {
-    const s = String(r.status || "pending").toLowerCase();
-    return `<div class="item"><div class="info"><div class="title">${esc(firms[r.firm_id]?.name || "Prop firm")}</div><div class="sub">${esc((r.review_text || "").slice(0, 100))}${(r.review_text || "").length > 100 ? "…" : ""}</div></div><span class="status ${s}">${esc(s)}</span></div>`;
-  }).join("");
+  else $("reviewsList").innerHTML = reviews.map(r => { const s = String(r.status || "pending").toLowerCase(); return `<div class="item"><div class="info"><div class="title">${esc(firms[r.firm_id]?.name || "Prop firm")}</div><div class="sub">${esc((r.review_text || "").slice(0, 100))}${(r.review_text || "").length > 100 ? "…" : ""}</div></div><span class="status ${s}">${esc(s)}</span></div>`; }).join("");
 
   await loadTrades();
 }
