@@ -23,437 +23,128 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0b0e11;
-  --surface:#131820;
-  --surface-2:#161c26;
-  --line:#242b35;
-  --line-2:#2f3846;
-  --text:#e6ebf0;
-  --text-dim:#a3aebd;
-  --text-mute:#6b7787;
-  --accent:#4a9eff;
-  --accent-dim:#2f5f8f;
-  --accent-bg:rgba(74,158,255,.08);
-  --success:#4ade80;
-  --gold:#e4b949;
+:root[data-theme="dark"]{
+  --bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--line:#242b35;--line-2:#2f3846;
+  --text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;
+  --accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);
+  --gold:#e4b949;--shadow:0 4px 12px rgba(0,0,0,.3);
+}
+:root[data-theme="light"]{
+  --bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--line:#e1e5eb;--line-2:#d1d7de;
+  --text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;
+  --accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);
+  --gold:#c99b1e;--shadow:0 4px 12px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{
-  background:var(--bg);
-  color:var(--text);
+  background:var(--bg);color:var(--text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  font-size:15px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  transition:background .2s,color .2s;
 }
 a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-
-/* Container */
+button,input{font:inherit;cursor:pointer}
 .container{max-width:1120px;margin:0 auto;padding:0 24px}
 
 /* Nav */
-.nav{
-  border-bottom:1px solid var(--line);
-  background:rgba(11,14,17,.92);
-  backdrop-filter:blur(12px);
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-.nav-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  height:64px;
-  gap:24px;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-  font-size:17px;
-  letter-spacing:-.3px;
-  color:var(--text);
-}
-.logo-mark{
-  width:28px;
-  height:28px;
-  border-radius:6px;
-  background:var(--accent);
-  color:#0b0e11;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  font-size:14px;
-}
+.nav{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:50}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.3px;color:var(--text)}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
 .logo span{color:var(--accent)}
 .nav-links{display:flex;align-items:center;gap:28px;font-size:14px}
 .nav-links a{color:var(--text-dim);transition:color .15s}
 .nav-links a:hover{color:var(--text)}
 .nav-actions{display:flex;align-items:center;gap:10px}
-.btn-ghost{
-  padding:8px 14px;
-  border-radius:6px;
-  border:1px solid var(--line-2);
-  color:var(--text-dim);
-  font-size:13px;
-  font-weight:500;
-  transition:.15s;
-}
+.icon-btn{width:34px;height:34px;border-radius:7px;border:1px solid var(--line-2);background:transparent;color:var(--text-dim);font-size:15px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.icon-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+.btn-ghost{padding:8px 14px;border-radius:6px;border:1px solid var(--line-2);color:var(--text-dim);font-size:13px;font-weight:500;transition:.15s}
 .btn-ghost:hover{border-color:var(--accent-dim);color:var(--text)}
-.btn-primary{
-  padding:8px 14px;
-  border-radius:6px;
-  background:var(--accent);
-  color:#0b0e11;
-  font-size:13px;
-  font-weight:600;
-  transition:.15s;
-  border:1px solid var(--accent);
-}
-.btn-primary:hover{background:#5caaff;border-color:#5caaff}
-
-/* Auth chip (logged-in state) */
-.user-chip{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 12px 6px 6px;
-  border-radius:999px;
-  border:1px solid var(--line-2);
-  color:var(--text);
-  font-size:13px;
-  font-weight:500;
-  transition:.15s;
-}
+.btn-primary{padding:8px 14px;border-radius:6px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;border:1px solid var(--accent);transition:.15s}
+.btn-primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+.user-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;border:1px solid var(--line-2);color:var(--text);font-size:13px;font-weight:500;transition:.15s}
 .user-chip:hover{border-color:var(--accent-dim)}
-.user-initial{
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  background:var(--accent);
-  color:#0b0e11;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  font-size:11px;
-}
+.user-initial{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
 
 /* Hero */
-.hero{padding:80px 0 60px;border-bottom:1px solid var(--line)}
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:64px;
-  align-items:center;
-}
-.hero h1{
-  font-size:clamp(36px,4.5vw,52px);
-  line-height:1.1;
-  letter-spacing:-1.4px;
-  font-weight:700;
-  color:var(--text);
-  margin-bottom:20px;
-}
-.hero h1 em{
-  font-style:normal;
-  color:var(--accent);
-}
-.hero .lead{
-  font-size:17px;
-  line-height:1.65;
-  color:var(--text-dim);
-  max-width:540px;
-  margin-bottom:32px;
-}
+.hero{padding:80px 0 64px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}
+.hero h1{font-size:clamp(36px,4.5vw,52px);line-height:1.1;letter-spacing:-1.4px;font-weight:700;color:var(--text);margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lead{font-size:17px;line-height:1.65;color:var(--text-dim);max-width:540px;margin-bottom:32px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-lg{
-  padding:11px 20px;
-  border-radius:8px;
-  font-size:14px;
-  font-weight:600;
-  transition:.15s;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.btn-lg.primary{background:var(--accent);color:#0b0e11;border:1px solid var(--accent)}
-.btn-lg.primary:hover{background:#5caaff}
-.btn-lg.secondary{background:transparent;color:var(--text);border:1px solid var(--line-2)}
+.btn-lg{padding:11px 20px;border-radius:8px;font-size:14px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none;border:1px solid transparent}
+.btn-lg.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-lg.primary:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+.btn-lg.secondary{background:transparent;color:var(--text);border-color:var(--line-2)}
 .btn-lg.secondary:hover{border-color:var(--accent-dim);background:var(--accent-bg)}
 
 /* Hero side panel */
-.hero-panel{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:20px;
-}
-.hero-panel-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-bottom:14px;
-  border-bottom:1px solid var(--line);
-  margin-bottom:16px;
-}
-.hero-panel-head h3{
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:.3px;
-  text-transform:uppercase;
-  color:var(--text-mute);
-}
-.stat-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:16px;
-}
-.stat-box{
-  padding:14px;
-  background:var(--surface-2);
-  border:1px solid var(--line);
-  border-radius:6px;
-}
+.hero-panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.hero-panel-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.hero-panel-head h3{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute)}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-box{padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px}
 .stat-box .k{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
 .stat-box .v{font-size:18px;font-weight:600;color:var(--text)}
 .top-list{display:flex;flex-direction:column;gap:8px}
-.top-list-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 12px;
-  background:var(--surface-2);
-  border:1px solid var(--line);
-  border-radius:6px;
-  font-size:13px;
-}
+.top-list-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;font-size:13px}
 .top-list-item .name{color:var(--text);font-weight:500}
 .top-list-item .val{color:var(--gold);font-weight:600}
 
 /* Section */
 .section{padding:72px 0;border-bottom:1px solid var(--line)}
 .section-head{margin-bottom:40px;max-width:640px}
-.section-head .kicker{
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:.8px;
-  text-transform:uppercase;
-  color:var(--text-mute);
-  margin-bottom:12px;
-}
-.section-head h2{
-  font-size:28px;
-  line-height:1.25;
-  letter-spacing:-.6px;
-  font-weight:700;
-  color:var(--text);
-  margin-bottom:12px;
-}
+.section-head .kicker{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-mute);margin-bottom:12px}
+.section-head h2{font-size:28px;line-height:1.25;letter-spacing:-.6px;font-weight:700;color:var(--text);margin-bottom:12px}
 .section-head p{color:var(--text-dim);font-size:15px}
 
 /* Firm preview grid */
-.firm-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:16px;
-}
-.firm-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:18px;
-  transition:.15s;
-  display:flex;
-  flex-direction:column;
-}
-.firm-card:hover{
-  border-color:var(--line-2);
-  background:var(--surface-2);
-}
+.firm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.firm-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;transition:.15s;display:flex;flex-direction:column}
+.firm-card:hover{border-color:var(--line-2);background:var(--surface-2)}
 .firm-card-head{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
-.firm-logo{
-  width:44px;
-  height:44px;
-  border-radius:8px;
-  border:1px solid var(--line);
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-  position:relative;
-  overflow:hidden;
-  font-size:14px;
-  font-weight:700;
-  color:var(--accent);
-}
-.firm-logo img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:6px;
-  background:#fff;
-}
+.firm-logo{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;font-size:14px;font-weight:700;color:var(--accent)}
+.firm-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff}
 .firm-card-meta{flex:1;min-width:0}
-.firm-card-meta .cat{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-  color:var(--text-mute);
-  margin-bottom:4px;
-}
-.firm-card-meta h3{
-  font-size:15px;
-  font-weight:600;
-  color:var(--text);
-  letter-spacing:-.2px;
-  overflow-wrap:anywhere;
-}
-.firm-card-rating{
-  font-size:12px;
-  font-weight:600;
-  color:var(--gold);
-  white-space:nowrap;
-}
-.firm-card-desc{
-  font-size:13px;
-  color:var(--text-dim);
-  line-height:1.6;
-  margin-bottom:14px;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.firm-card-rows{
-  border-top:1px solid var(--line);
-  padding-top:12px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px 12px;
-  margin-bottom:14px;
-}
-.firm-card-rows .row-k{font-size:11px;color:var(--text-mute);margin-bottom:2px}
-.firm-card-rows .row-v{font-size:13px;color:var(--text);font-weight:500;overflow-wrap:anywhere}
-.firm-card-cta{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:13px;
-  font-weight:600;
-  color:var(--accent);
-  padding-top:12px;
-  border-top:1px solid var(--line);
-  margin-top:auto;
-  transition:.15s;
-}
-.firm-card-cta:hover{color:#5caaff}
+.firm-card-meta .cat{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-mute);margin-bottom:4px}
+.firm-card-meta h3{font-size:15px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
+.firm-card-rating{font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
+.firm-card-desc{font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.firm-card-rows{border-top:1px solid var(--line);padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-bottom:14px}
+.row-k{font-size:11px;color:var(--text-mute);margin-bottom:2px}
+.row-v{font-size:13px;color:var(--text);font-weight:500;overflow-wrap:anywhere}
+.firm-card-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent);padding-top:12px;border-top:1px solid var(--line);margin-top:auto}
+.firm-card-cta:hover{color:var(--accent-dim)}
 
 /* Features */
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-.feature{
-  padding:24px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:var(--surface);
-}
-.feature-num{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  font-weight:500;
-  color:var(--text-mute);
-  margin-bottom:14px;
-  letter-spacing:.5px;
-}
-.feature h3{
-  font-size:16px;
-  font-weight:600;
-  margin-bottom:8px;
-  letter-spacing:-.2px;
-}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature{padding:24px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.feature-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text-mute);margin-bottom:14px;letter-spacing:.5px}
+.feature h3{font-size:16px;font-weight:600;margin-bottom:8px;letter-spacing:-.2px}
 .feature p{font-size:14px;color:var(--text-dim);line-height:1.65}
 
 /* CTA band */
-.cta-band{
-  padding:36px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:var(--surface);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:32px;
-  flex-wrap:wrap;
-}
+.cta-band{padding:36px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
 .cta-band h3{font-size:20px;font-weight:600;letter-spacing:-.3px;margin-bottom:6px}
 .cta-band p{color:var(--text-dim);font-size:14px}
 
 /* FAQ */
 .faq{max-width:760px;margin:0 auto}
-.faq-item{
-  border-bottom:1px solid var(--line);
-}
-.faq-item summary{
-  padding:20px 0;
-  cursor:pointer;
-  list-style:none;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  font-size:15px;
-  font-weight:500;
-  color:var(--text);
-}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{padding:20px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:15px;font-weight:500;color:var(--text)}
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary::after{
-  content:"+";
-  color:var(--text-mute);
-  font-size:18px;
-  font-weight:400;
-  transition:.15s;
-  flex-shrink:0;
-}
+.faq-item summary::after{content:"+";color:var(--text-mute);font-size:18px;transition:.15s;flex-shrink:0}
 .faq-item[open] summary::after{content:"−"}
-.faq-item p{
-  padding:0 0 20px;
-  color:var(--text-dim);
-  font-size:14px;
-  line-height:1.7;
-  max-width:640px;
-}
+.faq-item p{padding:0 0 20px;color:var(--text-dim);font-size:14px;line-height:1.7;max-width:640px}
 
 /* Footer */
-footer{
-  padding:32px 0;
-  color:var(--text-mute);
-  font-size:13px;
-}
-.footer-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
+footer{padding:32px 0;color:var(--text-mute);font-size:13px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .footer-links{display:flex;gap:20px}
 .footer-links a:hover{color:var(--text-dim)}
 
-/* Responsive */
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .features{grid-template-columns:1fr}
@@ -474,7 +165,7 @@ footer{
 
 <nav class="nav">
   <div class="container nav-inner">
-    <a class="logo" href="/">
+    <a class="logo" id="brandLogo" href="/">
       <span class="logo-mark">F</span>
       Funded<span>Edge</span>
     </a>
@@ -483,9 +174,12 @@ footer{
       <a class="hide-mobile" href="#how">How it works</a>
       <a class="hide-mobile" href="#faq">FAQ</a>
     </div>
-    <div class="nav-actions" id="feAuthArea">
-      <a class="btn-ghost" href="auth.html?mode=signin">Sign in</a>
-      <a class="btn-primary" href="auth.html?mode=signup">Get started</a>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">◐</button>
+      <div id="feAuthArea" style="display:flex;align-items:center;gap:10px">
+        <a class="btn-ghost" href="auth.html?mode=signin">Sign in</a>
+        <a class="btn-primary" href="auth.html?mode=signup">Get started</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -509,25 +203,17 @@ footer{
           <h3>Directory snapshot</h3>
         </div>
         <div class="stat-row">
-          <div class="stat-box">
-            <div class="k">Firms listed</div>
-            <div class="v" id="firmCount">—</div>
-          </div>
-          <div class="stat-box">
-            <div class="k">Categories</div>
-            <div class="v" id="catCount">—</div>
-          </div>
+          <div class="stat-box"><div class="k">Firms listed</div><div class="v" id="firmCount">—</div></div>
+          <div class="stat-box"><div class="k">Categories</div><div class="v" id="catCount">—</div></div>
         </div>
         <div class="top-list" id="topList">
-          <div class="top-list-item">
-            <span class="name" style="color:var(--text-mute)">Loading…</span>
-          </div>
+          <div class="top-list-item"><span class="name" style="color:var(--text-mute)">Loading…</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURED FIRMS -->
+  <!-- FEATURED -->
   <section class="section">
     <div class="container">
       <div class="section-head">
@@ -550,24 +236,12 @@ footer{
       <div class="section-head">
         <div class="kicker">How it works</div>
         <h2>Three steps to a better decision</h2>
-        <p>The information that matters, in one place — no marketing fluff.</p>
+        <p>The information that matters, in one place.</p>
       </div>
       <div class="features">
-        <div class="feature">
-          <div class="feature-num">01</div>
-          <h3>Filter the list</h3>
-          <p>Narrow firms by account size, price, category, or profit split. See what matches your strategy.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-num">02</div>
-          <h3>Compare rules</h3>
-          <p>Drawdown limits, profit targets, and payout schedules side by side. Spot the differences quickly.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-num">03</div>
-          <h3>Visit the firm</h3>
-          <p>Every listing links to the firm's own website. Confirm the current terms before purchasing.</p>
-        </div>
+        <div class="feature"><div class="feature-num">01</div><h3>Filter the list</h3><p>Narrow firms by account size, price, category, or profit split. See what matches your strategy.</p></div>
+        <div class="feature"><div class="feature-num">02</div><h3>Compare rules</h3><p>Drawdown limits, profit targets, and payout schedules side by side. Spot the differences quickly.</p></div>
+        <div class="feature"><div class="feature-num">03</div><h3>Visit the firm</h3><p>Every listing links to the firm's own website. Confirm the current terms before purchasing.</p></div>
       </div>
     </div>
   </section>
@@ -575,18 +249,17 @@ footer{
   <!-- CTA -->
   <section class="section">
     <div class="container">
-<div class="cta-band">
-  <div>
-    <h3>Sign up for more features</h3>
-    <p>Save your favorite firms, write reviews, and compare rules side by side.</p>
-  </div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <a class="btn-lg primary" href="auth.html?mode=signup">Create free account →</a>
-    <a class="btn-lg secondary" href="firms.html">Browse firms</a>
-  </div>
-</div>
-    </div><div>
-          <
+      <div class="cta-band">
+        <div>
+          <h3>Sign up for more features</h3>
+          <p>Save your favorite firms, write reviews, and compare rules side by side.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn-lg primary" href="auth.html?mode=signup">Create free account →</a>
+          <a class="btn-lg secondary" href="firms.html">Browse firms</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FAQ -->
@@ -597,30 +270,12 @@ footer{
         <h2>Common questions</h2>
       </div>
       <div class="faq">
-        <details class="faq-item">
-          <summary>What is FundedEdge?</summary>
-          <p>An independent directory that helps traders research and compare proprietary trading firms — account options, rules, profit splits, and payout policies in one place.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What is a prop trading firm?</summary>
-          <p>A firm that provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, you may need to complete an evaluation or qualify for a particular account type.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How do I choose the right firm?</summary>
-          <p>Compare account prices, drawdown limits, profit targets, payout conditions, and trading restrictions. Choose rules that match your strategy and risk tolerance.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Does FundedEdge sell funded accounts?</summary>
-          <p>No. We're a research directory. To purchase an account, visit the firm's official website directly.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Are rules and prices always up to date?</summary>
-          <p>Prop firms change their terms without notice. Always verify the latest details on the firm's own website before making a purchase.</p>
-        </details>
-        <details class="faq-item">
-          <summary>Is FundedEdge affiliated with the firms listed?</summary>
-          <p>Not necessarily. A listing does not imply endorsement or partnership. We may earn affiliate commissions from some links.</p>
-        </details>
+        <details class="faq-item"><summary>What is FundedEdge?</summary><p>An independent directory that helps traders research and compare proprietary trading firms — account options, rules, profit splits, and payout policies in one place.</p></details>
+        <details class="faq-item"><summary>What is a prop trading firm?</summary><p>A firm that provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, you may need to complete an evaluation or qualify for a particular account type.</p></details>
+        <details class="faq-item"><summary>How do I choose the right firm?</summary><p>Compare account prices, drawdown limits, profit targets, payout conditions, and trading restrictions. Choose rules that match your strategy and risk tolerance.</p></details>
+        <details class="faq-item"><summary>Does FundedEdge sell funded accounts?</summary><p>No. We're a research directory. To purchase an account, visit the firm's official website directly.</p></details>
+        <details class="faq-item"><summary>Are rules and prices always up to date?</summary><p>Prop firms change their terms without notice. Always verify the latest details on the firm's own website before making a purchase.</p></details>
+        <details class="faq-item"><summary>Is FundedEdge affiliated with the firms listed?</summary><p>Not necessarily. A listing does not imply endorsement or partnership. We may earn affiliate commissions from some links.</p></details>
       </div>
     </div>
   </section>
@@ -641,6 +296,14 @@ footer{
 <script type="module">
 import { db } from "./supabase.js";
 
+/* THEME */
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 function getLogoDomain(firm){
@@ -659,7 +322,6 @@ function logoURL(firm){
   return firm.logo_url || (d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128` : "");
 }
 
-/* Load featured firms + directory stats */
 async function loadHomepage(){
   const grid = document.getElementById("featuredGrid");
   const firmCountEl = document.getElementById("firmCount");
@@ -677,53 +339,40 @@ async function loadHomepage(){
       catCountEl.textContent = cats.size;
     }
 
-    // Top list in hero panel
     if (topListEl) {
       const top = firms.slice(0, 5);
-      if (!top.length) {
-        topListEl.innerHTML = `<div class="top-list-item"><span class="name" style="color:var(--text-mute)">No firms yet</span></div>`;
-      } else {
-        topListEl.innerHTML = top.map(f => `
-          <div class="top-list-item">
-            <span class="name">${esc(f.name)}</span>
-            <span class="val">${f.rating ? "★ " + esc(f.rating) : "—"}</span>
-          </div>
-        `).join("");
-      }
+      if (!top.length) topListEl.innerHTML = `<div class="top-list-item"><span class="name" style="color:var(--text-mute)">No firms yet</span></div>`;
+      else topListEl.innerHTML = top.map(f => `<div class="top-list-item"><span class="name">${esc(f.name)}</span><span class="val">${f.rating ? "★ " + esc(f.rating) : "—"}</span></div>`).join("");
     }
 
-    // Featured grid — first 6
     if (grid) {
       const featured = firms.slice(0, 6);
-      if (!featured.length) {
-        grid.innerHTML = `<div class="firm-card" style="grid-column:1/-1;text-align:center;color:var(--text-mute)">No firms yet</div>`;
-      } else {
-        grid.innerHTML = featured.map(firm => {
-          const logo = logoURL(firm);
-          const initials = getInitials(firm.name);
-          return `<a class="firm-card" href="firm.html?id=${encodeURIComponent(firm.id)}">
-            <div class="firm-card-head">
-              <div class="firm-logo">
-                <span>${esc(initials)}</span>
-                ${logo ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
-              </div>
-              <div class="firm-card-meta">
-                <div class="cat">${esc(firm.category || "Prop Firm")}</div>
-                <h3>${esc(firm.name)}</h3>
-              </div>
-              <div class="firm-card-rating">${firm.rating ? "★ " + esc(firm.rating) : "—"}</div>
+      if (!featured.length) grid.innerHTML = `<div class="firm-card" style="grid-column:1/-1;text-align:center;color:var(--text-mute)">No firms yet</div>`;
+      else grid.innerHTML = featured.map(firm => {
+        const logo = logoURL(firm);
+        const initials = getInitials(firm.name);
+        return `<a class="firm-card" href="firm.html?id=${encodeURIComponent(firm.id)}">
+          <div class="firm-card-head">
+            <div class="firm-logo">
+              <span>${esc(initials)}</span>
+              ${logo ? `<img src="${esc(logo)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ""}
             </div>
-            <p class="firm-card-desc">${esc(firm.description || "Trading conditions and account options.")}</p>
-            <div class="firm-card-rows">
-              <div><div class="row-k">Accounts</div><div class="row-v">${esc(firm.account_sizes || "—")}</div></div>
-              <div><div class="row-k">From</div><div class="row-v">${esc(firm.price || "—")}</div></div>
-              <div><div class="row-k">Target</div><div class="row-v">${esc(firm.profit_target || "—")}</div></div>
-              <div><div class="row-k">Split</div><div class="row-v">${esc(firm.profit_split || "—")}</div></div>
+            <div class="firm-card-meta">
+              <div class="cat">${esc(firm.category || "Prop Firm")}</div>
+              <h3>${esc(firm.name)}</h3>
             </div>
-            <span class="firm-card-cta">View details →</span>
-          </a>`;
-        }).join("");
-      }
+            <div class="firm-card-rating">${firm.rating ? "★ " + esc(firm.rating) : "—"}</div>
+          </div>
+          <p class="firm-card-desc">${esc(firm.description || "Trading conditions and account options.")}</p>
+          <div class="firm-card-rows">
+            <div><div class="row-k">Accounts</div><div class="row-v">${esc(firm.account_sizes || "—")}</div></div>
+            <div><div class="row-k">From</div><div class="row-v">${esc(firm.price || "—")}</div></div>
+            <div><div class="row-k">Target</div><div class="row-v">${esc(firm.profit_target || "—")}</div></div>
+            <div><div class="row-k">Split</div><div class="row-v">${esc(firm.profit_split || "—")}</div></div>
+          </div>
+          <span class="firm-card-cta">View details →</span>
+        </a>`;
+      }).join("");
     }
   } catch (err) {
     console.error(err);
@@ -731,19 +380,23 @@ async function loadHomepage(){
   }
 }
 
-/* Auth-aware nav */
+/* Auth-aware nav + logo */
 async function syncAuthNav(){
   const area = document.getElementById("feAuthArea");
+  const logo = document.getElementById("brandLogo");
   if (!area) return;
   try {
     const { data } = await db.auth.getSession();
     const user = data.session?.user;
     if (user && user.email_confirmed_at) {
+      if (logo) logo.href = "dashboard.html";
       const name = user.user_metadata?.full_name || user.email || "Account";
       const initial = String(name).trim().charAt(0).toUpperCase() || "U";
       area.innerHTML = `<a class="user-chip" href="dashboard.html"><span class="user-initial">${esc(initial)}</span><span>Dashboard</span></a>`;
+    } else {
+      if (logo) logo.href = "/";
     }
-  } catch (err) { console.error("Auth nav failed:", err); }
+  } catch (err) { console.error(err); }
 }
 
 syncAuthNav();
@@ -751,7 +404,7 @@ db.auth.onAuthStateChange(() => syncAuthNav());
 loadHomepage();
 </script>
 
-<!--Start of Tawk.to Script-->
+<!-- Tawk.to Support -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -763,7 +416,6 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
