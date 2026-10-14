@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e11">
+<title>What is a Drawdown in Prop Trading? (Explained) — FundedEdge</title>
+<meta name="description" content="Drawdown explained simply. Learn what daily and maximum drawdown mean, why they matter, and how to avoid breaching them.">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is a Drawdown in Prop Trading?">
+<meta property="og:description" content="Drawdown explained simply for prop traders.">
+<meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{--bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--line:#242b35;--line-2:#2f3846;--text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;--accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);--success:#4ade80;--danger:#ff6b6b;}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--line:#e1e5eb;--line-2:#d1d7de;--text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;--accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);--success:#16a34a;--danger:#dc2626;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;text-decoration:none;}
+.logo:hover{text-decoration:none}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo span{color:var(--accent)}
+.topbar-spacer{flex:1}
+.topbar-links{display:flex;gap:22px;font-size:13.5px;color:var(--text-dim)}
+.topbar-links a{color:inherit;}
+.topbar-links a:hover{color:var(--text);text-decoration:none}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;cursor:pointer;}
+.topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+main{max-width:720px;margin:0 auto;padding:40px 20px 80px;}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mute);margin-bottom:24px;}
+.back:hover{color:var(--accent);text-decoration:none}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+h1{font-size:clamp(28px,4.5vw,42px);font-weight:700;letter-spacing:-1px;line-height:1.2;margin-bottom:20px;}
+.meta{color:var(--text-mute);font-size:13px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line);}
+h2{font-size:22px;font-weight:600;letter-spacing:-.4px;margin:40px 0 14px;line-height:1.3;}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px;}
+p{margin:0 0 18px;color:var(--text-dim);}
+ul,ol{margin:0 0 18px 22px;color:var(--text-dim);}
+li{margin-bottom:8px;}
+strong{color:var(--text);font-weight:600;}
+.callout{padding:18px 20px;background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:10px;margin:24px 0;}
+.callout p{margin:0;color:var(--text);font-size:15px;}
+.example{padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:22px 0;}
+.example h4{margin:0 0 12px;color:var(--text);font-size:15px;font-weight:700;}
+.example p{margin:0;font-size:14.5px;line-height:1.7;}
+.cta-block{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:32px 0;text-align:center;}
+.cta-block h3{margin-top:0;color:var(--text);}
+.cta-block a{display:inline-block;padding:11px 22px;background:var(--accent);color:#fff;border-radius:7px;font-weight:600;font-size:14px;text-decoration:none;margin-top:8px;}
+.cta-block a:hover{background:var(--accent-dim);text-decoration:none;}
+footer{border-top:1px solid var(--line);padding:28px 20px;color:var(--text-mute);font-size:12.5px;text-align:center;margin-top:60px;}
+@media (max-width:600px){.topbar{padding:0 12px;gap:8px;}.topbar-links{display:none;}main{padding:28px 16px 60px;}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="../index.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
+  <div class="topbar-links">
+    <a href="../firms.html">Prop Firms</a>
+    <a href="../blog.html">Blog</a>
+  </div>
+  <div class="topbar-spacer"></div>
+  <button class="topbar-btn" id="themeToggle">◐</button>
+</header>
+
+<main>
+  <a class="back" href="../blog.html">← Back to blog</a>
+  <div class="eyebrow">Guide</div>
+  <h1>What is a Drawdown in Prop Trading?</h1>
+  <div class="meta">By FundedEdge · 5 min read</div>
+
+  <p>If you're new to prop trading, "drawdown" is probably the scariest word you'll see. It appears in every firm's rulebook, and breaching it means losing your account — no matter how profitable you are.</p>
+
+  <p>In this guide, we'll explain drawdown in plain English, why every firm has it, and how to avoid breaching it.</p>
+
+  <h2>What is drawdown?</h2>
+
+  <p><strong>Drawdown is the drop in your account balance from its highest point.</strong></p>
+
+  <p>Example: If your account starts at $100,000 and drops to $95,000, your drawdown is $5,000 — or 5%.</p>
+
+  <p>Simple. But prop firms measure drawdown in two specific ways: <strong>daily</strong> and <strong>maximum</strong>.</p>
+
+  <h2>Daily drawdown</h2>
+
+  <p><strong>Daily drawdown is the maximum you can lose in a single trading day.</strong></p>
+
+  <p>Most firms set this at 5%. So if your account starts the day at $100,000, you cannot let it drop below $95,000 that day. If it does → account terminated.</p>
+
+  <div class="example">
+    <h4>Example</h4>
+    <p>Your $100K account starts today at $100,000. Daily drawdown limit = 5%.<br>
+    You have a losing day and your balance drops to $94,500.<br>
+    → You've breached daily drawdown. Account closed.</p>
+  </div>
+
+  <p>Some firms calculate daily drawdown from your <strong>starting balance</strong> of the day. Others calculate from your <strong>equity high</strong> of the day. Always read the firm's rules carefully — this detail matters.</p>
+
+  <h2>Maximum drawdown</h2>
+
+  <p><strong>Maximum drawdown is the total amount you can lose from your starting balance across the entire challenge.</strong></p>
+
+  <p>Most firms set this at 10%. If your account started at $100,000, the floor is $90,000. If you hit $90,000 at any point → account terminated.</p>
+
+  <div class="example">
+    <h4>Example</h4>
+    <p>Your $100K account has a 10% max drawdown = $90,000 floor.<br>
+    You have several losing days but stay above $90,000.<br>
+    → You're still in the challenge.</p>
+  </div>
+
+  <h2>Static vs trailing drawdown</h2>
+
+  <p>This is the most important detail that catches new traders out.</p>
+
+  <h3>Static drawdown (easier)</h3>
+  <p>The drawdown floor never moves. It's always the same amount below your starting balance.</p>
+  <p><strong>Example:</strong> $100K account, 10% max drawdown → floor always at $90,000, no matter how high your profits go.</p>
+
+  <h3>Trailing drawdown (harder)</h3>
+  <p>The drawdown floor moves up as your account grows. It trails your highest balance.</p>
+  <p><strong>Example:</strong> $100K account, 10% trailing drawdown.</p>
+  <ul>
+    <li>Balance hits $105,000 → floor moves to $95,000</li>
+    <li>Balance hits $110,000 → floor moves to $100,000</li>
+    <li>Balance hits $115,000 → floor moves to $105,000</li>
+  </ul>
+
+  <p><strong>Trailing drawdown is much harder to manage.</strong> Many futures firms (Apex, Topstep) use trailing. Forex firms (FTMO, FundedNext) usually use static.</p>
+
+  <div class="callout">
+    <p>💡 <strong>Rule of thumb:</strong> Static drawdown = easier. Trailing = harder. Always check which your firm uses.</p>
+  </div>
+
+  <h2>Why do firms use drawdown limits?</h2>
+
+  <p>Simple: prop firms want traders who <strong>manage risk</strong>, not gamblers.</p>
+
+  <p>If you can't survive a 5% daily loss without blowing the account, you don't have a sustainable strategy. Drawdown rules force traders to:</p>
+
+  <ul>
+    <li>Use proper position sizing</li>
+    <li>Set stop losses</li>
+    <li>Not revenge trade after losses</li>
+    <li>Manage risk consistently</li>
+  </ul>
+
+  <p>Every professional trader lives by these rules anyway. Drawdown limits just enforce them.</p>
+
+  <h2>How to avoid breaching drawdown</h2>
+
+  <h3>1. Risk 0.5% per trade</h3>
+  <p>If you risk 0.5% per trade, you can lose 10 trades in a row before hitting a 5% daily drawdown. This gives you room to have bad days.</p>
+
+  <h3>2. Stop for the day after 2 losses</h3>
+  <p>Two losses = 1% down. Stop, review, trade again tomorrow. This prevents the "one bad day" scenario.</p>
+
+  <h3>3. Set hard stop losses</h3>
+  <p>Never enter a trade without a stop loss. Ever. A single trade without a stop can wipe out your daily drawdown.</p>
+
+  <h3>4. Check the firm's calculation method</h3>
+  <p>Daily drawdown from starting balance vs equity high — this changes your risk. Read the rules.</p>
+
+  <h3>5. Track your drawdown mentally</h3>
+  <p>If you started the day at $102,000 and daily drawdown is 5%, your floor is $96,900. Know this number before you trade.</p>
+
+  <h2>Final thoughts</h2>
+
+  <p>Drawdown isn't your enemy — it's the rule that keeps you disciplined. Learn it, respect it, and it will actually make you a better trader.</p>
+
+  <p>The traders who fail challenges usually blow their drawdown, not their profit target. Protect your downside first.</p>
+
+  <div class="cta-block">
+    <h3>Want to compare firm drawdown rules?</h3>
+    <p>FundedEdge shows every firm's daily and max drawdown side by side.</p>
+    <a href="../firms.html">Compare firms →</a>
+  </div>
+
+</main>
+
+<footer>© FundedEdge · Independent research tool</footer>
+
+<script>
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+</script>
+
+</body>
+</html>
