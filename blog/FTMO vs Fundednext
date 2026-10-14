@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e11">
+<title>FTMO vs FundedNext: Full Comparison (2026) — FundedEdge</title>
+<meta name="description" content="FTMO vs FundedNext — we compare rules, pricing, profit splits, payouts, and account sizes so you can pick the right firm.">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FTMO vs FundedNext: Full Comparison (2026)">
+<meta property="og:description" content="Compare rules, pricing, profit splits, and payouts.">
+<meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{--bg:#0b0e11;--surface:#131820;--surface-2:#161c26;--line:#242b35;--line-2:#2f3846;--text:#e6ebf0;--text-dim:#a3aebd;--text-mute:#6b7787;--accent:#4a9eff;--accent-dim:#2f5f8f;--accent-bg:rgba(74,158,255,.08);--success:#4ade80;--gold:#e4b949;--danger:#ff6b6b;}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#f2f4f7;--line:#e1e5eb;--line-2:#d1d7de;--text:#1a1f26;--text-dim:#525c69;--text-mute:#8a94a0;--accent:#1e75e8;--accent-dim:#1857b3;--accent-bg:rgba(30,117,232,.08);--success:#16a34a;--gold:#c99b1e;--danger:#dc2626;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{height:56px;border-bottom:1px solid var(--line);background:var(--surface);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:40;}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.3px;color:var(--text);flex-shrink:0;text-decoration:none;}
+.logo:hover{text-decoration:none}
+.logo-mark{width:26px;height:26px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.logo span{color:var(--accent)}
+.topbar-spacer{flex:1}
+.topbar-links{display:flex;gap:22px;font-size:13.5px;color:var(--text-dim)}
+.topbar-links a{color:inherit;}
+.topbar-links a:hover{color:var(--text);text-decoration:none}
+.topbar-btn{width:34px;height:34px;border:1px solid var(--line-2);border-radius:7px;background:transparent;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:15px;transition:.15s;cursor:pointer;}
+.topbar-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+main{max-width:720px;margin:0 auto;padding:40px 20px 80px;}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-mute);margin-bottom:24px;}
+.back:hover{color:var(--accent);text-decoration:none}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+h1{font-size:clamp(28px,4.5vw,42px);font-weight:700;letter-spacing:-1px;line-height:1.2;margin-bottom:20px;}
+.meta{color:var(--text-mute);font-size:13px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line);}
+h2{font-size:22px;font-weight:600;letter-spacing:-.4px;margin:40px 0 14px;line-height:1.3;}
+h3{font-size:17px;font-weight:600;margin:26px 0 10px;}
+p{margin:0 0 18px;color:var(--text-dim);}
+ul,ol{margin:0 0 18px 22px;color:var(--text-dim);}
+li{margin-bottom:8px;}
+strong{color:var(--text);font-weight:600;}
+table{width:100%;border-collapse:collapse;margin:20px 0 28px;font-size:14px;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+thead th{background:var(--surface-2);padding:12px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text-mute);border-bottom:1px solid var(--line);}
+tbody td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--text-dim);}
+tbody tr:last-child td{border-bottom:0}
+tbody td:first-child{color:var(--text);font-weight:500;background:var(--surface-2);}
+.winner{color:var(--success);font-weight:600;}
+.callout{padding:18px 20px;background:var(--accent-bg);border:1px solid var(--accent-dim);border-radius:10px;margin:24px 0;}
+.callout p{margin:0;color:var(--text);font-size:15px;}
+.cta-block{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:32px 0;text-align:center;}
+.cta-block h3{margin-top:0;color:var(--text);}
+.cta-block a{display:inline-block;padding:11px 22px;background:var(--accent);color:#fff;border-radius:7px;font-weight:600;font-size:14px;text-decoration:none;margin-top:8px;}
+.cta-block a:hover{background:var(--accent-dim);text-decoration:none;}
+footer{border-top:1px solid var(--line);padding:28px 20px;color:var(--text-mute);font-size:12.5px;text-align:center;margin-top:60px;}
+@media (max-width:600px){.topbar{padding:0 12px;gap:8px;}.topbar-links{display:none;}main{padding:28px 16px 60px;}table{font-size:13px;}thead th,tbody td{padding:9px 10px;}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="../index.html"><span class="logo-mark">F</span>Funded<span>Edge</span></a>
+  <div class="topbar-links">
+    <a href="../firms.html">Prop Firms</a>
+    <a href="../blog.html">Blog</a>
+  </div>
+  <div class="topbar-spacer"></div>
+  <button class="topbar-btn" id="themeToggle">◐</button>
+</header>
+
+<main>
+  <a class="back" href="../blog.html">← Back to blog</a>
+  <div class="eyebrow">Comparison</div>
+  <h1>FTMO vs FundedNext: Full Comparison (2026)</h1>
+  <div class="meta">By FundedEdge · 6 min read</div>
+
+  <p>FTMO and FundedNext are two of the biggest prop firms in the industry — but they attract very different traders. FTMO is the industry standard. FundedNext is the new challenger with aggressive pricing.</p>
+
+  <p>In this guide, we compare both side by side on the factors that actually matter: <strong>rules, pricing, profit splits, payouts, and account options.</strong></p>
+
+  <div class="callout">
+    <p>💡 <strong>Quick verdict:</strong> Choose FTMO if you want maximum trust and industry-standard rules. Choose FundedNext if you want cheaper entry and fast payouts.</p>
+  </div>
+
+  <h2>Side-by-side comparison</h2>
+
+  <table>
+    <thead>
+      <tr><th>Feature</th><th>FTMO</th><th>FundedNext</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Founded</td><td>2015 (Prague)</td><td>2022 (Dubai/UK)</td></tr>
+      <tr><td>Account sizes</td><td>$10K – $200K</td><td>$6K – $300K</td></tr>
+      <tr><td>Starting price</td><td>From €89</td><td class="winner">From $59</td></tr>
+      <tr><td>Profit target</td><td>10%</td><td class="winner">8% – 10%</td></tr>
+      <tr><td>Max drawdown</td><td>10%</td><td>10%</td></tr>
+      <tr><td>Daily drawdown</td><td>5%</td><td>5%</td></tr>
+      <tr><td>Profit split</td><td>80% – 90%</td><td class="winner">80% – 95%</td></tr>
+      <tr><td>Payout schedule</td><td>Bi-weekly</td><td class="winner">Bi-weekly + on-demand</td></tr>
+      <tr><td>Platforms</td><td>MT4, MT5, cTrader, DXtrade</td><td>MT4, MT5, cTrader</td></tr>
+      <tr><td>Rating</td><td class="winner">★ 4.9 / 5</td><td>★ 4.8 / 5</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Rules & difficulty</h2>
+
+  <p>Both firms use a similar two-step evaluation model, but there are differences:</p>
+
+  <h3>FTMO</h3>
+  <ul>
+    <li><strong>Two-step challenge:</strong> 10% target, then 5% target</li>
+    <li><strong>Daily drawdown:</strong> 5% of initial balance</li>
+    <li><strong>Max drawdown:</strong> 10% of initial balance (static)</li>
+    <li><strong>No time limit</strong> — take as long as you need</li>
+    <li><strong>News trading allowed</strong> on most accounts</li>
+  </ul>
+
+  <h3>FundedNext</h3>
+  <ul>
+    <li><strong>Multiple program types:</strong> Stellar 2-step, Express 1-step, Evaluation</li>
+    <li><strong>Daily drawdown:</strong> 5% of initial balance</li>
+    <li><strong>Max drawdown:</strong> 10% of initial balance (static)</li>
+    <li><strong>Time limit:</strong> None on most programs</li>
+    <li><strong>News trading allowed</strong> with conditions</li>
+  </ul>
+
+  <p><strong>Verdict:</strong> FundedNext offers more program choices. FTMO's structure is more predictable for beginners.</p>
+
+  <h2>Pricing</h2>
+
+  <p>This is where FundedNext wins.</p>
+
+  <table>
+    <thead>
+      <tr><th>Account size</th><th>FTMO</th><th>FundedNext</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$10K</td><td>€89 (~$97)</td><td class="winner">$59</td></tr>
+      <tr><td>$25K</td><td>€179 (~$195)</td><td class="winner">$139</td></tr>
+      <tr><td>$50K</td><td>€299 (~$326)</td><td class="winner">$239</td></tr>
+      <tr><td>$100K</td><td>€449 (~$490)</td><td class="winner">$399</td></tr>
+      <tr><td>$200K</td><td>€929 (~$1,014)</td><td class="winner">$759</td></tr>
+    </tbody>
+  </table>
+
+  <p>FundedNext is consistently cheaper by 20-30% across all account sizes.</p>
+
+  <h2>Profit splits & payouts</h2>
+
+  <h3>FTMO</h3>
+  <ul>
+    <li><strong>Standard split:</strong> 80% to trader</li>
+    <li><strong>Scaling plan:</strong> Increases to 90% after performance</li>
+    <li><strong>First payout:</strong> Available after 14 days on funded account</li>
+    <li><strong>Schedule:</strong> Bi-weekly</li>
+  </ul>
+
+  <h3>FundedNext</h3>
+  <ul>
+    <li><strong>Standard split:</strong> 80% to trader</li>
+    <li><strong>Scaling:</strong> Up to 95% with performance</li>
+    <li><strong>First payout:</strong> Available on-demand in some programs</li>
+    <li><strong>Schedule:</strong> Bi-weekly, or on-demand depending on program</li>
+  </ul>
+
+  <p><strong>Verdict:</strong> FundedNext edges ahead with the option for on-demand payouts and higher maximum split (95% vs 90%).</p>
+
+  <h2>Trust & reputation</h2>
+
+  <p>FTMO has been operating since 2015 and has paid out <strong>hundreds of millions</strong> to traders. Their reputation is unmatched in the industry.</p>
+
+  <p>FundedNext launched in 2022 and has paid out over <strong>$100M</strong> already. Their reputation is strong but they haven't been around as long.</p>
+
+  <p><strong>Verdict:</strong> FTMO wins on longevity. FundedNext wins on momentum.</p>
+
+  <h2>Who should choose FTMO?</h2>
+
+  <ul>
+    <li>You want the most established, trusted firm</li>
+    <li>You prefer straightforward rules (one program type)</li>
+    <li>You don't mind paying a premium for peace of mind</li>
+    <li>You're based in the EU (FTMO handles EU traders well)</li>
+  </ul>
+
+  <h2>Who should choose FundedNext?</h2>
+
+  <ul>
+    <li>You want the lowest possible entry cost</li>
+    <li>You want the highest possible profit split (up to 95%)</li>
+    <li>You want flexible payout schedules (on-demand options)</li>
+    <li>You're willing to trade with a newer firm for better terms</li>
+  </ul>
+
+  <div class="cta-block">
+    <h3>Not sure yet?</h3>
+    <p>Compare both firms side by side with all their details on FundedEdge.</p>
+    <a href="../firms.html">View both firms →</a>
+  </div>
+
+  <h2>Final verdict</h2>
+
+  <p><strong>FTMO</strong> is the safer choice. It's the industry standard, and it's what most professional prop traders use. If you can afford the higher entry price, go with FTMO.</p>
+
+  <p><strong>FundedNext</strong> is the better value choice. Same rules, better pricing, higher potential split, and more payout options. If you're cost-conscious, go with FundedNext.</p>
+
+  <p>Either way, both are legitimate firms with proven track records. You can't go wrong.</p>
+
+  <div class="callout">
+    <p>📖 <strong>New to prop trading?</strong> Read our guide: <a href="best-prop-firms-beginners.html">The Best Prop Firms for Beginners in 2026</a></p>
+  </div>
+
+</main>
+
+<footer>© FundedEdge · Independent research tool</footer>
+
+<script>
+const THEME_KEY = "fundededge-theme";
+function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
+function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
+function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
+applyTheme(getStoredTheme());
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+</script>
+
+</body>
+</html>
