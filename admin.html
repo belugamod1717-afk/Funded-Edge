@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0e11">
-<title>Admin — FundedEdge</title>
+<title>Admin — Firm Garage</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
@@ -663,7 +663,7 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const USER_COUNTRY_NAMES = {US:"United States",GB:"United Kingdom",NP:"Nepal",IN:"India",AU:"Australia",CA:"Canada",DE:"Germany",FR:"France",ES:"Spain",IT:"Italy",BR:"Brazil",JP:"Japan",CN:"China",AE:"United Arab Emirates",SA:"Saudi Arabia",PK:"Pakistan",BD:"Bangladesh",NG:"Nigeria",ZA:"South Africa",RU:"Russia",MX:"Mexico",ID:"Indonesia",PH:"Philippines",VN:"Vietnam",TH:"Thailand",MY:"Malaysia",SG:"Singapore",KR:"South Korea",TR:"Turkey",EG:"Egypt",PL:"Poland",NL:"Netherlands",SE:"Sweden",NO:"Norway",DK:"Denmark",FI:"Finland",IE:"Ireland",PT:"Portugal",GR:"Greece",CZ:"Czechia",AT:"Austria",CH:"Switzerland",BE:"Belgium"};
 
 /* THEME */
-const THEME_KEY = "fundededge-theme";
+const THEME_KEY = "Firm Garage-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
