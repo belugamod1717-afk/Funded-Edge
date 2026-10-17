@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0e11">
-<title>Dashboard — FundedEdge</title>
+<title>Dashboard — Firm Garage</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
@@ -392,7 +392,7 @@ function countryFlag(code){
   return String.fromCodePoint(A + code.charCodeAt(0) - 65, A + code.charCodeAt(1) - 65);
 }
 
-const THEME_KEY = "fundededge-theme";
+const THEME_KEY = "Firm Garage-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); const s=$("settingTheme"); if(s) s.textContent = t === "dark" ? "Dark" : "Light"; }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
