@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Prop Firms — FundedEdge</title>
-<meta name="description" content="Browse every prop firm on FundedEdge. Filter by category, account size, price, and profit split.">
+<title>All Prop Firms — Firm garage</title>
+<meta name="description" content="Browse every prop firm on Firm Garage. Filter by category, account size, price, and profit split.">
 <meta name="theme-color" content="#0b0e11">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="All Prop Firms — FundedEdge">
-<meta property="og:description" content="Browse every prop firm on FundedEdge.">
+<meta property="og:site_name" content="Firm Garage">
+<meta property="og:title" content="All Prop Firms — Firm Garage">
+<meta property="og:description" content="Browse every prop firm on Firm Garage.">
 <meta property="og:url" content="https://funded-edge-two.vercel.app/firms.html">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -175,7 +175,7 @@ footer{border-top:1px solid var(--line);padding:32px 24px;color:var(--text-mute)
 
 <footer>
   <div class="footer-inner">
-    <div>© FundedEdge. Independent research tool.</div>
+    <div>© Firm Garage. Independent research tool.</div>
     <div class="footer-links">
       <a href="firms.html">Prop Firms</a>
       <a href="blog.html">Blog</a>
@@ -203,7 +203,7 @@ let allFirms = [];
 let currentChip = "all";
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-const THEME_KEY = "fundededge-theme";
+const THEME_KEY = "Firm Garage-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
