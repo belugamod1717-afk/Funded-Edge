@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prop Firm Details — FundedEdge</title>
+<title>Prop Firm Details — Firm Garage</title>
 <meta name="description" content="Full details on this prop firm: rules, pricing, account sizes, and trader reviews.">
 <meta name="theme-color" content="#0b0e11">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="Prop Firm Details — FundedEdge">
+<meta property="og:site_name" content="Firm Garage">
+<meta property="og:title" content="Prop Firm Details — Firm Garage">
 <meta property="og:description" content="Full details: rules, pricing, and trader reviews.">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -218,7 +218,7 @@ footer{border-top:1px solid var(--line);padding:32px 0;color:var(--text-mute);fo
 
 <footer>
   <div class="container footer-inner">
-    <div>© FundedEdge. Independent research tool.</div>
+    <div>© Firm Garage. Independent research tool.</div>
     <div class="footer-links">
       <a href="firms.html">Prop Firms</a>
       <a href="index.html#how">How it works</a>
@@ -369,7 +369,7 @@ async function loadFirm(){
     currentFirmId = f.id;
     crumbFirm.textContent = f.name;
 
-    document.title = `${f.name} — Rules, Pricing & Payouts | FundedEdge`;
+    document.title = `${f.name} — Rules, Pricing & Payouts | Firm Garage`;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", (f.description || `Full details on ${f.name}`).slice(0, 160));
 
