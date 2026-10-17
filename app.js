@@ -1,4 +1,4 @@
-// FundedEdge — homepage/directory script
+// Firm Garage — homepage/directory script
 // Renders firm cards into #firmsGrid if it exists on the page.
 
 import { db, SUPABASE_URL, SUPABASE_KEY } from "./supabase.js";
@@ -344,7 +344,7 @@ async function loadFirms() {
     createFilters(grid);
     renderFirms();
   } catch (error) {
-    console.error("FundedEdge error:", error);
+    console.error("Firm Garage error:", error);
     grid.innerHTML = `<div class="fe-no-results">Couldn't load prop firms.</div>`;
   }
 }
