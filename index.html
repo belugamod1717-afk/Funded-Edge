@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FundedEdge — Compare Prop Trading Firms</title>
+<title>Firm Garage — Compare Prop Trading Firms</title>
 <meta name="description" content="An independent directory of prop trading firms. Compare rules, pricing, profit splits, and payouts side by side.">
 <meta name="theme-color" content="#0b0e11">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="FundedEdge">
-<meta property="og:title" content="FundedEdge — Compare Prop Trading Firms">
+<meta property="og:site_name" content="Firm Garage">
+<meta property="og:title" content="Firm Garage — Compare Prop Trading Firms">
 <meta property="og:description" content="An independent directory of prop trading firms.">
 <meta property="og:url" content="https://funded-edge-two.vercel.app/">
 <meta property="og:image" content="https://funded-edge-two.vercel.app/og-image.png">
@@ -283,12 +283,12 @@ footer{padding:32px 0;color:var(--text-mute);font-size:13px}
         <h2>Common questions</h2>
       </div>
       <div class="faq">
-        <details class="faq-item"><summary>What is FundedEdge?</summary><p>An independent directory that helps traders research and compare proprietary trading firms — account options, rules, profit splits, and payout policies in one place.</p></details>
+        <details class="faq-item"><summary>What is Firm Garage?</summary><p>An independent directory that helps traders research and compare proprietary trading firms — account options, rules, profit splits, and payout policies in one place.</p></details>
         <details class="faq-item"><summary>What is a prop trading firm?</summary><p>A firm that provides eligible traders with access to trading capital under specific rules and conditions. Depending on the firm, you may need to complete an evaluation or qualify for a particular account type.</p></details>
         <details class="faq-item"><summary>How do I choose the right firm?</summary><p>Compare account prices, drawdown limits, profit targets, payout conditions, and trading restrictions. Choose rules that match your strategy and risk tolerance.</p></details>
-        <details class="faq-item"><summary>Does FundedEdge sell funded accounts?</summary><p>No. We're a research directory. To purchase an account, visit the firm's official website directly.</p></details>
+        <details class="faq-item"><summary>Does Firm Garage sell funded accounts?</summary><p>No. We're a research directory. To purchase an account, visit the firm's official website directly.</p></details>
         <details class="faq-item"><summary>Are rules and prices always up to date?</summary><p>Prop firms change their terms without notice. Always verify the latest details on the firm's own website before making a purchase.</p></details>
-        <details class="faq-item"><summary>Is FundedEdge affiliated with the firms listed?</summary><p>Not necessarily. A listing does not imply endorsement or partnership. We may earn affiliate commissions from some links.</p></details>
+        <details class="faq-item"><summary>Is Firm Garage affiliated with the firms listed?</summary><p>Not necessarily. A listing does not imply endorsement or partnership. We may earn affiliate commissions from some links.</p></details>
       </div>
     </div>
   </section>
@@ -297,7 +297,7 @@ footer{padding:32px 0;color:var(--text-mute);font-size:13px}
 
 <footer>
   <div class="container footer-inner">
-    <div>© FundedEdge. Independent research tool.</div>
+    <div>© Firm Garage. Independent research tool.</div>
     <div class="footer-links">
       <a href="firms.html">Prop Firms</a>
       <a href="#how">How it works</a>
@@ -310,7 +310,7 @@ footer{padding:32px 0;color:var(--text-mute);font-size:13px}
 import { db } from "./supabase.js";
 
 /* THEME */
-const THEME_KEY = "fundededge-theme";
+const THEME_KEY = "Firm Garage-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
