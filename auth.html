@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0e11">
-<title>Sign In or Create Account — FundedEdge</title>
-<meta name="description" content="Sign in or create your FundedEdge account to save favorite firms, write reviews, and compare rules.">
+<title>Sign In or Create Account — Firm Garage</title>
+<meta name="description" content="Sign in or create your Firm Garage account to save favorite firms, write reviews, and compare rules.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
@@ -274,7 +274,7 @@ h1{font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;}
       <!-- AUTH -->
       <div id="authPanel">
         <h1 id="heading">Welcome back</h1>
-        <p class="sub" id="subtitle">Log in to access your FundedEdge account.</p>
+        <p class="sub" id="subtitle">Log in to access your Firm Garage account.</p>
 
         <div class="tabs">
           <button type="button" id="loginTab" class="active">Log in</button>
@@ -313,13 +313,13 @@ h1{font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;}
 
         <div id="message" class="message" role="status" aria-live="polite"></div>
 
-        <p class="small">By creating an account you agree to use FundedEdge responsibly. Never share your password with anyone.</p>
+        <p class="small">By creating an account you agree to use Firm Garage responsibly. Never share your password with anyone.</p>
       </div>
 
       <!-- LOGGED IN -->
       <div id="accountPanel" hidden>
         <h1>Your account</h1>
-        <p class="sub">You are signed in to FundedEdge.</p>
+        <p class="sub">You are signed in to Firm Garage.</p>
 
         <div class="account-detail">
           <span class="label">Email</span>
@@ -363,7 +363,7 @@ const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
 /* THEME */
-const THEME_KEY = "fundededge-theme";
+const THEME_KEY = "Firm Garage-theme";
 function getStoredTheme(){ return localStorage.getItem(THEME_KEY) || "dark"; }
 function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); localStorage.setItem(THEME_KEY, t); }
 function toggleTheme(){ applyTheme(getStoredTheme() === "dark" ? "light" : "dark"); }
@@ -408,8 +408,8 @@ function setMode(nextMode){
   $("signupTab").classList.toggle("active", signup);
   $("heading").textContent = signup ? "Create your account" : "Welcome back";
   $("subtitle").textContent = signup
-    ? "Join FundedEdge to save favorites and write reviews."
-    : "Log in to access your FundedEdge account.";
+    ? "Join Firm Garage to save favorites and write reviews."
+    : "Log in to access your Firm Garage account.";
   $("nameField").hidden = !signup;
   $("countryField").hidden = !signup;
   $("fullName").required = signup;
