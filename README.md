@@ -1,4 +1,4 @@
-# FundedEdge v4 — Deployment-ready MVP
+# Firm Garage v4 — Deployment-ready MVP
 
 This is a working static MVP of FundedEdge with a shared JavaScript layer, public directory, firm pages, comparison, and a browser-based admin prototype.
 
